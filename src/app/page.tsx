@@ -1,5 +1,7 @@
 // External packages
 
+// Components
+import { Icon } from '@/components/ui/Icon';
 export default function Home() {
-  return <h1>Hello world</h1>;
+  return <Icon name="package" className="text-black" />;
 }

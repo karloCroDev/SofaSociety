@@ -1,3 +1,4 @@
+// External packages
 import type { Config } from "tailwindcss";
 
 export default {
@@ -8,7 +9,6 @@ export default {
   ],
   theme: {
     extend: {
-      fontSize: {},
       colors: {
         red: {
           900: "#BD3207",
@@ -32,16 +32,16 @@ export default {
           20: "#FBFBFB",
           10: "#FDFDFD", // Figma-white
         },
-        fontSize: {
-          "4xl": "56px",
-          "3xl": "48px",
-          "2xl": "40px",
-          xl: "32px",
-          lg: "24px",
-          md: "20px",
-          base: "16px",
-          sm: "12px",
-        },
+      },
+      fontSize: {
+        "4xl": "56px",
+        "3xl": "48px",
+        "2xl": "40px",
+        xl: "32px",
+        lg: "24px",
+        md: "20px",
+        base: "16px",
+        sm: "12px",
       },
     },
   },

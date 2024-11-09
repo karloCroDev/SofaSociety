@@ -4,6 +4,8 @@
 import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+import { ArrowButton } from '@/components/ui/ArrowButton';
+import { Tag } from '@/components/ui/Tag';
 
 export default function Home() {
   return (
@@ -15,6 +17,8 @@ export default function Home() {
       <LinkAsButton href="/shop" size="sm">
         Hello world
       </LinkAsButton>
+      <ArrowButton direction="right" />
+      <Tag> Hello world</Tag>
     </div>
   );
 }

@@ -1,6 +1,14 @@
-import type { Metadata } from "next";
+// Extenal packages
+import localFont from 'next/font/local';
+
 // Styles
-import "./globals.css";
+import './globals.css';
+
+// Fonts
+const MonaSansFont = localFont({
+  src: '../public/fonts/Mona-Sans.ttf',
+  display: 'swap',
+});
 
 export default function RootLayout({
   children,
@@ -9,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="">{children}</body>
+      <body className={MonaSansFont.className}>{children}</body>
     </html>
   );
 }

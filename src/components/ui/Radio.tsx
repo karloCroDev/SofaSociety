@@ -8,7 +8,7 @@ export const RadioIconVisual: React.FC<
     <div
       {...rest}
       className={twMerge(
-        'border-grayscale-900 group-data-[selected]:border-6 h-4 w-4 cursor-pointer rounded-full border border-gray-200 hover:!border-gray-600 group-data-[selected]:border-gray-900',
+        'border-grayscale-900 group-data-[selected]:border-6 h-4 w-4 cursor-pointer rounded-full border border-gray-200 group-hover:!border-gray-600 group-data-[selected]:border-gray-900',
         className
       )}
     />
@@ -24,8 +24,7 @@ export const RadioButtonVisual: React.FC<
     <div
       {...rest}
       className={twMerge(
-        'flex h-14 items-center px-4',
-        'border-grayscale-900 min-w-56 cursor-pointer border border-gray-200 hover:!border-gray-400 group-data-[selected]:border-gray-200',
+        'border-grayscale-900 flex h-14 min-w-56 cursor-pointer items-center border border-gray-200 px-4 hover:!border-gray-400 group-data-[selected]:border-gray-200',
         className
       )}
     >

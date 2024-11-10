@@ -1,10 +1,7 @@
 'use client';
 
 // External packages
-import {
-  Button as AriaButton,
-  ButtonProps as AriaButtonProps,
-} from 'react-aria-components';
+import { Button as AriaButton, ButtonProps } from 'react-aria-components';
 import { twMerge } from 'tailwind-merge';
 
 // Components
@@ -14,9 +11,7 @@ import {
 } from '@/components/ui/LinkAsButton';
 
 export const Button: React.FC<
-  React.ComponentPropsWithoutRef<'button'> &
-    AriaButtonProps &
-    AdditionalButtonProps
+  React.ComponentPropsWithoutRef<'button'> & ButtonProps & AdditionalButtonProps
 > = ({
   colorScheme = 'black',
   variant = 'primary',

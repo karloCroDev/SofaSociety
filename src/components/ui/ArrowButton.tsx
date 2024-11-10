@@ -1,10 +1,7 @@
 'use client';
 
 // External packages
-import {
-  Button as AriaButton,
-  ButtonProps as AriaButtonProps,
-} from 'react-aria-components';
+import { Button as AriaButton, ButtonProps } from 'react-aria-components';
 import { twMerge } from 'tailwind-merge';
 
 // Components
@@ -12,7 +9,7 @@ import { Icon } from '@/components/ui/Icon';
 
 export const ArrowButton: React.FC<
   React.ComponentPropsWithoutRef<'button'> &
-    AriaButtonProps & {
+    ButtonProps & {
       variation?: 'solid' | 'outline';
       direction?: 'right';
     }

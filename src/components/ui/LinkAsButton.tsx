@@ -47,7 +47,7 @@ export const getButtonClassNames = ({
   );
 
 export const LinkAsButton: React.FC<
-  LinkProps & React.ComponentPropsWithoutRef<'a'> & AdditionalButtonProps
+  React.ComponentPropsWithoutRef<'a'> & LinkProps & AdditionalButtonProps
 > = ({
   colorScheme = 'black',
   variant = 'primary',

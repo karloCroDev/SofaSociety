@@ -46,6 +46,9 @@ export default {
       lineHeight: {
         12: '48px',
       },
+      borderWidth: {
+        6: '6px',
+      },
     },
   },
   plugins: [],

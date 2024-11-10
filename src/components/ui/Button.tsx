@@ -14,8 +14,8 @@ import {
 } from '@/components/ui/LinkAsButton';
 
 export const Button: React.FC<
-  AriaButtonProps &
-    React.ComponentPropsWithoutRef<'button'> &
+  React.ComponentPropsWithoutRef<'button'> &
+    AriaButtonProps &
     AdditionalButtonProps
 > = ({
   colorScheme = 'black',

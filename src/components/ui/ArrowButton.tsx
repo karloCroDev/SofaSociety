@@ -11,8 +11,8 @@ import { twMerge } from 'tailwind-merge';
 import { Icon } from '@/components/ui/Icon';
 
 export const ArrowButton: React.FC<
-  AriaButtonProps &
-    React.ComponentPropsWithoutRef<'button'> & {
+  React.ComponentPropsWithoutRef<'button'> &
+    AriaButtonProps & {
       variation?: 'solid' | 'outline';
       direction?: 'right';
     }

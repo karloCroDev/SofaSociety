@@ -14,9 +14,16 @@ import Image from 'next/image';
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
+import { Button } from '@/components/ui/Button';
+import { ArrowButton } from '@/components/ui/ArrowButton';
 
 // Images
-import HeroImage from '@/public/images/home/HeroImage.png';
+import ImageHero from '@/public/images/home/hero.png';
+import ImageArmedChair from '@/public/images/home/armed-chair.png';
+import ImageSofa from '@/public/images/home/sofa.png';
+import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
+import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
+import ImageBohoChick from '@/public/images/home/boho-chick.png';
 
 export default function Home() {
   return (
@@ -54,24 +61,99 @@ export default function Home() {
           </LayoutRow>
         </Layout>
       </div>
-      <div className="mt-22 h-full w-full lg:mt-0">
+      <div className="mt-22 lg:mt-0">
         <Image
-          src={HeroImage}
+          src={ImageHero}
           alt="Main image that represents SofaSociety.Co"
+          className="object-cover xl:h-[75vh]"
         />
       </div>
-
-      <div className="mt-24">
-        <h1 className="text-2xl font-medium">
-          Elevate Your Living Space with Unmatched Comfort & Style
-        </h1>
-        <p>
-          Discover Your Perfect Sofa Today <br />
-          <Link href="/" className="underline underline-offset-4">
-            Explore Now
-          </Link>
-        </p>
-      </div>
+      <Layout>
+        <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row lg:items-center xl:mt-24">
+          <LayoutColumn xs={12} lg={7}>
+            <h2 className="text-2xl font-medium">
+              Elevate Your Living Space with Unmatched Comfort & Style
+            </h2>
+          </LayoutColumn>
+          <LayoutColumn xs={12} lg={3} className="lg:flex lg:justify-end">
+            <p className="mt-6 lg:mt-0">
+              Discover Your Perfect Sofa Today <br />
+              <Link href="/" className="underline underline-offset-4">
+                Explore Now
+              </Link>
+            </p>
+          </LayoutColumn>
+        </LayoutRow>
+        <h2 className="mt-24 text-2xl font-medium lg:mt-32">Our prodcuts</h2>
+        <div className="mt-8 flex flex-col gap-8 lg:mt-16 lg:flex-row">
+          <div>
+            <Image
+              src={ImageSofa}
+              alt="Sofa image"
+              className="cursor-pointer"
+            />
+            <p className="mt-8 text-lg">Sofas</p>
+          </div>
+          <div>
+            <Image
+              src={ImageArmedChair}
+              alt="Armed chair"
+              className="cursor-pointer"
+            />
+            <p className="mt-8 text-lg">Arm Chairs</p>
+          </div>
+        </div>
+        <div className="mt-24 flex items-center gap-6 lg:mt-32">
+          <h2 className="text-2xl font-medium">Collections</h2>
+          <Button className="ml-auto">View All</Button>
+          <div className="hidden lg:block">
+            <ArrowButton variation="outline" />
+            <ArrowButton
+              direction="right"
+              variation="outline"
+              className="ml-2"
+            />
+          </div>
+        </div>
+        <LayoutRow className="mt-8 flex-col flex-nowrap overflow-x-scroll lg:mt-16 lg:flex-row">
+          <LayoutColumn xs={8} lg={6} className="pr-10">
+            <Image
+              src={ImageScandinavianSimplicity}
+              alt="Scandinavian furnuture"
+            />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Scandinavian Simplicity
+            </h4>
+            <p className="mt-2 text-gray-500">
+              Minimalistic designs, neutral colors, and high-quality textures
+            </p>
+          </LayoutColumn>
+          <LayoutColumn xs={8} lg={6} className="pr-10">
+            <Image
+              src={ImageScandinavianSimplicity}
+              alt="Scandinavian furnuture"
+            />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Scandinavian Simplicity
+            </h4>
+            <p className="mt-2 text-gray-500">
+              Minimalistic designs, neutral colors, and high-quality textures
+            </p>
+          </LayoutColumn>
+          <LayoutColumn xs={8} lg={6} className="pr-10">
+            <Image
+              src={ImageScandinavianSimplicity}
+              alt="Scandinavian furnuture"
+            />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Scandinavian Simplicity
+            </h4>
+            <p className="mt-2 text-gray-500">
+              Minimalistic designs, neutral colors, and high-quality textures
+            </p>
+          </LayoutColumn>
+        </LayoutRow>
+      </Layout>
     </>
   );
 }

@@ -22,8 +22,8 @@ export const getButtonClassNames = ({
 }): string =>
   twJoin(
     'rounded text-center outline-none block',
-    size === 'sm' && 'px-4 text-sm leading-8',
-    size === 'lg' && 'px-6 leading-12',
+    size === 'sm' && 'px-4  leading-10',
+    size === 'lg' && 'px-6 text-lg leading-12',
 
     // Primary variant styles
     variant === 'primary' &&

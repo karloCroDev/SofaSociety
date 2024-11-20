@@ -35,7 +35,7 @@ export const LayoutColumn: React.FC<
     xlOffset?: number;
   }
 > = ({
-  xs = 11,
+  xs,
   sm,
   md,
   lg,

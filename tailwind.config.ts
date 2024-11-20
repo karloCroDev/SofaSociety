@@ -56,6 +56,9 @@ export default {
       lineHeight: {
         12: '48px',
       },
+      spacing: {
+        22: '84px',
+      },
       borderWidth: {
         6: '6px',
       },

@@ -11,7 +11,7 @@ export const Bag: React.FC<React.ComponentPropsWithoutRef<'svg'>> = ({
       fillRule="evenodd"
       clipRule="evenodd"
       d="M18.5 8.875h-13v10h13v-10ZM4 7.375v13h16v-13H4Z"
-      fill="#050505"
+      fill="currentcolor"
     />
     <path
       fillRule="evenodd"

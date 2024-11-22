@@ -21,7 +21,7 @@ export const Input: React.FC<
       fieldErrorProps?: FieldErrorProps;
     }
 > = ({ label, inputProps, fieldErrorProps, className }) => {
-  const labelRef = React.useRef(null);
+  const labelRef = React.useRef<HTMLLabelElement | null>(null);
 
   return (
     <TextField
@@ -33,24 +33,24 @@ export const Input: React.FC<
       <div className="relative">
         <Label
           ref={labelRef}
-          className="peer absolute left-4 top-1/2 origin-left -translate-y-1/2 transition-transform data-[label-floating=true]:-translate-y-[22px] data-[label-floating=true]:scale-75"
+          className="peer absolute left-4 top-1/2 origin-left -translate-y-1/2 transition-transform data-[label-floating]:-translate-y-[22px] data-[label-floating]:scale-75"
         >
           {label}
         </Label>
         <AriaInput
           {...inputProps}
           className={twMerge(
-            'border-grayscale-200 text-grayscale-900 h-14 w-full border px-4 text-gray-900 outline-none hover:border-gray-500 focus:border-gray-500 data-[invalid]:border-red-400 peer-data-[label-floating=true]:pt-3',
+            'border-grayscale-200 text-grayscale-900 h-14 w-full border px-4 text-gray-900 outline-none hover:border-gray-500 focus:border-gray-500 data-[invalid]:border-red-400 peer-data-[label-floating]:pt-3',
             inputProps?.className
           )}
           onChange={(event) => {
             const value = event.target.value;
-            const labelElement = labelRef.current as HTMLLabelElement | null;
-            if (labelElement !== null) {
+            const labelElement = labelRef.current;
+            if (labelElement) {
               if (value === '') {
-                labelElement.setAttribute('data-label-floating', 'false');
+                labelElement.removeAttribute('data-label-floating');
               } else {
-                labelElement.setAttribute('data-label-floating', 'true');
+                labelElement.setAttribute('data-label-floating', '');
               }
             }
           }}

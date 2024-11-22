@@ -1,5 +1,6 @@
 'use client';
 // External packages
+import * as React from 'react';
 import {
   Button as AriaButton,
   ListBox,
@@ -26,9 +27,25 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChick from '@/public/images/home/boho-chick.png';
 
 export default function Home() {
+  const headerRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', () => {
+      const element = headerRef.current;
+      if (element) {
+        if (window.scrollY > window.innerHeight * 0.7)
+          element.setAttribute('data-dark-theme', '');
+        else element.removeAttribute('data-dark-theme');
+      }
+    });
+  }, []);
+
   return (
     <>
-      <div className="fixed left-0 top-0 w-full bg-gray-10 text-gray-900 lg:bg-transparent lg:text-gray-10">
+      <div
+        className="fixed left-0 top-0 w-full bg-gray-10 text-gray-900 lg:bg-transparent lg:text-gray-10 lg:data-[dark-theme]:bg-gray-10 lg:data-[dark-theme]:text-gray-900"
+        ref={headerRef}
+      >
         <Layout>
           <LayoutRow className="h-22 items-center">
             <h1 className="text-lg font-medium">SofaSocietyCo.</h1>
@@ -85,24 +102,16 @@ export default function Home() {
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-2xl font-medium lg:mt-32">Our prodcuts</h2>
-        <div className="mt-8 flex flex-col gap-8 lg:mt-16 lg:flex-row">
-          <div>
-            <Image
-              src={ImageSofa}
-              alt="Sofa image"
-              className="cursor-pointer"
-            />
+        <LayoutRow className="mt-8 lg:mt-16">
+          <LayoutColumn xs={12} lg={6} className="cursor-pointer pr-4">
+            <Image src={ImageSofa} alt="Sofa image" />
             <p className="mt-8 text-lg">Sofas</p>
-          </div>
-          <div>
-            <Image
-              src={ImageArmedChair}
-              alt="Armed chair"
-              className="cursor-pointer"
-            />
+          </LayoutColumn>
+          <LayoutColumn xs={12} lg={6} className="cursor-pointer pl-4">
+            <Image src={ImageArmedChair} alt="Armed chair" />
             <p className="mt-8 text-lg">Arm Chairs</p>
-          </div>
-        </div>
+          </LayoutColumn>
+        </LayoutRow>
         <div className="mt-24 flex items-center gap-6 lg:mt-32">
           <h2 className="text-2xl font-medium">Collections</h2>
           <Button className="ml-auto">View All</Button>
@@ -115,8 +124,8 @@ export default function Home() {
             />
           </div>
         </div>
-        <LayoutRow className="mt-8 flex-col flex-nowrap overflow-x-scroll lg:mt-16 lg:flex-row">
-          <LayoutColumn xs={8} lg={6} className="pr-10">
+        <LayoutRow className="mt-8 flex-nowrap overflow-x-scroll lg:mt-16 lg:flex-row">
+          <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
             <Image
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"
@@ -124,32 +133,28 @@ export default function Home() {
             <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
               Scandinavian Simplicity
             </h4>
-            <p className="mt-2 text-gray-500">
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
               Minimalistic designs, neutral colors, and high-quality textures
             </p>
           </LayoutColumn>
-          <LayoutColumn xs={8} lg={6} className="pr-10">
-            <Image
-              src={ImageScandinavianSimplicity}
-              alt="Scandinavian furnuture"
-            />
+          <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
+            <Image src={ImageModernLuxe} alt="Modern luxe furnuture" />
             <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
-              Scandinavian Simplicity
+              Modern Luxe
             </h4>
-            <p className="mt-2 text-gray-500">
-              Minimalistic designs, neutral colors, and high-quality textures
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
+              Sophisticated and sleek, these sofas blend modern design with
+              luxurious comfort
             </p>
           </LayoutColumn>
-          <LayoutColumn xs={8} lg={6} className="pr-10">
-            <Image
-              src={ImageScandinavianSimplicity}
-              alt="Scandinavian furnuture"
-            />
+          <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
+            <Image src={ImageBohoChick} alt="Boho chick furnuture" />
             <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
-              Scandinavian Simplicity
+              Boho Chic
             </h4>
-            <p className="mt-2 text-gray-500">
-              Minimalistic designs, neutral colors, and high-quality textures
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
+              Infused with playful textures and vibrant patterns with eclectic
+              vibes.
             </p>
           </LayoutColumn>
         </LayoutRow>
@@ -170,7 +175,10 @@ const LanguageSelect = () => {
           <Icon name="chevron" />
         </div>
       </AriaButton>
-      <Popover className="h-52 w-60 overflow-scroll rounded border border-gray-900">
+      <Popover
+        placement="bottom"
+        className="h-52 w-60 overflow-scroll rounded border border-gray-900 bg-gray-10"
+      >
         <ListBox>
           <ListBoxItem id="afghanistan" className={listBoxItemStyle}>
             afghanistan

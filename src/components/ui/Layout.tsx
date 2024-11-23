@@ -11,7 +11,7 @@ export const Layout: React.FC<React.ComponentPropsWithRef<'div'>> = ({
   </div>
 );
 
-export const LayoutRow: React.FC<React.ComponentPropsWithoutRef<'div'>> = ({
+export const LayoutRow: React.FC<React.ComponentProps<'div'>> = ({
   children,
   className,
   ...rest

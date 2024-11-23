@@ -25,6 +25,8 @@ import ImageSofa from '@/public/images/home/sofa.png';
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
 import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChick from '@/public/images/home/boho-chick.png';
+import ImageAboutSofa from '@/public/images/home/about-sofa.png';
+import { Input } from '@/components/ui/Input';
 
 export default function Home() {
   const headerRef = React.useRef<HTMLDivElement | null>(null);
@@ -40,10 +42,20 @@ export default function Home() {
     });
   }, []);
 
+  const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
+
+  const scrollContainerFn = (isDirectionLeft: boolean = false) => {
+    const element = scrollableContainerRef.current;
+    if (element) {
+      if (isDirectionLeft) element.scrollLeft -= 100;
+      else element.scrollLeft += 100;
+    }
+  };
+
   return (
     <>
       <div
-        className="fixed left-0 top-0 w-full bg-gray-10 text-gray-900 lg:bg-transparent lg:text-gray-10 lg:data-[dark-theme]:bg-gray-10 lg:data-[dark-theme]:text-gray-900"
+        className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 lg:bg-transparent lg:text-gray-10 lg:data-[dark-theme]:bg-gray-10 lg:data-[dark-theme]:text-gray-900"
         ref={headerRef}
       >
         <Layout>
@@ -78,6 +90,7 @@ export default function Home() {
           </LayoutRow>
         </Layout>
       </div>
+
       <div className="mt-22 lg:mt-0">
         <Image
           src={ImageHero}
@@ -103,28 +116,35 @@ export default function Home() {
         </LayoutRow>
         <h2 className="mt-24 text-2xl font-medium lg:mt-32">Our prodcuts</h2>
         <LayoutRow className="mt-8 lg:mt-16">
-          <LayoutColumn xs={12} lg={6} className="cursor-pointer pr-4">
+          <LayoutColumn xs={6} className="cursor-pointer pr-1 lg:pr-4">
             <Image src={ImageSofa} alt="Sofa image" />
-            <p className="mt-8 text-lg">Sofas</p>
+            <p className="mt-2 text-lg lg:mt-8">Sofas</p>
           </LayoutColumn>
-          <LayoutColumn xs={12} lg={6} className="cursor-pointer pl-4">
+          <LayoutColumn xs={6} className="cursor-pointer pl-1 lg:pl-4">
             <Image src={ImageArmedChair} alt="Armed chair" />
-            <p className="mt-8 text-lg">Arm Chairs</p>
+            <p className="mt-2 text-lg lg:mt-8">Arm Chairs</p>
           </LayoutColumn>
         </LayoutRow>
         <div className="mt-24 flex items-center gap-6 lg:mt-32">
           <h2 className="text-2xl font-medium">Collections</h2>
           <Button className="ml-auto">View All</Button>
           <div className="hidden lg:block">
-            <ArrowButton variation="outline" />
+            <ArrowButton
+              variation="outline"
+              onPress={() => scrollContainerFn(true)}
+            />
             <ArrowButton
               direction="right"
               variation="outline"
               className="ml-2"
+              onPress={() => scrollContainerFn()} // Po defaultu se passa event handler, te se isprerplice s argumentom
             />
           </div>
         </div>
-        <LayoutRow className="mt-8 flex-nowrap overflow-x-scroll lg:mt-16 lg:flex-row">
+        <LayoutRow
+          className="mt-8 flex-nowrap overflow-x-scroll lg:mt-16 lg:flex-row"
+          ref={scrollableContainerRef}
+        >
           <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
             <Image
               src={ImageScandinavianSimplicity}
@@ -158,7 +178,90 @@ export default function Home() {
             </p>
           </LayoutColumn>
         </LayoutRow>
+        <h2 className="mt-24 text-2xl font-medium lg:mt-32">
+          About sofa society
+        </h2>
+        <div className="mt-8 lg:mt-16">
+          <Image src={ImageAboutSofa} alt="About us image of sofa" />
+        </div>
+        <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
+          <LayoutColumn xs={12} lg={5}>
+            <h2 className="text-2xl font-medium">
+              At Sofa Society, we believe that a sofa is the heart of every
+              home.
+            </h2>
+          </LayoutColumn>
+          <LayoutColumn xs={12} lg={6} className="mt-16 flex-col gap-6 lg:flex">
+            <p>
+              We are dedicated to delivering high-quality, thoughtfully designed
+              sofas that merge comfort and style effortlessly.
+            </p>
+            <p>
+              Our mission is to transform your living space into a sanctuary of
+              relaxation and beauty, with products built to last.
+            </p>
+            <Link href="/about" className="underline underline-offset-4">
+              Read more about Sofa Society
+            </Link>
+          </LayoutColumn>
+        </LayoutRow>
       </Layout>
+
+      <div className="mt-24 bg-gray-50 lg:mt-36">
+        <Layout>
+          <LayoutRow className="flex-col items-center py-8 lg:h-[335px] lg:flex-row lg:justify-between">
+            <LayoutColumn
+              xs={12}
+              lg={2}
+              className="order-1 mt-8 lg:-order-none lg:mt-0"
+            >
+              <p className="text-2xl font-medium leading-12">
+                Sofa <br />
+                Society <br />
+                Co.
+              </p>
+              <p className="mt-6">© 2024, Sofa Society</p>
+            </LayoutColumn>
+            <LayoutColumn
+              className="order-1 mt-16 flex gap-16 lg:order-none lg:mt-0"
+              xs={12}
+              lg={4}
+            >
+              <ul className="flex flex-col gap-4">
+                <li>FAQ</li>
+                <li>Heklp</li>
+                <li>Delivery</li>
+                <li>Returns</li>
+              </ul>
+              <ul className="flex flex-col gap-4">
+                <li>Instagram</li>
+                <li>TikTok</li>
+                <li>Pinterest</li>
+                <li>Facebook</li>
+              </ul>
+              <ul className="flex flex-col gap-4">
+                <li>Privacy Policy</li>
+                <li>Cookie Policy</li>
+                <li>Terms of Use</li>
+              </ul>
+            </LayoutColumn>
+            <LayoutColumn className="flex flex-col gap-4" xs={12} lg={4}>
+              <div>
+                <h4 className="text-xl font-medium">Join our newsletter</h4>
+                <p>We will also send you our discount coupons!</p>
+              </div>
+              <div className="flex gap-2">
+                <Input label="Your email" />
+                <Button>Subscribe</Button>
+              </div>
+              <p className="text-sm text-gray-500">
+                By subscribing you agree to with our Privacy Policy and provide
+                consent to receive updates from our company.
+              </p>
+            </LayoutColumn>
+          </LayoutRow>
+        </Layout>
+      </div>
     </>
   );
 }

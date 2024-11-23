@@ -40,7 +40,7 @@ export const Input: React.FC<
         <AriaInput
           {...inputProps}
           className={twMerge(
-            'border-grayscale-200 text-grayscale-900 h-14 w-full border px-4 text-gray-900 outline-none hover:border-gray-500 focus:border-gray-500 data-[invalid]:border-red-400 peer-data-[label-floating]:pt-3',
+            'border-grayscale-200 text-grayscale-900 h-14 w-full rounded border px-4 text-gray-900 outline-none hover:border-gray-500 focus:border-gray-500 data-[invalid]:border-red-400 peer-data-[label-floating]:pt-3',
             inputProps?.className
           )}
           onChange={(event) => {

@@ -24,9 +24,10 @@ export const Header: React.FC<{
     const themeCheckerFn = () => {
       const element = headerRef.current;
       if (element && colorScheme === 'light') {
-        if (window.scrollY <= window.innerHeight * 0.7)
-          element.setAttribute('data-dark-theme', '');
-        else element.removeAttribute('data-dark-theme');
+        element.toggleAttribute(
+          'data-dark-theme',
+          window.scrollY <= window.innerHeight * 0.7
+        );
       }
     };
     themeCheckerFn();

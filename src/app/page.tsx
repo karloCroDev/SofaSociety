@@ -27,7 +27,7 @@ export default function Home() {
         />
       </div>
       <Layout>
-        <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row lg:items-center xl:mt-24">
+        <LayoutRow className="mt-8 flex-col justify-between md:mt-16 lg:flex-row lg:items-center xl:mt-24">
           <LayoutColumn xs={12} lg={7}>
             <h2 className="text-2xl font-medium">
               Elevate Your Living Space with Unmatched Comfort & Style
@@ -60,14 +60,14 @@ export default function Home() {
         <div className="mt-8 lg:mt-16">
           <Image src={ImageAboutSofa} alt="About us image of sofa" />
         </div>
-        <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
+        <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row">
           <LayoutColumn xs={12} lg={5}>
             <h2 className="text-2xl font-medium">
               At Sofa Society, we believe that a sofa is the heart of every
               home.
             </h2>
           </LayoutColumn>
-          <LayoutColumn xs={12} lg={6} className="mt-16 flex-col gap-6 lg:flex">
+          <LayoutColumn xs={12} lg={6} className="mt-16 flex flex-col gap-6">
             <p>
               We are dedicated to delivering high-quality, thoughtfully designed
               sofas that merge comfort and style effortlessly.
@@ -76,7 +76,7 @@ export default function Home() {
               Our mission is to transform your living space into a sanctuary of
               relaxation and beauty, with products built to last.
             </p>
-            <Link href="/about" className="underline underline-offset-4">
+            <Link href="/about" className="mt-6 underline underline-offset-4">
               Read more about Sofa Society
             </Link>
           </LayoutColumn>

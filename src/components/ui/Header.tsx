@@ -47,7 +47,9 @@ export const Header: React.FC<{
     >
       <Layout>
         <LayoutRow className="h-22 items-center">
-          <h1 className="text-lg font-medium">SofaSocietyCo.</h1>
+          <Link href="/">
+            <h1 className="text-lg font-medium">SofaSocietyCo.</h1>
+          </Link>
           <LayoutColumn lgOffset={2} xlOffset={3}>
             <ul className="hidden gap-8 lg:flex">
               <li>

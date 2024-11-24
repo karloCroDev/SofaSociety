@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
-import { Collections } from '@/components/landing-page/Collections';
+import { Collections } from '@/components/welcoming-pages/Collections';
 
 // Images
 import ImageHero from '@/public/images/home/hero.png';

@@ -20,7 +20,7 @@ export default function About() {
       <div className="mt-22 lg:mt-0">
         <Image
           src={ImageHero}
-          alt="Main image that represents SofaSociety.Co"
+          alt="About image that represents SofaSociety.Co"
           className="object-cover xl:h-[75vh]"
         />
       </div>
@@ -50,31 +50,33 @@ export default function About() {
             </p>
           </LayoutColumn>
         </LayoutRow>
-        <div className="mt-24 lg:mt-32">
+        <div className="mt-24 lg:mt-36">
           <Image src={ImageLivingRoom} alt="Representation of living room" />
         </div>
-        <LayoutColumn lg={6} xs={12} className="mt-8 md:mt-16 xl:mt-24">
-          <h2 className="text-2xl font-medium">
-            We are here to make your living space a true reflection of your
-            personal style.
-          </h2>
-          <p className="mt-10">
-            At the heart of our brand is a deep commitment to quality. We
-            understand that a sofa isn’t just another piece of furniture; it’s
-            where you unwind, gather with loved ones, and make memories. That’s
-            why we source only the finest materials and fabrics, ensuring that
-            every sofa we offer is built to last.
-          </p>
-          <p className="mt-6">
-            From luxurious leathers and soft linens to high-performance
-            textiles, each fabric is carefully selected for its durability and
-            beauty. Our attention to detail extends to every stitch and seam,
-            guaranteeing that your sofa will not only look stunning but will
-            also withstand the test of time.
-          </p>
-        </LayoutColumn>
-        <LayoutRow className="mt-24 flex flex-col lg:mt-32 lg:flex-row lg:justify-between">
-          <LayoutColumn xs={12} lg={5}>
+        <LayoutRow>
+          <LayoutColumn lg={6} xs={12} className="mt-8 md:mt-16 xl:mt-24">
+            <h2 className="text-2xl font-medium">
+              We are here to make your living space a true reflection of your
+              personal style.
+            </h2>
+            <p className="mt-6 lg:mt-10">
+              At the heart of our brand is a deep commitment to quality. We
+              understand that a sofa isn’t just another piece of furniture; it’s
+              where you unwind, gather with loved ones, and make memories.
+              That’s why we source only the finest materials and fabrics,
+              ensuring that every sofa we offer is built to last.
+            </p>
+            <p className="mt-6">
+              From luxurious leathers and soft linens to high-performance
+              textiles, each fabric is carefully selected for its durability and
+              beauty. Our attention to detail extends to every stitch and seam,
+              guaranteeing that your sofa will not only look stunning but will
+              also withstand the test of time.
+            </p>
+          </LayoutColumn>
+        </LayoutRow>
+        <LayoutRow className="mt-16 flex flex-col lg:mt-36 lg:flex-row lg:justify-between">
+          <LayoutColumn xs={8} lg={5} className="mx-auto lg:mx-0">
             <Image src={ImageSofaDesign} alt="Sofa design interior" />
           </LayoutColumn>
           <LayoutColumn xs={12} lg={6}>
@@ -105,7 +107,7 @@ export default function About() {
         <Image
           src={ImageSofaArray}
           alt="Arrays of sofa"
-          className="mt-24 lg:mt-32"
+          className="mt-24 px-4 lg:mt-36 lg:px-0"
         />
       </div>
       <Layout>

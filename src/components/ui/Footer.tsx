@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/Input';
 export const Footer = () => (
   <div className="mt-24 bg-gray-50 lg:mt-36">
     <Layout>
-      <LayoutRow className="lg:h-85 flex-col items-center py-8 lg:flex-row lg:justify-between">
+      <LayoutRow className="flex-col items-center py-8 lg:h-85 lg:flex-row lg:justify-between">
         <LayoutColumn
           xs={12}
           lg={2}
@@ -26,7 +26,7 @@ export const Footer = () => (
         >
           <ul className="flex flex-col gap-4">
             <li>FAQ</li>
-            <li>Heklp</li>
+            <li>Help</li>
             <li>Delivery</li>
             <li>Returns</li>
           </ul>

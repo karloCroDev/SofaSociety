@@ -1,12 +1,12 @@
 // External packages
 import Image from 'next/image';
-import Link from 'next/link';
 
 // Components
 import { Footer } from '@/components/ui/Footer';
 import { Header } from '@/components/ui/Header';
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { Collections } from '@/components/welcoming-pages/Collections';
+import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images
 import ImageHero from '@/public/images/inspiration/hero.png';
@@ -16,7 +16,6 @@ import ImageNordicHeaven from '@/public/images/inspiration/nordic-heaven.png';
 import ImageBelimeHeaven from '@/public/images/inspiration/belime-heaven.png';
 import ImageDoubleSofa from '@/public/images/inspiration/dobule-sofa.png';
 import ImageOsloDrift from '@/public/images/inspiration/oslo-drift.png';
-import { twJoin } from 'tailwind-merge';
 
 export default function Inspiration() {
   return (
@@ -42,21 +41,16 @@ export default function Inspiration() {
             </p>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={4}>
-            {/* <ProductCard /> */}
-            <Link href="/product-page">
-              <div className="mt-16 lg:mt-0">
-                <Image src={ImageAstridCurve} alt="Astrid curve image" />
-              </div>
-              <div className="mt-6 flex justify-between">
-                <div>
-                  <h4>Astrid Curve</h4>
-                  <p className="text-sm text-gray-500">
-                    Scandinavian Simplicity
-                  </p>
+            <ProductCard
+              name="Astrid Curve"
+              category="Scandinavian Simplicity"
+              image={
+                <div className="mt-16 lg:mt-0">
+                  <Image src={ImageAstridCurve} alt="Astrid curve image" />
                 </div>
-                <p className="font-bold">1800€</p>
-              </div>
-            </Link>
+              }
+              price="1800€"
+            />
           </LayoutColumn>
         </LayoutRow>
         <div className="mt-24 lg:mt-36">
@@ -75,32 +69,26 @@ export default function Inspiration() {
             </p>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={4} className="flex flex-col">
-            <Link href="/product-page">
-              <div className="mt-16 lg:mt-0">
-                <Image src={ImageNordicHeaven} alt="Noridic Heaven" />
-              </div>
-              <div className="mt-6 flex justify-between">
-                <div>
-                  <h4>Nordic Heaven</h4>
-                  <p className="text-sm text-gray-500">
-                    Scandinavian Simplicity
-                  </p>
+            <ProductCard
+              name="Noridc Heaven"
+              category="Scandinavian Simplicity"
+              image={
+                <div className="mt-16 lg:mt-0">
+                  <Image src={ImageNordicHeaven} alt="Noridic Heaven" />
                 </div>
-                <p className="font-bold">1800€</p>
-              </div>
-            </Link>
-            <Link href="/product-page" className="mt-6 lg:mt-16">
-              <div className="mt-16 lg:mt-0">
-                <Image src={ImageBelimeHeaven} alt="Belime Heaven" />
-              </div>
-              <div className="mt-6 flex justify-between">
-                <div>
-                  <h4>Belime Heaven</h4>
-                  <p className="text-sm text-gray-500">Modern Luxe</p>
+              }
+              price="1800€"
+            />
+            <ProductCard
+              name="Belime Heaven"
+              category="Modern Luxe"
+              image={
+                <div className="mt-8 lg:mt-16">
+                  <Image src={ImageBelimeHeaven} alt="Belime Heaven" />
                 </div>
-                <p className="font-bold">1800€</p>
-              </div>
-            </Link>
+              }
+              price="1800€"
+            />
           </LayoutColumn>
         </LayoutRow>
       </Layout>
@@ -126,23 +114,17 @@ export default function Inspiration() {
             </p>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={4}>
-            <Link href="/product-page">
-              <div className="mt-16 lg:mt-0">
-                <Image src={ImageOsloDrift} alt="Astrid curve image" />
-              </div>
-              <div className="mt-6 flex justify-between">
-                <div>
-                  <h4>Astrid Curve</h4>
-                  <p className="text-sm text-gray-500">
-                    Scandinavian Simplicity
-                  </p>
+            <ProductCard
+              name="Oslo Drift"
+              category="Scandinavian Simplicity"
+              image={
+                <div className="mt-8 lg:mt-16">
+                  <Image src={ImageOsloDrift} alt="Belime Heaven" />
                 </div>
-                <div>
-                  <p className="font-bold text-red-400">2000€</p>
-                  <p className="text-gray-500 line-through">3000€</p>
-                </div>
-              </div>
-            </Link>
+              }
+              price="2000€"
+              originalPrice="3000€"
+            />
           </LayoutColumn>
         </LayoutRow>
         <Collections />
@@ -152,39 +134,3 @@ export default function Inspiration() {
     </>
   );
 }
-
-const ProductCard: React.FC<
-  React.ComponentPropsWithoutRef<'div'> & {
-    image: React.ReactNode;
-    name: string;
-    category: string;
-    price: string;
-    originalPrice?: string;
-  }
-> = ({ name, category, price, originalPrice, image, className, ...rest }) => (
-  <Link href="/product-page">
-    <div {...rest}>
-      {image}
-      <div className="mt-6 flex justify-between">
-        <div>
-          <h4>{name}</h4>
-          <p className="text-sm text-gray-500">{category}</p>
-        </div>
-        <div>
-          <div>
-            {price && (
-              <p
-                className={twJoin('font-bold', originalPrice && 'text-red-400')}
-              >
-                {price}
-              </p>
-            )}
-            {originalPrice && (
-              <p className="text-gray-500 line-through">{originalPrice}</p>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  </Link>
-);

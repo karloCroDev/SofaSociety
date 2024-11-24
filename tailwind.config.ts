@@ -63,6 +63,9 @@ export default {
       borderWidth: {
         6: '6px',
       },
+      zIndex: {
+        max: '999',
+      },
     },
   },
   plugins: [],

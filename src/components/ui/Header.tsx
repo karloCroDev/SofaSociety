@@ -76,7 +76,7 @@ export const Header: React.FC<{
             <Link href="/">
               <Icon name="bag" />
             </Link>
-            {/* <Icon name="hamburger" /> */}
+
             <Drawer />
           </div>
         </LayoutRow>
@@ -90,11 +90,11 @@ const Drawer = () => (
     <RadixDialog.Trigger className="group cursor-pointer">
       <Icon
         name="hamburger"
-        className="cursor-pointer group-data-[state=open]:hidden"
+        className="cursor-pointer outline-none group-data-[state=open]:hidden"
       />
     </RadixDialog.Trigger>
 
-    <RadixDialog.Content className="z-max text-grayscale-10 fixed left-0 top-0 flex h-full w-5/6 flex-col overflow-scroll overflow-x-hidden bg-gray-900">
+    <RadixDialog.Content className="text-grayscale-10 fixed left-0 top-0 z-max flex h-full w-5/6 flex-col overflow-scroll overflow-x-hidden bg-gray-900">
       <RadixDialog.Title className="hidden" />
       <div className="flex h-full flex-col text-gray-10">
         <div className="border-b border-gray-10">

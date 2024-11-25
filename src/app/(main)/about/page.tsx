@@ -16,7 +16,6 @@ import ImageSofaArray from '@/public/images/about/sofa-array.png';
 export default function About() {
   return (
     <>
-      <Header />
       <div className="mt-22 lg:mt-0">
         <Image
           src={ImageHero}
@@ -133,7 +132,6 @@ export default function About() {
           </LayoutColumn>
         </LayoutRow>
       </Layout>
-      <Footer />
     </>
   );
 }

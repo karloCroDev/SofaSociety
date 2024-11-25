@@ -18,7 +18,6 @@ import ImageAboutSofa from '@/public/images/home/about-sofa.png';
 export default function Home() {
   return (
     <>
-      <Header />
       <div className="mt-22 lg:mt-0">
         <Image
           src={ImageHero}
@@ -82,8 +81,6 @@ export default function Home() {
           </LayoutColumn>
         </LayoutRow>
       </Layout>
-
-      <Footer />
     </>
   );
 }

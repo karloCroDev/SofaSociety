@@ -20,7 +20,6 @@ import ImageOsloDrift from '@/public/images/inspiration/oslo-drift.png';
 export default function Inspiration() {
   return (
     <>
-      <Header />
       <div className="mt-22 lg:mt-0">
         <Image
           src={ImageHero}
@@ -129,8 +128,6 @@ export default function Inspiration() {
         </LayoutRow>
         <Collections />
       </Layout>
-
-      <Footer />
     </>
   );
 }

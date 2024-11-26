@@ -1,10 +1,7 @@
 // External packages
 import Image from 'next/image';
-import Link from 'next/link';
 
 // Components
-import { Footer } from '@/components/ui/Footer';
-import { Header } from '@/components/ui/Header';
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 
 // Images

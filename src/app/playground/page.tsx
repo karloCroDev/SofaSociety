@@ -1,7 +1,7 @@
 'use client';
 
-import { Form, Radio, RadioGroup } from 'react-aria-components';
 // External packages
+import { Form, Radio, RadioGroup } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';

@@ -5,9 +5,7 @@ import Image from 'next/image';
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { Header } from '@/components/ui/Header';
-import { Footer } from '@/components/ui/Footer';
-import { Collections } from '@/components/welcoming-pages/Collections';
+import { Collections } from '@/components/main/Collections';
 
 // Images
 import ImageHero from '@/public/images/home/hero.png';

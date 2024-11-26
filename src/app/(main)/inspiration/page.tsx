@@ -2,10 +2,8 @@
 import Image from 'next/image';
 
 // Components
-import { Footer } from '@/components/ui/Footer';
-import { Header } from '@/components/ui/Header';
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Collections } from '@/components/welcoming-pages/Collections';
+import { Collections } from '@/components/main/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images

@@ -50,7 +50,10 @@ export default function Home() {
             <p className="mt-2 text-lg lg:mt-8">Arm Chairs</p>
           </LayoutColumn>
         </LayoutRow>
-        <Collections />
+
+        <div className="mt-24 lg:mt-32">
+          <Collections />
+        </div>
         <h2 className="mt-24 text-2xl font-medium lg:mt-32">
           About sofa society
         </h2>

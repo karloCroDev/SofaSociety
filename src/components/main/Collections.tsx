@@ -3,6 +3,7 @@
 // External packages
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Components
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
@@ -12,7 +13,8 @@ import { ArrowButton } from '@/components/ui/ArrowButton';
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
 import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
-import ImageBohoChick from '@/public/images/home/boho-chick.png';
+import ImageBohoChic from '@/public/images/home/boho-chic.png';
+import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 
 export const Collections = () => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
@@ -20,13 +22,13 @@ export const Collections = () => {
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {
-      if (isDirectionLeft) element.scrollLeft -= element.scrollWidth / 3;
-      else element.scrollLeft += element.scrollWidth / 3;
+      if (isDirectionLeft) element.scrollLeft -= element.scrollWidth / 4;
+      else element.scrollLeft += element.scrollWidth / 4;
     }
   };
   return (
     <>
-      <div className="mt-24 flex items-center gap-6 lg:mt-32">
+      <div className="flex items-center gap-6">
         <h2 className="text-2xl font-medium">Collections</h2>
         <Button className="ml-auto">View All</Button>
         <div className="hidden lg:block">
@@ -43,40 +45,61 @@ export const Collections = () => {
         </div>
       </div>
       <LayoutRow
-        className="mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:mt-16 lg:flex-row"
+        className="-mr-10 mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:mt-16 lg:flex-row"
         ref={scrollableContainerRef}
       >
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Image
-            src={ImageScandinavianSimplicity}
-            alt="Scandinavian furnuture"
-          />
-          <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
-            Scandinavian Simplicity
-          </h4>
-          <p className="mt-2 text-sm text-gray-500 lg:text-base">
-            Minimalistic designs, neutral colors, and high-quality textures
-          </p>
+          <Link href="/scandinavian-furniture">
+            <Image
+              src={ImageScandinavianSimplicity}
+              alt="Scandinavian furnuture"
+            />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Scandinavian Simplicity
+            </h4>
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
+              Minimalistic designs, neutral colors, and high-quality textures
+            </p>
+          </Link>
         </LayoutColumn>
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Image src={ImageModernLuxe} alt="Modern luxe furnuture" />
-          <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
-            Modern Luxe
-          </h4>
-          <p className="mt-2 text-sm text-gray-500 lg:text-base">
-            Sophisticated and sleek, these sofas blend modern design with
-            luxurious comfort
-          </p>
+          <Link href="/modern-luxe">
+            <Image src={ImageModernLuxe} alt="Modern luxe furnuture" />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Modern Luxe
+            </h4>
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
+              Sophisticated and sleek, these sofas blend modern design with
+              luxurious comfort
+            </p>
+          </Link>
         </LayoutColumn>
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Image src={ImageBohoChick} alt="Boho chick furnuture" />
-          <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
-            Boho Chic
-          </h4>
-          <p className="mt-2 text-sm text-gray-500 lg:text-base">
-            Infused with playful textures and vibrant patterns with eclectic
-            vibes.
-          </p>
+          <Link href="/boho-chic">
+            <Image src={ImageBohoChic} alt="Boho chic furnuture" />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Boho Chic
+            </h4>
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
+              Infused with playful textures and vibrant patterns with eclectic
+              vibes.
+            </p>
+          </Link>
+        </LayoutColumn>
+        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
+          <Link href="/timeless-classics">
+            <Image
+              src={ImageTimlessCLassics}
+              alt="Timeless classics furnuture"
+            />
+            <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
+              Timeless Classics
+            </h4>
+            <p className="mt-2 text-sm text-gray-500 lg:text-base">
+              Elegant shapes and rich textures, traditional craftsmanship with
+              modern comfort
+            </p>
+          </Link>
         </LayoutColumn>
       </LayoutRow>
     </>

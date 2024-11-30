@@ -9,7 +9,7 @@ import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Input } from '@/components/ui/Input';
 import { LanguageSelect } from '@/components/ui/LanguageSelect';
 
-export const Header: React.FC<{}> = () => {
+export const Header = () => {
   return (
     <Layout>
       <LayoutRow className="h-22 items-center">

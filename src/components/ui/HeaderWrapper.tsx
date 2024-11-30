@@ -3,13 +3,10 @@
 // External packages
 import * as React from 'react';
 
-// Components
-import { Icon } from '@/components/ui/Icon';
-import { Header } from '@/components/ui/Header';
-
 export const HeaderWrapper: React.FC<{
+  children: React.ReactNode;
   colorScheme?: string;
-}> = ({ colorScheme = 'light' }) => {
+}> = ({ children, colorScheme = 'light' }) => {
   const headerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
@@ -47,7 +44,7 @@ export const HeaderWrapper: React.FC<{
         className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 lg:data-[dark-theme]:bg-transparent lg:data-[dark-theme]:text-gray-10"
         ref={headerRef}
       >
-        <Header />
+        {children}
       </div>
     </>
   );

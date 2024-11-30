@@ -124,7 +124,9 @@ export default function Inspiration() {
             />
           </LayoutColumn>
         </LayoutRow>
-        <Collections />
+        <div className="mt-24 lg:mt-32">
+          <Collections />
+        </div>
       </Layout>
     </>
   );

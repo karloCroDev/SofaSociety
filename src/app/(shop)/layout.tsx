@@ -10,7 +10,9 @@ export default function ShopLayout({
 }>) {
   return (
     <>
-      <HeaderWrapper colorScheme="dark" />
+      <HeaderWrapper colorScheme="dark">
+        <Header />
+      </HeaderWrapper>
       {children}
       <Footer />
     </>

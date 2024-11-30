@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import { RadioButtonVisual, RadioIconVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
 import { Layout } from '@/components/ui/Layout';
+import { AnchorAsButton } from '@/components/ui/AnchorAsButton';
 
 export default function Page() {
   return (
@@ -63,6 +64,12 @@ export default function Page() {
           />
           <Button className="mt-4">Submit</Button>
         </Form>
+        <AnchorAsButton
+          href="https://nextjs.org/docs/pages/api-reference/components/link"
+          target="_blank"
+        >
+          Hello world
+        </AnchorAsButton>
       </div>
     </Layout>
   );

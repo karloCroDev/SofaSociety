@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Collections } from '@/components/main/Collections';
+import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images

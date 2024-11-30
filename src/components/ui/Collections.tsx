@@ -45,7 +45,7 @@ export const Collections = () => {
         </div>
       </div>
       <LayoutRow
-        className="-mr-10 mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:mt-16 lg:flex-row"
+        className="mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:-mr-10 lg:mt-16 lg:flex-row"
         ref={scrollableContainerRef}
       >
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">

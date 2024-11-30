@@ -5,7 +5,7 @@ import Link from 'next/link';
 // Components
 import { Layout, LayoutColumn } from '@/components/ui/Layout';
 import { LayoutRow } from '@/components/ui/Layout';
-import { Collections } from '@/components/main/Collections';
+import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images
@@ -53,13 +53,13 @@ export default function Shop() {
       </div>
 
       <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
-      <LayoutRow className="-mr-4 mt-8">
-        {[...Array(9)].map((value, index) => (
+      <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
+        {[...Array(9)].map((_, index) => (
           <LayoutColumn
             xs={12}
             sm={6}
             xl={4}
-            className="py- mb-10 pr-4 lg:mb-16 lg:pr-12"
+            className="mb-10 pr-4 lg:mb-16 lg:pr-12"
             key={index}
           >
             <ProductCard

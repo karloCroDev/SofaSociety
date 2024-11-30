@@ -17,7 +17,7 @@ export const Footer = () => (
             Society <br />
             Co.
           </p>
-          <p className="mt-6">© 2024, Sofa Society</p>
+          <p className="mt-6">© {new Date().getFullYear()}, Sofa Society</p>
         </LayoutColumn>
         <LayoutColumn
           className="order-1 mt-16 flex gap-16 lg:order-none lg:mt-0"

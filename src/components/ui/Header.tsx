@@ -22,6 +22,7 @@ export const Header: React.FC<{
   colorScheme?: 'light' | 'dark';
 }> = ({ colorScheme = 'light' }) => {
   const headerRef = React.useRef<HTMLDivElement | null>(null);
+
   React.useEffect(() => {
     const themeCheckerFn = () => {
       const element = headerRef.current;
@@ -141,43 +142,40 @@ const Drawer = () => (
   </RadixDialog.Root>
 );
 
-const LanguageSelect = () => {
-  const listBoxItemStyle = 'p-4 outline-0 cursor-pointer';
-  return (
-    <Select defaultSelectedKey="croatian">
-      <AriaButton className="outline-none">
-        <div className="flex gap-2">
-          <SelectValue className="uppercase">
-            {({ defaultChildren }) => defaultChildren?.toString().slice(0, 3)}
-          </SelectValue>
-          <Icon name="chevron" />
-        </div>
-      </AriaButton>
-      <Popover
-        placement="bottom"
-        className="h-52 w-60 overflow-scroll rounded border border-gray-900 bg-gray-10"
-      >
-        <ListBox>
-          <ListBoxItem id="afghanistan" className={listBoxItemStyle}>
-            afghanistan
-          </ListBoxItem>
-          <ListBoxItem id="albania" className={listBoxItemStyle}>
-            albania
-          </ListBoxItem>
-          <ListBoxItem id="algeria" className={listBoxItemStyle}>
-            algeria
-          </ListBoxItem>
-          <ListBoxItem id="andorra" className={listBoxItemStyle}>
-            andorra
-          </ListBoxItem>
-          <ListBoxItem id="croatian" className={listBoxItemStyle}>
-            croatian
-          </ListBoxItem>
-          <ListBoxItem id="english" className={listBoxItemStyle}>
-            english
-          </ListBoxItem>
-        </ListBox>
-      </Popover>
-    </Select>
-  );
-};
+const LanguageSelect = () => (
+  <Select defaultSelectedKey="croatian">
+    <AriaButton className="outline-none">
+      <div className="flex gap-2">
+        <SelectValue className="uppercase">
+          {({ defaultChildren }) => defaultChildren?.toString().slice(0, 3)}
+        </SelectValue>
+        <Icon name="chevron" />
+      </div>
+    </AriaButton>
+    <Popover
+      placement="bottom"
+      className="h-52 w-60 overflow-scroll rounded border border-gray-900 bg-gray-10"
+    >
+      <ListBox>
+        <ListBoxItem id="afghanistan" className="cursor-pointer p-4 outline-0">
+          afghanistan
+        </ListBoxItem>
+        <ListBoxItem id="albania" className="cursor-pointer p-4 outline-0">
+          albania
+        </ListBoxItem>
+        <ListBoxItem id="algeria" className="cursor-pointer p-4 outline-0">
+          algeria
+        </ListBoxItem>
+        <ListBoxItem id="andorra" className="cursor-pointer p-4 outline-0">
+          andorra
+        </ListBoxItem>
+        <ListBoxItem id="croatian" className="cursor-pointer p-4 outline-0">
+          croatian
+        </ListBoxItem>
+        <ListBoxItem id="english" className="cursor-pointer p-4 outline-0">
+          english
+        </ListBoxItem>
+      </ListBox>
+    </Popover>
+  </Select>
+);

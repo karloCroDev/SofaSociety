@@ -20,8 +20,8 @@ export const Collections = () => {
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {
-      if (isDirectionLeft) element.scrollLeft -= 100;
-      else element.scrollLeft += 100;
+      if (isDirectionLeft) element.scrollLeft -= element.scrollWidth / 3;
+      else element.scrollLeft += element.scrollWidth / 3;
     }
   };
   return (
@@ -43,10 +43,10 @@ export const Collections = () => {
         </div>
       </div>
       <LayoutRow
-        className="mt-8 flex-nowrap overflow-x-scroll lg:mt-16 lg:flex-row"
+        className="mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:mt-16 lg:flex-row"
         ref={scrollableContainerRef}
       >
-        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
+        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
           <Image
             src={ImageScandinavianSimplicity}
             alt="Scandinavian furnuture"
@@ -58,7 +58,7 @@ export const Collections = () => {
             Minimalistic designs, neutral colors, and high-quality textures
           </p>
         </LayoutColumn>
-        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
+        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
           <Image src={ImageModernLuxe} alt="Modern luxe furnuture" />
           <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
             Modern Luxe
@@ -68,7 +68,7 @@ export const Collections = () => {
             luxurious comfort
           </p>
         </LayoutColumn>
-        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 pr-10">
+        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
           <Image src={ImageBohoChick} alt="Boho chick furnuture" />
           <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
             Boho Chic

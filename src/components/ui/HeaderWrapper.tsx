@@ -14,13 +14,13 @@ import {
 import Link from 'next/link';
 
 // Components
+import { Header } from '@/components/ui/Header';
 import { Icon } from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
 
 export const HeaderWrapper: React.FC<{
-  children: React.ReactNode;
   colorScheme?: string;
-}> = ({ children, colorScheme = 'light' }) => {
+}> = ({ colorScheme = 'light' }) => {
   const headerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
@@ -58,13 +58,14 @@ export const HeaderWrapper: React.FC<{
         className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 lg:data-[dark-theme]:bg-transparent lg:data-[dark-theme]:text-gray-10"
         ref={headerRef}
       >
-        {children}
+        <Header />
       </div>
     </>
   );
 };
 
-// Client Components, that are supposted to go to Header.tsx
+// Pitanje: pošto su ove komponente isto client renderane (samo je header na serveru), hoću li ih passati kao prop na Header.tsx componenti ili da ostavim sada kako je napravljeno (exportanje u Header.tsx componentu) ili da napravim posebne componente za svaku te ih onda importam
+
 export const LanguageSelect = () => (
   <Select defaultSelectedKey="croatian" aria-label="visible">
     <AriaButton className="outline-none">

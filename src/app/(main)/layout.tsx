@@ -10,9 +10,7 @@ export default function MainLayout({
 }>) {
   return (
     <>
-      <HeaderWrapper>
-        <Header />
-      </HeaderWrapper>
+      <HeaderWrapper />
       {children}
       <Footer />
     </>

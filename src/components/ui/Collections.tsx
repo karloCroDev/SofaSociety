@@ -26,6 +26,7 @@ export const Collections = () => {
       else element.scrollLeft += element.scrollWidth / 4;
     }
   };
+
   return (
     <>
       <div className="flex items-center gap-6">
@@ -45,7 +46,7 @@ export const Collections = () => {
         </div>
       </div>
       <LayoutRow
-        className="mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:-mr-10 lg:mt-16 lg:flex-row"
+        className="mt-8 snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:mt-16 lg:flex-row"
         ref={scrollableContainerRef}
       >
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">

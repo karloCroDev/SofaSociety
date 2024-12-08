@@ -14,6 +14,8 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
+import { FilterButton } from '@/components/shop/shop/FilterButton';
+import { Icon } from '@/components/ui/Icon';
 
 export default function Shop() {
   return (
@@ -53,11 +55,57 @@ export default function Shop() {
       </div>
 
       <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
+      <div className="mt-8 flex justify-between">
+        <div className="hidden gap-4 lg:flex">
+          <FilterButton
+            iconRight={
+              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
+            }
+          >
+            Price
+          </FilterButton>
+          <FilterButton
+            iconRight={
+              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
+            }
+          >
+            Color
+          </FilterButton>
+          <FilterButton
+            iconRight={
+              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
+            }
+          >
+            Materials
+          </FilterButton>
+          <FilterButton
+            iconRight={
+              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
+            }
+          >
+            Collection
+          </FilterButton>
+        </div>
+        <FilterButton
+          iconRight={
+            <Icon name="plus" className="size-4 text-gray-500 lg:size-6" />
+          }
+          className="lg:hidden"
+        >
+          Filter
+        </FilterButton>
+        <FilterButton
+          iconRight={
+            <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
+          }
+        >
+          Sort by
+        </FilterButton>
+      </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (
           <LayoutColumn
-            xs={12}
-            sm={6}
+            xs={6}
             xl={4}
             className="mb-10 pr-4 lg:mb-16 lg:pr-12"
             key={index}
@@ -66,7 +114,7 @@ export default function Shop() {
               name="Astrid Curve"
               category="Scandinavian Simplicity"
               image={
-                <div className="mt-16 lg:mt-0">
+                <div className="">
                   <Image src={ImageAstridCurve} alt="Astrid curve image" />
                 </div>
               }

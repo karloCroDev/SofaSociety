@@ -14,10 +14,10 @@ export const ProductCard: React.FC<
 > = ({ name, category, price, originalPrice, image, ...rest }) => (
   <Link href="/product" {...rest}>
     {image}
-    <div className="mt-6 flex justify-between">
+    <div className="mt-6 flex flex-col md:flex-row md:justify-between">
       <div>
         <h4>{name}</h4>
-        <p className="text-sm text-gray-500">{category}</p>
+        <p className="hidden text-sm text-gray-500 lg:block">{category}</p>
       </div>
       <div>
         {price && (

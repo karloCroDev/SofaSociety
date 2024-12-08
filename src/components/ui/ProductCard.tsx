@@ -21,7 +21,12 @@ export const ProductCard: React.FC<
       </div>
       <div>
         {price && (
-          <p className={twJoin('font-bold', originalPrice && 'text-red-400')}>
+          <p
+            className={twJoin(
+              'text-sm font-bold lg:text-base',
+              originalPrice && 'text-red-400'
+            )}
+          >
             {price}
           </p>
         )}

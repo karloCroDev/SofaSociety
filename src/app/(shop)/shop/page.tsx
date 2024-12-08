@@ -16,6 +16,10 @@ import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
+import { PopoverSlider } from '@/components/shop/shop/PopoverSlider';
+import { PopoverColor } from '@/components/shop/shop/PopoverColor';
+import { PopoverCollection } from '@/components/shop/shop/PopoverCollection';
+import { PopoverMaterials } from '@/components/shop/shop/PopoverMaterials';
 
 export default function Shop() {
   return (
@@ -57,34 +61,10 @@ export default function Shop() {
       <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
       <div className="mt-8 flex justify-between">
         <div className="hidden gap-4 lg:flex">
-          <FilterButton
-            iconRight={
-              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
-            }
-          >
-            Price
-          </FilterButton>
-          <FilterButton
-            iconRight={
-              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
-            }
-          >
-            Color
-          </FilterButton>
-          <FilterButton
-            iconRight={
-              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
-            }
-          >
-            Materials
-          </FilterButton>
-          <FilterButton
-            iconRight={
-              <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
-            }
-          >
-            Collection
-          </FilterButton>
+          <PopoverSlider />
+          <PopoverColor />
+          <PopoverMaterials />
+          <PopoverCollection />
         </div>
         <FilterButton
           iconRight={

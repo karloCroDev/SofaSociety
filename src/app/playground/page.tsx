@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { ArrowButton } from '@/components/ui/ArrowButton';
 import { Tag } from '@/components/ui/Tag';
-import { Checkbox } from '@/components/ui/Checkbox';
+import { Checkbox } from '@/components/ui/CheckboxVisually';
 import { RadioButtonVisual, RadioIconVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
 import { Layout } from '@/components/ui/Layout';

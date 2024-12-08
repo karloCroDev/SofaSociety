@@ -7,6 +7,13 @@ import { Layout, LayoutColumn } from '@/components/ui/Layout';
 import { LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
+import { FilterButton } from '@/components/shop/shop/FilterButton';
+import { Icon } from '@/components/ui/Icon';
+import { PopoverSlider } from '@/components/shop/shop/PopoverSlider';
+import { PopoverColor } from '@/components/shop/shop/PopoverColor';
+import { PopoverCollection } from '@/components/shop/shop/PopoverCollection';
+import { PopoverMaterials } from '@/components/shop/shop/PopoverMaterials';
+import { PopoverSort } from '@/components/shop/shop/PopoverSort';
 
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -14,12 +21,6 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-import { FilterButton } from '@/components/shop/shop/FilterButton';
-import { Icon } from '@/components/ui/Icon';
-import { PopoverSlider } from '@/components/shop/shop/PopoverSlider';
-import { PopoverColor } from '@/components/shop/shop/PopoverColor';
-import { PopoverCollection } from '@/components/shop/shop/PopoverCollection';
-import { PopoverMaterials } from '@/components/shop/shop/PopoverMaterials';
 
 export default function Shop() {
   return (
@@ -74,13 +75,7 @@ export default function Shop() {
         >
           Filter
         </FilterButton>
-        <FilterButton
-          iconRight={
-            <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
-          }
-        >
-          Sort by
-        </FilterButton>
+        <PopoverSort />
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (

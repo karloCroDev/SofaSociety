@@ -15,7 +15,7 @@ import { CheckboxVisually } from '@/components/ui/CheckboxVisually';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
-export const PopoverCollection: React.FC<SliderProps> = () => {
+export const PopoverCollection = () => {
   return (
     <DialogTrigger>
       <FilterButton

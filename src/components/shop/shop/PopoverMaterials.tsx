@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogTrigger,
   Popover,
-  SliderProps,
   CheckboxGroup,
   Checkbox,
 } from 'react-aria-components';
@@ -15,7 +14,7 @@ import { CheckboxVisually } from '@/components/ui/CheckboxVisually';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
-export const PopoverMaterials: React.FC<SliderProps> = () => {
+export const PopoverMaterials = () => {
   return (
     <DialogTrigger>
       <FilterButton

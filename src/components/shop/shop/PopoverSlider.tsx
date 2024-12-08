@@ -6,7 +6,6 @@ import {
   DialogTrigger,
   Popover,
   Slider,
-  SliderProps,
   SliderOutput,
   SliderThumb,
   SliderTrack,
@@ -16,7 +15,7 @@ import {
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
-export const PopoverSlider: React.FC<SliderProps> = () => {
+export const PopoverSlider = () => {
   return (
     <DialogTrigger>
       <FilterButton
@@ -35,7 +34,7 @@ export const PopoverSlider: React.FC<SliderProps> = () => {
                   <SliderThumb
                     key={i}
                     index={i}
-                    className="size-4 rounded-full border border-gray-900"
+                    className="size-4 rounded-full border border-gray-900 bg-gray-10"
                   />
                 ))
               }

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { ArrowButton } from '@/components/ui/ArrowButton';
 import { Tag } from '@/components/ui/Tag';
-import { Checkbox } from '@/components/ui/CheckboxVisually';
+
 import { RadioButtonVisual, RadioIconVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
 import { Layout } from '@/components/ui/Layout';
@@ -28,7 +28,7 @@ export default function Page() {
         </LinkAsButton>
         <ArrowButton direction="right" />
         <Tag> Hello world</Tag>
-        <Checkbox className="block" />
+
         <RadioGroup className="flex flex-col gap-1">
           <Radio value="1" className="group">
             <RadioIconVisual />

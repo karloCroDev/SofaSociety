@@ -6,11 +6,10 @@ import {
   DialogTrigger,
   Popover,
   CheckboxGroup,
-  Checkbox,
 } from 'react-aria-components';
 
 // Components
-import { CheckboxVisually } from '@/components/ui/CheckboxVisually';
+import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
@@ -27,22 +26,10 @@ export const PopoverMaterials = () => {
       <Popover placement="bottom left">
         <Dialog className="w-60 rounded border border-gray-200 bg-gray-10 p-4 outline-none">
           <CheckboxGroup className="flex flex-col gap-8">
-            <Checkbox className="group flex items-center gap-2" value="velvet">
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">Velevet</p>
-            </Checkbox>
-            <Checkbox className="group flex items-center gap-2" value="linen">
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">Linen</p>
-            </Checkbox>
-            <Checkbox className="group flex items-center gap-2" value="boucle">
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">Boucle</p>
-            </Checkbox>
-            <Checkbox className="group flex items-center gap-2" value="leather">
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">Leather</p>
-            </Checkbox>
+            <CheckboxWithLabel value="velvet">Velvet</CheckboxWithLabel>
+            <CheckboxWithLabel value="linen">Linen</CheckboxWithLabel>
+            <CheckboxWithLabel value="boucle">Boucle</CheckboxWithLabel>
+            <CheckboxWithLabel value="leather">Leather</CheckboxWithLabel>
           </CheckboxGroup>
         </Dialog>
       </Popover>

@@ -12,7 +12,7 @@ import {
 } from 'react-aria-components';
 
 // Components
-import { CheckboxVisually } from '@/components/ui/CheckboxVisually';
+
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 

@@ -5,13 +5,11 @@ import {
   Dialog,
   DialogTrigger,
   Popover,
-  SliderProps,
   CheckboxGroup,
-  Checkbox,
 } from 'react-aria-components';
 
 // Components
-import { CheckboxVisually } from '@/components/ui/CheckboxVisually';
+import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
@@ -23,43 +21,21 @@ export const PopoverCollection = () => {
           <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
         }
       >
-        Color
+        Collection
       </FilterButton>
       <Popover placement="bottom left">
         <Dialog className="w-60 rounded border border-gray-200 bg-gray-10 p-4 outline-none">
           <CheckboxGroup className="flex flex-col gap-8">
-            <Checkbox
-              className="group flex items-center gap-2"
-              value="scadinavian simplicity"
-            >
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">
-                Scandinavian Simplicity
-              </p>
-            </Checkbox>
-            <Checkbox
-              className="group flex items-center gap-2"
-              value="modern luxe"
-            >
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">Modern luxe</p>
-            </Checkbox>
-            <Checkbox
-              className="group flex items-center gap-2"
-              value="boho chic"
-            >
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">Boho chic</p>
-            </Checkbox>
-            <Checkbox
-              className="group flex items-center gap-2"
-              value="timeless classics"
-            >
-              <CheckboxVisually />
-              <p className="group-data-[selected]:font-bold">
-                Timeless classics
-              </p>
-            </Checkbox>
+            <CheckboxWithLabel value="scandinavian-simplicity">
+              Scandinavian Simplicity
+            </CheckboxWithLabel>
+            <CheckboxWithLabel value="modern-luxe">
+              Modern luxe
+            </CheckboxWithLabel>
+            <CheckboxWithLabel value="boho-chic">Boho Chic</CheckboxWithLabel>
+            <CheckboxWithLabel value="timeless-classics">
+              Timeless classics
+            </CheckboxWithLabel>
           </CheckboxGroup>
         </Dialog>
       </Popover>

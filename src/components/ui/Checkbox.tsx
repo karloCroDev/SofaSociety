@@ -1,7 +1,9 @@
-'use client';
+//External packages
+import { Checkbox as AriaCheckbox, CheckboxProps } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
+import { twMerge } from 'tailwind-merge';
 
 export const CheckboxVisually: React.FC<
   React.ComponentPropsWithoutRef<'div'>
@@ -16,5 +18,19 @@ export const CheckboxVisually: React.FC<
         className="h-3 w-3 opacity-0 group-data-[selected]:opacity-100"
       />
     </div>
+  );
+};
+
+export const CheckboxWithLabel: React.FC<
+  React.ComponentPropsWithoutRef<'label'> & CheckboxProps
+> = ({ children, className, ...rest }) => {
+  return (
+    <AriaCheckbox
+      {...rest}
+      className={twMerge('group flex items-center gap-2', className)}
+    >
+      <CheckboxVisually />
+      <p className="group-data-[selected]:font-bold">{children}</p>
+    </AriaCheckbox>
   );
 };

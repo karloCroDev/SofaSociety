@@ -13,8 +13,8 @@ import { Materials } from '@/components/shop/shop/Materials';
 import { Collection } from '@/components/shop/shop/Collection';
 import { PopoverOption } from '@/components/shop/shop/PopoverOption';
 import { Sort } from '@/components/shop/shop/Sort';
-
-import { DrawerOption } from '@/components/shop/shop/DrawerOption';
+import { DrawerFilter } from '@/components/shop/shop/DarwerFilter';
+import { DrawerSort } from '@/components/shop/shop/DrawerSort';
 
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -87,23 +87,8 @@ export default function Shop() {
           </PopoverOption>
         </div>
 
-        <DrawerOption sheetMargin={144} triggerTitle="Filter">
-          <h4 className="text-lg font-semibold">Shop</h4>
-          <Slider />
-          <h4 className="text-lg font-semibold">Color</h4>
-          <Color />
-          <h4 className="text-lg font-semibold">Materials</h4>
-          <Materials />
-          <h4 className="text-lg font-semibold">Collection</h4>
-          <Collection />
-        </DrawerOption>
-        <DrawerOption
-          triggerTitle="Sort"
-          sheetMargin={typeof window !== 'undefined' && window.innerHeight / 2}
-        >
-          <h4 className="text-lg font-semibold">Sort by</h4>
-          <Sort />
-        </DrawerOption>
+        <DrawerFilter />
+        <DrawerSort />
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (

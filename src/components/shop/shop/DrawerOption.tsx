@@ -21,6 +21,7 @@ import { Color } from '@/components/shop/shop/Color';
 import { Materials } from '@/components/shop/shop/Materials';
 import { Collection } from '@/components/shop/shop/Collection';
 import { Button } from '@/components/ui/Button';
+import { Sort } from '@/components/shop/shop/Sort';
 
 // Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);
@@ -39,12 +40,15 @@ const staticTransition = {
   ease: [0.32, 0.72, 0, 1],
 };
 
-const SHEET_MARGIN = 144;
-const SHEET_RADIUS = 12;
-
 const root = document.body.firstChild as HTMLElement;
 
-export const Drawer = () => {
+export const DrawerOption: React.FC<{
+  triggerTitle: string;
+  children: React.ReactNode;
+  sheetMargin: any;
+}> = ({ triggerTitle, children, sheetMargin }) => {
+  const SHEET_MARGIN = sheetMargin;
+  const SHEET_RADIUS = 12;
   let [isOpen, setOpen] = React.useState(false);
   let h = window.innerHeight - SHEET_MARGIN;
   let y = useMotionValue(h);
@@ -75,12 +79,11 @@ export const Drawer = () => {
         className="lg:hidden"
         onPress={() => setOpen(true)}
       >
-        Filter
+        {triggerTitle}
       </FilterButton>
       <AnimatePresence>
         {isOpen && (
           <MotionModalOverlay
-            // Force the modal to be open when AnimatePresence renders it.
             isOpen
             onOpenChange={setOpen}
             className="fixed inset-0 z-10"
@@ -107,14 +110,7 @@ export const Drawer = () => {
               }}
             >
               <Dialog className="relative flex h-full flex-col gap-6 overflow-scroll p-6 pb-24 outline-none">
-                <h4 className="text-lg font-semibold">Shop</h4>
-                <Slider />
-                <h4 className="text-lg font-semibold">Color</h4>
-                <Color />
-                <h4 className="text-lg font-semibold">Materials</h4>
-                <Materials />
-                <h4 className="text-lg font-semibold">Collection</h4>
-                <Collection />
+                {children}
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
                 <Button className="w-full">Show results</Button>

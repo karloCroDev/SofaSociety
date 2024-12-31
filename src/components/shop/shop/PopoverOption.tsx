@@ -15,7 +15,7 @@ import { twMerge } from 'tailwind-merge';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
-export const PopoverFilter: React.FC<
+export const PopoverOption: React.FC<
   React.ComponentPropsWithoutRef<'div'> &
     DialogProps & {
       popoverProps?: React.ComponentPropsWithoutRef<'div'> & PopoverProps;

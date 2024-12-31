@@ -11,7 +11,10 @@ import { Slider } from '@/components/shop/shop/Slider';
 import { Color } from '@/components/shop/shop/Color';
 import { Materials } from '@/components/shop/shop/Materials';
 import { Collection } from '@/components/shop/shop/Collection';
-import { PopoverFilter } from '@/components/shop/shop/PopoverFilter';
+import { PopoverOption } from '@/components/shop/shop/PopoverOption';
+import { Sort } from '@/components/shop/shop/Sort';
+
+import { DrawerOption } from '@/components/shop/shop/DrawerOption';
 
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -19,8 +22,6 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-import { Drawer } from '@/components/shop/shop/Drawer';
-import { Sort } from '@/components/shop/shop/Sort';
 
 export default function Shop() {
   return (
@@ -60,30 +61,49 @@ export default function Shop() {
       </div>
 
       <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
-      <div className="mt-8 flex justify-between">
+      <div className="mt-6 flex justify-between lg:mt-8">
         <div className="hidden gap-4 lg:flex">
-          <PopoverFilter title="Price">
+          <PopoverOption title="Price">
             <Slider />
-          </PopoverFilter>
-          <PopoverFilter title="Color">
+          </PopoverOption>
+          <PopoverOption title="Color">
             <Color />
-          </PopoverFilter>
-          <PopoverFilter title="Materials">
+          </PopoverOption>
+          <PopoverOption title="Materials">
             <Materials />
-          </PopoverFilter>
-          <PopoverFilter title="Collection">
+          </PopoverOption>
+          <PopoverOption title="Collection">
             <Collection />
-          </PopoverFilter>
+          </PopoverOption>
         </div>
-        <Drawer />
-        <PopoverFilter
-          title="Collection"
-          popoverProps={{
-            placement: 'bottom right',
-          }}
+        <div className="hidden lg:block">
+          <PopoverOption
+            title="Sort by"
+            popoverProps={{
+              placement: 'bottom right',
+            }}
+          >
+            <Sort />
+          </PopoverOption>
+        </div>
+
+        <DrawerOption sheetMargin={144} triggerTitle="Filter">
+          <h4 className="text-lg font-semibold">Shop</h4>
+          <Slider />
+          <h4 className="text-lg font-semibold">Color</h4>
+          <Color />
+          <h4 className="text-lg font-semibold">Materials</h4>
+          <Materials />
+          <h4 className="text-lg font-semibold">Collection</h4>
+          <Collection />
+        </DrawerOption>
+        <DrawerOption
+          triggerTitle="Sort"
+          sheetMargin={typeof window !== 'undefined' && window.innerHeight / 2}
         >
+          <h4 className="text-lg font-semibold">Sort by</h4>
           <Sort />
-        </PopoverFilter>
+        </DrawerOption>
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (

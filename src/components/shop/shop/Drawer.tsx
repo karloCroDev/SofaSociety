@@ -16,6 +16,11 @@ import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { FilterButton } from '@/components/shop/shop/FilterButton';
+import { Slider } from '@/components/shop/shop/Slider';
+import { Color } from '@/components/shop/shop/Color';
+import { Materials } from '@/components/shop/shop/Materials';
+import { Collection } from '@/components/shop/shop/Collection';
+import { Button } from '@/components/ui/Button';
 
 // Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);
@@ -82,7 +87,7 @@ export const Drawer = () => {
             style={{ backgroundColor: bg as any }}
           >
             <MotionModal
-              className="absolute bottom-0 w-full bg-gray-10 shadow-lg will-change-transform"
+              className="-max-h-20 absolute bottom-0 w-full bg-gray-10 shadow-lg will-change-transform"
               initial={{ y: h }}
               animate={{ y: 0 }}
               exit={{ y: h }}
@@ -90,8 +95,6 @@ export const Drawer = () => {
               style={{
                 y,
                 top: SHEET_MARGIN,
-                // Extra padding at the bottom to account for rubber band scrolling.
-                paddingBottom: window.screen.height,
               }}
               drag="y"
               dragConstraints={{ top: 0 }}
@@ -103,21 +106,19 @@ export const Drawer = () => {
                 }
               }}
             >
-              <Dialog className="p-6 outline-none">
-                <Heading slot="title" className="mb-4 text-3xl font-semibold">
-                  Modal sheet
-                </Heading>
-                <p className="mb-4 text-lg">
-                  This is a dialog with a custom modal overlay built with React
-                  Aria Components and Framer Motion.
-                </p>
-                <p className="text-lg">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Aenean sit amet nisl blandit, pellentesque eros eu,
-                  scelerisque eros. Sed cursus urna at nunc lacinia dapibus.
-                  Lorem*3
-                </p>
+              <Dialog className="relative flex h-full flex-col gap-6 overflow-scroll p-6 pb-24 outline-none">
+                <h4 className="text-lg font-semibold">Shop</h4>
+                <Slider />
+                <h4 className="text-lg font-semibold">Color</h4>
+                <Color />
+                <h4 className="text-lg font-semibold">Materials</h4>
+                <Materials />
+                <h4 className="text-lg font-semibold">Collection</h4>
+                <Collection />
               </Dialog>
+              <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
+                <Button className="w-full">Show results</Button>
+              </div>
             </MotionModal>
           </MotionModalOverlay>
         )}

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { LanguageSelect } from '@/components/ui/HeaderWrapper';
-import { Drawer } from '@/components/ui/HeaderWrapper';
+import { SidebarDrawer } from '@/components/ui/HeaderWrapper';
 
 export const Header = () => {
   return (
@@ -39,7 +39,7 @@ export const Header = () => {
           <Link href="/">
             <Icon name="bag" />
           </Link>
-          <Drawer />
+          <SidebarDrawer />
         </div>
       </LayoutRow>
     </Layout>

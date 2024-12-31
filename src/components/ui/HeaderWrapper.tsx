@@ -107,7 +107,7 @@ export const LanguageSelect = () => (
   </Select>
 );
 
-export const Drawer = () => (
+export const SidebarDrawer = () => (
   <RadixDialog.Root>
     <RadixDialog.Trigger className="group cursor-pointer">
       <Icon

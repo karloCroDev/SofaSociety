@@ -7,13 +7,11 @@ import { Layout, LayoutColumn } from '@/components/ui/Layout';
 import { LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { FilterButton } from '@/components/shop/shop/FilterButton';
-import { Icon } from '@/components/ui/Icon';
-import { PopoverSlider } from '@/components/shop/shop/PopoverSlider';
-import { PopoverColor } from '@/components/shop/shop/PopoverColor';
-import { PopoverCollection } from '@/components/shop/shop/PopoverCollection';
-import { PopoverMaterials } from '@/components/shop/shop/PopoverMaterials';
-import { PopoverSort } from '@/components/shop/shop/PopoverSort';
+import { Slider } from '@/components/shop/shop/Slider';
+import { Color } from '@/components/shop/shop/Color';
+import { Materials } from '@/components/shop/shop/Materials';
+import { Collection } from '@/components/shop/shop/Collection';
+import { PopoverFilter } from '@/components/shop/shop/PopoverFilter';
 
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -21,6 +19,8 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
+import { Drawer } from '@/components/shop/shop/Drawer';
+import { Sort } from '@/components/shop/shop/Sort';
 
 export default function Shop() {
   return (
@@ -62,20 +62,28 @@ export default function Shop() {
       <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
       <div className="mt-8 flex justify-between">
         <div className="hidden gap-4 lg:flex">
-          <PopoverSlider />
-          <PopoverColor />
-          <PopoverMaterials />
-          <PopoverCollection />
+          <PopoverFilter title="Price">
+            <Slider />
+          </PopoverFilter>
+          <PopoverFilter title="Color">
+            <Color />
+          </PopoverFilter>
+          <PopoverFilter title="Materials">
+            <Materials />
+          </PopoverFilter>
+          <PopoverFilter title="Collection">
+            <Collection />
+          </PopoverFilter>
         </div>
-        <FilterButton
-          iconRight={
-            <Icon name="plus" className="size-4 text-gray-500 lg:size-6" />
-          }
-          className="lg:hidden"
+        <Drawer />
+        <PopoverFilter
+          title="Collection"
+          popoverProps={{
+            placement: 'bottom right',
+          }}
         >
-          Filter
-        </FilterButton>
-        <PopoverSort />
+          <Sort />
+        </PopoverFilter>
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (

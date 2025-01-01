@@ -2,14 +2,15 @@
 import { HeaderWrapper } from '@/components/ui/HeaderWrapper';
 import { Footer } from '@/components/ui/Footer';
 
-export default function ShopLayout({
+// Isti oblik stanica kao i kod (main)-a, ali sam htio malo bolje organizirati pa nezz je li dobro
+export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <>
-      <HeaderWrapper colorScheme="dark" />
+      <HeaderWrapper />
       {children}
       <Footer />
     </>

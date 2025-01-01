@@ -7,14 +7,7 @@ import { Layout, LayoutColumn } from '@/components/ui/Layout';
 import { LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { Slider } from '@/components/shop/shop/Slider';
-import { Color } from '@/components/shop/shop/Color';
-import { Materials } from '@/components/shop/shop/Materials';
-import { Collection } from '@/components/shop/shop/Collection';
-import { PopoverOption } from '@/components/shop/shop/PopoverOption';
-import { Sort } from '@/components/shop/shop/Sort';
-import { DrawerFilter } from '@/components/shop/shop/DarwerFilter';
-import { DrawerSort } from '@/components/shop/shop/DrawerSort';
+import { Button } from '@/components/ui/Button';
 
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -22,10 +15,11 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
+import { Filters } from '@/components/filters/Filters';
 
 export default function Shop() {
   return (
-    <Layout className="mt-44">
+    <Layout className="mt-32 lg:mt-44">
       <h2 className="hidden text-2xl font-medium lg:block">Collections</h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
         <LayoutColumn lg={3} className="pr-6">
@@ -34,25 +28,25 @@ export default function Shop() {
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"
             />
-            <p className="mt-6">Scandinavian simplicity</p>
+            <p className="mt-6 lg:mt-16">Scandinavian simplicity</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/modern-luxe-furniture">
             <Image src={ImageModernLuxe} alt="Modern luxe" />
-            <p className="mt-6">Modern Luxe</p>
+            <p className="mt-6 lg:mt-16">Modern Luxe</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/boho-chic">
             <Image src={ImageBohoChic} alt="Boho Chic" />
-            <p className="mt-6">Boho Chic</p>
+            <p className="mt-6 lg:mt-16">Boho Chic</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/timeless-classics">
             <Image src={ImageTimlessCLassics} alt="Timeless Classics" />
-            <p className="mt-6">Timeless Classics</p>
+            <p className="mt-6 lg:mt-16">Timeless Classics</p>
           </Link>
         </LayoutColumn>
       </LayoutRow>
@@ -61,35 +55,7 @@ export default function Shop() {
       </div>
 
       <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
-      <div className="mt-6 flex justify-between lg:mt-8">
-        <div className="hidden gap-4 lg:flex">
-          <PopoverOption title="Price">
-            <Slider />
-          </PopoverOption>
-          <PopoverOption title="Color">
-            <Color />
-          </PopoverOption>
-          <PopoverOption title="Materials">
-            <Materials />
-          </PopoverOption>
-          <PopoverOption title="Collection">
-            <Collection />
-          </PopoverOption>
-        </div>
-        <div className="hidden lg:block">
-          <PopoverOption
-            title="Sort by"
-            popoverProps={{
-              placement: 'bottom right',
-            }}
-          >
-            <Sort />
-          </PopoverOption>
-        </div>
-
-        <DrawerFilter />
-        <DrawerSort />
-      </div>
+      <Filters />
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (
           <LayoutColumn
@@ -111,6 +77,7 @@ export default function Shop() {
           </LayoutColumn>
         ))}
       </LayoutRow>
+      <Button className="mx-auto">View All</Button>
     </Layout>
   );
 }

@@ -28,18 +28,14 @@ export default function About() {
               home.
             </h2>
           </LayoutColumn>
-          <LayoutColumn
-            xs={12}
-            lg={6}
-            className="mt-6 flex flex-col gap-6 lg:mt-16"
-          >
+          <LayoutColumn xs={12} lg={6} className="mt-6 lg:mt-16">
             <p>
               Welcome to Sofa Society, where we believe that comfort and style
               should be effortlessly intertwined. Our mission is to help you
               create beautiful, functional spaces that bring warmth and
               relaxation into your home.
             </p>
-            <p>
+            <p className="mt-6">
               Every piece in our collection is designed with care, blending
               timeless craftsmanship with modern aesthetics to offer you the
               perfect balance between form and function.
@@ -62,7 +58,7 @@ export default function About() {
               That’s why we source only the finest materials and fabrics,
               ensuring that every sofa we offer is built to last.
             </p>
-            <p className="mt-6">
+            <p className="mt-6 lg:mt-16">
               From luxurious leathers and soft linens to high-performance
               textiles, each fabric is carefully selected for its durability and
               beauty. Our attention to detail extends to every stitch and seam,

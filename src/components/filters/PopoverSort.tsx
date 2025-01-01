@@ -13,7 +13,7 @@ import {
 
 // Components
 
-import { FilterButton } from '@/components/shop/shop/FilterButton';
+import { FilterButton } from '@/components/filters/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
 export const PopoverSort = () => {

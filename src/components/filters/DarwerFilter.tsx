@@ -15,15 +15,16 @@ import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { FilterButton } from '@/components/shop/shop/FilterButton';
+import { FilterButton } from '@/components/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
-import { Sort } from '@/components/shop/shop/Sort';
+import { Slider } from '@/components/filters/Slider';
+import { Color } from '@/components/filters/Color';
+import { Materials } from '@/components/filters/Materials';
+import { Collection } from '@/components/filters/Collection';
 
+// Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);
 const MotionModalOverlay = motion(ModalOverlay);
-
-const SHEET_MARGIN = window.innerHeight / 2; // U design je pola visine ekrana, nisam siguran da li bi trebalo pokriti ekran koliko je visok <Sort/> ili fixirano pola;
-const SHEET_RADIUS = 12;
 
 // Animations
 const inertiaTransition = {
@@ -40,7 +41,9 @@ const staticTransition = {
 
 const root = document.body.firstChild as HTMLElement;
 
-export const DrawerSort = () => {
+export const DrawerFilter = () => {
+  const SHEET_MARGIN = 144;
+  const SHEET_RADIUS = 12;
   let [isOpen, setOpen] = React.useState(false);
   let h = window.innerHeight - SHEET_MARGIN;
   let y = useMotionValue(h);
@@ -65,12 +68,12 @@ export const DrawerSort = () => {
     <>
       <FilterButton
         iconRight={
-          <Icon name="chevron" className="size-4 text-gray-500 lg:size-6" />
+          <Icon name="plus" className="size-4 text-gray-500 lg:size-6" />
         }
         className="lg:hidden"
         onPress={() => setOpen(true)}
       >
-        Sort
+        Filter
       </FilterButton>
       <AnimatePresence>
         {isOpen && (
@@ -102,7 +105,13 @@ export const DrawerSort = () => {
             >
               <Dialog className="relative flex h-full flex-col gap-6 overflow-scroll p-6 pb-24 outline-none">
                 <h4 className="text-lg font-semibold">Shop</h4>
-                <Sort />
+                <Slider />
+                <h4 className="text-lg font-semibold">Color</h4>
+                <Color />
+                <h4 className="text-lg font-semibold">Materials</h4>
+                <Materials />
+                <h4 className="text-lg font-semibold">Collection</h4>
+                <Collection />
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
                 <Button className="w-full">Show results</Button>

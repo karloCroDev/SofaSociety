@@ -9,7 +9,10 @@ import { RadioIconVisual } from '@/components/ui/Radio';
 
 export const Sort = () => (
   <>
-    <RadioGroup className="hidden flex-col gap-8 lg:flex">
+    <RadioGroup
+      className="hidden flex-col gap-8 lg:flex"
+      defaultValue="featured"
+    >
       <Radio value="featured" className="data-[selected]:font-bold">
         Featured
       </Radio>
@@ -23,7 +26,10 @@ export const Sort = () => (
         Highest price
       </Radio>
     </RadioGroup>
-    <RadioGroup className="flex flex-col gap-8 lg:hidden">
+    <RadioGroup
+      className="flex flex-col gap-8 lg:hidden"
+      defaultValue="featured"
+    >
       <Radio value="featured" className="group flex justify-between">
         Featured
         <RadioIconVisual />

@@ -7,7 +7,8 @@ import { Filters } from '@/components/filters/Filters';
 import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images
-import ImageHero from '@/public/images/home/hero.png';
+import ImageHero from '@/public/images/inspiration/hero.png';
+
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 
 export default function bohoChic() {
@@ -23,26 +24,22 @@ export default function bohoChic() {
       <Layout>
         <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
           <LayoutColumn xs={12} lg={5}>
-            <h2 className="text-2xl font-medium">
-              Scandinavian Simplicity: Effortless elegance, timeless comfort
-            </h2>
+            <h2 className="text-2xl font-medium">Timeless Classics</h2>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={6} className="mt-6 lg:mt-16">
             <p>
-              Welcome to Sofa Society, where we believe that comfort and style
-              should be effortlessly intertwined. Our mission is to help you
-              create beautiful, functional spaces that bring warmth and
-              relaxation into your home.
+              Designed for those who appreciate enduring style, this collection
+              features elegant shapes and rich textures. These sofas combine
+              traditional craftsmanship with modern comfort.
             </p>
-            <p>
-              Every piece in our collection is designed with care, blending
-              timeless craftsmanship with modern aesthetics to offer you the
-              perfect balance between form and function.
+            <p className="mt-6">
+              Perfect for creating a warm, inviting atmosphere that never goes
+              out of style.
             </p>
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-2xl font-medium lg:mt-36">
-          Scanindinavian Simplicity
+          Timeless Classics
         </h2>
         <Filters />
         <LayoutRow className="-mr-4 mt-8 lg:-mr-12">

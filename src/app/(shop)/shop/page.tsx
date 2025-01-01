@@ -28,25 +28,25 @@ export default function Shop() {
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"
             />
-            <p className="mt-6 lg:mt-16">Scandinavian simplicity</p>
+            <p className="mt-6">Scandinavian simplicity</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/modern-luxe-furniture">
             <Image src={ImageModernLuxe} alt="Modern luxe" />
-            <p className="mt-6 lg:mt-16">Modern Luxe</p>
+            <p className="mt-6">Modern Luxe</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/boho-chic">
             <Image src={ImageBohoChic} alt="Boho Chic" />
-            <p className="mt-6 lg:mt-16">Boho Chic</p>
+            <p className="mt-6">Boho Chic</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/timeless-classics">
             <Image src={ImageTimlessCLassics} alt="Timeless Classics" />
-            <p className="mt-6 lg:mt-16">Timeless Classics</p>
+            <p className="mt-6">Timeless Classics</p>
           </Link>
         </LayoutColumn>
       </LayoutRow>

@@ -7,7 +7,7 @@ import { Filters } from '@/components/filters/Filters';
 import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images
-import ImageHero from '@/public/images/home/hero.png';
+import ImageHero from '@/public/images/inspiration/dobule-sofa.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 
 export default function bohoChic() {
@@ -28,27 +28,16 @@ export default function bohoChic() {
               charm
             </h2>
           </LayoutColumn>
-          <LayoutColumn
-            xs={12}
-            lg={6}
-            className="mt-6 flex flex-col gap-6 lg:mt-16"
-          >
+          <LayoutColumn xs={12} lg={6} className="mt-6 lg:mt-16">
             <p>
-              Welcome to Sofa Society, where we believe that comfort and style
-              should be effortlessly intertwined. Our mission is to help you
-              create beautiful, functional spaces that bring warmth and
-              relaxation into your home.
+              Infused with playful textures and vibrant patterns, this
+              collection embodies relaxed, eclectic vibes. Soft fabrics and
+              creative designs add warmth and personality to any room.
             </p>
-            <p>
-              Every piece in our collection is designed with care, blending
-              timeless craftsmanship with modern aesthetics to offer you the
-              perfect balance between form and function.
-            </p>
+            <p className="mt-6">It’s comfort with a bold, carefree spirit.</p>
           </LayoutColumn>
         </LayoutRow>
-        <h2 className="mt-24 text-2xl font-medium lg:mt-36">
-          Scanindinavian Simplicity
-        </h2>
+        <h2 className="mt-24 text-2xl font-medium lg:mt-36">Boho Chic</h2>
         <Filters />
         <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
           {[...Array(9)].map((_, index) => (

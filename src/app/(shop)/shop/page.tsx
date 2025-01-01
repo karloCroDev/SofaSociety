@@ -23,7 +23,7 @@ export default function Shop() {
       <h2 className="hidden text-2xl font-medium lg:block">Collections</h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
         <LayoutColumn lg={3} className="pr-6">
-          <Link href="/scandinavian-furniture">
+          <Link href="/scandinavian-simplicity">
             <Image
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"
@@ -32,7 +32,7 @@ export default function Shop() {
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
-          <Link href="/modern-luxe-furniture">
+          <Link href="/modern-luxe">
             <Image src={ImageModernLuxe} alt="Modern luxe" />
             <p className="mt-6">Modern Luxe</p>
           </Link>

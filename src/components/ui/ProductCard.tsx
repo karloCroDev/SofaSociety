@@ -2,16 +2,15 @@
 import Link, { LinkProps } from 'next/link';
 import { twJoin } from 'tailwind-merge';
 
-export interface ProductCardTypes {
-  image: React.ReactNode;
-  name: string;
-  category: string;
-  price: string;
-  originalPrice?: string;
-}
-
 export const ProductCard: React.FC<
-  React.ComponentPropsWithoutRef<'a'> & ProductCardTypes
+  React.ComponentPropsWithoutRef<'a'> &
+    Omit<LinkProps, 'href'> & {
+      image: React.ReactNode;
+      name: string;
+      category: string;
+      price: string;
+      originalPrice?: string;
+    }
 > = ({ name, category, price, originalPrice, image, ...rest }) => (
   <Link href="/product" {...rest}>
     {image}

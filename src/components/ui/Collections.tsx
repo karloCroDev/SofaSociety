@@ -50,7 +50,7 @@ export const Collections = () => {
         ref={scrollableContainerRef}
       >
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Link href="/scandinavian-furniture">
+          <Link href="/scandinavian-simplicity">
             <Image
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"

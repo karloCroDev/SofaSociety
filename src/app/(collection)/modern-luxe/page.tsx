@@ -2,64 +2,49 @@
 import Image from 'next/image';
 
 // Components
-import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Filters } from '@/components/filters/Filters';
-import { ProductCard } from '@/components/ui/ProductCard';
+import { PageTemplate } from '@/components/collection/PageTemplate';
 
 // Images
-import ImageHero from '@/public/images/home/hero.png';
+import ImageHero from '@/public/images/inspiration/modern-luxe.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
+import { LayoutColumn } from '@/components/ui/Layout';
+import { ProductCard } from '@/components/ui/ProductCard';
 
-export default function bohoChic() {
+export default function ModernLuxe() {
   return (
-    <>
-      <div className="mt-22 lg:mt-0">
-        <Image
-          src={ImageHero}
-          alt="About image that represents SofaSociety.Co"
-          className="object-cover xl:h-[75vh]"
-        />
-      </div>
-      <Layout>
-        <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
-          <LayoutColumn xs={12} lg={5}>
-            <h2 className="text-2xl font-medium">
-              Modern Luxe: Where modern design meets luxurious living
-            </h2>
-          </LayoutColumn>
-          <LayoutColumn xs={12} lg={6} className="mt-6 lg:mt-16">
-            <p>
-              Sophisticated and sleek, these sofas blend modern design with
-              luxurious comfort. Bold lines and premium materials create the
-              ultimate statement pieces for any contemporary home.
-            </p>
-            <p className="mt-6">Elevate your space with timeless beauty.</p>
-          </LayoutColumn>
-        </LayoutRow>
-        <h2 className="mt-24 text-2xl font-medium lg:mt-36">Modern Luxe</h2>
-        <Filters />
-        <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
-          {[...Array(9)].map((_, index) => (
-            <LayoutColumn
-              xs={6}
-              xl={4}
-              className="mb-10 pr-4 lg:mb-16 lg:pr-12"
-              key={index}
-            >
-              <ProductCard
-                name="Astrid Curve"
-                category="Scandinavian Simplicity"
-                image={
-                  <div className="">
-                    <Image src={ImageAstridCurve} alt="Astrid curve image" />
-                  </div>
-                }
-                price="1800€"
-              />
-            </LayoutColumn>
-          ))}
-        </LayoutRow>
-      </Layout>
-    </>
+    <PageTemplate
+      heroImage={
+        <div className="mt-22 lg:mt-0">
+          <Image
+            src={ImageHero}
+            alt="Modern Luxe hero"
+            className="w-full object-cover xl:h-[75vh]"
+          />
+        </div>
+      }
+      title="Modern Luxe: Where modern design meets luxurious living"
+      descirpiton="Sophisticated and sleek, these sofas blend modern design with luxurious comfort. Bold lines and premium materials create the ultimate statement pieces for any contemporary home. "
+      subDesciption="Elevate your space with timeless beauty."
+      section="Modern Luxe"
+      products={[...Array(9)].map((_, index) => (
+        <LayoutColumn
+          xs={6}
+          xl={4}
+          className="mb-10 pr-4 lg:mb-16 lg:pr-12"
+          key={index}
+        >
+          <ProductCard
+            name="Astrid Curve"
+            category="Scandinavian Simplicity"
+            image={
+              <div className="">
+                <Image src={ImageAstridCurve} alt="Astrid curve image" />
+              </div>
+            }
+            price="1800€"
+          />
+        </LayoutColumn>
+      ))}
+    />
   );
 }

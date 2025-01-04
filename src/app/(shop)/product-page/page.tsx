@@ -4,6 +4,8 @@ import Image from 'next/image';
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { ArrowButton } from '@/components/ui/ArrowButton';
+import { SelectMaterial } from '@/components/shop/product-page/SelectMaterial';
+import { AddToCart } from '@/components/shop/product-page/AddToCart';
 
 // Images
 import ImagePalomaHeaven from '@/public/images/shop/paloma-heaven.png';
@@ -32,8 +34,12 @@ export default function ProductPage() {
             <ArrowButton variation="outline" />
             <ArrowButton direction="right" />
           </div>
+          <div className="mt-6 flex justify-center text-md">
+            <p className="mr-4 underline underline-offset-4">1</p>
+            <p>2</p>
+          </div>
         </LayoutColumn>
-        <LayoutColumn xs={12} lg={5} className="pl-8">
+        <LayoutColumn xs={12} lg={5} className="flex flex-col pl-8">
           <p className="text-gray-500">Modern Luxe</p>
           <h1 className="text-2xl">Paloma Heaven</h1>
           <p className="mt-2 text-lg">€12000</p>
@@ -43,6 +49,8 @@ export default function ProductPage() {
             aesthetic. This collection brings the essence of Scandinavian
             elegance to your living room.
           </p>
+          <SelectMaterial />
+          <AddToCart />
         </LayoutColumn>
       </LayoutRow>
     </Layout>

@@ -1,5 +1,6 @@
 // Extenal packages
 import localFont from 'next/font/local';
+import { twMerge } from 'tailwind-merge';
 
 // Styles
 import './globals.css';
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={MonaSansFont.className}>{children}</body>
+      <body className={twMerge('bg-gray-10', MonaSansFont.className)}>
+        {children}
+      </body>
     </html>
   );
 }

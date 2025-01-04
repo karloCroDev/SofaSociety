@@ -12,7 +12,7 @@ export const SelectColor = () => {
 
   return (
     <>
-      <div className="mt-16 flex">
+      <div className="mt-8 flex lg:mt-16">
         <p>Materials</p>
         <p className="ml-6 text-gray-500">
           {color && color[0].toUpperCase() + color.slice(1)}

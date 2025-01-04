@@ -10,12 +10,12 @@ import { ImageSlider } from '@/components/shop/product-page/ImageSlider';
 
 export default function ProductPage() {
   return (
-    <Layout className="mt-32">
-      <LayoutRow>
-        <LayoutColumn xs={12} lg={7} className="pr-8">
+    <Layout className="mt-22 lg:mt-32">
+      <LayoutRow className="flex-col gap-8 lg:flex-row lg:gap-0">
+        <LayoutColumn xs={12} lg={7} className="lg:pr-8">
           <ImageSlider />
         </LayoutColumn>
-        <LayoutColumn xs={12} lg={5} className="flex flex-col pl-8">
+        <LayoutColumn xs={12} lg={5} className="flex flex-col lg:pl-8">
           <p className="text-gray-500">Modern Luxe</p>
           <h1 className="text-2xl">Paloma Heaven</h1>
           <p className="mt-2 text-lg">€12000</p>

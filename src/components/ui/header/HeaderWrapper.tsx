@@ -27,7 +27,7 @@ export const HeaderWrapper: React.FC<{
     const themeCheckerFn = () => {
       const element = headerRef.current;
       if (element && colorScheme === 'light') {
-        element.toggleAttribute('data-dark-theme', window.scrollY <= 800 - 96);
+        element.toggleAttribute('data-dark-theme', window.scrollY <= 800 - 84);
         // Ovo je max-height od slike koja ona može dobiti, a -96 jer je to visina headera (u px). Na malim ekranima je uvijek isti colorscheme (light). Kada je colorscheme light onda ovaj dio nije potreban, jer light tema je vec po defaultu napravaljena
       }
     };

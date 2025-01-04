@@ -11,51 +11,36 @@ import { ArrowButton } from '@/components/ui/ArrowButton';
 // Images
 import ImagePalomaHeaven from '@/public/images/shop/paloma-heaven.png';
 import ImagePalomaHeavenDetails from '@/public/images/shop/paloma-heaven-details.png';
-import { twJoin } from 'tailwind-merge';
 
 export const ImageSlider = () => {
-  const [imageCount, setImageCount] = React.useState(1);
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
   // console.log(imageCount);
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {
-      if (isDirectionLeft) {
-        element.scrollLeft -= element.scrollWidth / 2;
-        setImageCount(imageCount - 1);
-      } else {
-        element.scrollLeft += element.scrollWidth / 2;
-        setImageCount(imageCount + 1);
-      }
-
-      console.log(imageCount);
-
-      if (imageCount === 2) {
-        element.scrollLeft -= 10000;
-        setImageCount(1);
-      }
-      if (imageCount === 1) {
-        element.scrollLeft = 1000;
-        setImageCount(2);
-      }
+      if (isDirectionLeft)
+        return (element.scrollLeft -= element.scrollWidth / 2);
+      element.scrollLeft += element.scrollWidth / 2;
     }
   };
   return (
     <>
-      <div className="relative">
+      <div className="relative -mx-6">
         <LayoutRow
-          className="flex-nowrap overflow-x-scroll scroll-smooth lg:flex-row"
+          className="max-h-[500px] flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row"
           ref={scrollableContainerRef}
         >
-          <LayoutColumn lg={8} className="flex-shrink-0 lg:pr-2">
+          <LayoutColumn xs={12} lg={8} className="flex-shrink-0 lg:pr-2">
             <Image
+              className="h-full object-cover"
               src={ImagePalomaHeaven}
               alt="Representaion of your wanted product"
             />
           </LayoutColumn>
-          <LayoutColumn lg={8} className="flex-shrink-0 lg:pl-2">
+          <LayoutColumn xs={12} lg={8} className="flex-shrink-0 lg:pl-2">
             <Image
+              className="h-full object-cover"
               src={ImagePalomaHeavenDetails}
               alt="Detailed representaion of your wanted product"
             />
@@ -68,23 +53,14 @@ export const ImageSlider = () => {
           />
           <ArrowButton direction="right" onPress={() => scrollContainerFn()} />
         </div>
+        <div className="absolute bottom-4 left-1/2 mt-6 flex -translate-x-1/2 transform justify-center text-md lg:hidden">
+          <p className="mr-4 underline underline-offset-4">1</p>
+          <p>2</p>
+        </div>
       </div>
-      <div className="mt-6 flex justify-center text-md">
-        <p
-          className={twJoin(
-            'mr-4',
-            imageCount === 1 && 'underline underline-offset-4'
-          )}
-        >
-          1
-        </p>
-        <p
-          className={
-            imageCount === 2 ? 'underline underline-offset-4' : undefined
-          }
-        >
-          2
-        </p>
+      <div className="mt-6 hidden justify-center text-md lg:flex">
+        <p className="mr-4 underline underline-offset-4">1</p>
+        <p>2</p>
       </div>
     </>
   );

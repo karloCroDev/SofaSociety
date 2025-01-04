@@ -22,8 +22,9 @@ export const Collections = () => {
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {
-      if (isDirectionLeft) element.scrollLeft -= element.scrollWidth / 4;
-      else element.scrollLeft += element.scrollWidth / 4;
+      if (isDirectionLeft)
+        return (element.scrollLeft -= element.scrollWidth / 4);
+      element.scrollLeft += element.scrollWidth / 4;
     }
   };
 

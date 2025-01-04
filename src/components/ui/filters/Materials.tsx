@@ -10,7 +10,7 @@ import {
 
 // Components
 import { CheckboxWithLabel } from '@/components/ui/Checkbox';
-import { FilterButton } from '@/components/filters/FilterButton';
+import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
 export const Materials = () => {

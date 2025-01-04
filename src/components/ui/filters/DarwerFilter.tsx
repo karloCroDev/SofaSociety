@@ -15,12 +15,12 @@ import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { FilterButton } from '@/components/filters/FilterButton';
+import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
-import { Slider } from '@/components/filters/Slider';
-import { Color } from '@/components/filters/Color';
-import { Materials } from '@/components/filters/Materials';
-import { Collection } from '@/components/filters/Collection';
+import { Slider } from '@/components/ui/filters/Slider';
+import { Color } from '@/components/ui/filters/Color';
+import { Materials } from '@/components/ui/filters/Materials';
+import { Collection } from '@/components/ui/filters/Collection';
 
 // Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);

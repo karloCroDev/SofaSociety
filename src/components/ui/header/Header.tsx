@@ -5,8 +5,8 @@ import Link from 'next/link';
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { LanguageSelect } from '@/components/ui/HeaderWrapper';
-import { SidebarDrawer } from '@/components/ui/HeaderWrapper';
+import { LanguageSelect } from '@/components/ui/header/HeaderWrapper';
+import { SidebarDrawer } from '@/components/ui/header/HeaderWrapper';
 
 export const Header = () => (
   <Layout>

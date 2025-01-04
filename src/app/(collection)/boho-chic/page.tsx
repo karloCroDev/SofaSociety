@@ -2,8 +2,7 @@
 import Image from 'next/image';
 
 // Components
-import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Filters } from '@/components/filters/Filters';
+import { LayoutColumn } from '@/components/ui/Layout';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { PageTemplate } from '@/components/collection/PageTemplate';
 
@@ -19,7 +18,7 @@ export default function BohoChic() {
           <Image
             src={ImageHero}
             alt="Boho Chic hero"
-            className="object-cover xl:h-[75vh]"
+            className="object-cover xl:max-h-[800px]"
           />
         </div>
       }

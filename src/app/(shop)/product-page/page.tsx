@@ -15,8 +15,8 @@ export default function ProductPage() {
   return (
     <Layout className="mt-32">
       <LayoutRow>
-        <LayoutColumn xs={12} lg={7} className="relative pr-8">
-          <LayoutRow className="flex-nowrap overflow-x-scroll scroll-smooth lg:flex-row">
+        <LayoutColumn xs={12} lg={7} className="pr-8">
+          <LayoutRow className="relative flex-nowrap overflow-x-scroll scroll-smooth lg:flex-row">
             <LayoutColumn lg={8} className="flex-shrink-0 lg:pr-2">
               <Image
                 src={ImagePalomaHeaven}
@@ -29,11 +29,11 @@ export default function ProductPage() {
                 alt="Detailed representaion of your wanted product"
               />
             </LayoutColumn>
+            <div className="absolute left-4 top-1/2 flex w-[calc(100%-32px)] justify-between">
+              <ArrowButton variation="outline" />
+              <ArrowButton direction="right" />
+            </div>
           </LayoutRow>
-          <div className="absolute left-4 top-1/2 flex w-[calc(100%-32px-32px)] justify-between">
-            <ArrowButton variation="outline" />
-            <ArrowButton direction="right" />
-          </div>
           <div className="mt-6 flex justify-center text-md">
             <p className="mr-4 underline underline-offset-4">1</p>
             <p>2</p>

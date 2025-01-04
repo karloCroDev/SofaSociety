@@ -1,12 +1,12 @@
 // Components
-import { Slider } from '@/components/filters/Slider';
-import { Color } from '@/components/filters/Color';
-import { Materials } from '@/components/filters/Materials';
-import { Collection } from '@/components/filters/Collection';
-import { PopoverOption } from '@/components/filters/PopoverOption';
-import { Sort } from '@/components/filters/Sort';
-import { DrawerFilter } from '@/components/filters/DarwerFilter';
-import { DrawerSort } from '@/components/filters/DrawerSort';
+import { Slider } from '@/components/ui/filters/Slider';
+import { Color } from '@/components/ui/filters/Color';
+import { Materials } from '@/components/ui/filters/Materials';
+import { Collection } from '@/components/ui/filters/Collection';
+import { PopoverOption } from '@/components/ui/filters/PopoverOption';
+import { Sort } from '@/components/ui/filters/Sort';
+import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
+import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 
 export const Filters = () => (
   <div className="mt-6 flex justify-between lg:mt-8">

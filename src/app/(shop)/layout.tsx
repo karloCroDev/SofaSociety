@@ -1,5 +1,5 @@
 // Components
-import { HeaderWrapper } from '@/components/ui/HeaderWrapper';
+import { HeaderWrapper } from '@/components/ui/header/HeaderWrapper';
 import { Footer } from '@/components/ui/Footer';
 
 export default function ShopLayout({

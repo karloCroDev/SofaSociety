@@ -14,7 +14,7 @@ import {
 import Link from 'next/link';
 
 // Components
-import { Header } from '@/components/ui/Header';
+import { Header } from '@/components/ui/header/Header';
 import { Icon } from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
 
@@ -27,29 +27,30 @@ export const HeaderWrapper: React.FC<{
     const themeCheckerFn = () => {
       const element = headerRef.current;
       if (element && colorScheme === 'light') {
-        element.toggleAttribute(
-          'data-dark-theme',
-          window.scrollY <= window.innerHeight * 0.7
-        );
+        element.toggleAttribute('data-dark-theme', window.scrollY <= 800 - 96);
+        // Ovo je max-height od slike koja ona može dobiti, a -96 jer je to visina headera (u px). Na malim ekranima je uvijek isti colorscheme (light). Kada je colorscheme light onda ovaj dio nije potreban, jer light tema je vec po defaultu napravaljena
       }
     };
     themeCheckerFn();
 
-    window.addEventListener('scroll', () => {
-      themeCheckerFn();
-    });
-    window.addEventListener('orientationchange', () => {
-      themeCheckerFn();
-    });
-    window.addEventListener('resize', () => {
-      themeCheckerFn();
-    });
-
-    return () => {
-      window.removeEventListener('scroll', themeCheckerFn);
-      window.removeEventListener('orientationchange', themeCheckerFn);
-      window.removeEventListener('resize', themeCheckerFn);
-    };
+    if (colorScheme === 'light') {
+      window.addEventListener('scroll', () => {
+        themeCheckerFn();
+      });
+      window.addEventListener('orientationchange', () => {
+        themeCheckerFn();
+      });
+      window.addEventListener('resize', () => {
+        themeCheckerFn();
+      });
+    }
+    if (colorScheme === 'light') {
+      return () => {
+        window.removeEventListener('scroll', themeCheckerFn);
+        window.removeEventListener('orientationchange', themeCheckerFn);
+        window.removeEventListener('resize', themeCheckerFn);
+      };
+    }
   }, [colorScheme]);
 
   return (

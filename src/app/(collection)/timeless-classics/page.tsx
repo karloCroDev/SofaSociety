@@ -18,7 +18,7 @@ export default function TimelessClassics() {
           <Image
             src={ImageHero}
             alt="Timeless classics hero"
-            className="object-cover xl:h-[75vh]"
+            className="object-cover xl:max-h-[800px]"
           />
         </div>
       }

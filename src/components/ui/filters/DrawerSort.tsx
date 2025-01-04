@@ -15,9 +15,9 @@ import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { FilterButton } from '@/components/filters/FilterButton';
+import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
-import { Sort } from '@/components/filters/Sort';
+import { Sort } from '@/components/ui/filters/Sort';
 
 const MotionModal = motion(Modal);
 const MotionModalOverlay = motion(ModalOverlay);

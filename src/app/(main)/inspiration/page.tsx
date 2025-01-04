@@ -22,7 +22,7 @@ export default function Inspiration() {
         <Image
           src={ImageHero}
           alt="About image that represents SofaSociety.Co"
-          className="object-cover xl:h-[75vh]"
+          className="object-cover xl:max-h-[800px]"
         />
       </div>
       <Layout>

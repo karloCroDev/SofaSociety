@@ -3,12 +3,12 @@ import Image from 'next/image';
 
 // Components
 import { PageTemplate } from '@/components/collection/PageTemplate';
+import { LayoutColumn } from '@/components/ui/Layout';
+import { ProductCard } from '@/components/ui/ProductCard';
 
 // Images
 import ImageHero from '@/public/images/inspiration/modern-luxe.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-import { LayoutColumn } from '@/components/ui/Layout';
-import { ProductCard } from '@/components/ui/ProductCard';
 
 export default function ModernLuxe() {
   return (
@@ -18,7 +18,7 @@ export default function ModernLuxe() {
           <Image
             src={ImageHero}
             alt="Modern Luxe hero"
-            className="w-full object-cover xl:h-[75vh]"
+            className="w-full object-cover xl:max-h-[800px]"
           />
         </div>
       }

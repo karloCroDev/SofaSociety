@@ -12,7 +12,7 @@ import {
 import { twMerge } from 'tailwind-merge';
 
 // Components
-import { FilterButton } from '@/components/filters/FilterButton';
+import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
 export const PopoverOption: React.FC<

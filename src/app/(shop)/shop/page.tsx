@@ -8,6 +8,7 @@ import { LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { Button } from '@/components/ui/Button';
+import { Filters } from '@/components/ui/filters/Filters';
 
 // Images
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -15,7 +16,6 @@ import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-import { Filters } from '@/components/filters/Filters';
 
 export default function Shop() {
   return (

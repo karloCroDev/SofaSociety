@@ -1,7 +1,6 @@
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Filters } from '@/components/filters/Filters';
-import { ProductCard } from '@/components/ui/ProductCard';
+import { Filters } from '@/components/ui/filters/Filters';
 
 export const PageTemplate: React.FC<{
   heroImage: React.ReactNode;

@@ -18,7 +18,7 @@ export default function BohoChic() {
           <Image
             src={ImageHero}
             alt="Boho Chic hero"
-            className="object-cover xl:max-h-[800px]"
+            className="object-cover lg:h-[800px]"
           />
         </div>
       }

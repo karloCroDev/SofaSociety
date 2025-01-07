@@ -18,7 +18,7 @@ export default function ModernLuxe() {
           <Image
             src={ImageHero}
             alt="Modern Luxe hero"
-            className="w-full object-cover xl:max-h-[800px]"
+            className="w-full object-cover lg:h-[800px]"
           />
         </div>
       }

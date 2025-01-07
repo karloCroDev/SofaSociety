@@ -13,7 +13,7 @@ import {
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { SelectColor } from '@/components/shop/product-page/SelectColor';
+import { SelectColor } from '@/components/shop/product/SelectColor';
 
 export const SelectMaterial = () => {
   const [material, setMaterial] = React.useState('');

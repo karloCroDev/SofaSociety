@@ -15,7 +15,6 @@ import ImagePalomaHeavenDetails from '@/public/images/shop/paloma-heaven-details
 export const ImageSlider = () => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
-  // console.log(imageCount);
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {

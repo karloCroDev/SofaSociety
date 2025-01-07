@@ -4,9 +4,6 @@
 import * as React from 'react';
 import { RadioGroup, Radio } from 'react-aria-components';
 
-// Components
-import { Icon } from '@/components/ui/Icon';
-
 export const SelectColor = () => {
   const [color, setColor] = React.useState('dark gray');
 

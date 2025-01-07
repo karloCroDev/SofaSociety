@@ -20,7 +20,7 @@ export default function Home() {
         <Image
           src={ImageHero}
           alt="Main image that represents SofaSociety.Co"
-          className="object-cover xl:max-h-[800px]"
+          className="object-cover lg:h-[800px]"
         />
       </div>
       <Layout>

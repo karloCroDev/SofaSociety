@@ -1,12 +1,8 @@
-// Etxernal packages
-import Image from 'next/image';
-
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { ArrowButton } from '@/components/ui/ArrowButton';
-import { SelectMaterial } from '@/components/shop/product-page/SelectMaterial';
-import { AddToCart } from '@/components/shop/product-page/AddToCart';
-import { ImageSlider } from '@/components/shop/product-page/ImageSlider';
+import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
+import { AddToCart } from '@/components/shop/product/AddToCart';
+import { ImageSlider } from '@/components/shop/product/ImageSlider';
 
 export default function ProductPage() {
   return (

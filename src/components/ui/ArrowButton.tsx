@@ -20,7 +20,7 @@ export const ArrowButton: React.FC<
       'rounded-full p-2 outline-none',
       variation === 'solid' && 'bg-gray-900 text-gray-10',
       variation === 'outline' && 'border border-gray-900 text-gray-900',
-      direction === 'right' && 'rotate-180', // Default position of svg is left
+      direction === 'right' && 'rotate-180',
       className
     )}
   >

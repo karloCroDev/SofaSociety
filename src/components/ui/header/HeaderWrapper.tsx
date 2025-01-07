@@ -28,29 +28,24 @@ export const HeaderWrapper: React.FC<{
       const element = headerRef.current;
       if (element && colorScheme === 'light') {
         element.toggleAttribute('data-dark-theme', window.scrollY <= 800 - 84);
-        // Ovo je max-height od slike koja ona može dobiti, a -96 jer je to visina headera (u px). Na malim ekranima je uvijek isti colorscheme (light). Kada je colorscheme light onda ovaj dio nije potreban, jer light tema je vec po defaultu napravaljena
+        // Ovo je max-height od slike koja ona može dobiti, a -84 jer je to visina headera (u px). Na malim ekranima je uvijek isti colorscheme (dark). Ovo je samo za desktop
       }
     };
     themeCheckerFn();
 
-    if (colorScheme === 'light') {
-      window.addEventListener('scroll', () => {
-        themeCheckerFn();
-      });
-      window.addEventListener('orientationchange', () => {
-        themeCheckerFn();
-      });
-      window.addEventListener('resize', () => {
-        themeCheckerFn();
-      });
-    }
-    if (colorScheme === 'light') {
-      return () => {
-        window.removeEventListener('scroll', themeCheckerFn);
-        window.removeEventListener('orientationchange', themeCheckerFn);
-        window.removeEventListener('resize', themeCheckerFn);
-      };
-    }
+    window.addEventListener('scroll', () => {
+      themeCheckerFn();
+    });
+    window.addEventListener('orientationchange', () => {
+      themeCheckerFn();
+    });
+    window.addEventListener('resize', () => {
+      themeCheckerFn();
+    });
+
+    window.removeEventListener('scroll', themeCheckerFn);
+    window.removeEventListener('orientationchange', themeCheckerFn);
+    window.removeEventListener('resize', themeCheckerFn);
   }, [colorScheme]);
 
   return (

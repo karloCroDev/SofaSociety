@@ -88,7 +88,7 @@ export const Collections = () => {
             </p>
           </Link>
         </LayoutColumn>
-        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start">
+        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
           <Link href="/timeless-classics">
             <Image
               src={ImageTimlessCLassics}

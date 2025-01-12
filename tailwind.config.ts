@@ -57,7 +57,7 @@ export default {
         12: '48px',
       },
       spacing: {
-        22: '84px',
+        22: '88px',
         85: '340px',
       },
       borderWidth: {

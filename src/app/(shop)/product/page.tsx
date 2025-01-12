@@ -1,5 +1,6 @@
 // External packages
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
@@ -98,9 +99,9 @@ export default function ProductPage() {
             <h2 className="mt-8 text-lg lg:mt-20 lg:text-3xl lg:font-medium">
               The Paloma Haven sofa is a masterpiece of minimalism and luxury.
             </h2>
-            <p className="mt-8 underline underline-offset-2">
+            <Link href="/about" className="mt-8 underline underline-offset-2">
               See more out of ‘Modern Luxe’ collection
-            </p>
+            </Link>
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">

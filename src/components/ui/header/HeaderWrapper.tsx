@@ -30,7 +30,7 @@ export const HeaderWrapper: React.FC<{
       if (!element) return;
 
       if (hasAnImage) {
-        element.toggleAttribute('data-image', window.scrollY <= 800 - 84);
+        element.toggleAttribute('data-image', window.scrollY <= 800 - 88);
       } else {
         element.toggleAttribute('data-background', window.scrollY >= 64);
       }

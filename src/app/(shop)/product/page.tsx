@@ -13,13 +13,48 @@ import ImageInspiredInterior from '@/public/images/product/inspired-interior.png
 import ImageInspiredInteriorWide from '@/public/images/product/inpired-intrerior-wide.png';
 import ImageSofaHeaven from '@/public/images/product/sofa-heaven.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
+import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
+import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
 
 export default function ProductPage() {
   return (
     <>
-      <Layout className="mt-22 lg:mt-32">
-        <LayoutRow className="flex-col gap-8 lg:flex-row lg:gap-0">
-          <LayoutColumn xs={12} lg={7} className="lg:pr-8">
+      {/* Mobile version outside of layout */}
+      <div className="relative mt-22 lg:hidden">
+        <LayoutRow className="max-h-[500px] snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row">
+          <LayoutColumn
+            xs={12}
+            lg={8}
+            className="flex-shrink-0 snap-start lg:pr-2"
+          >
+            <Image
+              className="h-full object-cover"
+              src={ImagePalomaHeaven}
+              alt="Representaion of your wanted product"
+            />
+          </LayoutColumn>
+          <LayoutColumn
+            xs={12}
+            lg={8}
+            className="flex-shrink-0 snap-start lg:pl-2"
+          >
+            <Image
+              className="h-full object-cover"
+              src={ImagePalomaHeavenDetails}
+              alt="Detailed representaion of your wanted product"
+            />
+          </LayoutColumn>
+        </LayoutRow>
+
+        <div className="absolute bottom-4 left-1/2 mt-6 flex -translate-x-1/2 transform justify-center text-md lg:hidden">
+          <p className="mr-4 underline underline-offset-4">1</p>
+          <p>2</p>
+        </div>
+      </div>
+
+      <Layout className="mt-8 lg:mt-32">
+        <LayoutRow>
+          <LayoutColumn xs={12} lg={7} className="hidden lg:block lg:pr-8">
             <ImageSlider />
           </LayoutColumn>
           <LayoutColumn xs={12} lg={5} className="flex flex-col lg:pl-8">
@@ -60,7 +95,7 @@ export default function ProductPage() {
             />
           </LayoutColumn>
           <LayoutColumn xs={12} lg={7} className="lg:pl-12">
-            <h2 className="mt-8 lg:mt-20 lg:lg:text-3xl lg:font-medium">
+            <h2 className="mt-8 text-lg lg:mt-20 lg:text-3xl lg:font-medium">
               The Paloma Haven sofa is a masterpiece of minimalism and luxury.
             </h2>
             <p className="mt-8 underline underline-offset-2">

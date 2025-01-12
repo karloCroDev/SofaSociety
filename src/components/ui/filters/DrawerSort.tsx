@@ -105,7 +105,9 @@ export const DrawerSort = () => {
                 <Sort />
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
-                <Button className="w-full">Show results</Button>
+                <Button className="w-full" onPress={() => setOpen(false)}>
+                  Show results
+                </Button>
               </div>
             </MotionModal>
           </MotionModalOverlay>

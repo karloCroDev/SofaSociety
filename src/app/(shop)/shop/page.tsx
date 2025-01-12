@@ -20,7 +20,9 @@ import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 export default function Shop() {
   return (
     <Layout className="mt-32 lg:mt-44">
-      <h2 className="hidden text-2xl font-medium lg:block">Collections</h2>
+      <h2 className="hidden text-xl font-medium lg:block lg:text-3xl">
+        Collections
+      </h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
         <LayoutColumn lg={3} className="pr-6">
           <Link href="/scandinavian-simplicity">
@@ -54,7 +56,7 @@ export default function Shop() {
         <Collections />
       </div>
 
-      <h2 className="mt-24 text-2xl font-medium lg:mt-36">Shop</h2>
+      <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
       <Filters />
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (

@@ -23,7 +23,7 @@ export default function About() {
       <Layout>
         <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
           <LayoutColumn xs={12} lg={5}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               At Sofa Society, we believe that a sofa is the heart of every
               home.
             </h2>
@@ -47,7 +47,7 @@ export default function About() {
         </div>
         <LayoutRow>
           <LayoutColumn lg={6} xs={12} className="mt-8 md:mt-16 xl:mt-24">
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               We are here to make your living space a true reflection of your
               personal style.
             </h2>
@@ -105,7 +105,7 @@ export default function About() {
       <Layout>
         <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
           <LayoutColumn xs={12} lg={5}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               Our customers are at the center of everything we do!
             </h2>
           </LayoutColumn>

@@ -26,7 +26,7 @@ export default function Home() {
       <Layout>
         <LayoutRow className="mt-8 flex-col justify-between md:mt-16 lg:flex-row lg:items-center xl:mt-24">
           <LayoutColumn xs={12} lg={7}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               Elevate Your Living Space with Unmatched Comfort & Style
             </h2>
           </LayoutColumn>
@@ -39,7 +39,9 @@ export default function Home() {
             </p>
           </LayoutColumn>
         </LayoutRow>
-        <h2 className="mt-24 text-2xl font-medium lg:mt-32">Our prodcuts</h2>
+        <h2 className="mt-24 text-xl font-medium lg:mt-32 lg:text-3xl">
+          Our prodcuts
+        </h2>
         <LayoutRow className="mt-8 lg:mt-16">
           <LayoutColumn xs={6} className="cursor-pointer pr-1 lg:pr-4">
             <Image src={ImageSofa} alt="Sofa image" />
@@ -54,7 +56,7 @@ export default function Home() {
         <div className="mt-24 lg:mt-32">
           <Collections />
         </div>
-        <h2 className="mt-24 text-2xl font-medium lg:mt-32">
+        <h2 className="mt-24 text-xl font-medium lg:mt-32 lg:text-3xl">
           About sofa society
         </h2>
         <div className="mt-8 lg:mt-16">
@@ -62,7 +64,7 @@ export default function Home() {
         </div>
         <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row">
           <LayoutColumn xs={12} lg={5}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               At Sofa Society, we believe that a sofa is the heart of every
               home.
             </h2>

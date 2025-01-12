@@ -12,7 +12,7 @@ export const Footer = () => (
           lg={2}
           className="order-1 mt-8 lg:-order-none lg:mt-0"
         >
-          <p className="text-2xl font-medium leading-12">
+          <p className="text-xl font-medium leading-12 lg:text-3xl">
             Sofa <br />
             Society <br />
             Co.

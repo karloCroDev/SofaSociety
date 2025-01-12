@@ -10,7 +10,7 @@ export default function MainLayout({
 }>) {
   return (
     <>
-      <HeaderWrapper />
+      <HeaderWrapper hasAnImage />
       {children}
       <Footer />
     </>

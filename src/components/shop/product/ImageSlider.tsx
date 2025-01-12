@@ -9,8 +9,8 @@ import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { ArrowButton } from '@/components/ui/ArrowButton';
 
 // Images
-import ImagePalomaHeaven from '@/public/images/shop/paloma-heaven.png';
-import ImagePalomaHeavenDetails from '@/public/images/shop/paloma-heaven-details.png';
+import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
+import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
 
 export const ImageSlider = () => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
@@ -27,17 +27,25 @@ export const ImageSlider = () => {
     <>
       <div className="relative -mx-6">
         <LayoutRow
-          className="max-h-[500px] flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row"
+          className="max-h-[500px] snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row"
           ref={scrollableContainerRef}
         >
-          <LayoutColumn xs={12} lg={8} className="flex-shrink-0 lg:pr-2">
+          <LayoutColumn
+            xs={12}
+            lg={8}
+            className="flex-shrink-0 snap-start lg:pr-2"
+          >
             <Image
               className="h-full object-cover"
               src={ImagePalomaHeaven}
               alt="Representaion of your wanted product"
             />
           </LayoutColumn>
-          <LayoutColumn xs={12} lg={8} className="flex-shrink-0 lg:pl-2">
+          <LayoutColumn
+            xs={12}
+            lg={8}
+            className="flex-shrink-0 snap-start lg:pl-2"
+          >
             <Image
               className="h-full object-cover"
               src={ImagePalomaHeavenDetails}

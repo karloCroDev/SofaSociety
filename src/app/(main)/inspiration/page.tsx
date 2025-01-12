@@ -28,7 +28,7 @@ export default function Inspiration() {
       <Layout>
         <LayoutRow className="mt-8 flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
           <LayoutColumn xs={12} lg={7}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               The Astrid Curve sofa is a masterpiece of minimalism and luxury.
             </h2>
             <p className="mt-6 lg:mt-16">
@@ -55,7 +55,7 @@ export default function Inspiration() {
         </div>
         <LayoutRow className="mt-8 flex flex-col md:mt-16 lg:flex-row lg:justify-between xl:mt-24">
           <LayoutColumn lg={6} xs={12}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               Haven Sofas have minimalistic designs, neutral colors, and
               high-quality textures.
             </h2>
@@ -100,7 +100,7 @@ export default function Inspiration() {
       <Layout>
         <LayoutRow className="mt-8 flex flex-col md:mt-16 lg:flex-row lg:justify-between xl:mt-24">
           <LayoutColumn xs={12} lg={6}>
-            <h2 className="text-2xl font-medium">
+            <h2 className="text-xl font-medium lg:text-3xl">
               Oslo Drift is infused with playful textures and vibrant patterns
               with eclectic vibes.
             </h2>

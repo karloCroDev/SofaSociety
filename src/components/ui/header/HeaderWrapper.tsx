@@ -19,39 +19,38 @@ import { Icon } from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
 
 export const HeaderWrapper: React.FC<{
-  colorScheme?: string;
-}> = ({ colorScheme = 'light' }) => {
+  hasAnImage?: boolean;
+}> = ({ hasAnImage = false }) => {
   const headerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     const themeCheckerFn = () => {
       const element = headerRef.current;
-      if (element && colorScheme === 'light') {
-        element.toggleAttribute('data-dark-theme', window.scrollY <= 800 - 84);
-        // Ovo je max-height od slike koja ona može dobiti, a -84 jer je to visina headera (u px). Na malim ekranima je uvijek isti colorscheme (dark). Ovo je samo za desktop
+
+      if (!element) return;
+
+      if (hasAnImage) {
+        element.toggleAttribute('data-image', window.scrollY <= 800 - 84);
+      } else {
+        element.toggleAttribute('data-background', window.scrollY >= 64);
       }
     };
     themeCheckerFn();
 
-    window.addEventListener('scroll', () => {
-      themeCheckerFn();
-    });
-    window.addEventListener('orientationchange', () => {
-      themeCheckerFn();
-    });
-    window.addEventListener('resize', () => {
-      themeCheckerFn();
-    });
+    const events = ['scroll', 'orientationchange', 'resize'];
+    events.forEach((event) => window.addEventListener(event, themeCheckerFn));
 
-    window.removeEventListener('scroll', themeCheckerFn);
-    window.removeEventListener('orientationchange', themeCheckerFn);
-    window.removeEventListener('resize', themeCheckerFn);
-  }, [colorScheme]);
+    return () => {
+      events.forEach((event) =>
+        window.removeEventListener(event, themeCheckerFn)
+      );
+    };
+  }, [hasAnImage]);
 
   return (
     <>
       <div
-        className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 lg:data-[dark-theme]:bg-transparent lg:data-[dark-theme]:text-gray-10"
+        className="bg- fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 data-[background]:bg-gray-10 lg:data-[image]:bg-transparent lg:data-[image]:text-gray-10"
         ref={headerRef}
       >
         <Header />

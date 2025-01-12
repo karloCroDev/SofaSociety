@@ -44,7 +44,7 @@ const root = document.body.firstChild as HTMLElement;
 export const DrawerFilter = () => {
   const SHEET_MARGIN = 144;
   const SHEET_RADIUS = 12;
-  let [isOpen, setOpen] = React.useState(false);
+  const [isOpen, setOpen] = React.useState(false);
   let h = window.innerHeight - SHEET_MARGIN;
   let y = useMotionValue(h);
   let bgOpacity = useTransform(y, [0, h], [0.4, 0]);
@@ -114,7 +114,9 @@ export const DrawerFilter = () => {
                 <Collection />
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
-                <Button className="w-full">Show results</Button>
+                <Button className="w-full" onPress={() => setOpen(false)}>
+                  Show results
+                </Button>
               </div>
             </MotionModal>
           </MotionModalOverlay>

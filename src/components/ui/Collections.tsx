@@ -31,7 +31,7 @@ export const Collections = () => {
   return (
     <>
       <div className="flex items-center gap-6">
-        <h2 className="text-2xl font-medium">Collections</h2>
+        <h2 className="text-xl font-medium lg:text-3xl">Collections</h2>
         <Button className="ml-auto">View All</Button>
         <div className="hidden lg:block">
           <ArrowButton
@@ -88,7 +88,7 @@ export const Collections = () => {
             </p>
           </Link>
         </LayoutColumn>
-        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
+        <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start">
           <Link href="/timeless-classics">
             <Image
               src={ImageTimlessCLassics}

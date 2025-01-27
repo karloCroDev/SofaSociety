@@ -3,6 +3,8 @@
 // External packages
 import * as React from 'react';
 import { RadioGroup, Radio } from 'react-aria-components';
+import { Button } from '@/components/ui/Button';
+import { AddToCart } from '@/components/shop/AddToCart';
 
 export const SelectColor = () => {
   const [color, setColor] = React.useState('dark gray');
@@ -30,6 +32,12 @@ export const SelectColor = () => {
           <div className="relative size-8 cursor-pointer bg-gray-200 after:absolute after:-bottom-2 after:w-full after:bg-gray-900 group-data-[selected]:after:h-px" />
         </Radio>
       </RadioGroup>
+      <div className="mt-8 flex flex-col justify-between gap-4 lg:mt-auto lg:flex-row">
+        <AddToCart />
+        <Button size="lg" className="flex-1">
+          Add to cart
+        </Button>
+      </div>
     </>
   );
 };

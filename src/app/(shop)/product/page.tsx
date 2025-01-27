@@ -5,7 +5,7 @@ import Link from 'next/link';
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
-import { AddToCart } from '@/components/shop/product/AddToCart';
+import { AddToCart } from '@/components/shop/AddToCart';
 import { ImageSlider } from '@/components/shop/product/ImageSlider';
 import { ProductCard } from '@/components/ui/ProductCard';
 
@@ -69,7 +69,8 @@ export default function ProductPage() {
               elegance to your living room.
             </p>
             <SelectMaterial />
-            <AddToCart />
+
+            <p className="mt-4 text-gray-500">Estimate delivery 2-3 days</p>
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-xl font-medium lg:mt-20 lg:text-3xl">

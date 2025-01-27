@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { ArrowButton } from '@/components/ui/ArrowButton';
 
-// Images
+// Assets
 import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
 import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
 

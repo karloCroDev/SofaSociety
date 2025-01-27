@@ -10,7 +10,7 @@ import { ProductCard } from '@/components/ui/ProductCard';
 import { Button } from '@/components/ui/Button';
 import { Filters } from '@/components/ui/filters/Filters';
 
-// Images
+// Assets
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
 import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
@@ -25,7 +25,7 @@ export default function Shop() {
       </h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
         <LayoutColumn lg={3} className="pr-6">
-          <Link href="/scandinavian-simplicity">
+          <Link href="ndinavian-simplicity">
             <Image
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"
@@ -34,19 +34,19 @@ export default function Shop() {
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
-          <Link href="/modern-luxe">
+          <Link href="/collection/modern-luxe">
             <Image src={ImageModernLuxe} alt="Modern luxe" />
             <p className="mt-6">Modern Luxe</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
-          <Link href="/boho-chic">
+          <Link href="/collection/boho-chic">
             <Image src={ImageBohoChic} alt="Boho Chic" />
             <p className="mt-6">Boho Chic</p>
           </Link>
         </LayoutColumn>
         <LayoutColumn lg={3} className="pr-6">
-          <Link href="/timeless-classics">
+          <Link href="/collection/timeless-classics">
             <Image src={ImageTimlessCLassics} alt="Timeless Classics" />
             <p className="mt-6">Timeless Classics</p>
           </Link>

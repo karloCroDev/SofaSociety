@@ -10,7 +10,7 @@ import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Button } from '@/components/ui/Button';
 import { ArrowButton } from '@/components/ui/ArrowButton';
 
-// Images
+// Assets
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
 import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
 import ImageBohoChic from '@/public/images/home/boho-chic.png';
@@ -51,7 +51,7 @@ export const Collections = () => {
         ref={scrollableContainerRef}
       >
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Link href="/scandinavian-simplicity">
+          <Link href="/collection/scandinavian-simplicity">
             <Image
               src={ImageScandinavianSimplicity}
               alt="Scandinavian furnuture"
@@ -65,7 +65,7 @@ export const Collections = () => {
           </Link>
         </LayoutColumn>
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Link href="/modern-luxe">
+          <Link href="/collection/modern-luxe">
             <Image src={ImageModernLuxe} alt="Modern luxe furnuture" />
             <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
               Modern Luxe
@@ -77,7 +77,7 @@ export const Collections = () => {
           </Link>
         </LayoutColumn>
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Link href="/boho-chic">
+          <Link href="collection/boho-chic">
             <Image src={ImageBohoChic} alt="Boho chic furnuture" />
             <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
               Boho Chic
@@ -89,7 +89,7 @@ export const Collections = () => {
           </Link>
         </LayoutColumn>
         <LayoutColumn xs={10} lg={5} className="flex-shrink-0 snap-start pr-10">
-          <Link href="/timeless-classics">
+          <Link href="/collection/timeless-classics">
             <Image
               src={ImageTimlessCLassics}
               alt="Timeless classics furnuture"

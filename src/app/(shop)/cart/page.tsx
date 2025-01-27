@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Icon } from '@/components/ui/Icon';
 
-// Images
+// Assets
 import ImageExample from '@/public/images/home/armed-chair.png';
 import { AddToCart } from '@/components/shop/AddToCart';
 import { Input } from '@/components/ui/Input';

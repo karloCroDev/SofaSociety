@@ -6,7 +6,7 @@ import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
 
-// Images
+// Assets
 import ImageHero from '@/public/images/inspiration/hero.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 import ImageLivingRoom from '@/public/images/about/living-room-sofa.png';

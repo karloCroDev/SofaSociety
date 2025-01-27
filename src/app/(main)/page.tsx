@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 
-// Images
+// Assets
 import ImageHero from '@/public/images/home/hero.png';
 import ImageArmedChair from '@/public/images/home/armed-chair.png';
 import ImageSofa from '@/public/images/home/sofa.png';

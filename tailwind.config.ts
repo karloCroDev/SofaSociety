@@ -67,6 +67,30 @@ export default {
         max: '999',
       },
     },
+    keyframes: {
+      'slide-down-accordion': {
+        from: { height: '0' },
+        to: { height: 'var(--radix-accordion-content-height)' },
+      },
+      'slide-up-accordion': {
+        from: { height: 'var(--radix-accordion-content-height)' },
+        to: { height: '0' },
+      },
+      'slide-down-collapsible': {
+        from: { height: '0' },
+        to: { height: 'var(--radix-collapsible-content-height)' },
+      },
+      'slide-up-collapsible': {
+        from: { height: 'var(--radix-collapsible-content-height)' },
+        to: { height: '0' },
+      },
+    },
+    animation: {
+      'slide-down-accordion': 'slide-down-accordion 0.3s ease-out',
+      'slide-up-accordion': 'slide-up-accordion 0.3s ease-out',
+      'slide-down-collapsible': 'slide-down-collapsible 0.3s ease-out',
+      'slide-up-collapsible': 'slide-up-collapsible 0.3s ease-out',
+    },
   },
   plugins: [],
 } satisfies Config;

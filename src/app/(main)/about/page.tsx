@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 
-// Images
+// Assets
 import ImageHero from '@/public/images/about/hero.png';
 import ImageLivingRoom from '@/public/images/about/living-room-sofa.png';
 import ImageSofaDesign from '@/public/images/about/sofa-design.png';

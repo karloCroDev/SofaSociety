@@ -7,13 +7,12 @@ import { Icon } from '@/components/ui/Icon';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { LanguageSelect } from '@/components/ui/header/HeaderWrapper';
 import { SidebarDrawer } from '@/components/ui/header/HeaderWrapper';
+import { Logo } from '@/components/ui/Logo';
 
 export const Header = () => (
   <Layout>
     <LayoutRow className="h-22 items-center">
-      <Link href="/">
-        <h1 className="text-lg font-medium">SofaSocietyCo.</h1>
-      </Link>
+      <Logo />
       <LayoutColumn lgOffset={2} xlOffset={3}>
         <ul className="hidden gap-8 lg:flex">
           <li>

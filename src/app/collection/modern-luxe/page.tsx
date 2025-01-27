@@ -6,7 +6,7 @@ import { PageTemplate } from '@/components/collection/PageTemplate';
 import { LayoutColumn } from '@/components/ui/Layout';
 import { ProductCard } from '@/components/ui/ProductCard';
 
-// Images
+// Assets
 import ImageHero from '@/public/images/inspiration/modern-luxe.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 

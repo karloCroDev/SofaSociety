@@ -376,3 +376,46 @@
     margin-left: calc((11 / 12) * 100%);
   }
 }
+
+.pulled-background::after {
+  width: calc((100% + 48px) + ((100vw - 1248px) / 2));
+  margin-left: -48px;
+}
+
+.pulled-background-account::after {
+  width: calc((100% + 48px) + ((100vw - 1024px) / 2));
+  margin-right: -48px;
+}
+@media (min-width: 1024px) {
+  /* Pulled background */
+  .pulled-background::after {
+    width: calc((100% + 48px) + ((100vw - 1024px) / 2));
+    margin-left: -48px;
+  }
+  .pulled-background-account::after {
+    width: calc((100% + 48px) + ((100vw - 1024px) / 2));
+    margin-right: -48px;
+  }
+}
+
+@media (min-width: 1296px) {
+  .pulled-background::after {
+    width: calc((100% + 48px) + ((100vw - 1296px) / 2));
+    margin-left: -48px;
+  }
+  .pulled-background-account::after {
+    width: calc((100% + 48px) + ((100vw - 1024px) / 2));
+    margin-right: -48px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .pulled-background::after {
+    width: calc((100% + 48px) + ((100vw - 1536px) / 2));
+    margin-left: -48px;
+  }
+  .pulled-background-account::after {
+    width: calc((100% + 48px) + ((100vw - 1024px) / 2));
+    margin-right: -48px;
+  }
+}

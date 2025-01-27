@@ -2,32 +2,30 @@
 import Image from 'next/image';
 
 // Components
+import { PageTemplate } from '@/components/collection/PageTemplate';
 import { LayoutColumn } from '@/components/ui/Layout';
 import { ProductCard } from '@/components/ui/ProductCard';
-import { PageTemplate } from '@/components/collection/PageTemplate';
 
-// Images
-import ImageHero from '@/public/images/inspiration/dobule-sofa.png';
+// Assets
+import ImageHero from '@/public/images/home/hero.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 
-export default function BohoChic() {
+export default function ScandinavianSimplicity() {
   return (
     <PageTemplate
       heroImage={
         <div className="mt-22 lg:mt-0">
           <Image
             src={ImageHero}
-            alt="Boho Chic hero"
+            alt="Scandinavian Simplicity hero"
             className="object-cover lg:h-[800px]"
           />
         </div>
       }
-      title="Boho Chic: Relaxed, eclectic style with a touch of free-spirited charm"
-      descirpiton="Infused with playful textures and vibrant patterns, this
-              collection embodies relaxed, eclectic vibes. Soft fabrics and
-              creative designs add warmth and personality to any room."
-      subDesciption="It’s comfort with a bold, carefree spirit."
-      section="Boho Chic"
+      title="Modern Luxe: Where modern design meets luxurious living"
+      descirpiton="Minimalistic designs, neutral colors, and high-quality textures. Perfect for those who seek comfort with a clean and understated aesthetic. "
+      subDesciption="This collection brings the essence of Scandinavian elegance to your living room."
+      section="Scandinavian Simplicity"
       products={[...Array(9)].map((_, index) => (
         <LayoutColumn
           xs={6}

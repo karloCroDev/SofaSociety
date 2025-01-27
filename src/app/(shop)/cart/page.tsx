@@ -2,40 +2,66 @@
 import Image from 'next/image';
 
 // Components
-import { Layout, LayoutColumn } from '@/components/ui/Layout';
+import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Icon } from '@/components/ui/Icon';
 
 // Images
 import ImageExample from '@/public/images/home/armed-chair.png';
 import { AddToCart } from '@/components/shop/AddToCart';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 export default function Cart() {
   return (
     <Layout className="mt-28 lg:mt-32">
-      <LayoutColumn xs={12} lg={9} className="lg:pr-6">
-        <h1 className="mb-8 text-xl font-semibold lg:mb-12 lg:text-2xl 2xl:text-3xl">
-          Shopping cart
-        </h1>
-        {[...Array(5)].map((_, i) => (
-          <Products
-            name="Paloma Heaven"
-            color="Linen/Light gray"
-            image={
-              <div className="h-full w-28">
-                <Image
-                  src={ImageExample}
-                  alt="XXX product"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            }
-            price="€1500"
-            originalPrice="€2000"
-            key={i}
-          />
-        ))}
-      </LayoutColumn>
-      <LayoutColumn xs={12} lg={3} className="lg:pl-6"></LayoutColumn>
+      <LayoutRow>
+        <LayoutColumn xs={12} lg={9} className="lg:pr-6">
+          <h1 className="mb-8 text-xl font-semibold lg:mb-12 lg:text-2xl 2xl:text-3xl">
+            Shopping cart
+          </h1>
+          {[...Array(5)].map((_, i) => (
+            <Products
+              name="Paloma Heaven"
+              color="Linen/Light gray"
+              image={
+                <div className="h-full w-28">
+                  <Image
+                    src={ImageExample}
+                    alt="XXX product"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              }
+              price="€1500"
+              originalPrice="€2000"
+              key={i}
+            />
+          ))}
+        </LayoutColumn>
+        <LayoutColumn xs={12} lg={3} className="lg:pl-6">
+          <hr className="mt-6 h-px border-0 bg-gray-200" />
+          <div className="mt-8 flex flex-row justify-between lg:mt-5 2xl:mt-8">
+            <p>Subtotal:</p>
+            <p className="text-gray-500">€225</p>
+          </div>
+          <div className="mt-4 flex flex-row justify-between">
+            <p>Shipping:</p>
+            <p className="text-gray-500">Free</p>
+          </div>
+          <hr className="mt-6 h-px border-0 bg-gray-200" />
+          <div className="mt-6 flex flex-row justify-between text-lg font-bold">
+            <h4>Total:</h4>
+            <p>€225</p>
+          </div>
+          <div className="mt-10 flex flex-row justify-between gap-4">
+            <Input label="Discount code" />
+            <Button isVisuallyDisabled>Apply</Button>
+          </div>
+          <Button size="lg" className="mt-6 w-full">
+            Proceed to checkout
+          </Button>
+        </LayoutColumn>
+      </LayoutRow>
     </Layout>
   );
 }

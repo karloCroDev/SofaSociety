@@ -10,6 +10,7 @@ import ImageExample from '@/public/images/home/armed-chair.png';
 import { AddToCart } from '@/components/shop/AddToCart';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
 export default function Cart() {
   return (
@@ -39,7 +40,7 @@ export default function Cart() {
           ))}
         </LayoutColumn>
         <LayoutColumn xs={12} lg={3} className="lg:pl-6">
-          <hr className="mt-6 h-px border-0 bg-gray-200" />
+          <hr className="mt-6 h-px border-0 bg-gray-200 lg:hidden" />
           <div className="mt-8 flex flex-row justify-between lg:mt-5 2xl:mt-8">
             <p>Subtotal:</p>
             <p className="text-gray-500">€225</p>
@@ -57,9 +58,9 @@ export default function Cart() {
             <Input label="Discount code" />
             <Button isVisuallyDisabled>Apply</Button>
           </div>
-          <Button size="lg" className="mt-6 w-full">
+          <LinkAsButton href="/checkout" size="lg" className="mt-6 w-full">
             Proceed to checkout
-          </Button>
+          </LinkAsButton>
         </LayoutColumn>
       </LayoutRow>
     </Layout>

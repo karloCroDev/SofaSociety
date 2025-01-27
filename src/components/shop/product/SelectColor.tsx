@@ -33,7 +33,7 @@ export const SelectColor = () => {
         </Radio>
       </RadioGroup>
       <div className="mt-8 flex flex-col justify-between gap-4 lg:mt-auto lg:flex-row">
-        <AddToCart />
+        <AddToCart size="lg" />
         <Button size="lg" className="flex-1">
           Add to cart
         </Button>

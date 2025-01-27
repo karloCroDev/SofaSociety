@@ -5,7 +5,6 @@ import Link from 'next/link';
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
-import { AddToCart } from '@/components/shop/AddToCart';
 import { ImageSlider } from '@/components/shop/product/ImageSlider';
 import { ProductCard } from '@/components/ui/ProductCard';
 

@@ -17,6 +17,8 @@ export const Button: React.FC<
   variant = 'primary',
   size = 'sm',
   isVisuallyDisabled = false,
+  iconLeft,
+  iconRight,
   children,
   className,
   ...rest
@@ -25,9 +27,12 @@ export const Button: React.FC<
     {...rest}
     className={twMerge(
       getButtonClassNames({ size, variant, colorScheme, isVisuallyDisabled }),
+
       className
     )}
   >
+    {iconLeft}
     {children}
+    {iconRight}
   </AriaButton>
 );

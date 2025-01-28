@@ -5,6 +5,8 @@ import { twJoin, twMerge } from 'tailwind-merge';
 export interface AdditionalButtonProps {
   variant?: 'primary' | 'outline';
   colorScheme?: 'black' | 'white';
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
   size?: 'sm' | 'lg';
   isVisuallyDisabled?: boolean;
 }
@@ -21,7 +23,7 @@ export const getButtonClassNames = ({
   isVisuallyDisabled: AdditionalButtonProps['isVisuallyDisabled'];
 }): string =>
   twJoin(
-    'rounded text-center outline-none block',
+    'rounded text-center outline-none block justify-center flex items-center gap-2',
     size === 'sm' && 'px-4  leading-10',
     size === 'lg' && 'px-6 text-lg leading-12',
 
@@ -53,6 +55,8 @@ export const LinkAsButton: React.FC<
   variant = 'primary',
   size = 'sm',
   isVisuallyDisabled = false,
+  iconLeft,
+  iconRight,
   children,
   className,
   ...rest

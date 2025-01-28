@@ -17,7 +17,7 @@ export default function Page() {
         <Layout>
           <LayoutRow className="h-22 items-center justify-between">
             <Logo />
-            <h3 className="text-md font-black lg:hidden">Checkout</h3>
+            <h3 className="font-bold lg:hidden">Checkout</h3>
           </LayoutRow>
         </Layout>
       </div>

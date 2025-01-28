@@ -14,6 +14,9 @@ export const AnchorAsButton: React.FC<
   variant = 'primary',
   size = 'sm',
   isVisuallyDisabled = false,
+  iconLeft,
+  iconRight,
+
   children,
   className,
   ...rest
@@ -25,6 +28,8 @@ export const AnchorAsButton: React.FC<
       className
     )}
   >
+    {iconLeft}
     {children}
+    {iconRight}
   </a>
 );

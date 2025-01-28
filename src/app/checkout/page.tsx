@@ -33,7 +33,7 @@ export default function Page() {
             lgOffset={1}
             className="relative hidden lg:block"
           >
-            <div className='pulled-background after:bg-grayscale-50 w-full p-8 pb-8 after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:content-[""] lg:px-12 lg:pb-64 lg:pt-32'>
+            <div className='pulled-background w-full p-8 pb-8 after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:bg-gray-50 after:content-[""] lg:px-12 lg:pb-64 lg:pt-32'>
               <Order />
             </div>
           </LayoutColumn>

@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { Radio, RadioGroup } from 'react-aria-components';
 import { twMerge } from 'tailwind-merge';
-import Image from 'next/image';
 
 // Components
 import { Button } from '@/components/ui/Button';
@@ -18,7 +17,7 @@ import { CountrySelect } from '@/components/checkout/CountrySelect';
 // import ImageCardProvider from '@/public/assets/images';
 
 export const Accordion = () => {
-  const [step, setStep] = React.useState('3');
+  const [step, setStep] = React.useState('1');
 
   return (
     <RadixAccordion.Root type="single" value={step} collapsible>
@@ -44,7 +43,7 @@ export const Accordion = () => {
             </div>
           )}
         </RadixAccordion.Header>
-        <RadixAccordion.Content className="data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion overflow-hidden transition-colors">
+        <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
           <div className="flex flex-col gap-6 lg:gap-8">
             <Input
               label="Email"
@@ -105,7 +104,7 @@ export const Accordion = () => {
             </div>
           )}
         </RadixAccordion.Header>
-        <RadixAccordion.Content className="data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion overflow-hidden transition-colors">
+        <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
           <div className="flex flex-col gap-6 lg:gap-8">
             <CountrySelect />
             <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
@@ -182,7 +181,7 @@ export const Accordion = () => {
             </div>
           )}
         </RadixAccordion.Header>
-        <RadixAccordion.Content className="data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion overflow-hidden transition-colors">
+        <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
           <RadioGroup defaultValue="Standard delivery">
             <Radio
               value="Standard delivery"
@@ -232,7 +231,7 @@ export const Accordion = () => {
             </div>
           )}
         </RadixAccordion.Header>
-        <RadixAccordion.Content className="data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion overflow-hidden transition-colors">
+        <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
           <RadixAccordion.Root type="single" defaultValue="google" collapsible>
             {/* TODO: Napravit da je razmak isti kako bi se izbjega skok. Y*/}
             <RadixAccordion.Item value="Card1">
@@ -250,7 +249,7 @@ export const Accordion = () => {
                   </div>
                 </div>
               </RadixAccordion.Trigger>
-              <RadixAccordion.Content className="data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion overflow-hidden transition-colors">
+              <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
                 <div className="border-grayscale-200 flex flex-col gap-6 border border-t-0 p-4 lg:gap-8">
                   <Input
                     label="Name on card"
@@ -305,7 +304,7 @@ export const Accordion = () => {
                   </div>
                 </div>
               </RadixAccordion.Trigger>
-              <RadixAccordion.Content className="data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion overflow-hidden transition-colors">
+              <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
                 <div className="border-grayscale-200 flex flex-col gap-6 border border-t-0 p-4 lg:gap-8">
                   <Input
                     label="Name on card"

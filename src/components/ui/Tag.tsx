@@ -12,7 +12,7 @@ export const Tag: React.FC<
       'w-fit rounded-full px-4 text-center text-sm leading-6',
       colorScheme === 'black' && 'bg-gray-900 text-gray-100',
       colorScheme === 'yellow' && 'bg-yellow-400 text-gray-500',
-      colorScheme === 'gray' && 'text-grayscale-200 bg-gray-50',
+      colorScheme === 'gray' && 'bg-gray-50 text-gray-200',
       colorScheme === 'red' && 'bg-red-700 text-gray-10',
       className
     )}

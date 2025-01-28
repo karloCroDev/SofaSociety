@@ -108,7 +108,7 @@ const Products: React.FC<{
             </p>
           </>
         ) : (
-          <p className="text-grayscale-400 hidden text-md lg:block">{price}</p>
+          <p className="hidden text-md lg:block">{price}</p>
         )}
         <Icon className="mx-auto mb-3 mt-auto cursor-pointer" name="bin" />
       </div>

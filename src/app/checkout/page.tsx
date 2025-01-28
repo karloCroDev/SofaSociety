@@ -1,10 +1,6 @@
-// External packages
-import Link from 'next/link';
-
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Logo } from '@/components/ui/Logo';
-import { Icon } from '@/components/ui/Icon';
 
 import { Accordion } from '@/components/checkout/Accordion';
 import { ProductDetailsCollapsible } from '@/components/checkout/ProductDetailsCollapsible';

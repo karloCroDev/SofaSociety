@@ -15,7 +15,7 @@ import { Icon } from '@/components/ui/Icon';
 
 export const CountrySelect = () => (
   <Select className="relative" defaultSelectedKey="croatia">
-    <AriaButton className="border-grayscale-50 relative flex w-full items-center justify-between rounded border px-4 outline-none">
+    <AriaButton className="relative flex w-full items-center justify-between rounded border border-gray-50 px-4 outline-none">
       <SelectValue className="pb-3 pt-6" />
       <Icon name="chevron" />
       <label className="absolute left-2 top-1.5 scale-75 text-gray-400">

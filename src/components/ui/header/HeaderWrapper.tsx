@@ -111,7 +111,7 @@ export const SidebarDrawer = () => (
       />
     </RadixDialog.Trigger>
 
-    <RadixDialog.Content className="text-grayscale-10 fixed left-0 top-0 z-max flex h-full w-5/6 flex-col overflow-scroll overflow-x-hidden bg-gray-900">
+    <RadixDialog.Content className="fixed left-0 top-0 z-max flex h-full w-5/6 flex-col overflow-scroll overflow-x-hidden bg-gray-900">
       <RadixDialog.Title className="hidden" />
       <div className="flex h-full flex-col text-gray-10">
         <div className="border-b border-gray-10">

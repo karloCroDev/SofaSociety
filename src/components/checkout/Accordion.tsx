@@ -9,13 +9,10 @@ import { Radio, RadioGroup } from 'react-aria-components';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { Input } from '@/components/ui/Input';
-import { CheckboxVisually, CheckboxWithLabel } from '@/components/ui/Checkbox';
+import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 import { CountrySelect } from '@/components/checkout/CountrySelect';
 import { RadioButtonVisual } from '@/components/ui/Radio';
 import { Icon } from '@/components/ui/Icon';
-
-// Assets
-// import ImageCardProvider from '@/public/assets/images';
 
 export const Accordion = () => {
   const [step, setStep] = React.useState('1');
@@ -36,22 +33,21 @@ export const Accordion = () => {
             </div>
           )}
           {step !== '1' && (
-            <div className="text-grayscale-400 mt-7 text-start text-sm">
+            <div className="mt-7 text-start text-sm">
               Email:
-              <span className="text-grayscale-600 ml-16">example@test.com</span>
+              <span className="ml-16">example@test.com</span>
             </div>
           )}
         </RadixAccordion.Header>
         <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
           <div className="flex flex-col gap-6 lg:gap-8">
             <Input label="Email" isRequired type="email" />
-            <div className="text-2xs text-grayscale-400 flex items-start gap-2">
+            <div className="text-2xs flex items-start gap-2">
               <CheckboxWithLabel className="self-start text-sm text-gray-500">
                 What to get news and offers? Ok, yes and some discounts. But
                 only if you subscribe.
               </CheckboxWithLabel>
             </div>
-
             <Button
               size="lg"
               type="submit"
@@ -66,16 +62,14 @@ export const Accordion = () => {
 
       {/* Step 2 */}
       <RadixAccordion.Item value="2" className="border-t">
-        <RadixAccordion.Header className="group my-8 w-full">
+        <RadixAccordion.Header className="group w-full py-8">
           {step === '2' ? (
             <p className="group-data-[state=open]:font-bold">
               2. Shipping address
             </p>
           ) : (
             <div className="flex justify-between">
-              <p className="group-data-[state=open]:text-blue-700">
-                2. Shipping address
-              </p>
+              <p>2. Shipping address</p>
 
               <RadixAccordion.Trigger className="cursor-pointer underline">
                 Change
@@ -83,20 +77,18 @@ export const Accordion = () => {
             </div>
           )}
           {step !== '2' && (
-            <div className="text-grayscale-400 mt-7 text-start">
+            <div className="mt-7 text-start">
               <div>
                 Name:
-                <span className="text-grayscale-600 ml-16">Ante Antic</span>
+                <span className="ml-16">Ante Antic</span>
               </div>
               <div>
                 Ship to:
-                <span className="text-grayscale-600 ml-16">
-                  Trg Bana Jelacica
-                </span>
+                <span className="ml-16">Trg Bana Jelacica</span>
               </div>
               <div>
                 Phone:
-                <span className="text-grayscale-600 ml-16">+385 226 2226</span>
+                <span className="ml-16">+385 226 2226</span>
               </div>
             </div>
           )}
@@ -127,6 +119,7 @@ export const Accordion = () => {
           </div>
         </RadixAccordion.Content>
       </RadixAccordion.Item>
+
       {/* Step 3 */}
       <RadixAccordion.Item value="3" className="border-t">
         <RadixAccordion.Header className="group w-full py-8">
@@ -134,9 +127,7 @@ export const Accordion = () => {
             <p className="group-data-[state=open]:font-bold">3. Shipping</p>
           ) : (
             <div className="flex justify-between">
-              <p className="group-data-[state=open]:text-blue-700">
-                3. Shipping
-              </p>
+              <p>3. Shipping</p>
 
               <RadixAccordion.Trigger className="cursor-pointer underline">
                 Change
@@ -144,11 +135,9 @@ export const Accordion = () => {
             </div>
           )}
           {step !== '3' && (
-            <div className="text-grayscale-400 pt-7 text-start text-sm">
+            <div className="mt-7 text-start text-sm">
               Shipping:
-              <span className="text-grayscale-600 ml-16">
-                Standard delivery 3-5 days
-              </span>
+              <span className="ml-16">Standard delivery 3-5 days</span>
             </div>
           )}
         </RadixAccordion.Header>
@@ -156,7 +145,6 @@ export const Accordion = () => {
           <RadioGroup defaultValue="Standard delivery">
             <Radio className="group" value="standard-delivery">
               <RadioButtonVisual additionalLabel="€50">
-                {/* TODO: Napravit UI komponentu za radio ikonu. Y */}
                 Standard delivery
               </RadioButtonVisual>
             </Radio>
@@ -178,16 +166,13 @@ export const Accordion = () => {
       </RadixAccordion.Item>
 
       {/* Step 4 */}
-
       <RadixAccordion.Item value="4" className="border-t">
         <RadixAccordion.Header className="group w-full py-8">
           {step === '4' ? (
             <p className="group-data-[state=open]:font-bold">4. Payment</p>
           ) : (
             <div className="flex justify-between">
-              <p className="group-data-[state=open]:text-blue-700">
-                4. Payment
-              </p>
+              <p>4. Payment</p>
 
               <RadixAccordion.Trigger className="cursor-pointer underline">
                 Change

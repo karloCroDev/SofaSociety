@@ -38,7 +38,7 @@ export const SelectMaterial = () => {
           </SelectValue>
           <Icon name="chevron" className="text-gray-500" />
         </AriaButton>
-        <Popover className="bg-grayscale-10 max-h-[448px] w-[var(--trigger-width)] overflow-scroll rounded border bg-gray-10 outline-none">
+        <Popover className="max-h-[448px] w-[var(--trigger-width)] overflow-scroll rounded border bg-gray-10 outline-none">
           <ListBox className="w-full hover:cursor-pointer">
             <ListBoxItem
               id="velvet"

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { LoginForm } from '@/components/auth/LoginForm';
+import { LoginForm } from '@/components/auth/login/LoginForm';
 
 // Assets
 import ImageLoginHero from '@/public/images/auth/login-hero.png';
@@ -30,9 +30,12 @@ export default function Login() {
             </h1>
             <LoginForm />
             <p className="mt-16 text-gray-400">
-              Already have an account? No worries, just{' '}
-              <Link className="text-gray-900 underline" href="/sign-up">
-                log in.
+              Don’t have an account yet? You can{' '}
+              <Link
+                className="text-gray-900 underline underline-offset-4"
+                href="/sign-up"
+              >
+                register here.
               </Link>
             </p>
           </div>

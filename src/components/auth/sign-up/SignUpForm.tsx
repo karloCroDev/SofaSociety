@@ -12,11 +12,11 @@ export const SignUpForm = () => {
   return (
     <Form className="flex flex-col gap-8">
       <div className="flex gap-6">
-        <Input label="First name" />
-        <Input label="Last name" />
+        <Input isRequired label="First name" />
+        <Input isRequired label="Last name" />
       </div>
-      <Input label="Email" />
-      <Input label="Password" />
+      <Input isRequired label="Email" />
+      <Input isRequired label="Password" />
       <Button size="lg">Register</Button>
     </Form>
   );

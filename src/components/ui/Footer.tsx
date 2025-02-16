@@ -2,6 +2,7 @@
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import Link from 'next/link';
 
 export const Footer = () => (
   <div className="mt-24 bg-gray-50 lg:mt-36">
@@ -39,9 +40,15 @@ export const Footer = () => (
             <li>Facebook</li>
           </ul>
           <ul className="flex flex-col gap-4">
-            <li>Privacy Policy</li>
-            <li>Cookie Policy</li>
-            <li>Terms of Use</li>
+            <li>
+              <Link href="/legals/privacy-policy">Privacy Policy</Link>
+            </li>
+            <li>
+              <Link href="/legals/cookie-policy">Cookie Policy</Link>
+            </li>
+            <li>
+              <Link href="/legals/terms-of-use">Terms of Use</Link>
+            </li>
           </ul>
         </LayoutColumn>
         <LayoutColumn className="flex flex-col gap-4" xs={12} lg={4}>

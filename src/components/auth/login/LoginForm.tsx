@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/Button';
 export const LoginForm = () => {
   return (
     <Form className="flex flex-col gap-8">
-      <Input label="Email" />
-      <Input type="password" label="Password" />
+      <Input isRequired label="Email" />
+      <Input isRequired type="password" label="Password" />
       <Button type="submit" size="lg" className="w-full">
         Log in
       </Button>

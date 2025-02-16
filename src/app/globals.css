@@ -419,3 +419,28 @@
     margin-right: -48px;
   }
 }
+
+/* Legal pages */
+
+.article {
+  @apply flex flex-col gap-16;
+}
+.article > p {
+  @apply mt-24;
+}
+
+.article div {
+  @apply mb-8 flex flex-col gap-4;
+}
+
+.article div h4 {
+  @apply mb-8 text-lg font-bold;
+}
+
+.article ul {
+  @apply list-inside list-disc pl-4;
+}
+
+.article ol {
+  @apply list-decimal;
+}

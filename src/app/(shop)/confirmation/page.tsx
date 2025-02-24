@@ -11,7 +11,7 @@ export default function Confirmation() {
         144px --> mt foootera
         340px --> visina footera
         */}
-        <LayoutColumn lg={6} className="2xl:h-[calc(100vh-128px-144px-340px)]">
+        <LayoutColumn lg={6} className="xl:h-[calc(100vh-128px-144px-340px)]">
           <h1 className="text-3xl font-semibold">Thank you for your order!</h1>
           <p className="mt-7">
             We are pleased to confirm that your order has been successfully

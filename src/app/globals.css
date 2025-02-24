@@ -376,6 +376,7 @@
     margin-left: calc((11 / 12) * 100%);
   }
 }
+/* Pulled background */
 
 .pulled-background::after {
   width: calc((100% + 48px) + ((100vw - 1248px) / 2));

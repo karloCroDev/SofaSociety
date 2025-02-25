@@ -9,12 +9,12 @@ export const Navigation = () => {
   const path = usePathname();
 
   return (
-    <div className="mt-16 flex flex-col gap-8">
+    <div className="mt-8 flex justify-between gap-8 lg:mt-16 lg:flex-col lg:justify-normal">
       <Link
         href="/account/orders"
         className={path.includes('/orders') ? 'font-bold' : undefined}
       >
-        Personal and securtiy
+        Personal & security
       </Link>
       <Link
         href="/account/personal-and-security"

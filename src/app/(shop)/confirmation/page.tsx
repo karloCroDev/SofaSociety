@@ -6,7 +6,7 @@ export default function Confirmation() {
   return (
     <Layout className="mt-28 lg:mt-32">
       <LayoutRow className="justify-center">
-        {/* Ovaj class  xl:h-[calc(100vh-128px-144px-340px)] jest kod previsokih ekrana, pa da popuni visinu stranice kako footer ne bi bio napola stranice. 
+        {/* xl:h-[calc(100vh-128px-144px-340px)] jest kod previsokih ekrana, pa da popuni visinu stranice kako footer ne bi bio napola stranice. 
         128px --> visina headera s marginom (layout)
         144px --> mt foootera
         340px --> visina footera

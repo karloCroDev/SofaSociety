@@ -37,9 +37,36 @@ export default function PersonalAndSecurity() {
         If you want to change your email please contact us via customer support.
       </p>
       <p className="mt-16 text-lg">Address</p>
-      <Button size="lg" className="mt-6 w-full lg:w-auto">
+      {/* <Button size="lg" className="mt-6 w-full lg:w-auto">
         Add address
-      </Button>
+      </Button> */}
+      <div className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8">
+        <Icon name="user" className="self-start" />
+        <div className="grid grid-cols-2 items-center gap-y-9 lg:gap-x-28">
+          <p className="before:block before:text-sm before:text-gray-500 before:content-['Country']">
+            Croatia
+          </p>
+          <p className="before:block before:text-sm before:text-gray-500 before:content-['Address']">
+            Duvanjska 3
+          </p>
+          <p className="before:block before:text-sm before:text-gray-500 before:content-['Apartment,_suite,_etc._(Optional)']">
+            2nd floor
+          </p>
+          <p className="before:block before:text-sm before:text-gray-500 before:content-['Postal_code']">
+            10000
+          </p>
+          <p className="before:block before:text-sm before:text-gray-500 before:content-['City']">
+            Zagreb
+          </p>
+        </div>
+        <div className="ml-auto flex gap-6 self-start">
+          <Button variant="outline" className="p-2">
+            <Icon name="bin" className="size-4" />
+          </Button>
+          <Button variant="outline">Chnage</Button>
+        </div>
+      </div>
+
       <p className="mt-16 text-lg">Change password</p>
       <Button size="lg" className="mt-6 w-full lg:w-auto">
         Reset password

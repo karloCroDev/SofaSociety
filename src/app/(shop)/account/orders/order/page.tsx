@@ -15,13 +15,11 @@ export default async function Order() {
       <h1 className="text-xl font-semibold">Order: 000001</h1>
 
       <div className="mt-16 rounded border border-gray-200 p-4">
-        <div className="flex">
-          <p className="text-gray-500">
-            Estimate delivery:{' '}
-            <span className="text-gray-900">1 — 3 Dec, 2024</span>
-          </p>
+        <div className="flex gap-2">
+          <p className="text-gray-500">Estimate delivery: </p>
+          <p> 1 — 3 Dec, 2024</p>
         </div>
-        <div className="mt-8 flex items-center">
+        <div className="mt-4 flex items-center lg:mt-8">
           <Tag iconLeft={<Icon name="package" className="size-3" />}>
             Packing
           </Tag>
@@ -39,10 +37,13 @@ export default async function Order() {
           >
             Packing
           </Tag>
-          <Button className="ml-auto" variant="outline">
+          <Button variant="outline" className="ml-auto hidden lg:block">
             Check status
           </Button>
         </div>
+        <Button variant="outline" className="ml-auto mt-4 lg:hidden">
+          Check status
+        </Button>
       </div>
 
       <div className="mt-6 flex items-center justify-between rounded border border-gray-200 p-4">
@@ -51,7 +52,7 @@ export default async function Order() {
         <p className="ml-auto">1 Dec, 2024</p>
       </div>
 
-      <div className="mt-6 flex gap-4">
+      <div className="mt-6 flex flex-col gap-4 lg:flex-row">
         <div className="flex-1 rounded border border-gray-200 p-4">
           <div className="flex items-center gap-4">
             <Icon name="map" className="size-4" />
@@ -99,7 +100,7 @@ export default async function Order() {
         ))}
       </div>
 
-      <div className="mt-6 flex rounded border border-gray-200 p-4">
+      <div className="mt-6 flex flex-col items-center gap-y-5 rounded border border-gray-200 p-4 lg:flex-row lg:items-start">
         <div className="flex h-fit w-full items-center gap-2">
           <Icon name="credit-card" className="size-3" />
           <p className="text-gray-500">Payment</p>
@@ -147,6 +148,6 @@ const OrderedProduct: React.FC<{
         Quantity: <span className="text-gray-900">{quantity}</span>
       </p>
     </div>
-    <p className="mt-auto text-lg">€{price}</p>
+    <p className="mt-auto lg:text-lg">€{price}</p>
   </div>
 );

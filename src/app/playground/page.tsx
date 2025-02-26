@@ -1,7 +1,13 @@
 'use client';
 
 // External packages
-import { Form, Radio, RadioGroup } from 'react-aria-components';
+import {
+  DialogTrigger,
+  Form,
+  Heading,
+  Radio,
+  RadioGroup,
+} from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
@@ -14,6 +20,7 @@ import { RadioButtonVisual, RadioIconVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
 import { Layout } from '@/components/ui/Layout';
 import { AnchorAsButton } from '@/components/ui/AnchorAsButton';
+import { Dialog } from '@/components/shop/account/Dialog';
 
 export default function Page() {
   return (
@@ -71,6 +78,13 @@ export default function Page() {
           Hello world
         </AnchorAsButton>
       </div>
+      <Dialog title="Address" triggerChildren={<Button>Test</Button>}>
+        <Input label="Hello world" />
+        <Input label="Hello world" />
+        <Button slot="close" style={{ marginTop: 8 }}>
+          Submit
+        </Button>
+      </Dialog>
     </Layout>
   );
 }

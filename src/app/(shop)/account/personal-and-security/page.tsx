@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { DialogPeronsalInfo } from '@/components/shop/account/personal-and-security/DialogPeronsalInfo';
 import { DialogPersonalAddress } from '@/components/shop/account/personal-and-security/DialogPersonalAddress';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+import { ResetPasswordPopover } from '@/components/shop/account/personal-and-security/ResetPasswordPopover';
 
 export default function PersonalAndSecurity() {
   return (
@@ -62,13 +63,7 @@ export default function PersonalAndSecurity() {
       </div>
 
       <p className="mt-16 text-lg">Change password</p>
-      <LinkAsButton
-        href="/reset-password"
-        size="lg"
-        className="mt-6 w-full lg:w-fit"
-      >
-        Reset password
-      </LinkAsButton>
+      <ResetPasswordPopover />
       <p className="mt-16 text-lg lg:hidden">Log out</p>
       <Button
         // href="/"

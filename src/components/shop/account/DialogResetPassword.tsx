@@ -9,7 +9,7 @@ import { Dialog } from '@/components/shop/account/Dialog';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
-export const DialogPeronsalInfo = () => (
+export const DialogResetPassword = () => (
   <Dialog
     title="Personal information"
     triggerChildren={

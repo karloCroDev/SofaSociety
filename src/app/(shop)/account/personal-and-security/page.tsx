@@ -1,6 +1,9 @@
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
+import { DialogPeronsalInfo } from '@/components/shop/account/personal-and-security/DialogPeronsalInfo';
+import { DialogPersonalAddress } from '@/components/shop/account/personal-and-security/DialogPersonalAddress';
+import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
 export default function PersonalAndSecurity() {
   return (
@@ -18,13 +21,7 @@ export default function PersonalAndSecurity() {
           <Icon name="minus" />
         </p>
 
-        <Button
-          variant="outline"
-          size="lg"
-          className="mt-8 w-full lg:ml-auto lg:mt-0 lg:w-auto"
-        >
-          Change
-        </Button>
+        <DialogPeronsalInfo />
       </div>
       <p className="mt-16 text-lg">Contact</p>
       <div className="mt-6 flex items-center rounded border border-gray-200 p-4">
@@ -37,9 +34,6 @@ export default function PersonalAndSecurity() {
         If you want to change your email please contact us via customer support.
       </p>
       <p className="mt-16 text-lg">Address</p>
-      {/* <Button size="lg" className="mt-6 w-full lg:w-auto">
-        Add address
-      </Button> */}
       <div className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8">
         <Icon name="user" className="self-start" />
         <div className="grid grid-cols-2 items-center gap-y-9 lg:gap-x-28">
@@ -63,16 +57,25 @@ export default function PersonalAndSecurity() {
           <Button variant="outline" className="p-2">
             <Icon name="bin" className="size-4" />
           </Button>
-          <Button variant="outline">Chnage</Button>
+          <DialogPersonalAddress />
         </div>
       </div>
 
       <p className="mt-16 text-lg">Change password</p>
-      <Button size="lg" className="mt-6 w-full lg:w-auto">
+      <LinkAsButton
+        href="/reset-password"
+        size="lg"
+        className="mt-6 w-full lg:w-fit"
+      >
         Reset password
-      </Button>
+      </LinkAsButton>
       <p className="mt-16 text-lg lg:hidden">Log out</p>
-      <Button size="lg" variant="outline" className="mt-6 w-full lg:hidden">
+      <Button
+        // href="/"
+        size="lg"
+        variant="outline"
+        className="mt-6 w-full lg:hidden"
+      >
         Log out
       </Button>
     </div>

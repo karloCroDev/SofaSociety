@@ -65,7 +65,6 @@ export const LinkAsButton: React.FC<
     {...rest}
     className={twMerge(
       getButtonClassNames({ colorScheme, size, isVisuallyDisabled, variant }),
-
       className
     )}
   >

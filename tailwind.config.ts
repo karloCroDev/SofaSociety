@@ -59,6 +59,7 @@ export default {
       spacing: {
         22: '88px',
         85: '340px',
+        popover: 'var(--trigger-width)',
       },
       borderWidth: {
         6: '6px',

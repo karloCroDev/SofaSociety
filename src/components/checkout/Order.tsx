@@ -12,6 +12,7 @@ export const Order = () => (
   <div className="px-8 pb-8 sm:px-12 lg:px-0 lg:pb-0">
     <div className="flex justify-between lg:mb-16">
       <p>Order - 1 item</p>
+      {/* TODO: Kada kliknem na `Edit card` ispod ništa se ne dešava. */}
       <p className="cursor-pointer underline underline-offset-4">Edit card</p>
     </div>
 
@@ -30,12 +31,7 @@ export const Order = () => (
       <p>€45</p>
     </div>
     <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:gap-8">
-      <Input
-        label="Discount code"
-        inputProps={{
-          className: 'h-12',
-        }}
-      />
+      <Input label="Discount code" inputProps={{ className: 'h-12' }} />
       <Button isVisuallyDisabled>Apply</Button>
     </div>
     <div className="mt-8 flex justify-between text-sm md:text-base">

@@ -1,3 +1,5 @@
+// TODO: Kao što sam već spomenuo na nekoj od stranica, visina stranice je problematična i layout se ne ponaša kako bi trebao na manjim visinama ekrana na desktopu.
+
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
@@ -6,7 +8,7 @@ export default function Confirmation() {
   return (
     <Layout className="mt-28 lg:mt-32">
       <LayoutRow className="justify-center">
-        {/* xl:h-[calc(100vh-128px-144px-340px)] jest kod previsokih ekrana, pa da popuni visinu stranice kako footer ne bi bio napola stranice. 
+        {/* xl:h-[calc(100vh-128px-144px-340px)] jest kod previsokih ekrana, pa da popuni visinu stranice kako footer ne bi bio napola stranice.
         128px --> visina headera s marginom (layout)
         144px --> mt foootera
         340px --> visina footera
@@ -18,7 +20,9 @@ export default function Confirmation() {
             placed and will be processed shortly.
           </p>
           <p>
+            {/* TODO: Na liniji ispod nemoj koristiti `<b>` već `<strong>`. */}
             We have sent you the receipt and order details via <b>e-mail.</b>
+            {/* TODO: Izbaci `<span>` sa linije ispod van paragrafa i dodaj ga ispod kao `<p>` element. */}
             <span className="block">
               Your order number is <b>#100002.</b>
             </span>

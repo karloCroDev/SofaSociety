@@ -1,3 +1,5 @@
+// TODO: Za ovo imaš `NumberField` u `react-aria-components` paketu: https://react-spectrum.adobe.com/react-aria/NumberField.html
+
 'use client';
 
 // Etxernal packages
@@ -8,9 +10,7 @@ import { twJoin, twMerge } from 'tailwind-merge';
 import { Icon } from '@/components/ui/Icon';
 
 export const AddToCart: React.FC<
-  React.ComponentPropsWithoutRef<'div'> & {
-    size?: 'sm' | 'lg';
-  }
+  React.ComponentPropsWithoutRef<'div'> & { size?: 'sm' | 'lg' }
 > = ({ size = 'sm', className, ...rest }) => {
   const [itemCount, setItemCount] = React.useState(1);
   return (

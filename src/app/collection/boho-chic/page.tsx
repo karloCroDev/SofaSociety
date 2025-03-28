@@ -12,6 +12,7 @@ import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 
 export default function BohoChic() {
   return (
+    // TODO: Ako je moguće onda ovo što je unutar `PageTemplate` riješi pomoću `Layout.tsx`. Ako ne ostavi kako je.
     <PageTemplate
       heroImage={
         <div className="mt-22 lg:mt-0">

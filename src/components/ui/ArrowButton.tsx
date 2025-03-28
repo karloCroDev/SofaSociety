@@ -7,12 +7,11 @@ import { twMerge } from 'tailwind-merge';
 // Components
 import { Icon } from '@/components/ui/Icon';
 
+// TODO: Ovo bi preimenova u `IconButton` i dao bi korisniku mogućnost da sam proslijedi ikonu kao ReactNode kroz `children` prop.
+
 export const ArrowButton: React.FC<
   React.ComponentPropsWithoutRef<'button'> &
-    ButtonProps & {
-      variation?: 'solid' | 'outline';
-      direction?: 'right';
-    }
+    ButtonProps & { variation?: 'solid' | 'outline'; direction?: 'right' }
 > = ({ variation = 'solid', direction, className, ...rest }) => (
   <AriaButton
     {...rest}

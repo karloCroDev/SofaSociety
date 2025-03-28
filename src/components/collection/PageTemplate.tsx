@@ -25,6 +25,7 @@ export const PageTemplate: React.FC<{
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">
         {section}
       </h2>
+      {/* TODO: Ja bi filtere ispod ubacija direktno u ovu komponentu. */}
       <Filters />
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">{products}</LayoutRow>
     </Layout>

@@ -52,6 +52,7 @@ export default function About() {
               personal style.
             </h2>
             <p className="mt-6 lg:mt-10">
+              {/* TODO: U tekstu ispod imaš karakter `’` koji bi trebao zamijeniti sa `&apos;`. Ako ostaviš ovako build ti neće proć. Zamijeni na cijelom projektu to dvoje. */}
               At the heart of our brand is a deep commitment to quality. We
               understand that a sofa isn’t just another piece of furniture; it’s
               where you unwind, gather with loved ones, and make memories.
@@ -87,6 +88,7 @@ export default function About() {
               We believe that great design should be environmentally conscious,
               which is why we strive to minimise our environmental footprint
               through responsible sourcing and production practices.
+              {/* TODO: Ovaj `<span>` izbaci van ovog paragrafa i ispod dodaj novi paragraf koji ćeš stilizirati kao ovaj postojeći `<span>`. Imaš ispod na još jednom mjestu istu stvar. */}
               <span className="mt-6 block text-lg lg:mt-36 lg:inline">
                 Our commitment to sustainability ensures that our products are
                 not only beautiful but also kind to the planet.

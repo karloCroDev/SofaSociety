@@ -28,6 +28,7 @@ export default function Login() {
             <h1 className="mb-10 text-3xl font-semibold">
               Welcome back to Sofa Society!
             </h1>
+            {/* TODO: Ako `<Form` komponentu exportaš iz `src/components/ui/Form.tsx` onda nećeš imat potrebu za odvojenom komponentom za formu na liniji ispod. U tom slučaju ćeš moć prebacit formu direktno na page. */}
             <LoginForm />
             <p className="mt-16 text-gray-400">
               Don’t have an account yet? You can{' '}

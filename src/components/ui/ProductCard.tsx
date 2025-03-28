@@ -12,6 +12,7 @@ export const ProductCard: React.FC<
       originalPrice?: string;
     }
 > = ({ name, category, price, originalPrice, image, ...rest }) => (
+  // TODO: Ovaj `{...rest}` uvijek stavljaj kao prvi prop, a ovaj `href` izbaci van komponente. Imat ćeš mjesta gdje ćeš htjeti imati drugačiji href, a nećeš moći.
   <Link href="/product" {...rest}>
     {image}
     <div className="mt-6 flex flex-col md:flex-row md:justify-between">

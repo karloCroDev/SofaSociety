@@ -17,6 +17,7 @@ export const SelectColor = () => {
           {color && color[0].toUpperCase() + color.slice(1)}
         </p>
       </div>
+      {/* TODO: Razmak ispod ove radio grupe mi pari manji nego bi triba bit. */}
       <RadioGroup
         onChange={(e) => setColor(e.toString())}
         defaultValue={color}
@@ -34,6 +35,7 @@ export const SelectColor = () => {
       </RadioGroup>
       <div className="mt-8 flex flex-col justify-between gap-4 lg:mt-auto lg:flex-row">
         <AddToCart size="lg" />
+        {/* TODO: Ovaj botun ispod mi pari veći nego bi triba bit. */}
         <Button size="lg" className="flex-1">
           Add to cart
         </Button>

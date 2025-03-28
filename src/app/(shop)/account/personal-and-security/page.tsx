@@ -19,6 +19,7 @@ export default function PersonalAndSecurity() {
           </p>
         </div>
         <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0">
+          {/* TODO: Ovo ne treba biti ikona, može biti `-` karakter. */}
           <Icon name="minus" />
         </p>
 
@@ -38,6 +39,7 @@ export default function PersonalAndSecurity() {
       <div className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8">
         <Icon name="user" className="self-start" />
         <div className="grid grid-cols-2 items-center gap-y-9 lg:gap-x-28">
+          {/* TODO: Nemoj koristiti `::before` za ove labele, jednostavno dodaj `<p>`. */}
           <p className="before:block before:text-sm before:text-gray-500 before:content-['Country']">
             Croatia
           </p>

@@ -22,6 +22,7 @@ export default function CookiePolicy() {
               conditions. If you do not agree with any part of these terms,
               please do not use our website.
             </p>
+            {/* TODO: Nemoj koristiti `<div>` elemente unutar `.article`, margine riješi tako da ćeš ih dodati na naslove (margin-top). */}
             <div>
               <h4>1. What Are Cookies:</h4>
               <p>
@@ -35,6 +36,7 @@ export default function CookiePolicy() {
             <div>
               <h4>2. Types of Cookies We Use:</h4>
               <p>We use the following types of cookies on our website:</p>
+              {/* TODO: Molim te provjeri da li ove liste u dizajnu stvarno ovako izgledaju. Provjeri kako su uvučene i razmak s lijeve strane. */}
               <ul>
                 <li>
                   Essential Cookies: These cookies are necessary for the

@@ -39,6 +39,7 @@ export default function Cart() {
             />
           ))}
         </LayoutColumn>
+        {/* TODO: Mislim da bi ova kolumna ispod trebala biti fiksna, dok bi se content s lijeve strane trebao moći "skrolati". */}
         <LayoutColumn xs={12} lg={3} className="lg:pl-6">
           <hr className="mt-6 h-px border-0 bg-gray-200 lg:hidden" />
           <div className="mt-8 flex flex-row justify-between lg:mt-5 2xl:mt-8">
@@ -58,6 +59,7 @@ export default function Cart() {
             <Input label="Discount code" />
             <Button isVisuallyDisabled>Apply</Button>
           </div>
+          {/* TODO: Ovaj botun mi pari veći nego bi triba bit i slomljen mi je na širini prozora od `1040px`. */}
           <LinkAsButton href="/checkout" size="lg" className="mt-6 w-full">
             Proceed to checkout
           </LinkAsButton>
@@ -110,6 +112,7 @@ const Products: React.FC<{
         ) : (
           <p className="hidden text-md lg:block">{price}</p>
         )}
+        {/* TODO: Mislim da bi ovu ikonu trebalo poravnati desno. */}
         <Icon className="mx-auto mb-3 mt-auto cursor-pointer" name="bin" />
       </div>
     </div>

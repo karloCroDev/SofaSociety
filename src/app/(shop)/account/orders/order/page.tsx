@@ -41,6 +41,7 @@ export default async function Order() {
             Check status
           </Button>
         </div>
+        {/* TODO: Pogledaj botun ispod na širini prozora `1040px`, bude slomljen. */}
         <Button variant="outline" className="ml-auto mt-4 lg:hidden">
           Check status
         </Button>
@@ -93,6 +94,7 @@ export default async function Order() {
               quantity={1}
               price={30}
             />
+            {/* TODO: A šta ćemo ako dodam 8. element? */}
             {i !== 7 && ( // Last item in array
               <hr className="my-6 h-px w-full border-0 bg-gray-200" />
             )}

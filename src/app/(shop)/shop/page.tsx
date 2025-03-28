@@ -57,6 +57,7 @@ export default function Shop() {
       </div>
 
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
+      {/* TODO: Ja bi ove filtere ubacija ode direktno na page. */}
       <Filters />
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (

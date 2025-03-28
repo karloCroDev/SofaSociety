@@ -19,6 +19,7 @@ import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 export const Collections = () => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
+  // TODO: A šta ako želimo imati više ili manje od 4 itema u kolekciji?
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {

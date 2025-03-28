@@ -1,3 +1,5 @@
+// TODO: Kao što sam već spomenuo, ako se riješiš ovoga `Form` cijela ova komponenta će biti server-side i moći ćeš sve ovo ubaciti direktno na `page.tsx`.
+
 'use client';
 
 // External packages
@@ -13,6 +15,7 @@ export const DialogPeronsalInfo = () => (
   <Dialog
     title="Personal information"
     triggerChildren={
+      // TODO: Ovaj `Change` botun mi pari puno veći nego bi triba bit na `/account/personal-and-security` stranici.
       <Button
         variant="outline"
         size="lg"

@@ -43,6 +43,7 @@ export const Input: React.FC<
             'h-14 w-full rounded border border-gray-200 px-4 text-gray-900 outline-none hover:border-gray-500 focus:border-gray-500 data-[invalid]:border-red-400 peer-data-[label-floating]:pt-3',
             inputProps?.className
           )}
+          // TODO: Ovo ispod bi rješio preko `placeholder-shown`.
           onChange={(event) => {
             const value = event.target.value;
             const labelElement = labelRef.current;

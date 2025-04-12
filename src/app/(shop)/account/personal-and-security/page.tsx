@@ -3,7 +3,6 @@ import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 import { DialogPeronsalInfo } from '@/components/shop/account/personal-and-security/DialogPeronsalInfo';
 import { DialogPersonalAddress } from '@/components/shop/account/personal-and-security/DialogPersonalAddress';
-import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { ResetPasswordPopover } from '@/components/shop/account/personal-and-security/ResetPasswordPopover';
 
 export default function PersonalAndSecurity() {
@@ -19,8 +18,7 @@ export default function PersonalAndSecurity() {
           </p>
         </div>
         <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0">
-          {/* TODO: Ovo ne treba biti ikona, može biti `-` karakter. */}
-          <Icon name="minus" />
+          {/* TODO: Ovo ne treba biti ikona, može biti `-` karakter. FIXED */}-
         </p>
 
         <DialogPeronsalInfo />
@@ -67,12 +65,7 @@ export default function PersonalAndSecurity() {
       <p className="mt-16 text-lg">Change password</p>
       <ResetPasswordPopover />
       <p className="mt-16 text-lg lg:hidden">Log out</p>
-      <Button
-        // href="/"
-        size="lg"
-        variant="outline"
-        className="mt-6 w-full lg:hidden"
-      >
+      <Button size="lg" variant="outline" className="mt-6 w-full lg:hidden">
         Log out
       </Button>
     </div>

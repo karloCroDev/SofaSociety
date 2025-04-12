@@ -5,6 +5,9 @@ import Link from 'next/link';
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { LoginForm } from '@/components/auth/login/LoginForm';
+import { Input } from '@/components/ui/Input';
+import { Form } from '@/components/ui/Form';
+import { Button } from '@/components/ui/Button';
 
 // Assets
 import ImageLoginHero from '@/public/images/auth/login-hero.png';
@@ -28,8 +31,21 @@ export default function Login() {
             <h1 className="mb-10 text-3xl font-semibold">
               Welcome back to Sofa Society!
             </h1>
-            {/* TODO: Ako `<Form` komponentu exportaš iz `src/components/ui/Form.tsx` onda nećeš imat potrebu za odvojenom komponentom za formu na liniji ispod. U tom slučaju ćeš moć prebacit formu direktno na page. */}
-            <LoginForm />
+            {/* TODO: Ako `<Form` komponentu exportaš iz `src/components/ui/Form.tsx` onda nećeš imat potrebu za odvojenom komponentom za formu na liniji ispod. U tom slučaju ćeš moć prebacit formu direktno na page. FIXED*/}
+
+            <Form className="flex flex-col gap-8">
+              <Input isRequired label="Email" />
+              <Input isRequired type="password" label="Password" />
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full"
+                // onSubmit={() => console.log('Hello world')}
+              >
+                Log in
+              </Button>
+            </Form>
+
             <p className="mt-16 text-gray-400">
               Don’t have an account yet? You can{' '}
               <Link

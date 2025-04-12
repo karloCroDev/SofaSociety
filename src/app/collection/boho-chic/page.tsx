@@ -45,6 +45,7 @@ export default function BohoChic() {
               </div>
             }
             price="1800€"
+            href="/product"
           />
         </LayoutColumn>
       ))}

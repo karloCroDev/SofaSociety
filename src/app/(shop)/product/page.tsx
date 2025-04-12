@@ -124,6 +124,7 @@ export default function ProductPage() {
                   </div>
                 }
                 price="1800€"
+                href="/product"
               />
             </LayoutColumn>
           ))}

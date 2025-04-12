@@ -42,6 +42,7 @@ export default function ModernLuxe() {
               </div>
             }
             price="1800€"
+            href="/product"
           />
         </LayoutColumn>
       ))}

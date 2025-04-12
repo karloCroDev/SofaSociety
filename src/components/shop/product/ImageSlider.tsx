@@ -6,11 +6,12 @@ import Image from 'next/image';
 
 // Components
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { ArrowButton } from '@/components/ui/ArrowButton';
+import { IconButton } from '@/components/ui/IconButton';
 
 // Assets
 import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
 import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
+import { Icon } from '@/components/ui/Icon';
 
 export const ImageSlider = () => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
@@ -50,11 +51,12 @@ export const ImageSlider = () => {
       </div>
 
       <div className="absolute left-4 top-1/2 flex w-[calc(100%-32px)] justify-between">
-        <ArrowButton
-          variation="outline"
-          onPress={() => scrollContainerFn(true)}
-        />
-        <ArrowButton direction="right" onPress={() => scrollContainerFn()} />
+        <IconButton variation="outline" onPress={() => scrollContainerFn(true)}>
+          <Icon name="arrow" />
+        </IconButton>
+        <IconButton onPress={() => scrollContainerFn()}>
+          <Icon name="arrow" className="rotate-180" />
+        </IconButton>
       </div>
       <div className="absolute bottom-4 left-1/2 mt-6 flex -translate-x-1/2 transform justify-center text-md lg:hidden">
         <p className="mr-4 underline underline-offset-4">1</p>

@@ -9,7 +9,6 @@ import Image from 'next/image';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-
 import { Tag } from '@/components/ui/Tag';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 

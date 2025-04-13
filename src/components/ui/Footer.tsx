@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export const Footer = () => (
   <div className="mt-24 bg-gray-50 lg:mt-36">
-    <Layout>
+    <Layout className="z-max">
       <LayoutRow className="flex-col items-center py-8 lg:h-85 lg:flex-row lg:justify-between">
         <LayoutColumn
           xs={12}

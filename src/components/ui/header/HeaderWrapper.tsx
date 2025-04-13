@@ -50,7 +50,7 @@ export const HeaderWrapper: React.FC<{
   return (
     <>
       <div
-        className="bg- fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 data-[background]:bg-gray-10 lg:data-[image]:bg-transparent lg:data-[image]:text-gray-10"
+        className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 data-[background]:bg-gray-10 lg:data-[image]:bg-transparent lg:data-[image]:text-gray-10"
         ref={headerRef}
       >
         <Header />

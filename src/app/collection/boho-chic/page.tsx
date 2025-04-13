@@ -13,6 +13,8 @@ import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 export default function BohoChic() {
   return (
     // TODO: Ako je moguće onda ovo što je unutar `PageTemplate` riješi pomoću `Layout.tsx`. Ako ne ostavi kako je.
+    // Alen: Pada mi jedino na pamet da se koristi usePathname, i onda se provjerava koje padatke da unesemo zavisno o tome za PageTemplate, ali onda bi stranice bile na client strani, ne vidim neki drugi nacin handeanja ovog javi ako
+
     <PageTemplate
       heroImage={
         <div className="mt-22 lg:mt-0">

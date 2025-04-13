@@ -38,9 +38,7 @@ export const SelectColor = () => {
       <div className="mt-8 flex flex-col justify-between gap-4 lg:mt-auto lg:flex-row">
         <AddToCart size="lg" />
         {/* TODO: Ovaj botun ispod mi pari veći nego bi triba bit. FIXED */}
-        <Button size="sm" className="flex-1">
-          Add to cart
-        </Button>
+        <Button className="flex-1">Add to cart</Button>
       </div>
     </>
   );

@@ -1,9 +1,11 @@
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
-import { DialogPeronsalInfo } from '@/components/shop/account/personal-and-security/DialogPeronsalInfo';
-import { DialogPersonalAddress } from '@/components/shop/account/personal-and-security/DialogPersonalAddress';
 import { ResetPasswordPopover } from '@/components/shop/account/personal-and-security/ResetPasswordPopover';
+import { Dialog } from '@/components/shop/account/Dialog';
+import { Form } from '@/components/ui/Form';
+import { CountrySelect } from '@/components/checkout/CountrySelect';
+import { Input } from '@/components/ui/Input';
 
 export default function PersonalAndSecurity() {
   return (
@@ -20,8 +22,34 @@ export default function PersonalAndSecurity() {
         <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0">
           {/* TODO: Ovo ne treba biti ikona, može biti `-` karakter. FIXED */}-
         </p>
-
-        <DialogPeronsalInfo />
+        <Dialog
+          title="Personal information"
+          triggerChildren={
+            // TODO: Ovaj `Change` botun mi pari puno veći nego bi triba bit na `/account/personal-and-security` stranici. FIXED
+            <Button
+              variant="outline"
+              className="mt-8 w-full lg:ml-auto lg:mt-0 lg:w-auto"
+            >
+              Change
+            </Button>
+          }
+        >
+          <Form>
+            <div className="flex gap-6">
+              <Input label="First name" className="flex-1" />
+              <Input label="Last name" className="flex-1" />
+            </div>
+            <Input label="Phone" className="mt-8" />
+            <div className="mt-10 flex justify-between">
+              <Button isDisabled isVisuallyDisabled type="submit">
+                Save changes
+              </Button>
+              <Button variant="outline" slot="close">
+                Cancel
+              </Button>
+            </div>
+          </Form>
+        </Dialog>
       </div>
       <p className="mt-16 text-lg">Contact</p>
       <div className="mt-6 flex items-center rounded border border-gray-200 p-4">
@@ -69,7 +97,31 @@ export default function PersonalAndSecurity() {
           <Button variant="outline" className="p-2">
             <Icon name="bin" className="size-4" />
           </Button>
-          <DialogPersonalAddress />
+          <Dialog
+            title="Add address"
+            triggerChildren={<Button variant="outline">Change</Button>}
+          >
+            <Form>
+              <div className="flex flex-col gap-8">
+                <CountrySelect />
+                <Input isRequired label="Address" />
+                <Input isRequired label="Phone" />
+                <Input label="Apartment, suite, etc. (Optional)" />
+                <div className="flex gap-8">
+                  <Input isRequired label="Postal code" className="flex-1" />
+                  <Input isRequired label="City" className="flex-1" />
+                </div>
+              </div>
+              <div className="mt-10 flex justify-between">
+                <Button isDisabled isVisuallyDisabled type="submit">
+                  Add address
+                </Button>
+                <Button variant="outline" slot="close">
+                  Cancel
+                </Button>
+              </div>
+            </Form>
+          </Dialog>
         </div>
       </div>
 

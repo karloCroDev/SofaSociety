@@ -1,8 +1,8 @@
 // TODO:
-// 1. Imaš console error na ovoj stranici. Molim te da prođeš sve stranice i provjeriš da li imaš još sličnih problema.
-// 2. Sidebar na ovoj stranici treba biti fiksan, dok se samo sadržaj s desne strane može "skrolati".
-// 3. Također, sidebar mora ići skroz do kraja prozora lijevo, trenutno imaš nekakav razmak.
-// 4. Točke 2. i 3. također vrijede za `/account/orders/order` i `/account/personal-and-security` stranice.
+// 1. Imaš console error na ovoj stranici. Molim te da prođeš sve stranice i provjeriš da li imaš još sličnih problema. FIXED
+// 2. Sidebar na ovoj stranici treba biti fiksan, dok se samo sadržaj s desne strane može "skrolati". FIXED
+// 3. Također, sidebar mora ići skroz do kraja prozora lijevo, trenutno imaš nekakav razmak. FIXED
+// 4. Točke 2. i 3. također vrijede za `/account/orders/order` i `/account/personal-and-security` stranice. FIXED
 
 // External packages
 import Image from 'next/image';

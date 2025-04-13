@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 
 // Assets
 import ImageExample from '@/public/images/home/modern-luxe.png';
+import { twJoin } from 'tailwind-merge';
 
 export default async function Order() {
   return (
@@ -73,13 +74,11 @@ export default async function Order() {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col rounded border border-gray-200 p-4">
+      <div className="mt-6 flex flex-col gap-6 rounded border border-gray-200 p-4">
         {[...Array(8)].map((_, i: number) => (
           <>
-            {i !== 0 && (
-              <hr className="my-6 h-px w-full border-0 bg-gray-200" />
-            )}
             <OrderedProduct
+              hasBorder={i !== 0}
               key={i}
               orderImage={
                 <div className="h-52 w-36">
@@ -96,6 +95,7 @@ export default async function Order() {
               quantity={1}
               price={30}
             />
+
             {/* TODO: A šta ćemo ako dodam 8. element? FIXED*/}
           </>
         ))}
@@ -133,8 +133,11 @@ const OrderedProduct: React.FC<{
   color: string;
   quantity: number;
   price: number;
-}> = ({ orderImage, title, material, color, quantity, price }) => (
-  <div className="flex">
+  hasBorder: boolean;
+}> = ({ orderImage, title, material, color, quantity, price, hasBorder }) => (
+  <div
+    className={twJoin('flex', hasBorder && 'border-t border-t-gray-200 pt-6')}
+  >
     {orderImage}
     <div className="ml-8 flex flex-1 flex-col">
       <h4 className="text-lg">{title}</h4>

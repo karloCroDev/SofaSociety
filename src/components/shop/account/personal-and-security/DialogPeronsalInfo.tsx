@@ -15,10 +15,9 @@ export const DialogPeronsalInfo = () => (
   <Dialog
     title="Personal information"
     triggerChildren={
-      // TODO: Ovaj `Change` botun mi pari puno veći nego bi triba bit na `/account/personal-and-security` stranici.
+      // TODO: Ovaj `Change` botun mi pari puno veći nego bi triba bit na `/account/personal-and-security` stranici. FIXED
       <Button
         variant="outline"
-        size="lg"
         className="mt-8 w-full lg:ml-auto lg:mt-0 lg:w-auto"
       >
         Change

@@ -13,13 +13,12 @@ export default async function Order() {
   return (
     <>
       <h1 className="text-xl font-semibold">Order: 000001</h1>
-
       <div className="mt-16 rounded border border-gray-200 p-4">
         <div className="flex gap-2">
           <p className="text-gray-500">Estimate delivery: </p>
           <p> 1 — 3 Dec, 2024</p>
         </div>
-        <div className="mt-4 flex items-center lg:mt-8">
+        <div className="mt-4 flex items-center xl:mt-8">
           <Tag iconLeft={<Icon name="package" className="size-3" />}>
             Packing
           </Tag>
@@ -37,12 +36,12 @@ export default async function Order() {
           >
             Packing
           </Tag>
-          <Button variant="outline" className="ml-auto hidden lg:block">
+          <Button variant="outline" className="ml-auto hidden xl:block">
             Check status
           </Button>
         </div>
-        {/* TODO: Pogledaj botun ispod na širini prozora `1040px`, bude slomljen. */}
-        <Button variant="outline" className="ml-auto mt-4 lg:hidden">
+        {/* TODO: Pogledaj botun ispod na širini prozora `1040px`, bude slomljen. FIXED */}
+        <Button variant="outline" className="ml-auto mt-4 xl:hidden">
           Check status
         </Button>
       </div>
@@ -77,6 +76,9 @@ export default async function Order() {
       <div className="mt-6 flex flex-col rounded border border-gray-200 p-4">
         {[...Array(8)].map((_, i: number) => (
           <>
+            {i !== 0 && (
+              <hr className="my-6 h-px w-full border-0 bg-gray-200" />
+            )}
             <OrderedProduct
               key={i}
               orderImage={
@@ -94,10 +96,7 @@ export default async function Order() {
               quantity={1}
               price={30}
             />
-            {/* TODO: A šta ćemo ako dodam 8. element? */}
-            {i !== 7 && ( // Last item in array
-              <hr className="my-6 h-px w-full border-0 bg-gray-200" />
-            )}
+            {/* TODO: A šta ćemo ako dodam 8. element? FIXED*/}
           </>
         ))}
       </div>

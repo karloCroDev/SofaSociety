@@ -424,24 +424,23 @@
 /* Legal pages */
 
 .article {
-  @apply flex flex-col gap-16;
+  @apply flex flex-col gap-8;
 }
-.article > p {
+.article:first-child {
   @apply mt-24;
 }
 
-.article div {
-  @apply mb-8 flex flex-col gap-4;
-}
-
-.article div h4 {
-  @apply mb-8 text-lg font-bold;
+.article h1,
+.article h2,
+.article h3,
+.article h4 {
+  @apply mt-8 text-lg font-bold;
 }
 
 .article ul {
-  @apply list-inside list-disc pl-4;
+  @apply list-inside list-disc;
 }
 
 .article ol {
-  @apply list-decimal;
+  @apply list-inside list-decimal;
 }

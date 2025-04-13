@@ -13,17 +13,17 @@ export const SelectColor = () => {
 
   return (
     <>
-      <div className="mt-8 flex lg:mt-16">
+      <div className="mt-6 flex">
         <p>Materials</p>
         <p className="ml-6 text-gray-500">
           {color && color[0].toUpperCase() + color.slice(1)}
         </p>
       </div>
-      {/* TODO: Razmak ispod ove radio grupe mi pari manji nego bi triba bit. */}
+      {/* TODO: Razmak ispod ove radio grupe mi pari manji nego bi triba bit. FIXED*/}
       <RadioGroup
         onChange={(e) => setColor(e.toString())}
         defaultValue={color}
-        className="mt-6 flex gap-4 lg:gap-6"
+        className="mt-4 flex gap-6"
       >
         <Radio value="dark gray" className="group">
           <div className="relative size-8 cursor-pointer bg-gray-500 after:absolute after:-bottom-2 after:w-full after:bg-gray-900 group-data-[selected]:after:h-px" />

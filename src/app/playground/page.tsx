@@ -29,9 +29,7 @@ export default function Page() {
         <Button variant="outline" colorScheme="black" className="italic">
           Label
         </Button>
-        <LinkAsButton href="/shop" size="sm">
-          Hello world
-        </LinkAsButton>
+        <LinkAsButton href="/shop">Hello world</LinkAsButton>
         <IconButton>
           <Icon name="arrow" className="rotate-180" />
         </IconButton>

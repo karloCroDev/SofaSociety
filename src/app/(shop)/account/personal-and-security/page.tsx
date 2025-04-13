@@ -37,22 +37,33 @@ export default function PersonalAndSecurity() {
       <div className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8">
         <Icon name="user" className="self-start" />
         <div className="grid grid-cols-2 items-center gap-y-9 lg:gap-x-28">
-          {/* TODO: Nemoj koristiti `::before` za ove labele, jednostavno dodaj `<p>`. */}
-          <p className="before:block before:text-sm before:text-gray-500 before:content-['Country']">
-            Croatia
-          </p>
-          <p className="before:block before:text-sm before:text-gray-500 before:content-['Address']">
-            Duvanjska 3
-          </p>
-          <p className="before:block before:text-sm before:text-gray-500 before:content-['Apartment,_suite,_etc._(Optional)']">
-            2nd floor
-          </p>
-          <p className="before:block before:text-sm before:text-gray-500 before:content-['Postal_code']">
-            10000
-          </p>
-          <p className="before:block before:text-sm before:text-gray-500 before:content-['City']">
-            Zagreb
-          </p>
+          {/* TODO: Nemoj koristiti `::before` za ove labele, jednostavno dodaj `<p>`. FIXED*/}
+          <div>
+            <p className="text-sm text-gray-500">Country</p>
+            <p>Croatia</p>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500">Address</p>
+            <p>Duvanjska 3</p>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500">
+              Apartment, suite, etc. (Optional)
+            </p>
+            <p>2nd floor</p>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500">Postal code</p>
+            <p>10000</p>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500">City</p>
+            <p>Zagreb</p>
+          </div>
         </div>
         <div className="ml-auto flex gap-6 self-start">
           <Button variant="outline" className="p-2">

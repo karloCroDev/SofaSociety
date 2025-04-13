@@ -8,7 +8,14 @@ import { LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
 import { ProductCard } from '@/components/ui/ProductCard';
 import { Button } from '@/components/ui/Button';
-import { Filters } from '@/components/ui/filters/Filters';
+import { Slider } from '@/components/ui/filters/Slider';
+import { Color } from '@/components/ui/filters/Color';
+import { Materials } from '@/components/ui/filters/Materials';
+import { Collection } from '@/components/ui/filters/Collection';
+import { PopoverOption } from '@/components/ui/filters/PopoverOption';
+import { Sort } from '@/components/ui/filters/Sort';
+import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
+import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 
 // Assets
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -57,8 +64,36 @@ export default function Shop() {
       </div>
 
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
-      {/* TODO: Ja bi ove filtere ubacija ode direktno na page. */}
-      <Filters />
+      {/* TODO: Ja bi ove filtere ubacija ode direktno na page. FIXED */}
+      <div className="mt-6 flex justify-between lg:mt-8">
+        <div className="hidden gap-4 lg:flex">
+          <PopoverOption title="Price">
+            <Slider />
+          </PopoverOption>
+          <PopoverOption title="Color">
+            <Color />
+          </PopoverOption>
+          <PopoverOption title="Materials">
+            <Materials />
+          </PopoverOption>
+          <PopoverOption title="Collection">
+            <Collection />
+          </PopoverOption>
+        </div>
+        <div className="hidden lg:block">
+          <PopoverOption
+            title="Sort by"
+            popoverProps={{
+              placement: 'bottom right',
+            }}
+          >
+            <Sort />
+          </PopoverOption>
+        </div>
+
+        <DrawerFilter />
+        <DrawerSort />
+      </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         {[...Array(9)].map((_, index) => (
           <LayoutColumn

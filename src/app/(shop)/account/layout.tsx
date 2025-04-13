@@ -17,7 +17,7 @@ export default function AccountLayout({
       <Layout>
         <LayoutRow>
           <LayoutColumn lg={3} xs={12}>
-            <div className="lg:absolute lg:h-[calc(100vh-88px)]">
+            <div className="lg:fixed lg:h-[calc(100vh-88px)]">
               <div className='pulled-background-account flex h-full w-full flex-col after:absolute after:right-0 after:top-0 after:z-[-1] after:hidden after:h-full after:bg-gray-50 after:content-[""] lg:p-8 lg:pb-8 lg:pt-32 after:lg:block'>
                 <div className="mt-8 hidden items-center justify-between lg:mt-0 lg:flex">
                   <h3 className="text-xl font-semibold">My account</h3>

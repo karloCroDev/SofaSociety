@@ -11,7 +11,7 @@ import {
   useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
-import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
+import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
@@ -38,31 +38,24 @@ const staticTransition = {
   duration: 0.5,
   ease: [0.32, 0.72, 0, 1],
 };
-
-const root = document.body.firstChild as HTMLElement;
+const SHEET_MARGIN = 144;
 
 export const DrawerFilter = () => {
-  const SHEET_MARGIN = 144;
-  const SHEET_RADIUS = 12;
+  const [h, setH] = React.useState<number | null>(null);
+  const [w, setW] = React.useState<number | null>(null);
+
   const [isOpen, setOpen] = React.useState(false);
-  let h = window.innerHeight - SHEET_MARGIN;
-  let y = useMotionValue(h);
-  let bgOpacity = useTransform(y, [0, h], [0.4, 0]);
-  let bg = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
 
-  let bodyScale = useTransform(
-    y,
-    [0, h],
-    [(window.innerWidth - SHEET_MARGIN) / window.innerWidth, 1]
-  );
-  let bodyTranslate = useTransform(y, [0, h], [SHEET_MARGIN - SHEET_RADIUS, 0]);
+  React.useEffect(() => {
+    setH(window.innerHeight - SHEET_MARGIN);
+    setW((window.innerWidth - SHEET_MARGIN) / window.innerWidth);
+  }, []);
 
-  useMotionValueEvent(bodyScale, 'change', (v) => (root.style.scale = `${v}`));
-  useMotionValueEvent(
-    bodyTranslate,
-    'change',
-    (v) => (root.style.translate = `0 ${v}px`)
-  );
+  const y = useMotionValue(h || 0);
+  const bgOpacity = useTransform(y, [0, h || 1], [0.4, 0]);
+  const bg = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
+
+  if (w === null || h === null) return null;
 
   return (
     <>

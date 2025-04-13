@@ -16,11 +16,7 @@ export const ResetPasswordPopover = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <DialogTrigger isOpen={isOpen}>
-      <Button
-        size="lg"
-        className="mt-6 w-full lg:w-fit"
-        onPress={() => setIsOpen(true)}
-      >
+      <Button className="mt-6 w-full lg:w-fit" onPress={() => setIsOpen(true)}>
         Reset password
       </Button>
       <Popover

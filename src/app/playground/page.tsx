@@ -13,9 +13,8 @@ import {
 import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
-import { ArrowButton } from '@/components/ui/ArrowButton';
+import { IconButton } from '@/components/ui/IconButton';
 import { Tag } from '@/components/ui/Tag';
-
 import { RadioButtonVisual, RadioIconVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
 import { Layout } from '@/components/ui/Layout';
@@ -30,10 +29,10 @@ export default function Page() {
         <Button variant="outline" colorScheme="black" className="italic">
           Label
         </Button>
-        <LinkAsButton href="/shop" size="sm">
-          Hello world
-        </LinkAsButton>
-        <ArrowButton direction="right" />
+        <LinkAsButton href="/shop">Hello world</LinkAsButton>
+        <IconButton>
+          <Icon name="arrow" className="rotate-180" />
+        </IconButton>
         <Tag> Hello world</Tag>
 
         <RadioGroup className="flex flex-col gap-1">

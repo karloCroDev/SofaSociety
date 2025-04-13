@@ -8,7 +8,8 @@ import Link from 'next/link';
 // Components
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Button } from '@/components/ui/Button';
-import { ArrowButton } from '@/components/ui/ArrowButton';
+import { IconButton } from '@/components/ui/IconButton';
+import { Icon } from '@/components/ui/Icon';
 
 // Assets
 import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
@@ -19,13 +20,16 @@ import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 export const Collections = () => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
-  // TODO: A šta ako želimo imati više ili manje od 4 itema u kolekciji?
-  const scrollContainerFn = (isDirectionLeft: boolean = false) => {
+  // TODO: A šta ako želimo imati više ili manje od 4 itema u kolekciji? FIXED
+  const scrollContainerFn = (
+    isDirectionLeft: boolean = false,
+    itemLength = 4
+  ) => {
     const element = scrollableContainerRef.current;
     if (element) {
       if (isDirectionLeft)
-        return (element.scrollLeft -= element.scrollWidth / 4);
-      element.scrollLeft += element.scrollWidth / 4;
+        return (element.scrollLeft -= element.scrollWidth / itemLength);
+      element.scrollLeft += element.scrollWidth / itemLength;
     }
   };
 
@@ -35,16 +39,19 @@ export const Collections = () => {
         <h2 className="text-xl font-medium lg:text-3xl">Collections</h2>
         <Button className="ml-auto">View All</Button>
         <div className="hidden lg:block">
-          <ArrowButton
+          <IconButton
             variation="outline"
             onPress={() => scrollContainerFn(true)}
-          />
-          <ArrowButton
-            direction="right"
+          >
+            <Icon name="arrow" />
+          </IconButton>
+          <IconButton
             variation="outline"
             className="ml-2"
             onPress={() => scrollContainerFn()} // Po defaultu se passa event handler, te se isprerplice s argumentom
-          />
+          >
+            <Icon name="arrow" className="rotate-180" />
+          </IconButton>
         </div>
       </div>
       <LayoutRow

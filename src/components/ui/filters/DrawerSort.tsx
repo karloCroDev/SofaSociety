@@ -1,6 +1,5 @@
 'use client';
 
-// External packages
 import * as React from 'react';
 import {
   animate,
@@ -11,9 +10,8 @@ import {
   useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
-import { Dialog, Heading, Modal, ModalOverlay } from 'react-aria-components';
+import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
 
-// Components
 import { Icon } from '@/components/ui/Icon';
 import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
@@ -22,7 +20,7 @@ import { Sort } from '@/components/ui/filters/Sort';
 const MotionModal = motion(Modal);
 const MotionModalOverlay = motion(ModalOverlay);
 
-const SHEET_MARGIN = window.innerHeight / 2; // U design je pola visine ekrana, nisam siguran da li bi trebalo pokriti ekran koliko je visok <Sort/> ili fixirano pola;
+// Constants
 const SHEET_RADIUS = 12;
 
 // Animations
@@ -38,29 +36,32 @@ const staticTransition = {
   ease: [0.32, 0.72, 0, 1],
 };
 
-const root = document.body.firstChild as HTMLElement;
-
 export const DrawerSort = () => {
-  let [isOpen, setOpen] = React.useState(false);
-  let h = window.innerHeight - SHEET_MARGIN;
-  let y = useMotionValue(h);
-  let bgOpacity = useTransform(y, [0, h], [0.4, 0]);
-  let bg = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
+  const [isOpen, setOpen] = React.useState(false);
 
-  let bodyScale = useTransform(
-    y,
-    [0, h],
-    [(window.innerWidth - SHEET_MARGIN) / window.innerWidth, 1]
-  );
-  let bodyTranslate = useTransform(y, [0, h], [SHEET_MARGIN - SHEET_RADIUS, 0]);
+  const [dimensions, setDimensions] = React.useState<{
+    h: number;
+    w: number;
+    sheetMargin: number;
+  } | null>(null);
 
-  useMotionValueEvent(bodyScale, 'change', (v) => (root.style.scale = `${v}`));
-  useMotionValueEvent(
-    bodyTranslate,
-    'change',
-    (v) => (root.style.translate = `0 ${v}px`)
-  );
+  React.useEffect(() => {
+    const height = window.innerHeight;
+    const width = window.innerWidth;
+    const sheetMargin = height / 2;
 
+    setDimensions({
+      h: height - sheetMargin,
+      w: (width - sheetMargin) / width,
+      sheetMargin,
+    });
+  }, []);
+
+  const y = useMotionValue(dimensions?.h || 1);
+  const bgOpacity = useTransform(y, [0, dimensions?.h || 1], [0.4, 0]);
+  const bg = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
+
+  if (!dimensions) return null;
   return (
     <>
       <FilterButton
@@ -82,14 +83,11 @@ export const DrawerSort = () => {
           >
             <MotionModal
               className="-max-h-20 absolute bottom-0 w-full bg-gray-10 shadow-lg will-change-transform"
-              initial={{ y: h }}
+              initial={{ y: dimensions.h }}
               animate={{ y: 0 }}
-              exit={{ y: h }}
+              exit={{ y: dimensions.h }}
               transition={staticTransition}
-              style={{
-                y,
-                top: SHEET_MARGIN,
-              }}
+              style={{ y, top: dimensions.sheetMargin }}
               drag="y"
               dragConstraints={{ top: 0 }}
               onDragEnd={(e, { offset, velocity }) => {

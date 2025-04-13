@@ -15,7 +15,6 @@ export const DialogResetPassword = () => (
     triggerChildren={
       <Button
         variant="outline"
-        size="lg"
         className="mt-8 w-full lg:ml-auto lg:mt-0 lg:w-auto"
       >
         Change

@@ -1,15 +1,14 @@
 // TODO:
-// 1. Imaš console error na ovoj stranici. Molim te da prođeš sve stranice i provjeriš da li imaš još sličnih problema.
-// 2. Sidebar na ovoj stranici treba biti fiksan, dok se samo sadržaj s desne strane može "skrolati".
-// 3. Također, sidebar mora ići skroz do kraja prozora lijevo, trenutno imaš nekakav razmak.
-// 4. Točke 2. i 3. također vrijede za `/account/orders/order` i `/account/personal-and-security` stranice.
+// 1. Imaš console error na ovoj stranici. Molim te da prođeš sve stranice i provjeriš da li imaš još sličnih problema. FIXED
+// 2. Sidebar na ovoj stranici treba biti fiksan, dok se samo sadržaj s desne strane može "skrolati". FIXED
+// 3. Također, sidebar mora ići skroz do kraja prozora lijevo, trenutno imaš nekakav razmak. FIXED
+// 4. Točke 2. i 3. također vrijede za `/account/orders/order` i `/account/personal-and-security` stranice. FIXED
 
 // External packages
 import Image from 'next/image';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-
 import { Tag } from '@/components/ui/Tag';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
@@ -57,13 +56,13 @@ const OrderCard: React.FC<{
   <div className="mb-4 rounded border border-gray-200 p-4">
     <div className="flex">
       <div>
-        {/* TODO: Pari mi da ti je ovaj `<div>` na liniji ispod višak. */}
-        <div>
-          <div className="text-lg">
-            <h4 className="font-bold">Order:</h4>
-            <p>{orderId}</p>
-          </div>
+        {/* TODO: Pari mi da ti je ovaj `<div>` na liniji ispod višak. FIXED*/}
+
+        <div className="text-lg">
+          <h4 className="font-bold">Order:</h4>
+          <p>{orderId}</p>
         </div>
+
         <p className="text-gray-500">Order date: {orderDate}</p>
       </div>
       <div className="ml-auto h-24 w-20">{productImages}</div>

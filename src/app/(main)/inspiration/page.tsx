@@ -47,6 +47,7 @@ export default function Inspiration() {
                 </div>
               }
               price="1800€"
+              href="/product"
             />
           </LayoutColumn>
         </LayoutRow>
@@ -75,6 +76,7 @@ export default function Inspiration() {
                 </div>
               }
               price="1800€"
+              href="/product"
             />
             <ProductCard
               name="Belime Heaven"
@@ -85,6 +87,7 @@ export default function Inspiration() {
                 </div>
               }
               price="1800€"
+              href="/product"
             />
           </LayoutColumn>
         </LayoutRow>
@@ -121,6 +124,7 @@ export default function Inspiration() {
               }
               price="2000€"
               originalPrice="3000€"
+              href="/product"
             />
           </LayoutColumn>
         </LayoutRow>

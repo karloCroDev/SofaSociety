@@ -8,18 +8,18 @@ import { Button } from '@/components/ui/Button';
 
 // Assets
 import ImageExample from '@/public/images/home/modern-luxe.png';
+import { twJoin } from 'tailwind-merge';
 
 export default async function Order() {
   return (
     <>
       <h1 className="text-xl font-semibold">Order: 000001</h1>
-
       <div className="mt-16 rounded border border-gray-200 p-4">
         <div className="flex gap-2">
           <p className="text-gray-500">Estimate delivery: </p>
           <p> 1 — 3 Dec, 2024</p>
         </div>
-        <div className="mt-4 flex items-center lg:mt-8">
+        <div className="mt-4 flex items-center xl:mt-8">
           <Tag iconLeft={<Icon name="package" className="size-3" />}>
             Packing
           </Tag>
@@ -37,12 +37,12 @@ export default async function Order() {
           >
             Packing
           </Tag>
-          <Button variant="outline" className="ml-auto hidden lg:block">
+          <Button variant="outline" className="ml-auto hidden xl:block">
             Check status
           </Button>
         </div>
-        {/* TODO: Pogledaj botun ispod na širini prozora `1040px`, bude slomljen. */}
-        <Button variant="outline" className="ml-auto mt-4 lg:hidden">
+        {/* TODO: Pogledaj botun ispod na širini prozora `1040px`, bude slomljen. FIXED */}
+        <Button variant="outline" className="ml-auto mt-4 xl:hidden">
           Check status
         </Button>
       </div>
@@ -74,10 +74,11 @@ export default async function Order() {
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col rounded border border-gray-200 p-4">
+      <div className="mt-6 flex flex-col gap-6 rounded border border-gray-200 p-4">
         {[...Array(8)].map((_, i: number) => (
           <>
             <OrderedProduct
+              hasBorder={i !== 0}
               key={i}
               orderImage={
                 <div className="h-52 w-36">
@@ -94,10 +95,8 @@ export default async function Order() {
               quantity={1}
               price={30}
             />
-            {/* TODO: A šta ćemo ako dodam 8. element? */}
-            {i !== 7 && ( // Last item in array
-              <hr className="my-6 h-px w-full border-0 bg-gray-200" />
-            )}
+
+            {/* TODO: A šta ćemo ako dodam 8. element? FIXED*/}
           </>
         ))}
       </div>
@@ -134,8 +133,11 @@ const OrderedProduct: React.FC<{
   color: string;
   quantity: number;
   price: number;
-}> = ({ orderImage, title, material, color, quantity, price }) => (
-  <div className="flex">
+  hasBorder: boolean;
+}> = ({ orderImage, title, material, color, quantity, price, hasBorder }) => (
+  <div
+    className={twJoin('flex', hasBorder && 'border-t border-t-gray-200 pt-6')}
+  >
     {orderImage}
     <div className="ml-8 flex flex-1 flex-col">
       <h4 className="text-lg">{title}</h4>

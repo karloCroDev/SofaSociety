@@ -4,7 +4,7 @@ import { twJoin } from 'tailwind-merge';
 
 export const ProductCard: React.FC<
   React.ComponentPropsWithoutRef<'a'> &
-    Omit<LinkProps, 'href'> & {
+    LinkProps & {
       image: React.ReactNode;
       name: string;
       category: string;
@@ -12,8 +12,8 @@ export const ProductCard: React.FC<
       originalPrice?: string;
     }
 > = ({ name, category, price, originalPrice, image, ...rest }) => (
-  // TODO: Ovaj `{...rest}` uvijek stavljaj kao prvi prop, a ovaj `href` izbaci van komponente. Imat ćeš mjesta gdje ćeš htjeti imati drugačiji href, a nećeš moći.
-  <Link href="/product" {...rest}>
+  // TODO: Ovaj `{...rest}` uvijek stavljaj kao prvi prop, a ovaj `href` izbaci van komponente. Imat ćeš mjesta gdje ćeš htjeti imati drugačiji href, a nećeš moći. FIXED
+  <Link {...rest}>
     {image}
     <div className="mt-6 flex flex-col md:flex-row md:justify-between">
       <div>

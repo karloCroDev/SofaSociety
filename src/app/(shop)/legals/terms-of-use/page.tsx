@@ -35,11 +35,9 @@ export default function TermsOfUse() {
                 or distribute any of our content without our prior written
                 permission.
               </p>
-            </div>
 
-            <div>
               <h4>2. Use of the Website:</h4>
-              {/* TODO: Ovu `<ol>` listu provjeri u dizajnu molim te, mislim da razmaci i uvlake nisu dobre. */}
+              {/* TODO: Ovu `<ol>` listu provjeri u dizajnu molim te, mislim da razmaci i uvlake nisu dobre. FIXED */}
               <ol>
                 <li>
                   Eligibility: You must be at least 16 years old to use our
@@ -77,8 +75,7 @@ export default function TermsOfUse() {
                   </ul>
                 </li>
               </ol>
-            </div>
-            <div>
+
               <h4>3. Third-Party Links and Content:</h4>
               <p>
                 Our website may contain links to third-party websites or display
@@ -87,9 +84,7 @@ export default function TermsOfUse() {
                 own risk. We are not responsible for the accuracy, reliability,
                 or legality of any third-party websites or content.
               </p>
-            </div>
 
-            <div>
               <h4>4. Disclaimer of Warranties:</h4>
               <p>
                 Our website is provided on an "as is" and "as available" basis.
@@ -97,9 +92,7 @@ export default function TermsOfUse() {
                 operation, availability, or accuracy of our website or the
                 content therein. Your use of our website is at your sole risk.
               </p>
-            </div>
 
-            <div>
               <h4>5. Limitation of Liability:</h4>
               <p>
                 To the maximum extent permitted by law, Sofa Society and its
@@ -109,9 +102,7 @@ export default function TermsOfUse() {
                 of our website, even if advised of the possibility of such
                 damages.
               </p>
-            </div>
 
-            <div>
               <h4>6. Indemnification:</h4>
               <p>
                 You agree to indemnify, defend, and hold harmless Sofa Society
@@ -121,9 +112,7 @@ export default function TermsOfUse() {
                 or in connection with your use of our website or violation of
                 these Terms of Use.
               </p>
-            </div>
 
-            <div>
               <h4>7. Modifications to the Terms:</h4>
               <p>
                 You agree to indemnify, defend, and hold harmless Sofa Society
@@ -133,9 +122,7 @@ export default function TermsOfUse() {
                 or in connection with your use of our website or violation of
                 these Terms of Use.
               </p>
-            </div>
 
-            <div>
               <h4>8. Governing Law and Jurisdiction:</h4>
               <p>
                 These Terms of Use shall be governed by and construed in

@@ -1,4 +1,4 @@
-// TODO: Kao što sam već spomenuo na nekoj od stranica, visina stranice je problematična i layout se ne ponaša kako bi trebao na manjim visinama ekrana na desktopu.
+// TODO: Kao što sam već spomenuo na nekoj od stranica, visina stranice je problematična i layout se ne ponaša kako bi trebao na manjim visinama ekrana na desktopu. POPRAVI
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
@@ -20,12 +20,13 @@ export default function Confirmation() {
             placed and will be processed shortly.
           </p>
           <p>
-            {/* TODO: Na liniji ispod nemoj koristiti `<b>` već `<strong>`. */}
-            We have sent you the receipt and order details via <b>e-mail.</b>
-            {/* TODO: Izbaci `<span>` sa linije ispod van paragrafa i dodaj ga ispod kao `<p>` element. */}
-            <span className="block">
-              Your order number is <b>#100002.</b>
-            </span>
+            {/* TODO: Na liniji ispod nemoj koristiti `<b>` već `<strong>`. FIXED*/}
+            We have sent you the receipt and order details via{' '}
+            <strong>e-mail.</strong>
+            {/* TODO: Izbaci `<span>` sa linije ispod van paragrafa i dodaj ga ispod kao `<p>` element. FIXED*/}
+          </p>
+          <p>
+            Your order number is <strong>#100002.</strong>
           </p>
           <div className="mt-16 flex flex-col lg:flex-row lg:justify-between">
             <div>

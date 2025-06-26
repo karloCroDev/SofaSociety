@@ -1,16 +1,21 @@
+'use client';
+
 // External packages
 import Image from 'next/image';
 import Link from 'next/link';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { LoginForm } from '@/components/auth/login/LoginForm';
 import { Input } from '@/components/ui/Input';
 import { Form } from '@/components/ui/Form';
 import { Button } from '@/components/ui/Button';
 
 // Assets
 import ImageLoginHero from '@/public/images/auth/login-hero.png';
+
+// Hooks
+import { useLogin } from '@/hooks/customer';
+import { LoginForm } from '@/components/auth/login/LoginForm';
 
 export default function Login() {
   return (
@@ -33,9 +38,15 @@ export default function Login() {
             </h1>
             {/* TODO: Ako `<Form` komponentu exportaš iz `src/components/ui/Form.tsx` onda nećeš imat potrebu za odvojenom komponentom za formu na liniji ispod. U tom slučaju ćeš moć prebacit formu direktno na page. FIXED*/}
 
-            <Form className="flex flex-col gap-8">
-              <Input isRequired label="Email" />
-              <Input isRequired type="password" label="Password" />
+            <LoginForm />
+            {/* <Form className="flex flex-col gap-8" >
+              <Input isRequired label="Email" id="email" />
+              <Input
+                isRequired
+                type="password"
+                label="Password"
+                id="password"
+              />
               <Button
                 type="submit"
                 size="lg"
@@ -44,7 +55,7 @@ export default function Login() {
               >
                 Log in
               </Button>
-            </Form>
+            </Form> */}
 
             <p className="mt-16 text-gray-400">
               Don’t have an account yet? You can{' '}

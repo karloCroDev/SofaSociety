@@ -1,5 +1,8 @@
 import { sdk } from '@/lib/config';
 import { HttpTypes } from '@medusajs/types';
+import { getRegion } from '@/lib/data/regions';
+// import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { sortProducts } from '@/lib/util/sort-products';
 
 export const getProductsById = async function ({
   ids,
@@ -71,7 +74,14 @@ export const getProductsList = async function ({
   const page = Math.max(1, pageParam || 1);
   const limit = queryParams?.limit || 12;
   const offset = (page - 1) * limit;
+  const region = await getRegion(countryCode);
 
+  if (!region) {
+    return {
+      response: { products: [], count: 0 },
+      nextPage: null,
+    };
+  }
   return sdk.client
     .fetch<{ products: HttpTypes.StoreProduct[]; count: number }>(
       `/store/products`,
@@ -79,7 +89,7 @@ export const getProductsList = async function ({
         query: {
           limit,
           offset,
-          region_id: '',
+          region_id: region.id,
           fields: '*variants.calculated_price',
           ...queryParams,
         },
@@ -113,7 +123,7 @@ export const getProductsListWithSort = async function ({
 }: {
   page?: number;
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams;
-  sortBy?: 'price_asc' | 'price_desc' | 'created_at'; // Karlo: Make this type
+  sortBy?: any; // Put sort options from the component
   countryCode: string;
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number };
@@ -133,13 +143,13 @@ export const getProductsListWithSort = async function ({
     countryCode,
   });
 
-  //   const sortedProducts = sortProducts(products, sortBy);
+  const sortedProducts = sortProducts(products, sortBy);
 
   const pageParam = (page - 1) * limit;
 
   const nextPage = count > pageParam + limit ? pageParam + limit : null;
 
-  const paginatedProducts = products.slice(pageParam, pageParam + limit);
+  const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit);
 
   return {
     response: {

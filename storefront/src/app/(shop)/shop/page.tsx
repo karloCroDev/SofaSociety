@@ -24,40 +24,37 @@ import ImageBohoChic from '@/public/images/home/boho-chic.png';
 import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 
-export default function Shop() {
+// Lib
+import { getCollectionsList } from '@/lib/data/collections';
+
+const collectionImages = {
+  'modern-luxe': ImageModernLuxe,
+  'boho-chic': ImageBohoChic,
+  'timeless-classics': ImageTimlessCLassics,
+  'scandinavian-simplicity': ImageScandinavianSimplicity,
+};
+
+export default async function Shop() {
+  const { collections } = await getCollectionsList();
+
   return (
     <Layout className="mt-32 lg:mt-44">
       <h2 className="hidden text-xl font-medium lg:block lg:text-3xl">
         Collections
       </h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
-        <LayoutColumn lg={3} className="pr-6">
-          <Link href="ndinavian-simplicity">
-            <Image
-              src={ImageScandinavianSimplicity}
-              alt="Scandinavian furnuture"
-            />
-            <p className="mt-6">Scandinavian simplicity</p>
-          </Link>
-        </LayoutColumn>
-        <LayoutColumn lg={3} className="pr-6">
-          <Link href="/collection/modern-luxe">
-            <Image src={ImageModernLuxe} alt="Modern luxe" />
-            <p className="mt-6">Modern Luxe</p>
-          </Link>
-        </LayoutColumn>
-        <LayoutColumn lg={3} className="pr-6">
-          <Link href="/collection/boho-chic">
-            <Image src={ImageBohoChic} alt="Boho Chic" />
-            <p className="mt-6">Boho Chic</p>
-          </Link>
-        </LayoutColumn>
-        <LayoutColumn lg={3} className="pr-6">
-          <Link href="/collection/timeless-classics">
-            <Image src={ImageTimlessCLassics} alt="Timeless Classics" />
-            <p className="mt-6">Timeless Classics</p>
-          </Link>
-        </LayoutColumn>
+        {collections.map((collection) => (
+          <LayoutColumn lg={3} className="pr-6" key={collection.id}>
+            <Link href={`/collection/${collection.handle}`}>
+              <Image
+                // @ts-ignore
+                src={collectionImages[collection.handle]}
+                alt="Scandinavian furnuture"
+              />
+              <p className="mt-6">{collection.title}</p>
+            </Link>
+          </LayoutColumn>
+        ))}
       </LayoutRow>
       <div className="lg:hidden">
         <Collections />

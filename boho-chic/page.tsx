@@ -9,10 +9,10 @@ import { PageTemplate } from '@/components/collection/PageTemplate';
 // Assets
 import ImageHero from '@/public/images/inspiration/dobule-sofa.png';
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-import { getCollectionsList } from '@/lib/collection';
+import { getCollectionsList } from '@/lib/data/collections';
 
 export default async function BohoChic() {
-  const { collections } = await getCollectionsList(0, 100);
+  const { collections } = await getCollectionsList();
 
   if (!collections) return;
 

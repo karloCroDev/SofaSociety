@@ -4,6 +4,7 @@ import Image from 'next/image';
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Icon } from '@/components/ui/Icon';
+import { getCustomer } from '@/lib/data/customer';
 
 // Assets
 import ImageExample from '@/public/images/home/armed-chair.png';
@@ -11,8 +12,12 @@ import { AddToCart } from '@/components/shop/AddToCart';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+import { redirect } from 'next/navigation';
 
 export default function Cart() {
+  const customer = getCustomer();
+
+  if (!customer) redirect('/login');
   return (
     <Layout className="mt-28 lg:mt-32">
       <LayoutRow>

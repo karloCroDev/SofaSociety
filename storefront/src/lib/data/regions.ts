@@ -1,5 +1,5 @@
 import { sdk } from '@/lib/config';
-import medusaError from '@/lib/utils/medusa-error';
+import medusaError from '@/lib/util/medusa-error';
 import { HttpTypes } from '@medusajs/types';
 
 export const listRegions = async function () {

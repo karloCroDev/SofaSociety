@@ -1,27 +1,17 @@
 import { sdk } from '@/lib/config';
-import { getProductsList } from '@/lib/products';
+import { getProductsList } from '@/lib/data/products';
 import { HttpTypes } from '@medusajs/types';
-import { p } from 'framer-motion/client';
 
 export const retrieveCollection = async function (id: string) {
-  const collectionResponse = await sdk.client.fetch<{
-    collection: HttpTypes.StoreCollection;
-  }>(`/store/collections/${id}`, {
-    next: { tags: ['collections'] },
-    cache: 'force-cache',
-  });
-  const productsResponse = await getProductsList({
-    queryParams: { collection_id: id },
-    countryCode: 'US',
-  });
-
-  console.log(collectionResponse.collection);
-  console.log(productsResponse.response.products);
-
-  return {
-    ...collectionResponse.collection,
-    products: productsResponse.response.products,
-  };
+  return sdk.client
+    .fetch<{ collection: HttpTypes.StoreCollection }>(
+      `/store/collections/${id}`,
+      {
+        next: { tags: ['collections'] },
+        cache: 'force-cache',
+      }
+    )
+    .then(({ collection }) => collection);
 };
 
 export const getCollectionsList = async function (

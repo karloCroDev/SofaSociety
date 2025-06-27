@@ -21,21 +21,22 @@ import { Sort } from '@/components/ui/filters/Sort';
 import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
 import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 
-// Assets
-import ImageScandinavianSimplicity from '@/public/images/home/scandinavian-simplicity.png';
-import ImageModernLuxe from '@/public/images/home/modern-luxe.png';
-import ImageBohoChic from '@/public/images/home/boho-chic.png';
-import ImageTimlessCLassics from '@/public/images/home/timless-classiscs.png';
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-
 // Lib
 import { getCollectionsList } from '@/lib/data/collections';
+import { getCategoriesList } from '@/lib/data/categories';
+import { getProductTypesList } from '@/lib/data/product-types';
+import { getRegion } from '@/lib/data/regions';
 
 export default async function Shop() {
   const { collections } = await getCollectionsList(0, 20, [
     'metadata',
     'handle',
     'title',
+  ]);
+
+  const [categories, types] = await Promise.all([
+    getCategoriesList(0, 100, ['id', 'name', 'handle']),
+    getProductTypesList(0, 100, ['id', 'value']),
   ]);
 
   console.log(collections);
@@ -98,14 +99,14 @@ export default async function Shop() {
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         <Suspense fallback={<ProductsSkeletonMapping />}>
-          {/* <ProductsMapping
+          <ProductsMapping
+            // Karlo: Account for params from the url
             sortBy="created_at"
-            page={pageNumber}
+            page={1}
             collectionId={undefined}
-            categoryId={undefined}
-            productsIds={results.hits.map((h) => h.id)}
-            typeId={undefined}
-          /> */}
+            categoryId={categories.product_categories.map((c) => c.id)}
+            typeId={types.productTypes.map((t) => t.id)}
+          />
         </Suspense>
       </LayoutRow>
       <Button className="mx-auto">View All</Button>

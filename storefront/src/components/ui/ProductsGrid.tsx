@@ -11,6 +11,7 @@ import { HttpTypes, StoreProduct } from '@medusajs/types';
 // Assets
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 import { useStoreProducts } from '@/hooks/store';
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
 export type SortOptions = 'price_asc' | 'price_desc' | 'created_at';
 
@@ -21,64 +22,66 @@ export const ProductsMapping: React.FC<{
   categoryId?: string | string[];
   typeId?: string | string[];
   productsIds?: string[];
-}> = ({ page, categoryId, collectionId, typeId, productsIds, sortBy }) => {
-  const queryParams: HttpTypes.StoreProductListParams = {
-    limit: 12,
-  };
-  if (collectionId) {
-    queryParams['collection_id'] = Array.isArray(collectionId)
-      ? collectionId
-      : [collectionId];
+}> = withReactQueryProvider(
+  ({ page, categoryId, collectionId, typeId, productsIds, sortBy }) => {
+    const queryParams: HttpTypes.StoreProductListParams = {
+      limit: 12,
+    };
+    if (collectionId) {
+      queryParams['collection_id'] = Array.isArray(collectionId)
+        ? collectionId
+        : [collectionId];
+    }
+
+    if (categoryId) {
+      queryParams['category_id'] = Array.isArray(categoryId)
+        ? categoryId
+        : [categoryId];
+    }
+
+    if (typeId) {
+      queryParams['type_id'] = Array.isArray(typeId) ? typeId : [typeId];
+    }
+
+    if (productsIds) {
+      queryParams['id'] = productsIds;
+    }
+
+    if (sortBy === 'created_at') {
+      queryParams['order'] = 'created_at';
+    }
+
+    const productsQuery = useStoreProducts({
+      page: 1,
+      countryCode: 'EU', // Karlo: Pitaj Antu je li ovo trebam implementirati
+      queryParams,
+      sortBy: 'price_asc',
+    });
+
+    console.log('sss', productsQuery.data);
+
+    return [...Array(8)].map((_, index) => (
+      <LayoutColumn
+        xs={6}
+        xl={4}
+        className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
+        key={index}
+      >
+        <ProductCard
+          name="Astrid Curve"
+          category="Scandinavian Simplicity"
+          image={
+            <div>
+              <Image src={ImageAstridCurve} alt="Astrid curve image" />
+            </div>
+          }
+          price="1800€"
+          href="/product"
+        />
+      </LayoutColumn>
+    ));
   }
-
-  if (categoryId) {
-    queryParams['category_id'] = Array.isArray(categoryId)
-      ? categoryId
-      : [categoryId];
-  }
-
-  if (typeId) {
-    queryParams['type_id'] = Array.isArray(typeId) ? typeId : [typeId];
-  }
-
-  if (productsIds) {
-    queryParams['id'] = productsIds;
-  }
-
-  if (sortBy === 'created_at') {
-    queryParams['order'] = 'created_at';
-  }
-
-  const productsQuery = useStoreProducts({
-    page: 1,
-    countryCode: 'CRO', // Karlo: Pitaj Antu je li ovo trebam implementirati
-    queryParams,
-    sortBy: 'price_asc',
-  });
-
-  console.log(productsQuery);
-
-  return [...Array(8)].map((_, index) => (
-    <LayoutColumn
-      xs={6}
-      xl={4}
-      className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-      key={index}
-    >
-      <ProductCard
-        name="Astrid Curve"
-        category="Scandinavian Simplicity"
-        image={
-          <div>
-            <Image src={ImageAstridCurve} alt="Astrid curve image" />
-          </div>
-        }
-        price="1800€"
-        href="/product"
-      />
-    </LayoutColumn>
-  ));
-};
+);
 
 export const ProductsSkeletonMapping = () => {
   return [...Array(8)].map((_, index) => (

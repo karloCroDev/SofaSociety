@@ -38,3 +38,20 @@ export const ProductCard: React.FC<
     </div>
   </Link>
 );
+
+export const ProductCardSkeleton = () => (
+  <div className="animate-pulse flex aspect-[4/3] flex-col">
+    <div className="flex-1 rounded-lg bg-gray-200" />
+
+    <div className="mt-6 flex flex-col gap-4 md:flex-row md:justify-between">
+      <div>
+        <div className="h-5 w-40 rounded bg-gray-200" />
+        <div className="mt-2 hidden h-4 w-24 rounded bg-gray-200 lg:block" />
+      </div>
+      <div>
+        <div className="h-5 w-20 rounded bg-gray-200" />
+        <div className="mt-2 h-4 w-16 rounded bg-gray-200" />
+      </div>
+    </div>
+  </div>
+);

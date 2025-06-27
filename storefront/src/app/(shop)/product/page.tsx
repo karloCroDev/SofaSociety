@@ -1,12 +1,16 @@
 // External packages
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
 import { ImageSlider } from '@/components/shop/product/ImageSlider';
-import { ProductCard } from '@/components/ui/ProductCard';
+import {
+  ProductsMapping,
+  ProductsSkeletonMapping,
+} from '@/components/ui/ProductsGrid';
 
 // Assets
 import ImageInspiredInterior from '@/public/images/product/inspired-interior.png';
@@ -108,26 +112,9 @@ export default function ProductPage() {
           Related products
         </h2>
         <LayoutRow className="-mr-4 mt-8 flex snap-x snap-mandatory flex-nowrap overflow-x-scroll lg:-mr-12">
-          {[...Array(8)].map((_, index) => (
-            <LayoutColumn
-              xs={6}
-              xl={4}
-              className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-              key={index}
-            >
-              <ProductCard
-                name="Astrid Curve"
-                category="Scandinavian Simplicity"
-                image={
-                  <div>
-                    <Image src={ImageAstridCurve} alt="Astrid curve image" />
-                  </div>
-                }
-                price="1800€"
-                href="/product"
-              />
-            </LayoutColumn>
-          ))}
+          <Suspense fallback={<ProductsSkeletonMapping />}>
+            <ProductsMapping />
+          </Suspense>
         </LayoutRow>
       </Layout>
     </>

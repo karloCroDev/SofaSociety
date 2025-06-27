@@ -17,9 +17,10 @@ import { IconButton } from '@/components/ui/IconButton';
 import { Tag } from '@/components/ui/Tag';
 import { RadioButtonVisual, RadioIconVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
-import { Layout } from '@/components/ui/Layout';
+import { Layout, LayoutRow } from '@/components/ui/Layout';
 import { AnchorAsButton } from '@/components/ui/AnchorAsButton';
 import { Dialog } from '@/components/shop/account/Dialog';
+import { ProductsSkeletonMapping } from '@/components/ui/ProductsGrid';
 
 export default function Page() {
   return (
@@ -84,6 +85,9 @@ export default function Page() {
           Submit
         </Button>
       </Dialog>
+      <LayoutRow>
+        <ProductsSkeletonMapping />
+      </LayoutRow>
     </Layout>
   );
 }

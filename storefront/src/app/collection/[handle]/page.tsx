@@ -32,33 +32,39 @@ export default async function CollectionPage({
     'title',
     'products',
   ]);
-  const collectionData = collectionMetadataCustomFieldsSchema.safeParse(
+  const collectionConverter = collectionMetadataCustomFieldsSchema.safeParse(
     collection.metadata ?? {}
   );
+
+  const collectionData = {
+    ...collectionConverter.data,
+    title: collection.title,
+  };
 
   console.log(collection);
   console.log('Collection Data:', collectionData);
   return (
     <>
-      <div className="relative mt-22 min-h-[200px] lg:mt-0 lg:h-[800px]">
-        {collectionData.data?.image?.url && (
+      <div className="relative mt-22 h-80 lg:mt-0 lg:h-[800px]">
+        {collectionData?.image?.url && (
           <Image
-            src={collectionData.data.image.url}
+            src={collectionData.image.url}
             alt="Main image that represents collection"
             className="object-cover"
             fill
           />
         )}
       </div>
+
       <Layout>
         <LayoutRow className="mt-8 flex flex-col justify-between md:mt-16 lg:flex-row xl:mt-24">
           <LayoutColumn xs={12} lg={5}>
             <h2 className="text-xl font-medium lg:text-3xl">
-              {collectionData.data?.collection_page_heading}
+              {collectionData?.collection_page_heading}
             </h2>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={6} className="mt-6 lg:mt-16">
-            <p>{collectionData.data?.collection_page_content}</p>
+            <p>{collectionData?.collection_page_content}</p>
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">
@@ -94,43 +100,7 @@ export default async function CollectionPage({
           <DrawerFilter />
           <DrawerSort />
         </div>
-        {/* <LayoutRow className="-mr-4 mt-8 lg:-mr-12">{}</LayoutRow> */}
       </Layout>
     </>
-    // <PageTemplate
-    //   heroImage={
-    //     <div className="mt-22 lg:mt-0">
-    //       <Image
-    //         src={ImageHero}
-    //         alt="Modern Luxe hero"
-    //         className="w-full object-cover lg:h-[800px]"
-    //       />
-    //     </div>
-    //   }
-    //   title="Modern Luxe: Where modern design meets luxurious living"
-    //   descirpiton="Sophisticated and sleek, these sofas blend modern design with luxurious comfort. Bold lines and premium materials create the ultimate statement pieces for any contemporary home. "
-    //   subDesciption="Elevate your space with timeless beauty."
-    //   section="Modern Luxe"
-    //   products={[...Array(9)].map((_, index) => (
-    //     <LayoutColumn
-    //       xs={6}
-    //       xl={4}
-    //       className="mb-10 pr-4 lg:mb-16 lg:pr-12"
-    //       key={index}
-    //     >
-    //       <ProductCard
-    //         name="Astrid Curve"
-    //         category="Scandinavian Simplicity"
-    //         image={
-    //           <div className="">
-    //             <Image src={ImageAstridCurve} alt="Astrid curve image" />
-    //           </div>
-    //         }
-    //         price="1800€"
-    //         href="/product"
-    //       />
-    //     </LayoutColumn>
-    //   ))}
-    // />
   );
 }

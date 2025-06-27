@@ -1,12 +1,16 @@
 // External packages
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 // Components
 import { Layout, LayoutColumn } from '@/components/ui/Layout';
 import { LayoutRow } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
-import { ProductCard } from '@/components/ui/ProductCard';
+import {
+  ProductsMapping,
+  ProductsSkeletonMapping,
+} from '@/components/ui/ProductsGrid';
 import { Button } from '@/components/ui/Button';
 import { Slider } from '@/components/ui/filters/Slider';
 import { Color } from '@/components/ui/filters/Color';
@@ -92,26 +96,9 @@ export default async function Shop() {
         <DrawerSort />
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
-        {[...Array(9)].map((_, index) => (
-          <LayoutColumn
-            xs={6}
-            xl={4}
-            className="mb-10 pr-4 lg:mb-16 lg:pr-12"
-            key={index}
-          >
-            <ProductCard
-              name="Astrid Curve"
-              category="Scandinavian Simplicity"
-              image={
-                <div className="">
-                  <Image src={ImageAstridCurve} alt="Astrid curve image" />
-                </div>
-              }
-              price="1800€"
-              href="/product"
-            />
-          </LayoutColumn>
-        ))}
+        <Suspense fallback={<ProductsSkeletonMapping />}>
+          <ProductsMapping />
+        </Suspense>
       </LayoutRow>
       <Button className="mx-auto">View All</Button>
     </Layout>

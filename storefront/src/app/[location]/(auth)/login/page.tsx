@@ -39,7 +39,7 @@ export default function Login() {
             {/* TODO: Ako `<Form` komponentu exportaš iz `src/components/ui/Form.tsx` onda nećeš imat potrebu za odvojenom komponentom za formu na liniji ispod. U tom slučaju ćeš moć prebacit formu direktno na page. FIXED*/}
 
             <LoginForm />
-            {/* <Form className="flex flex-col gap-8" >
+            <Form className="flex flex-col gap-8">
               <Input isRequired label="Email" id="email" />
               <Input
                 isRequired
@@ -55,7 +55,7 @@ export default function Login() {
               >
                 Log in
               </Button>
-            </Form> */}
+            </Form>
 
             <p className="mt-16 text-gray-400">
               Don’t have an account yet? You can{' '}

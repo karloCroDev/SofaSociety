@@ -14,8 +14,14 @@ import ImageNordicHeaven from '@/public/images/inspiration/nordic-heaven.png';
 import ImageBelimeHeaven from '@/public/images/inspiration/belime-heaven.png';
 import ImageDoubleSofa from '@/public/images/inspiration/dobule-sofa.png';
 import ImageOsloDrift from '@/public/images/inspiration/oslo-drift.png';
+import { getCollectionsList } from '@/lib/data/collections';
 
-export default function Inspiration() {
+export default async function Inspiration() {
+  const { collections } = await getCollectionsList(0, 20, [
+    'metadata',
+    'handle',
+    'title',
+  ]);
   return (
     <>
       <div className="mt-22 lg:mt-0">
@@ -129,7 +135,7 @@ export default function Inspiration() {
           </LayoutColumn>
         </LayoutRow>
         <div className="mt-24 lg:mt-32">
-          <Collections />
+          <Collections collections={collections} />
         </div>
       </Layout>
     </>

@@ -1,7 +1,10 @@
+'use client';
+
 import { getProductsListWithSort } from '@/lib/data/products';
 import { HttpTypes } from '@medusajs/types';
-// import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+import { type SortOptions } from '@/components/ui/ProductsGrid';
 
 export const useStoreProducts = ({
   page,
@@ -11,7 +14,7 @@ export const useStoreProducts = ({
 }: {
   page: number;
   queryParams: HttpTypes.StoreProductListParams;
-  sortBy: any | undefined; // Add sort options if possible
+  sortBy: SortOptions | undefined;
   countryCode: string;
 }) => {
   return useInfiniteQuery({

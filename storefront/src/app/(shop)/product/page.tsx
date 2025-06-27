@@ -113,7 +113,14 @@ export default function ProductPage() {
         </h2>
         <LayoutRow className="-mr-4 mt-8 flex snap-x snap-mandatory flex-nowrap overflow-x-scroll lg:-mr-12">
           <Suspense fallback={<ProductsSkeletonMapping />}>
-            <ProductsMapping />
+            {/* <ProductsMapping
+              sortBy="created_at"
+              page={1}
+              collectionId={undefined}
+              categoryId={undefined}
+              productsIds={undefined}
+              typeId={undefined}
+            /> */}
           </Suspense>
         </LayoutRow>
       </Layout>

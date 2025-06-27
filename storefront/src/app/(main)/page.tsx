@@ -13,7 +13,16 @@ import ImageArmedChair from '@/public/images/home/armed-chair.png';
 import ImageSofa from '@/public/images/home/sofa.png';
 import ImageAboutSofa from '@/public/images/home/about-sofa.png';
 
-export default function Home() {
+// Lib
+import { getCollectionsList } from '@/lib/data/collections';
+
+export default async function Home() {
+  const { collections } = await getCollectionsList(0, 20, [
+    'metadata',
+    'handle',
+    'title',
+  ]);
+
   return (
     <>
       <div className="mt-22 lg:mt-0">
@@ -54,7 +63,7 @@ export default function Home() {
         </LayoutRow>
 
         <div className="mt-24 lg:mt-32">
-          <Collections />
+          <Collections collections={collections} />
         </div>
         <h2 className="mt-24 text-xl font-medium lg:mt-32 lg:text-3xl">
           About sofa society

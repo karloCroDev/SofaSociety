@@ -31,16 +31,14 @@ import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 // Lib
 import { getCollectionsList } from '@/lib/data/collections';
 
-const collectionImages = {
-  'modern-luxe': ImageModernLuxe,
-  'boho-chic': ImageBohoChic,
-  'timeless-classics': ImageTimlessCLassics,
-  'scandinavian-simplicity': ImageScandinavianSimplicity,
-};
-
 export default async function Shop() {
-  const { collections } = await getCollectionsList();
+  const { collections } = await getCollectionsList(0, 20, [
+    'metadata',
+    'handle',
+    'title',
+  ]);
 
+  console.log(collections);
   return (
     <Layout className="mt-32 lg:mt-44">
       <h2 className="hidden text-xl font-medium lg:block lg:text-3xl">
@@ -50,18 +48,21 @@ export default async function Shop() {
         {collections.map((collection) => (
           <LayoutColumn lg={3} className="pr-6" key={collection.id}>
             <Link href={`/collection/${collection.handle}`}>
-              <Image
-                // @ts-ignore
-                src={collectionImages[collection.handle]}
-                alt="Scandinavian furnuture"
-              />
+              <div className="relative aspect-[3/4]">
+                <Image
+                  // @ts-ignore
+                  src={collection.metadata?.image?.url}
+                  fill
+                  alt="Scandinavian furnuture"
+                />
+              </div>
               <p className="mt-6">{collection.title}</p>
             </Link>
           </LayoutColumn>
         ))}
       </LayoutRow>
       <div className="lg:hidden">
-        <Collections />
+        <Collections collections={collections} />
       </div>
 
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
@@ -97,7 +98,14 @@ export default async function Shop() {
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         <Suspense fallback={<ProductsSkeletonMapping />}>
-          <ProductsMapping />
+          {/* <ProductsMapping
+            sortBy="created_at"
+            page={pageNumber}
+            collectionId={undefined}
+            categoryId={undefined}
+            productsIds={results.hits.map((h) => h.id)}
+            typeId={undefined}
+          /> */}
         </Suspense>
       </LayoutRow>
       <Button className="mx-auto">View All</Button>

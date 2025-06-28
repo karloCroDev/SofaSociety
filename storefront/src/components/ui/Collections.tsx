@@ -18,17 +18,20 @@ export const Collections: React.FC<{
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
   // TODO: A šta ako želimo imati više ili manje od 4 itema u kolekciji? FIXED
-  const scrollContainerFn = (
-    isDirectionLeft: boolean = false,
-    itemLength = 4
-  ) => {
+  const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {
+      const length = collections.length;
       if (isDirectionLeft)
-        return (element.scrollLeft -= element.scrollWidth / itemLength);
-      element.scrollLeft += element.scrollWidth / itemLength;
+        return (element.scrollLeft -= element.scrollWidth / length);
+      element.scrollLeft += element.scrollWidth / length;
     }
   };
+
+  if (!collections.length)
+    return [...Array(4)].map((_, index) => (
+      <CollectionCardSkeleton key={index} />
+    ));
 
   return (
     <>
@@ -84,3 +87,13 @@ export const Collections: React.FC<{
     </>
   );
 };
+
+const CollectionCardSkeleton = () => (
+  <div className="flex-shrink-0 snap-start pr-10">
+    <div className="animate-pulse">
+      <div className="relative aspect-[3/4] w-full rounded-lg bg-gray-200" />
+      <div className="mt-4 h-6 w-3/4 rounded bg-gray-200 md:mt-6 xl:mt-8 2xl:h-7" />
+      <div className="mt-2 h-4 w-full rounded bg-gray-200 lg:h-5" />
+    </div>
+  </div>
+);

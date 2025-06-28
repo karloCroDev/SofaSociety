@@ -99,6 +99,7 @@ export default async function Shop() {
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         <Suspense fallback={<ProductsSkeletonMapping />}>
+          {/* Ja msm da ovo mora biti client side fetchano */}
           <ProductsMapping
             // Karlo: Account for params from the url
             sortBy="created_at"

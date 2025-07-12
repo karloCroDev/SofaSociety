@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Header } from '@/components/ui/header/Header';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Navigation } from '@/components/shop/account/Navigation';
+import { LogoutButton } from '@/components/auth/LogoutButton';
 
 export default function AccountLayout({
   children,
@@ -23,9 +24,10 @@ export default function AccountLayout({
                   <h3 className="text-xl font-semibold">My account</h3>
                 </div>
                 <Navigation />
-                <Link href="/" className="mt-auto hidden lg:block">
+
+                <LogoutButton className="mt-auto hidden lg:block">
                   Log out
-                </Link>
+                </LogoutButton>
               </div>
             </div>
           </LayoutColumn>

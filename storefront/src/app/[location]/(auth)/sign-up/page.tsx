@@ -4,13 +4,10 @@ import Link from 'next/link';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Form } from '@/components/ui/Form';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { SignUpForm } from '@/components/auth/sign-up/SignUpForm';
 
 // Assets
 import ImageSignUpHero from '@/public/images/auth/sign-up-hero.png';
-import { SignUpForm } from '@/components/auth/sign-up/SignUpForm';
 
 export default function SignUp() {
   return (
@@ -31,16 +28,7 @@ export default function SignUp() {
             <h1 className="mb-10 text-3xl font-semibold">
               Welcome back to Sofa Society!
             </h1>
-            {/* TODO: Ako `<Form` komponentu exportaš iz `src/components/ui/Form.tsx` onda nećeš imat potrebu za odvojenom komponentom za formu na liniji ispod. U tom slučaju ćeš moć prebacit formu direktno na page. FIXED */}
-            <Form className="flex flex-col gap-8">
-              <div className="flex gap-6">
-                <Input isRequired label="First name" />
-                <Input isRequired label="Last name" />
-              </div>
-              <Input isRequired label="Email" />
-              <Input isRequired label="Password" />
-              <Button size="lg">Register</Button>
-            </Form>
+
             <SignUpForm />
             <p className="mt-16 text-gray-400">
               Already have an account? No worries, just{' '}

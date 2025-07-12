@@ -3,6 +3,9 @@
 // External packages
 import * as React from 'react';
 import { Form } from 'react-aria-components';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 // Components
 import { Input } from '@/components/ui/Input';
@@ -10,30 +13,64 @@ import { Button } from '@/components/ui/Button';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-import { useLogin } from '@/hooks/customer';
+import { useLogin, loginFormSchema } from '@/hooks/customer';
+
+type LoginProps = z.infer<typeof loginFormSchema>;
 
 export const LoginForm = withReactQueryProvider(() => {
-  const { isPending, data, mutate } = useLogin();
+  const { isPending, mutate } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+    reset,
+  } = useForm<LoginProps>({
+    resolver: zodResolver(loginFormSchema),
+  });
 
-  const handleLogin = async (formData: FormData) => {
-    const rawFormData = {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-    };
-    1;
-    const { email, password } = rawFormData;
+  const onSumbit = async (data: LoginProps) => {
+    mutate(
+      {
+        ...data,
+        redirect_url: '/',
+      },
+      {
+        onSuccess(res) {
+          if (res.success) return reset();
 
-    mutate({
-      email,
-      password,
-      redirect_url: `/shop`,
-    });
+          setError('password', {
+            // Password because that slot makes most sense (not because of connection with attribute password)
+            message: res.message,
+          });
+        },
+      }
+    );
   };
+
   return (
-    <Form className="flex flex-col gap-8" action={handleLogin}>
-      <Input isRequired label="Email" id="email" />
-      <Input isRequired type="password" label="Password" id="password" />
-      <Button type="submit" size="lg" className="w-full" disabled={isPending}>
+    <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSumbit)}>
+      <div>
+        <Input inputProps={{ ...register('email') }} label="Email" id="email" />
+        <p className="text-red-500">{errors.email && errors.email.message}</p>
+      </div>
+      <div>
+        <Input
+          inputProps={{ ...register('password') }}
+          type="password"
+          label="Password"
+          id="password"
+        />
+        <p className="text-red-500">
+          {errors.password && errors.password.message}
+        </p>
+      </div>
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full"
+        disabled={isPending || isSubmitting}
+      >
         Log in
       </Button>
     </Form>

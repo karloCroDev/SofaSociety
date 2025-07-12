@@ -1,5 +1,5 @@
 // External packages
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 // Components
 import { Header } from '@/components/ui/header/Header';
@@ -7,11 +7,17 @@ import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Navigation } from '@/components/shop/account/Navigation';
 import { LogoutButton } from '@/components/auth/LogoutButton';
 
-export default function AccountLayout({
+// Lib
+import { getCustomer } from '@/lib/data/customer';
+
+export default async function AccountLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const customer = await getCustomer();
+
+  if (!customer) redirect('/login');
   return (
     <>
       <Header />

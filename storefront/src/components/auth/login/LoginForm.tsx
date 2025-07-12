@@ -52,7 +52,9 @@ export const LoginForm = withReactQueryProvider(() => {
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSumbit)}>
       <div>
         <Input inputProps={{ ...register('email') }} label="Email" id="email" />
-        <p className="text-red-500">{errors.email && errors.email.message}</p>
+        <p className="mt-2 text-red-500">
+          {errors.email && errors.email.message}
+        </p>
       </div>
       <div>
         <Input
@@ -61,7 +63,7 @@ export const LoginForm = withReactQueryProvider(() => {
           label="Password"
           id="password"
         />
-        <p className="text-red-500">
+        <p className="mt-2 text-red-500">
           {errors.password && errors.password.message}
         </p>
       </div>

@@ -10,7 +10,6 @@ import { useSignout } from '@/hooks/customer';
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
 import { useCountryCode } from '@/hooks/country-code';
-import { useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 export const LogoutButton: React.FC<
@@ -18,17 +17,11 @@ export const LogoutButton: React.FC<
 > = withReactQueryProvider(({ children, className, ...rest }) => {
   const countryCode = useCountryCode();
 
-  const { mutateAsync, isPending, error } = useSignout();
-
-  // Karlo: Validate seesion, then try wihtout router
-  const router = useRouter();
+  const { mutateAsync, isPending } = useSignout();
 
   const handleSignout = async () => {
     if (!countryCode) return;
-    const xxx = await mutateAsync(countryCode);
-
-    console.log(xxx);
-    if (!error) router.push('/login');
+    await mutateAsync(countryCode);
   };
   return (
     <Button

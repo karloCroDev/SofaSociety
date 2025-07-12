@@ -55,7 +55,7 @@ export const SignUpForm = withReactQueryProvider(() => {
             id="first-name"
             name="first-name"
           />
-          <p className="text-red-500">
+          <p className="mt-2 text-red-500">
             {errors.first_name && errors.first_name.message}
           </p>
         </div>
@@ -69,7 +69,7 @@ export const SignUpForm = withReactQueryProvider(() => {
             id="last-name"
             name="last-name"
           />
-          <p className="text-red-500">
+          <p className="mt-2 text-red-500">
             {errors.last_name && errors.last_name.message}
           </p>
         </div>
@@ -81,7 +81,9 @@ export const SignUpForm = withReactQueryProvider(() => {
           id="email"
           name="email"
         />
-        <p className="text-red-500">{errors.email && errors.email.message}</p>
+        <p className="mt-2 text-red-500">
+          {errors.email && errors.email.message}
+        </p>
       </div>
       <div>
         <Input
@@ -93,7 +95,7 @@ export const SignUpForm = withReactQueryProvider(() => {
           name="password"
           type="password"
         />
-        <p className="text-red-500">
+        <p className="mt-2 text-red-500">
           {errors.password && errors.password.message}
         </p>
       </div>

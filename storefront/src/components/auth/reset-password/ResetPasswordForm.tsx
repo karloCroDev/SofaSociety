@@ -2,19 +2,61 @@
 
 // External packages
 import * as React from 'react';
-import { Form } from 'react-aria-components';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 // Components
-import { Button } from '@/components/ui/Button';
+import { Form } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+
+const resetPasswordSchema = z
+  .object({
+    oldPassword: z
+      .string()
+      .min(6, 'Password must be atleast 6 charachters long'),
+    password: z.string().min(6, 'Password must be atleast 6 charachters long'),
+    repeatPassword: z.string().min(6),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: 'Passwords do not match',
+    path: ['repeatPassword'],
+  });
+
+type ResetPasswordLinkProps = z.infer<typeof resetPasswordSchema>;
 
 export const ResetPasswordForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+    reset,
+  } = useForm<ResetPasswordLinkProps>({
+    resolver: zodResolver(resetPasswordSchema),
+  });
+
+  const onSubmit = async () => {};
+
   return (
-    <Form className="flex flex-col gap-8">
-      <Input isRequired label="Current password" />
-      <Input isRequired type="password" label="New password" />
-      <Input isRequired type="password" label="Confirm new password" />
-      <Button type="submit" size="lg" className="mt-8 w-full" isDisabled>
+    <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        inputProps={{ ...register('oldPassword'), type: 'password' }}
+        type="password"
+        label="Old password"
+      />
+      <Input
+        inputProps={{ ...register('password'), type: 'password' }}
+        type="password"
+        label="New password"
+      />
+      <Input
+        inputProps={{ ...register('repeatPassword'), type: 'password' }}
+        type="password"
+        label="Confirm new password"
+      />
+      <Button type="submit" size="lg" className="mt-8 w-full">
         Reset password
       </Button>
     </Form>

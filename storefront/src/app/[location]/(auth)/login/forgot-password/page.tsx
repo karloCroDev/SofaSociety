@@ -1,13 +1,12 @@
 // External packages
 import Image from 'next/image';
-import Link from 'next/link';
 import ImageLoginHero from '@/public/images/auth/login-hero.png';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { ForgotPasswordForm } from '@/components/auth/login/ForgotPasswordForm';
 
-export function forgotPassword() {
+export default function ForgotPasswordPage() {
   return (
     <Layout>
       <LayoutRow className="mt-22 h-[calc(100vh-88px)]">

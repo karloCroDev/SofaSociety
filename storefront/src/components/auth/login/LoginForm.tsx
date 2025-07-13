@@ -6,6 +6,7 @@ import { Form } from 'react-aria-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Link from 'next/link';
 
 // Components
 import { Input } from '@/components/ui/Input';
@@ -58,8 +59,7 @@ export const LoginForm = withReactQueryProvider(() => {
       </div>
       <div>
         <Input
-          inputProps={{ ...register('password') }}
-          type="password"
+          inputProps={{ ...register('password'), type: 'password' }}
           label="Password"
           id="password"
         />
@@ -67,6 +67,9 @@ export const LoginForm = withReactQueryProvider(() => {
           {errors.password && errors.password.message}
         </p>
       </div>
+      <Link href="/login/forgot-password" className="text-gray-500">
+        Forgot Password?
+      </Link>
       <Button
         type="submit"
         size="lg"

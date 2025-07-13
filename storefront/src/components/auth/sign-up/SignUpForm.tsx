@@ -89,6 +89,7 @@ export const SignUpForm = withReactQueryProvider(() => {
         <Input
           inputProps={{
             ...register('password'),
+            type: 'password',
           }}
           label="Password"
           id="password"

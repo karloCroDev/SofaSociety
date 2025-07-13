@@ -11,6 +11,9 @@ import { Form } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
+// Lib
+import { forgotPassword } from '@/lib/data/customer';
+
 const resetPasswordLinkSchema = z
   .object({
     password: z.string().min(6, 'Password must be atleast 6 charachters long'),
@@ -34,17 +37,21 @@ export const ResetPasswordLinkForm = () => {
     resolver: zodResolver(resetPasswordLinkSchema),
   });
 
-  const onSubmit = async () => {};
+  const onSubmit = async () => {
+    // const request = await forgotPassword(e)
+    // if(request.success){
+    // }
+  };
 
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       <Input
-        inputProps={{ ...register('password') }}
+        inputProps={{ ...register('password'), type: 'password' }}
         type="password"
         label="New password"
       />
       <Input
-        inputProps={{ ...register('repeatPassword') }}
+        inputProps={{ ...register('repeatPassword'), type: 'password' }}
         type="password"
         label="Confirm new password"
       />

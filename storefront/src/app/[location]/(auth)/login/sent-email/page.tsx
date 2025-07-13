@@ -9,32 +9,34 @@ import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import ImageLoginHero from '@/public/images/auth/login-hero.png';
 
 export default function SentEmailPage() {
-  <Layout>
-    <LayoutRow className="mt-22 h-[calc(100vh-88px)]">
-      <Image
-        src={ImageLoginHero}
-        alt="Login hero image"
-        className="h-screen-minus-navbar absolute bottom-0 left-0 hidden w-1/2 object-cover lg:block"
-      />
-      <LayoutColumn
-        lgOffset={7}
-        lg={4}
-        xs={12}
-        className="h-screen-minus-navbar flex items-center justify-center"
-      >
-        <div className="flex w-full flex-col gap-8">
-          <h1 className="mb-10 text-3xl font-semibold">
-            Your password is waiting for you
-          </h1>
-          <p>
-            We’ve sent you an email with further instructions on retrieving your
-            account.
-          </p>
-          <LinkAsButton href="/login" size="lg">
-            Back to home page
-          </LinkAsButton>
-        </div>
-      </LayoutColumn>
-    </LayoutRow>
-  </Layout>;
+  return (
+    <Layout>
+      <LayoutRow className="mt-22 h-[calc(100vh-88px)]">
+        <Image
+          src={ImageLoginHero}
+          alt="Login hero image"
+          className="h-screen-minus-navbar absolute bottom-0 left-0 hidden w-1/2 object-cover lg:block"
+        />
+        <LayoutColumn
+          lgOffset={7}
+          lg={4}
+          xs={12}
+          className="h-screen-minus-navbar flex items-center justify-center"
+        >
+          <div className="flex w-full flex-col gap-8">
+            <h1 className="mb-10 text-3xl font-semibold">
+              Your password is waiting for you
+            </h1>
+            <p>
+              We’ve sent you an email with further instructions on retrieving
+              your account.
+            </p>
+            <LinkAsButton href="/login" size="lg">
+              Back to home page
+            </LinkAsButton>
+          </div>
+        </LayoutColumn>
+      </LayoutRow>
+    </Layout>
+  );
 }

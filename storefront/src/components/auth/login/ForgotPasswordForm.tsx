@@ -11,6 +11,10 @@ import { Form } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
+// Lib
+import { forgotPassword } from '@/lib/data/customer';
+import { useRouter } from 'next/navigation';
+
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });
@@ -28,12 +32,39 @@ export const ForgotPasswordForm = () => {
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = async () => {};
+  const router = useRouter();
+  const onSubmit = async (data: ForgotPasswordProps) => {
+    const resetPasswordProposal = await forgotPassword(undefined, data);
+
+    if (resetPasswordProposal.state === 'success') {
+      router.push('/login/sent-email');
+      return reset();
+    }
+
+    setError('email', {
+      message:
+        "Uhoh that email address doesn't exists, please make sure you entered the correct email address",
+    });
+  };
 
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-      <Input inputProps={{ ...register('email') }} type="email" label="Email" />
-      <Button type="submit" size="lg" className="mt-8 w-full">
+      <div>
+        <Input
+          inputProps={{ ...register('email') }}
+          type="email"
+          label="Email"
+        />
+        {errors.email && (
+          <p className="mt-2 text-red-500">{errors.email.message} </p>
+        )}
+      </div>
+      <Button
+        type="submit"
+        size="lg"
+        className="mt-8 w-full"
+        isDisabled={isSubmitting}
+      >
         Reset password
       </Button>
     </Form>

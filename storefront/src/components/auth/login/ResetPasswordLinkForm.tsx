@@ -37,11 +37,8 @@ export const ResetPasswordLinkForm = () => {
     resolver: zodResolver(resetPasswordLinkSchema),
   });
 
-  const onSubmit = async () => {
-    // const request = await forgotPassword(e)
-    // if(request.success){
-    // }
-  };
+  // Karlo: Try to get mail, because without token I can't do nothing
+  const onSubmit = async () => {};
 
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>

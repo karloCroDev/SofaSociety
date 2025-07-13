@@ -40,8 +40,7 @@ export const LoginForm = withReactQueryProvider(() => {
         onSuccess(res) {
           if (res.success) return reset();
 
-          setError('password', {
-            // Password because that slot makes most sense (not because of connection with attribute password)
+          setError('root', {
             message: res.message,
           });
         },
@@ -53,7 +52,7 @@ export const LoginForm = withReactQueryProvider(() => {
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSumbit)}>
       <div>
         <Input inputProps={{ ...register('email') }} label="Email" id="email" />
-        <p className="mt-2 text-red-500">
+        <p className="mt-2 text-red-400">
           {errors.email && errors.email.message}
         </p>
       </div>
@@ -63,11 +62,17 @@ export const LoginForm = withReactQueryProvider(() => {
           label="Password"
           id="password"
         />
-        <p className="mt-2 text-red-500">
+        <p className="mt-2 text-red-400">
           {errors.password && errors.password.message}
         </p>
+        <p className="mt-2 text-red-400">
+          {errors.root && errors.root.message}
+        </p>
       </div>
-      <Link href="/login/forgot-password" className="text-gray-500">
+      <Link
+        href="/login/forgot-password"
+        className="-mt-4 text-gray-500 underline-offset-4 hover:underline"
+      >
         Forgot Password?
       </Link>
       <Button

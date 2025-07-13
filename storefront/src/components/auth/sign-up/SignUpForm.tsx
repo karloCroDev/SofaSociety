@@ -35,8 +35,7 @@ export const SignUpForm = withReactQueryProvider(() => {
     const userCredentials = await mutateAsync(data, {
       onSuccess(res) {
         if (!res.error) return reset();
-        setError('password', { message: res.error });
-        // Password because that slot makes most sense (not because of connection with attribute password)
+        setError('root', { message: res.error });
       },
     });
 
@@ -55,7 +54,7 @@ export const SignUpForm = withReactQueryProvider(() => {
             id="first-name"
             name="first-name"
           />
-          <p className="mt-2 text-red-500">
+          <p className="mt-2 text-red-400">
             {errors.first_name && errors.first_name.message}
           </p>
         </div>
@@ -69,7 +68,7 @@ export const SignUpForm = withReactQueryProvider(() => {
             id="last-name"
             name="last-name"
           />
-          <p className="mt-2 text-red-500">
+          <p className="mt-2 text-red-400">
             {errors.last_name && errors.last_name.message}
           </p>
         </div>
@@ -81,7 +80,7 @@ export const SignUpForm = withReactQueryProvider(() => {
           id="email"
           name="email"
         />
-        <p className="mt-2 text-red-500">
+        <p className="mt-2 text-red-400">
           {errors.email && errors.email.message}
         </p>
       </div>
@@ -96,8 +95,11 @@ export const SignUpForm = withReactQueryProvider(() => {
           name="password"
           type="password"
         />
-        <p className="mt-2 text-red-500">
+        <p className="mt-2 text-red-400">
           {errors.password && errors.password.message}
+        </p>
+        <p className="mt-2 text-red-400">
+          {errors.root && errors.root.message}
         </p>
       </div>
       <Button size="lg" disabled={isSubmitting || isPending} type="submit">

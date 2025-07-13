@@ -56,7 +56,7 @@ export const ForgotPasswordForm = () => {
           label="Email"
         />
         {errors.email && (
-          <p className="mt-2 text-red-500">{errors.email.message} </p>
+          <p className="mt-2 text-red-400">{errors.email.message} </p>
         )}
       </div>
       <Button

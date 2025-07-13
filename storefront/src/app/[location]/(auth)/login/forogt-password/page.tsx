@@ -1,17 +1,13 @@
-'use client';
-
 // External packages
 import Image from 'next/image';
 import Link from 'next/link';
+import ImageLoginHero from '@/public/images/auth/login-hero.png';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { LoginForm } from '@/components/auth/login/LoginForm';
+import { ForgotPasswordForm } from '@/components/auth/login/ForgotPasswordForm';
 
-// Assets
-import ImageLoginHero from '@/public/images/auth/login-hero.png';
-
-export default function Login() {
+export function forgotPassword() {
   return (
     <Layout>
       <LayoutRow className="mt-22 h-[calc(100vh-88px)]">
@@ -26,20 +22,15 @@ export default function Login() {
           xs={12}
           className="h-screen-minus-navbar flex items-center justify-center"
         >
-          <div className="flex w-full flex-col gap-6">
+          <div className="flex w-full flex-col gap-8">
             <h1 className="mb-10 text-3xl font-semibold">
-              Welcome back to Sofa Society!
+              Forgotten password?
             </h1>
-            <LoginForm />
-            <p className="mt-16 text-gray-400">
-              Don’t have an account yet? You can{' '}
-              <Link
-                className="text-gray-900 underline underline-offset-4"
-                href="/sign-up"
-              >
-                register here.
-              </Link>
+            <p>
+              Enter your email address below and we will send you instructions
+              on how to reset your password.
             </p>
+            <ForgotPasswordForm />
           </div>
         </LayoutColumn>
       </LayoutRow>

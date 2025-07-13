@@ -17,7 +17,7 @@ export default async function AccountLayout({
 }>) {
   const customer = await getCustomer();
 
-  if (!customer) redirect('/login');
+  if (!customer) redirect('/');
   return (
     <>
       <Header />

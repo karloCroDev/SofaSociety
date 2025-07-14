@@ -1,7 +1,7 @@
 import { sdk } from '@/lib/config';
 import { HttpTypes } from '@medusajs/types';
 import { getRegion } from '@/lib/data/regions';
-// import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { type SortOptions } from '@/components/ui/ProductsGrid';
 import { sortProducts } from '@/lib/util/sort-products';
 
 export const getProductsById = async function ({
@@ -123,7 +123,7 @@ export const getProductsListWithSort = async function ({
 }: {
   page?: number;
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams;
-  sortBy?: any; // Put sort options from the component
+  sortBy?: SortOptions;
   countryCode: string;
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number };

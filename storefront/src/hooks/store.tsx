@@ -1,5 +1,3 @@
-'use client';
-
 import { getProductsListWithSort } from '@/lib/data/products';
 import { HttpTypes } from '@medusajs/types';
 import { useInfiniteQuery } from '@tanstack/react-query';

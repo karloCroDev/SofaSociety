@@ -34,7 +34,6 @@ interface PageProps {
 export default async function Shop({ params }: PageProps) {
   const { location } = await params;
 
-  console.log(location);
   const { collections } = await getCollectionsList(0, 20, [
     'metadata',
     'handle',
@@ -47,7 +46,6 @@ export default async function Shop({ params }: PageProps) {
     getRegion(location),
   ]);
 
-  console.log(collections);
   return (
     <Layout className="mt-32 lg:mt-44">
       <h2 className="hidden text-xl font-medium lg:block lg:text-3xl">

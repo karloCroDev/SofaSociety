@@ -2,16 +2,21 @@
 
 // External packages
 import Image from 'next/image';
-
+import * as React from 'react';
 // Components
 import { LayoutColumn } from '@/components/ui/Layout';
 import { ProductCard, ProductCardSkeleton } from '@/components/ui/ProductCard';
-import { HttpTypes, StoreProduct } from '@medusajs/types';
+import { HttpTypes } from '@medusajs/types';
+
+// Hooks
+import { useStoreProducts } from '@/hooks/store';
+
+// Lib
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
 // Assets
 import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-import { useStoreProducts } from '@/hooks/store';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { getProductPrice } from '@/lib/util/get-product-price';
 
 export type SortOptions = 'price_asc' | 'price_desc' | 'created_at';
 
@@ -36,6 +41,7 @@ export const ProductsMapping: React.FC<{
     const queryParams: HttpTypes.StoreProductListParams = {
       limit: 12,
     };
+
     if (collectionId) {
       queryParams['collection_id'] = Array.isArray(collectionId)
         ? collectionId
@@ -60,36 +66,57 @@ export const ProductsMapping: React.FC<{
       queryParams['order'] = 'created_at';
     }
 
+    console.log(sortBy);
+    console.log(page);
+    console.log(location);
+    console.log('s', queryParams);
+    console.log(productsIds);
+
     const productsQuery = useStoreProducts({
       page,
-      countryCode: location, // Karlo: Pitaj Antu je li ovo trebam implementirati
+      countryCode: location,
       queryParams,
       sortBy,
     });
 
-    console.log('Test', productsQuery.data);
-    console.log(productsQuery?.data?.pages[0]?.response?.products?.length);
+    const products = productsQuery.data?.pages[0]?.response?.products;
 
-    return [...Array(8)].map((_, index) => (
-      <LayoutColumn
-        xs={6}
-        xl={4}
-        className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-        key={index}
-      >
-        <ProductCard
-          name="Astrid Curve"
-          category="Scandinavian Simplicity"
-          image={
-            <div>
-              <Image src={ImageAstridCurve} alt="Astrid curve image" />
-            </div>
-          }
-          price="1800€"
-          href="/product"
-        />
-      </LayoutColumn>
-    ));
+    return (
+      products &&
+      products.map((product) => {
+        const { cheapestPrice } = getProductPrice({
+          product,
+        });
+        return (
+          <LayoutColumn
+            xs={6}
+            xl={4}
+            className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
+            key={product.id}
+          >
+            <ProductCard
+              name={product.title}
+              category={product.collection?.title || ''}
+              image={
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={product.thumbnail!}
+                    className="object-cover"
+                    alt={product.description || ''}
+                    fill
+                  />
+                </div>
+              }
+              price={cheapestPrice?.calculated_price.toString()!}
+              originalPrice={
+                cheapestPrice?.original_price_number?.toString() || undefined
+              }
+              href={`/product/${product.handle}`}
+            />
+          </LayoutColumn>
+        );
+      })
+    );
   }
 );
 

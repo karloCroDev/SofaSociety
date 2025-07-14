@@ -1,5 +1,6 @@
 // External packages
 import Image from 'next/image';
+import { Suspense } from 'react';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
@@ -11,6 +12,11 @@ import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort } from '@/components/ui/filters/Sort';
 import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
 import { DrawerSort } from '@/components/ui/filters/DrawerSort';
+import {
+  ProductsMapping,
+  ProductsSkeletonMapping,
+  SortOptions,
+} from '@/components/ui/ProductsGrid';
 
 // Assets
 import ImageHero from '@/public/images/inspiration/modern-luxe.png';
@@ -19,13 +25,34 @@ import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 // Lib
 import { getCollectionByHandle } from '@/lib/data/collections';
 import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
+import { getCategoriesList } from '@/lib/data/categories';
+import { getProductTypesList } from '@/lib/data/product-types';
+import { getRegion } from '@/lib/data/regions';
+
+interface PageProps {
+  params: Promise<{ location: string; handle: string }>;
+  searchParams: Promise<{
+    category?: string | string[];
+    type?: string | string[];
+    page?: string;
+    sortBy?: SortOptions;
+  }>;
+}
 
 export default async function CollectionPage({
   params,
-}: {
-  params: { handle: string };
-}) {
-  const { handle } = params;
+  searchParams,
+}: PageProps) {
+  const { handle, location } = await params;
+  const { sortBy, page, category, type } = await searchParams;
+
+  const rCategory = !category
+    ? undefined
+    : Array.isArray(category)
+      ? category
+      : [category];
+
+  const rType = !type ? undefined : Array.isArray(type) ? type : [type];
 
   const collection = await getCollectionByHandle(handle, [
     'metadata',
@@ -41,8 +68,12 @@ export default async function CollectionPage({
     title: collection.title,
   };
 
-  console.log(collection);
-  console.log('Collection Data:', collectionData);
+  const [categories, types, region] = await Promise.all([
+    getCategoriesList(0, 100, ['id', 'name', 'handle']),
+    getProductTypesList(0, 100, ['id', 'value']),
+    getRegion(location),
+  ]);
+
   return (
     <>
       <div className="relative mt-22 h-80 lg:mt-0 lg:h-[800px]">
@@ -100,6 +131,34 @@ export default async function CollectionPage({
           <DrawerFilter />
           <DrawerSort />
         </div>
+
+        <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
+          <Suspense fallback={<ProductsSkeletonMapping />}>
+            {region && (
+              <ProductsMapping
+                // Karlo: Account for params from the url
+                sortBy="price_asc"
+                page={1}
+                collectionId={collection.id}
+                categoryId={
+                  !rCategory
+                    ? undefined
+                    : categories.product_categories
+                        .filter((c) => rCategory.includes(c.handle))
+                        .map((c) => c.id)
+                }
+                typeId={
+                  !rType
+                    ? undefined
+                    : types.productTypes
+                        .filter((t) => rType.includes(t.value))
+                        .map((t) => t.id)
+                }
+                location={location}
+              />
+            )}
+          </Suspense>
+        </LayoutRow>
       </Layout>
     </>
   );

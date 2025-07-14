@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { Header } from '@/components/ui/header/Header';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Navigation } from '@/components/shop/account/Navigation';
-import { LogoutButton } from '@/components/auth/LogoutButton';
+import { LogoutButton } from '@/components/ui/LogoutButton';
 
 // Lib
 import { getCustomer } from '@/lib/data/customer';

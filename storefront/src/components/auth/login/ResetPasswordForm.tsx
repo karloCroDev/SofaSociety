@@ -11,11 +11,13 @@ import { Form } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
-const resetPasswordSchema = z
+// Lib
+import { forgotPassword } from '@/lib/data/customer';
+import { HttpTypes } from '@medusajs/types';
+
+const resetPasswordLinkSchema = z
   .object({
-    oldPassword: z
-      .string()
-      .min(6, 'Password must be atleast 6 charachters long'),
+    oldPassword: z.string().min(6).optional(), // If there is no session then nothing,
     password: z.string().min(6, 'Password must be atleast 6 charachters long'),
     repeatPassword: z.string().min(6),
   })
@@ -24,9 +26,11 @@ const resetPasswordSchema = z
     path: ['repeatPassword'],
   });
 
-type ResetPasswordLinkProps = z.infer<typeof resetPasswordSchema>;
+type ResetPasswordLinkProps = z.infer<typeof resetPasswordLinkSchema>;
 
-export const ResetPasswordForm = () => {
+export const ResetPasswordForm: React.FC<{
+  isLoggedIn: boolean;
+}> = ({ isLoggedIn }) => {
   const {
     register,
     handleSubmit,
@@ -34,18 +38,23 @@ export const ResetPasswordForm = () => {
     setError,
     reset,
   } = useForm<ResetPasswordLinkProps>({
-    resolver: zodResolver(resetPasswordSchema),
+    resolver: zodResolver(resetPasswordLinkSchema),
   });
+
+  // Karlo: Try to get mail, because without token I can't do nothing
+  // Karlo: get user session, if yes then give him the option
 
   const onSubmit = async () => {};
 
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        inputProps={{ ...register('oldPassword'), type: 'password' }}
-        type="password"
-        label="Old password"
-      />
+      {isLoggedIn && (
+        <Input
+          inputProps={{ ...register('oldPassword'), type: 'password' }}
+          type="password"
+          label="New password"
+        />
+      )}
       <Input
         inputProps={{ ...register('password'), type: 'password' }}
         type="password"
@@ -56,7 +65,12 @@ export const ResetPasswordForm = () => {
         type="password"
         label="Confirm new password"
       />
-      <Button type="submit" size="lg" className="mt-8 w-full">
+      <Button
+        type="submit"
+        size="lg"
+        className="mt-8 w-full"
+        disabled={isSubmitting}
+      >
         Reset password
       </Button>
     </Form>

@@ -37,7 +37,7 @@ export const ForgotPasswordForm = () => {
     const resetPasswordProposal = await forgotPassword(undefined, data);
 
     if (resetPasswordProposal.state === 'success') {
-      router.push('/login/sent-email');
+      router.push('/login/forgot-password/success');
       return reset();
     }
 

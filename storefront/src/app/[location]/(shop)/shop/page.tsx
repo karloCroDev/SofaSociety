@@ -27,16 +27,24 @@ import { getCategoriesList } from '@/lib/data/categories';
 import { getProductTypesList } from '@/lib/data/product-types';
 import { getRegion } from '@/lib/data/regions';
 
-export default async function Shop() {
+interface PageProps {
+  params: Promise<{ location: string }>;
+}
+
+export default async function Shop({ params }: PageProps) {
+  const { location } = await params;
+
+  console.log(location);
   const { collections } = await getCollectionsList(0, 20, [
     'metadata',
     'handle',
     'title',
   ]);
 
-  const [categories, types] = await Promise.all([
+  const [categories, types, region] = await Promise.all([
     getCategoriesList(0, 100, ['id', 'name', 'handle']),
     getProductTypesList(0, 100, ['id', 'value']),
+    getRegion(location),
   ]);
 
   console.log(collections);
@@ -99,18 +107,38 @@ export default async function Shop() {
       </div>
       <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
         <Suspense fallback={<ProductsSkeletonMapping />}>
-          {/* Ja msm da ovo mora biti client side fetchano */}
-          <ProductsMapping
-            // Karlo: Account for params from the url
-            sortBy="created_at"
-            page={1}
-            collectionId={undefined}
-            categoryId={categories.product_categories.map((c) => c.id)}
-            typeId={types.productTypes.map((t) => t.id)}
-          />
+          {region && (
+            <ProductsMapping
+              // Karlo: Account for params from the url
+              sortBy="created_at"
+              page={1}
+              collectionId={undefined}
+              categoryId={categories.product_categories.map((c) => c.id)}
+              typeId={types.productTypes.map((t) => t.id)}
+              location={location}
+            />
+          )}
         </Suspense>
       </LayoutRow>
       <Button className="mx-auto">View All</Button>
     </Layout>
   );
 }
+//  sortBy={sortBy}
+//             page={pageNumber}
+//             collectionId={collection.id}
+//             countryCode={countryCode}
+//             categoryId={
+//               !category
+//                 ? undefined
+//                 : categories.product_categories
+//                     .filter((c) => category.includes(c.handle))
+//                     .map((c) => c.id)
+//             }
+//             typeId={
+//               !type
+//                 ? undefined
+//                 : types.productTypes
+//                     .filter((t) => type.includes(t.value))
+//                     .map((t) => t.id)
+//             }

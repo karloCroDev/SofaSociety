@@ -22,8 +22,17 @@ export const ProductsMapping: React.FC<{
   categoryId?: string | string[];
   typeId?: string | string[];
   productsIds?: string[];
+  location: string;
 }> = withReactQueryProvider(
-  ({ page, categoryId, collectionId, typeId, productsIds, sortBy }) => {
+  ({
+    page,
+    categoryId,
+    collectionId,
+    typeId,
+    productsIds,
+    sortBy,
+    location,
+  }) => {
     const queryParams: HttpTypes.StoreProductListParams = {
       limit: 12,
     };
@@ -52,13 +61,14 @@ export const ProductsMapping: React.FC<{
     }
 
     const productsQuery = useStoreProducts({
-      page: 1,
-      countryCode: 'EU', // Karlo: Pitaj Antu je li ovo trebam implementirati
+      page,
+      countryCode: location, // Karlo: Pitaj Antu je li ovo trebam implementirati
       queryParams,
-      sortBy: 'price_asc',
+      sortBy,
     });
 
-    console.log('sss', productsQuery.data);
+    console.log('Test', productsQuery.data);
+    console.log(productsQuery?.data?.pages[0]?.response?.products?.length);
 
     return [...Array(8)].map((_, index) => (
       <LayoutColumn

@@ -6,6 +6,7 @@ import { Dialog } from '@/components/shop/account/Dialog';
 import { Form } from '@/components/ui/Form';
 import { CountrySelect } from '@/components/checkout/CountrySelect';
 import { Input } from '@/components/ui/Input';
+import { LogoutButton } from '@/components/ui/LogoutButton';
 
 export default function PersonalAndSecurity() {
   return (
@@ -128,9 +129,15 @@ export default function PersonalAndSecurity() {
       <p className="mt-16 text-lg">Change password</p>
       <ResetPasswordPopover />
       <p className="mt-16 text-lg lg:hidden">Log out</p>
-      <Button size="lg" variant="outline" className="mt-6 w-full lg:hidden">
+
+      <LogoutButton
+        size="lg"
+        variant="outline"
+        className="mt-6 w-full lg:hidden"
+        treatStylesLikeButton
+      >
         Log out
-      </Button>
+      </LogoutButton>
     </div>
   );
 }

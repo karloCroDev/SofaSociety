@@ -12,11 +12,25 @@ import {
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 
+// Lib
+import { requestPasswordReset } from '@/lib/data/customer';
+
 export const ResetPasswordPopover = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [error, setError] = React.useState('');
+
+  const onSubmit = async () => {
+    const request = await requestPasswordReset();
+
+    console.log(request);
+    if (request.success) return setIsOpen(true);
+
+    setError(request.error);
+  };
+
   return (
     <DialogTrigger isOpen={isOpen}>
-      <Button className="mt-6 w-full lg:w-fit" onPress={() => setIsOpen(true)}>
+      <Button className="mt-6 w-full lg:w-fit" onPress={onSubmit}>
         Reset password
       </Button>
       <Popover
@@ -24,8 +38,10 @@ export const ResetPasswordPopover = () => {
         placement="top"
       >
         <h4 className="text-lg">Reset password</h4>
+
         <p className="mt-12 text-gray-500">
-          We have sent an email with instructions on how to change the password.
+          {error ||
+            'We have sent an email with instructions on how to change the password, please try again.'}
         </p>
         <AriaButton>
           <Icon

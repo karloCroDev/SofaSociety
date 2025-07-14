@@ -3,55 +3,108 @@
 // Extenral packages
 import * as React from 'react';
 import { Form } from 'react-aria-components';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 // Components
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { useSignup } from '@/hooks/customer';
+
+// Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
 
+// Hook
+import { signupFormSchema, useSignup } from '@/hooks/customer';
+
+type SignUpProps = z.infer<typeof signupFormSchema>;
+
 export const SignUpForm = withReactQueryProvider(() => {
-  // const { mutateAsync, isPending, data } = useSignup();
+  const { mutateAsync, isPending } = useSignup();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setError,
+  } = useForm<SignUpProps>({
+    resolver: zodResolver(signupFormSchema),
+  });
 
-  const handleSignUp = async (formData: FormData) => {
-    const rawFormData = {
-      first_name: formData.get('first-name') as string,
-      last_name: formData.get('last-name') as string,
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-    };
+  const onSubmit = async (data: SignUpProps) => {
+    const userCredentials = await mutateAsync(data, {
+      onSuccess(res) {
+        if (!res.error) return reset();
+        setError('root', { message: res.error });
+      },
+    });
 
-    // const res = await mutateAsync(rawFormData);
-
-    console.log(rawFormData);
+    console.log(userCredentials);
+    if (userCredentials.success) reset();
   };
   return (
-    <Form
-      className="flex flex-col gap-8"
-      onSubmit={(e) => {
-        e.preventDefault(); // Needed to prevent default browser form submission
-        const formData = new FormData(e.currentTarget as HTMLFormElement);
-        handleSignUp(formData);
-      }}
-    >
+    <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex gap-6">
-        <Input
-          isRequired
-          label="First name"
-          id="first-name"
-          name="first-name"
-        />
-        <Input isRequired label="Last name" id="last-name" name="last-name" />
+        <div className="flex-1">
+          <Input
+            inputProps={{
+              ...register('first_name'),
+            }}
+            label="First name"
+            id="first-name"
+            name="first-name"
+          />
+          <p className="mt-2 text-red-400">
+            {errors.first_name && errors.first_name.message}
+          </p>
+        </div>
+
+        <div className="flex-1">
+          <Input
+            inputProps={{
+              ...register('last_name'),
+            }}
+            label="Last name"
+            id="last-name"
+            name="last-name"
+          />
+          <p className="mt-2 text-red-400">
+            {errors.last_name && errors.last_name.message}
+          </p>
+        </div>
       </div>
-      <Input isRequired label="Email" id="email" name="email" />
-      <Input
-        isRequired
-        label="Password"
-        id="password"
-        name="password"
-        type="password"
-      />
-      <Button size="lg">Register</Button>
+      <div>
+        <Input
+          inputProps={{ ...register('email') }}
+          label="Email"
+          id="email"
+          name="email"
+        />
+        <p className="mt-2 text-red-400">
+          {errors.email && errors.email.message}
+        </p>
+      </div>
+      <div>
+        <Input
+          inputProps={{
+            ...register('password'),
+            type: 'password',
+          }}
+          label="Password"
+          id="password"
+          name="password"
+          type="password"
+        />
+        <p className="mt-2 text-red-400">
+          {errors.password && errors.password.message}
+        </p>
+        <p className="mt-2 text-red-400">
+          {errors.root && errors.root.message}
+        </p>
+      </div>
+      <Button size="lg" disabled={isSubmitting || isPending} type="submit">
+        Register
+      </Button>
     </Form>
   );
 });

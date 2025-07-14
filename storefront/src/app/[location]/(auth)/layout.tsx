@@ -1,9 +1,11 @@
+// External packages
+import { redirect } from 'next/navigation';
+
 // Components
 import { HeaderWrapper } from '@/components/ui/header/HeaderWrapper';
-import { Footer } from '@/components/ui/Footer';
-import { Header } from '@/components/ui/header/Header';
+
+// Lib
 import { getCustomer } from '@/lib/data/customer';
-import { redirect } from 'next/navigation';
 
 export default async function MainLayout({
   children,

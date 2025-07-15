@@ -18,10 +18,6 @@ import {
   SortOptions,
 } from '@/components/ui/ProductsGrid';
 
-// Assets
-import ImageHero from '@/public/images/inspiration/modern-luxe.png';
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-
 // Lib
 import { getCollectionByHandle } from '@/lib/data/collections';
 import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
@@ -35,7 +31,6 @@ interface PageProps {
     category?: string | string[];
     type?: string | string[];
     page?: string;
-    sortBy?: SortOptions;
   }>;
 }
 
@@ -44,15 +39,17 @@ export default async function CollectionPage({
   searchParams,
 }: PageProps) {
   const { handle, location } = await params;
-  const { sortBy, page, category, type } = await searchParams;
+  const { category, type, page } = await searchParams;
 
-  const rCategory = !category
+  console.log(page);
+
+  const isArrayCategory = !category
     ? undefined
     : Array.isArray(category)
       ? category
       : [category];
 
-  const rType = !type ? undefined : Array.isArray(type) ? type : [type];
+  const isArrayType = !type ? undefined : Array.isArray(type) ? type : [type];
 
   const collection = await getCollectionByHandle(handle, [
     'metadata',
@@ -68,11 +65,10 @@ export default async function CollectionPage({
     title: collection.title,
   };
 
-  const [categories, types, region] = await Promise.all([
-    getCategoriesList(0, 100, ['id', 'name', 'handle']),
-    getProductTypesList(0, 100, ['id', 'value']),
-    getRegion(location),
-  ]);
+  const categories = await getCategoriesList(0, 100, ['id', 'name', 'handle']);
+  const types = await getProductTypesList(0, 100, ['id', 'value']);
+
+  console.log(types);
 
   return (
     <>
@@ -101,7 +97,7 @@ export default async function CollectionPage({
         <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">
           {collection.title}
         </h2>
-        {/* TODO: Ja bi filtere ispod ubacija direktno u ovu komponentu. FIXED*/}
+
         <div className="mt-6 flex justify-between lg:mt-8">
           <div className="hidden gap-4 lg:flex">
             <PopoverOption title="Price">
@@ -132,33 +128,27 @@ export default async function CollectionPage({
           <DrawerSort />
         </div>
 
-        <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
-          <Suspense fallback={<ProductsSkeletonMapping />}>
-            {region && (
-              <ProductsMapping
-                // Karlo: Account for params from the url
-                sortBy="price_asc"
-                page={1}
-                collectionId={collection.id}
-                categoryId={
-                  !rCategory
-                    ? undefined
-                    : categories.product_categories
-                        .filter((c) => rCategory.includes(c.handle))
-                        .map((c) => c.id)
-                }
-                typeId={
-                  !rType
-                    ? undefined
-                    : types.productTypes
-                        .filter((t) => rType.includes(t.value))
-                        .map((t) => t.id)
-                }
-                location={location}
-              />
-            )}
-          </Suspense>
-        </LayoutRow>
+        <Suspense fallback={<ProductsSkeletonMapping />}>
+          <ProductsMapping
+            page={page ? +page : 1}
+            collectionId={collection.id}
+            categoryId={
+              !isArrayCategory
+                ? undefined
+                : categories.product_categories
+                    .filter((c) => isArrayCategory.includes(c.handle))
+                    .map((c) => c.id)
+            }
+            typeId={
+              !isArrayType
+                ? undefined
+                : types.productTypes
+                    .filter((t) => isArrayType.includes(t.value))
+                    .map((t) => t.id)
+            }
+            location={location}
+          />
+        </Suspense>
       </Layout>
     </>
   );

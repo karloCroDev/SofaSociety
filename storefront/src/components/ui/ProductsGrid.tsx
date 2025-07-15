@@ -2,18 +2,23 @@
 
 // External packages
 import Image from 'next/image';
+import * as React from 'react';
+import { HttpTypes } from '@medusajs/types';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Components
-import { LayoutColumn } from '@/components/ui/Layout';
+import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { ProductCard, ProductCardSkeleton } from '@/components/ui/ProductCard';
-import { HttpTypes, StoreProduct } from '@medusajs/types';
+import { Button } from '@/components/ui/Button';
 
-// Assets
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
+// Hooks
 import { useStoreProducts } from '@/hooks/store';
-import { withReactQueryProvider } from '@/lib/util/react-query';
 
-export type SortOptions = 'price_asc' | 'price_desc' | 'created_at';
+// Lib
+import { withReactQueryProvider } from '@/lib/util/react-query';
+import { getProductPrice } from '@/lib/util/get-product-price';
+
+export type SortOptions = 'price_asc' | 'price_desc' | 'created_at'; // Karlo: Put this into sort options
 
 export const ProductsMapping: React.FC<{
   sortBy?: SortOptions;
@@ -22,6 +27,7 @@ export const ProductsMapping: React.FC<{
   categoryId?: string | string[];
   typeId?: string | string[];
   productsIds?: string[];
+  direction?: 'horizontal' | 'vertical';
   location: string;
 }> = withReactQueryProvider(
   ({
@@ -32,10 +38,12 @@ export const ProductsMapping: React.FC<{
     productsIds,
     sortBy,
     location,
+    direction = 'vertical',
   }) => {
     const queryParams: HttpTypes.StoreProductListParams = {
       limit: 12,
     };
+
     if (collectionId) {
       queryParams['collection_id'] = Array.isArray(collectionId)
         ? collectionId
@@ -60,48 +68,109 @@ export const ProductsMapping: React.FC<{
       queryParams['order'] = 'created_at';
     }
 
+    // console.log('Sort by', sortBy);
+    console.log('Page', page);
+    // console.log('Location', location);
+    // console.log('Query params', queryParams);
+    // console.log(' Product ids', productsIds);
+
     const productsQuery = useStoreProducts({
       page,
-      countryCode: location, // Karlo: Pitaj Antu je li ovo trebam implementirati
+      countryCode: location,
       queryParams,
       sortBy,
     });
 
-    console.log('Test', productsQuery.data);
-    console.log(productsQuery?.data?.pages[0]?.response?.products?.length);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [currentPage, setCurrentPage] = React.useState(page);
 
-    return [...Array(8)].map((_, index) => (
-      <LayoutColumn
-        xs={6}
-        xl={4}
-        className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-        key={index}
-      >
-        <ProductCard
-          name="Astrid Curve"
-          category="Scandinavian Simplicity"
-          image={
-            <div>
-              <Image src={ImageAstridCurve} alt="Astrid curve image" />
-            </div>
+    const fetchNextProducts = async () => {
+      if (!productsQuery.hasNextPage) return;
+      const nextPage = await productsQuery.fetchNextPage();
+
+      if (!nextPage) return;
+
+      const params = new URLSearchParams(searchParams.toString());
+
+      setCurrentPage((prev) => prev + 1);
+      params.set('page', (currentPage + 1).toString());
+
+      router.replace(`?${params.toString()}`, { scroll: false });
+    };
+
+    return (
+      <>
+        <LayoutRow
+          className={
+            direction === 'vertical'
+              ? '-mr-4 mt-8 lg:-mr-12'
+              : '"-mr-4 lg:-mr-12" mt-8 flex snap-x snap-mandatory flex-nowrap overflow-x-scroll'
           }
-          price="1800€"
-          href="/product"
-        />
-      </LayoutColumn>
-    ));
+        >
+          {productsQuery.data?.pages.flatMap((page) =>
+            page.response.products.map((product) => {
+              const { cheapestPrice } = getProductPrice({
+                product,
+              });
+              return (
+                <LayoutColumn
+                  xs={6}
+                  xl={4}
+                  className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
+                  key={product.id}
+                >
+                  <ProductCard
+                    name={product.title}
+                    category={product.collection?.title || ''}
+                    image={
+                      <div className="relative aspect-[4/3]">
+                        <Image
+                          src={product.thumbnail!}
+                          className="object-cover"
+                          alt={product.description || ''}
+                          fill
+                        />
+                      </div>
+                    }
+                    price={cheapestPrice?.calculated_price.toString()!}
+                    originalPrice={
+                      cheapestPrice?.original_price?.toString() || undefined
+                    }
+                    href={`/product/${product.handle}`}
+                  />
+                </LayoutColumn>
+              );
+            })
+          )}
+        </LayoutRow>
+        {productsQuery.hasNextPage && (
+          <Button className="mx-auto" onPress={fetchNextProducts}>
+            View All
+          </Button>
+        )}
+
+        {!productsQuery.data && <h4>No results matched clear filter </h4>}
+      </>
+    );
   }
 );
 
-export const ProductsSkeletonMapping = () => {
-  return [...Array(8)].map((_, index) => (
-    <LayoutColumn
-      xs={6}
-      xl={4}
-      className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-      key={index}
-    >
-      <ProductCardSkeleton />
-    </LayoutColumn>
-  ));
+export const ProductsSkeletonMapping: React.FC<{
+  amount?: number;
+}> = ({ amount }) => {
+  return (
+    <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
+      {[...Array(amount)].map((_, index) => (
+        <LayoutColumn
+          xs={6}
+          xl={4}
+          className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
+          key={index}
+        >
+          <ProductCardSkeleton />
+        </LayoutColumn>
+      ))}
+    </LayoutRow>
+  );
 };

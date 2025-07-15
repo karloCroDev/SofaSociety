@@ -7,13 +7,16 @@ import Image from 'next/image';
 // Components
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { IconButton } from '@/components/ui/IconButton';
+import { Icon } from '@/components/ui/Icon';
 
 // Assets
 import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
 import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
-import { Icon } from '@/components/ui/Icon';
+import { HttpTypes } from '@medusajs/types';
 
-export const ImageSlider = () => {
+export const ImageSlider: React.FC<{
+  imageData: HttpTypes.StoreProductImage[];
+}> = ({ imageData }) => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
@@ -27,21 +30,29 @@ export const ImageSlider = () => {
   return (
     <div className="relative">
       <LayoutRow
-        className="max-h-[500px] snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row"
+        className="max-h-[500px] snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row lg:gap-4"
         ref={scrollableContainerRef}
       >
-        <LayoutColumn lg={8} className="flex-shrink-0 snap-start lg:pr-2">
+        <LayoutColumn
+          lg={8}
+          className="relative h-[600px] flex-shrink-0 snap-start"
+        >
           <Image
             className="h-full object-cover"
-            src={ImagePalomaHeaven}
+            src={imageData[0].url}
             alt="Representaion of your wanted product"
+            fill
           />
         </LayoutColumn>
-        <LayoutColumn lg={8} className="flex-shrink-0 snap-start lg:pl-2">
+        <LayoutColumn
+          lg={8}
+          className="relative h-[600px] flex-shrink-0 snap-start"
+        >
           <Image
-            className="h-full object-cover"
-            src={ImagePalomaHeavenDetails}
+            className="object-cover"
+            src={imageData[1].url}
             alt="Detailed representaion of your wanted product"
+            fill
           />
         </LayoutColumn>
       </LayoutRow>

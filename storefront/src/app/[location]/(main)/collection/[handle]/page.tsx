@@ -18,10 +18,6 @@ import {
   SortOptions,
 } from '@/components/ui/ProductsGrid';
 
-// Assets
-import ImageHero from '@/public/images/inspiration/modern-luxe.png';
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
-
 // Lib
 import { getCollectionByHandle } from '@/lib/data/collections';
 import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
@@ -34,6 +30,7 @@ interface PageProps {
   searchParams: Promise<{
     category?: string | string[];
     type?: string | string[];
+    page?: string;
   }>;
 }
 
@@ -42,15 +39,17 @@ export default async function CollectionPage({
   searchParams,
 }: PageProps) {
   const { handle, location } = await params;
-  const { category, type } = await searchParams;
+  const { category, type, page } = await searchParams;
 
-  const rCategory = !category
+  console.log(page);
+
+  const isArrayCategory = !category
     ? undefined
     : Array.isArray(category)
       ? category
       : [category];
 
-  const isTypeArray = !type ? undefined : Array.isArray(type) ? type : [type];
+  const isArrayType = !type ? undefined : Array.isArray(type) ? type : [type];
 
   const collection = await getCollectionByHandle(handle, [
     'metadata',
@@ -129,29 +128,27 @@ export default async function CollectionPage({
           <DrawerSort />
         </div>
 
-        <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
-          <Suspense fallback={<ProductsSkeletonMapping />}>
-            <ProductsMapping
-              page={1}
-              collectionId={collection.id}
-              categoryId={
-                !rCategory
-                  ? undefined
-                  : categories.product_categories
-                      .filter((c) => rCategory.includes(c.handle))
-                      .map((c) => c.id)
-              }
-              typeId={
-                !isTypeArray
-                  ? undefined
-                  : types.productTypes
-                      .filter((t) => isTypeArray.includes(t.value))
-                      .map((t) => t.id)
-              }
-              location={location}
-            />
-          </Suspense>
-        </LayoutRow>
+        <Suspense fallback={<ProductsSkeletonMapping />}>
+          <ProductsMapping
+            page={page ? +page : 1}
+            collectionId={collection.id}
+            categoryId={
+              !isArrayCategory
+                ? undefined
+                : categories.product_categories
+                    .filter((c) => isArrayCategory.includes(c.handle))
+                    .map((c) => c.id)
+            }
+            typeId={
+              !isArrayType
+                ? undefined
+                : types.productTypes
+                    .filter((t) => isArrayType.includes(t.value))
+                    .map((t) => t.id)
+            }
+            location={location}
+          />
+        </Suspense>
       </Layout>
     </>
   );

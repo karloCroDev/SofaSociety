@@ -16,7 +16,6 @@ import {
 import ImageInspiredInterior from '@/public/images/product/inspired-interior.png';
 import ImageInspiredInteriorWide from '@/public/images/product/inpired-intrerior-wide.png';
 import ImageSofaHeaven from '@/public/images/product/sofa-heaven.png';
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
 import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
 

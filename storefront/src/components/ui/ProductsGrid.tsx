@@ -3,22 +3,22 @@
 // External packages
 import Image from 'next/image';
 import * as React from 'react';
-// Components
-import { LayoutColumn } from '@/components/ui/Layout';
-import { ProductCard, ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { HttpTypes } from '@medusajs/types';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+// Components
+import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
+import { ProductCard, ProductCardSkeleton } from '@/components/ui/ProductCard';
+import { Button } from '@/components/ui/Button';
 
 // Hooks
 import { useStoreProducts } from '@/hooks/store';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-
-// Assets
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 import { getProductPrice } from '@/lib/util/get-product-price';
 
-export type SortOptions = 'price_asc' | 'price_desc' | 'created_at';
+export type SortOptions = 'price_asc' | 'price_desc' | 'created_at'; // Karlo: Put this into sort options
 
 export const ProductsMapping: React.FC<{
   sortBy?: SortOptions;
@@ -66,11 +66,11 @@ export const ProductsMapping: React.FC<{
       queryParams['order'] = 'created_at';
     }
 
-    console.log(sortBy);
-    console.log(page);
-    console.log(location);
-    console.log('s', queryParams);
-    console.log(productsIds);
+    // console.log('Sort by', sortBy);
+    console.log('Page', page);
+    // console.log('Location', location);
+    // console.log('Query params', queryParams);
+    // console.log(' Product ids', productsIds);
 
     const productsQuery = useStoreProducts({
       page,
@@ -79,56 +79,89 @@ export const ProductsMapping: React.FC<{
       sortBy,
     });
 
-    const products = productsQuery.data?.pages[0]?.response?.products;
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [currentPage, setCurrentPage] = React.useState(page);
+
+    const fetchNextProducts = async () => {
+      if (!productsQuery.hasNextPage) return;
+      const nextPage = await productsQuery.fetchNextPage();
+
+      if (!nextPage) return;
+
+      const params = new URLSearchParams(searchParams.toString());
+
+      setCurrentPage((prev) => prev + 1);
+      params.set('page', (currentPage + 1).toString());
+
+      router.replace(`?${params.toString()}`, { scroll: false });
+    };
 
     return (
-      products &&
-      products.map((product) => {
-        const { cheapestPrice } = getProductPrice({
-          product,
-        });
-        return (
-          <LayoutColumn
-            xs={6}
-            xl={4}
-            className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-            key={product.id}
-          >
-            <ProductCard
-              name={product.title}
-              category={product.collection?.title || ''}
-              image={
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    src={product.thumbnail!}
-                    className="object-cover"
-                    alt={product.description || ''}
-                    fill
+      <>
+        <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
+          {productsQuery.data?.pages.flatMap((page) =>
+            page.response.products.map((product) => {
+              const { cheapestPrice } = getProductPrice({
+                product,
+              });
+              return (
+                <LayoutColumn
+                  xs={6}
+                  xl={4}
+                  className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
+                  key={product.id}
+                >
+                  <ProductCard
+                    name={product.title}
+                    category={product.collection?.title || ''}
+                    image={
+                      <div className="relative aspect-[4/3]">
+                        <Image
+                          src={product.thumbnail!}
+                          className="object-cover"
+                          alt={product.description || ''}
+                          fill
+                        />
+                      </div>
+                    }
+                    price={cheapestPrice?.calculated_price.toString()!}
+                    originalPrice={
+                      cheapestPrice?.original_price_number?.toString() ||
+                      undefined
+                    }
+                    href={`/product/${product.handle}`}
                   />
-                </div>
-              }
-              price={cheapestPrice?.calculated_price.toString()!}
-              originalPrice={
-                cheapestPrice?.original_price_number?.toString() || undefined
-              }
-              href={`/product/${product.handle}`}
-            />
-          </LayoutColumn>
-        );
-      })
+                </LayoutColumn>
+              );
+            })
+          )}
+        </LayoutRow>
+        {productsQuery.hasNextPage && (
+          <Button className="mx-auto" onPress={fetchNextProducts}>
+            View All
+          </Button>
+        )}
+
+        {!productsQuery.data && <h4>No results matched clear filter </h4>}
+      </>
     );
   }
 );
 
 export const ProductsSkeletonMapping = () => {
-  return [...Array(8)].map((_, index) => (
-    <LayoutColumn
-      xs={6}
-      xl={4}
-      className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
-      key={index}
-    >
-      <ProductCardSkeleton />
-    </LayoutColumn>
-  ));
+  return (
+    <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
+      {[...Array(8)].map((_, index) => (
+        <LayoutColumn
+          xs={6}
+          xl={4}
+          className="mb-10 flex-shrink-0 snap-start pr-4 lg:mb-16 lg:pr-12"
+          key={index}
+        >
+          <ProductCardSkeleton />
+        </LayoutColumn>
+      ))}
+    </LayoutRow>
+  );
 };

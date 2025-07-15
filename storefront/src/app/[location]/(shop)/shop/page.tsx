@@ -105,19 +105,18 @@ export default async function Shop({ params, searchParams }: PageProps) {
         <DrawerFilter />
         <DrawerSort />
       </div>
-      <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
-        <Suspense fallback={<ProductsSkeletonMapping />}>
-          <ProductsMapping
-            // Karlo: Account for params from the url
-            sortBy="created_at"
-            page={page ? +page : 1}
-            collectionId={undefined}
-            categoryId={categories.product_categories.map((c) => c.id)}
-            typeId={types.productTypes.map((t) => t.id)}
-            location={location}
-          />
-        </Suspense>
-      </LayoutRow>
+
+      <Suspense fallback={<ProductsSkeletonMapping />}>
+        <ProductsMapping
+          // Karlo: Account for params from the url
+          sortBy="created_at"
+          page={page ? +page : 1}
+          collectionId={undefined}
+          categoryId={categories.product_categories.map((c) => c.id)}
+          typeId={types.productTypes.map((t) => t.id)}
+          location={location}
+        />
+      </Suspense>
     </Layout>
   );
 }

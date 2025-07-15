@@ -27,6 +27,7 @@ export const ProductsMapping: React.FC<{
   categoryId?: string | string[];
   typeId?: string | string[];
   productsIds?: string[];
+  direction?: 'horizontal' | 'vertical';
   location: string;
 }> = withReactQueryProvider(
   ({
@@ -37,6 +38,7 @@ export const ProductsMapping: React.FC<{
     productsIds,
     sortBy,
     location,
+    direction = 'vertical',
   }) => {
     const queryParams: HttpTypes.StoreProductListParams = {
       limit: 12,
@@ -99,7 +101,13 @@ export const ProductsMapping: React.FC<{
 
     return (
       <>
-        <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
+        <LayoutRow
+          className={
+            direction === 'vertical'
+              ? '-mr-4 mt-8 lg:-mr-12'
+              : '"-mr-4 lg:-mr-12" mt-8 flex snap-x snap-mandatory flex-nowrap overflow-x-scroll'
+          }
+        >
           {productsQuery.data?.pages.flatMap((page) =>
             page.response.products.map((product) => {
               const { cheapestPrice } = getProductPrice({
@@ -127,8 +135,7 @@ export const ProductsMapping: React.FC<{
                     }
                     price={cheapestPrice?.calculated_price.toString()!}
                     originalPrice={
-                      cheapestPrice?.original_price_number?.toString() ||
-                      undefined
+                      cheapestPrice?.original_price?.toString() || undefined
                     }
                     href={`/product/${product.handle}`}
                   />
@@ -149,10 +156,12 @@ export const ProductsMapping: React.FC<{
   }
 );
 
-export const ProductsSkeletonMapping = () => {
+export const ProductsSkeletonMapping: React.FC<{
+  amount?: number;
+}> = ({ amount }) => {
   return (
     <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
-      {[...Array(8)].map((_, index) => (
+      {[...Array(amount)].map((_, index) => (
         <LayoutColumn
           xs={6}
           xl={4}

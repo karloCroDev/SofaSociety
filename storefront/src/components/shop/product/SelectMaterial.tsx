@@ -14,8 +14,19 @@ import {
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { SelectColor } from '@/components/shop/product/SelectColor';
+import { HttpTypes } from '@medusajs/types';
 
-export const SelectMaterial = () => {
+export const SelectMaterial: React.FC<{
+  customatization: {
+    id: string;
+    name: string;
+    colors: {
+      id: string;
+      name: string;
+      hex_code: string;
+    }[];
+  }[];
+}> = ({ customatization }) => {
   const [material, setMaterial] = React.useState('');
 
   return (
@@ -40,34 +51,24 @@ export const SelectMaterial = () => {
         </AriaButton>
         <Popover className="max-h-[448px] w-[var(--trigger-width)] overflow-scroll rounded border bg-gray-10 outline-none">
           <ListBox className="w-full hover:cursor-pointer">
-            <ListBoxItem
-              id="velvet"
-              className="p-4 outline-none data-[selected]:bg-gray-50 data-[selected]:font-bold"
-            >
-              Velvet
-            </ListBoxItem>
-            <ListBoxItem
-              id="linen"
-              className="p-4 outline-none data-[selected]:bg-gray-50 data-[selected]:font-bold"
-            >
-              Linen
-            </ListBoxItem>
-            <ListBoxItem
-              id="boucle"
-              className="p-4 outline-none data-[selected]:bg-gray-50 data-[selected]:font-bold"
-            >
-              Boucle
-            </ListBoxItem>
-            <ListBoxItem
-              id="leather"
-              className="p-4 outline-none data-[selected]:bg-gray-50 data-[selected]:font-bold"
-            >
-              Leather
-            </ListBoxItem>
+            {customatization.map((material) => (
+              <ListBoxItem
+                id="velvet"
+                className="p-4 outline-none data-[selected]:bg-gray-50 data-[selected]:font-bold"
+                key={material.id}
+              >
+                {material.name}
+              </ListBoxItem>
+            ))}
           </ListBox>
         </Popover>
       </AriaSelect>
-      {material && <SelectColor />}
+      {/* // */}
+      {material && (
+        <SelectColor
+          colors={customatization.flatMap((color) => color.colors)}
+        />
+      )}
     </>
   );
 };

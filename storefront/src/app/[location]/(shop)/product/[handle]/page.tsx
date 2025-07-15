@@ -20,6 +20,7 @@ import {
   getProductFashionDataByHandle,
 } from '@/lib/data/products';
 import { getRegion } from '@/lib/data/regions';
+import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
 
 // Assets
 import ImageInspiredInterior from '@/public/images/product/inspired-interior.png';
@@ -46,7 +47,9 @@ export default async function ProductPage({ params }: PageProps) {
     product: productData,
   });
 
-  console.log(fashionDetails.materials);
+  const collectioonData = collectionMetadataCustomFieldsSchema.safeParse(
+    productData.collection?.metadata ?? {}
+  );
 
   return (
     <>
@@ -104,34 +107,41 @@ export default async function ProductPage({ params }: PageProps) {
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-xl font-medium lg:mt-20 lg:text-3xl">
-          Collection Inspired Interior
+          {collectioonData.data?.product_page_heading}
         </h2>
-        <Image
-          src={ImageInspiredInterior}
-          alt="Inspired interior"
-          className="mt-8"
-        />
+        <div className="relative mt-8 w-full lg:h-[500px] 2xl:h-[800px]">
+          <Image
+            src={collectioonData.data?.collection_page_image?.url || ''}
+            alt="Inspired interior"
+            className="object-cover"
+            fill
+          />
+        </div>
       </Layout>
-      <Image
-        src={ImageInspiredInteriorWide}
-        alt="Inspired interior"
-        className="mt-8 lg:mt-20"
-      />
+      <div className="relative mt-8 lg:mt-20 lg:h-[800px] 2xl:h-[1200px]">
+        <Image
+          src={collectioonData.data?.product_page_cta_image?.url || ''}
+          alt="Inspired interior"
+          className="object-cover"
+          fill
+        />
+      </div>
       <Layout>
         <LayoutRow className="mt-8 lg:mt-20">
-          <LayoutColumn xs={8} lg={5}>
+          <LayoutColumn xs={8} lg={5} className="relative h-96 lg:pr-12">
             <Image
-              src={ImageSofaHeaven}
+              src={collectioonData.data?.product_page_image?.url || ''}
               alt="Inspired interior"
-              className="lg:pr-12"
+              className="object-cover"
+              fill
             />
           </LayoutColumn>
           <LayoutColumn xs={12} lg={7} className="lg:pl-12">
             <h2 className="mt-8 text-lg lg:mt-20 lg:text-3xl lg:font-medium">
-              The Paloma Haven sofa is a masterpiece of minimalism and luxury.
+              {collectioonData.data?.collection_page_heading}
             </h2>
             <Link href="/about" className="mt-8 underline underline-offset-2">
-              See more out of ‘Modern Luxe’ collection
+              {collectioonData.data?.product_page_cta_link}
             </Link>
           </LayoutColumn>
         </LayoutRow>

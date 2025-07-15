@@ -32,7 +32,7 @@ export const SelectColor: React.FC<{
         className="mt-4 flex gap-6"
       >
         {colors.map((color) => (
-          <Radio value={color.name} className="group">
+          <Radio value={color.name} className="group" key={color.id}>
             <div
               className="relative size-8 cursor-pointer bg-gray-500 after:absolute after:-bottom-2 after:w-full after:bg-gray-900 group-data-[selected]:after:h-px"
               style={{ backgroundColor: color.hex_code }}

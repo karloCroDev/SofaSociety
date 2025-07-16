@@ -17,7 +17,6 @@ export const Collections: React.FC<{
 }> = ({ collections }) => {
   const scrollableContainerRef = React.useRef<null | HTMLDivElement>(null);
 
-  // TODO: A šta ako želimo imati više ili manje od 4 itema u kolekciji? FIXED
   const scrollContainerFn = (isDirectionLeft: boolean = false) => {
     const element = scrollableContainerRef.current;
     if (element) {

@@ -87,9 +87,8 @@ export const ProductsMapping: React.FC<{
 
     const fetchNextProducts = async () => {
       if (!productsQuery.hasNextPage) return;
-      const nextPage = await productsQuery.fetchNextPage();
 
-      if (!nextPage) return;
+      productsQuery.fetchNextPage();
 
       const params = new URLSearchParams(searchParams.toString());
 
@@ -108,7 +107,7 @@ export const ProductsMapping: React.FC<{
               : '"-mr-4 lg:-mr-12" mt-8 flex snap-x snap-mandatory flex-nowrap overflow-x-scroll'
           }
         >
-          {productsQuery.data?.pages.flatMap((page) =>
+          {productsQuery.data.pages.flatMap((page) =>
             page.response.products.map((product) => {
               const { cheapestPrice } = getProductPrice({
                 product,
@@ -122,20 +121,23 @@ export const ProductsMapping: React.FC<{
                 >
                   <ProductCard
                     name={product.title}
-                    category={product.collection?.title || ''}
+                    category={product.collection!.title}
                     image={
                       <div className="relative aspect-[4/3]">
                         <Image
                           src={product.thumbnail!}
                           className="object-cover"
-                          alt={product.description || ''}
+                          alt={product.description!}
                           fill
                         />
                       </div>
                     }
                     price={cheapestPrice?.calculated_price.toString()!}
                     originalPrice={
-                      cheapestPrice?.original_price?.toString() || undefined
+                      cheapestPrice?.original_price ===
+                      cheapestPrice?.calculated_price
+                        ? undefined
+                        : cheapestPrice?.original_price.toString()
                     }
                     href={`/product/${product.handle}`}
                   />
@@ -143,8 +145,12 @@ export const ProductsMapping: React.FC<{
               );
             })
           )}
+
+          {productsQuery.isFetchingNextPage && (
+            <ProductsSkeletonMapping amount={4} />
+          )}
         </LayoutRow>
-        {productsQuery.hasNextPage && (
+        {productsQuery.hasNextPage && productsQuery.isFetchingNextPage && (
           <Button className="mx-auto" onPress={fetchNextProducts}>
             View All
           </Button>
@@ -158,7 +164,7 @@ export const ProductsMapping: React.FC<{
 
 export const ProductsSkeletonMapping: React.FC<{
   amount?: number;
-}> = ({ amount }) => {
+}> = ({ amount = 6 }) => {
   return (
     <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
       {[...Array(amount)].map((_, index) => (

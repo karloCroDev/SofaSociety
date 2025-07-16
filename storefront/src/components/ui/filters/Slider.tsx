@@ -9,6 +9,9 @@ import {
   SliderOutput,
 } from 'react-aria-components';
 
+// // Lib
+// import {}
+
 export const Slider = () => (
   <AriaSlider defaultValue={[0, 50000]} minValue={0} maxValue={5000}>
     <SliderTrack className="h-px w-full bg-gray-900">

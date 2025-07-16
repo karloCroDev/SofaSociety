@@ -65,10 +65,11 @@ export default async function CollectionPage({
     title: collection.title,
   };
 
-  const categories = await getCategoriesList(0, 100, ['id', 'name', 'handle']);
-  const types = await getProductTypesList(0, 100, ['id', 'value']);
-
-  console.log(types);
+  const [categories, types, region] = await Promise.all([
+    getCategoriesList(0, 100, ['id', 'name', 'handle']),
+    getProductTypesList(0, 100, ['id', 'value']),
+    getRegion(location),
+  ]);
 
   return (
     <>
@@ -108,9 +109,6 @@ export default async function CollectionPage({
             </PopoverOption>
             <PopoverOption title="Materials">
               <Materials />
-            </PopoverOption>
-            <PopoverOption title="Collection">
-              <Collection />
             </PopoverOption>
           </div>
           <div className="hidden lg:block">

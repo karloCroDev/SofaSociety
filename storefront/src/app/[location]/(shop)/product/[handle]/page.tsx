@@ -23,9 +23,6 @@ import { getRegion } from '@/lib/data/regions';
 import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
 
 // Assets
-import ImageInspiredInterior from '@/public/images/product/inspired-interior.png';
-import ImageInspiredInteriorWide from '@/public/images/product/inpired-intrerior-wide.png';
-import ImageSofaHeaven from '@/public/images/product/sofa-heaven.png';
 import {
   getPricesForVariant,
   getProductPrice,
@@ -98,7 +95,7 @@ export default async function ProductPage({ params }: PageProps) {
             <h1 className="text-xl lg:text-2xl">{productData.title}</h1>
             <p className="mt-2 text-lg">
               {/* Karlo: Handle numbers */}
-              {price.variantPrice?.calculated_price}
+              {price.cheapestPrice?.calculated_price}
             </p>
             <p className="mt-8">{productData.description}</p>
             <SelectMaterial customatization={fashionDetails.materials} />

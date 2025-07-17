@@ -12,6 +12,8 @@ import {
   ProductsMapping,
   ProductsSkeletonMapping,
 } from '@/components/ui/ProductsGrid';
+import { ProductCarousel } from '@/components/shop/product/ProductCarousel';
+
 import { type SortOptions } from '@/components/ui/ProductsGrid';
 
 // Lib
@@ -50,45 +52,12 @@ export default async function ProductPage({ params }: PageProps) {
 
   return (
     <>
-      {/* Mobile version outside of layout */}
-      <div className="relative mt-22 lg:hidden">
-        <LayoutRow className="max-h-[500px] snap-x snap-mandatory flex-nowrap overflow-x-scroll scroll-smooth lg:max-h-none lg:flex-row">
-          <LayoutColumn
-            xs={12}
-            lg={8}
-            className="relative flex-shrink-0 snap-start lg:pr-2"
-          >
-            <Image
-              className="h-full object-cover"
-              src={productData.images?.[0]?.url || ''}
-              alt="Representaion of your wanted product "
-              fill
-            />
-          </LayoutColumn>
-          <LayoutColumn
-            xs={12}
-            lg={8}
-            className="relative aspect-[3/4] flex-shrink-0 snap-start lg:pl-2"
-          >
-            <Image
-              className="h-full object-cover"
-              src={productData.images?.[1]?.url || ''}
-              alt="Detailed representaion of your wanted product"
-              fill
-            />
-          </LayoutColumn>
-        </LayoutRow>
-        {/* Karlo:handle numbers  */}
-        <div className="absolute bottom-4 left-1/2 mt-6 flex -translate-x-1/2 transform justify-center text-md lg:hidden">
-          <p className="mr-4 underline underline-offset-4">1</p>
-          <p>2</p>
-        </div>
-      </div>
+      <ProductCarousel isMobile imageData={productData.images!} />
 
       <Layout className="mt-8 lg:mt-32">
         <LayoutRow>
           <LayoutColumn xs={12} lg={7} className="hidden lg:block lg:pr-8">
-            <ImageSlider imageData={productData.images!} />
+            <ProductCarousel imageData={productData.images!} />
           </LayoutColumn>
           <LayoutColumn xs={12} lg={5} className="flex flex-col lg:pl-8">
             <p className="text-gray-500">{productData.collection?.title}</p>

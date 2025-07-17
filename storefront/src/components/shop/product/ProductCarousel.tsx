@@ -13,16 +13,18 @@ import 'swiper/css/navigation';
 
 // Assets
 import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
+import { HttpTypes } from '@medusajs/types';
+import { twJoin, twMerge } from 'tailwind-merge';
 
 const SwiperNavButtons: React.FC<{
-  counter: number;
-}> = ({ counter }) => {
+  activeIndex: boolean;
+}> = ({ activeIndex }) => {
   const swiper = useSwiper();
 
   return (
-    <div className="absolute top-1/2 z-max flex w-full justify-between">
+    <div className="absolute top-1/2 z-max flex w-full justify-between px-2">
       <IconButton
-        variation={counter !== 0 && counter % 2 === 0 ? 'solid' : 'outline'}
+        variation={activeIndex ? 'solid' : 'outline'}
         onPress={() => {
           swiper.slidePrev();
         }}
@@ -30,7 +32,7 @@ const SwiperNavButtons: React.FC<{
         <Icon name="arrow" />
       </IconButton>
       <IconButton
-        variation={counter !== 0 && counter % 2 === 0 ? 'outline' : 'solid'}
+        variation={activeIndex ? 'outline' : 'solid'}
         onPress={() => {
           swiper.slideNext();
         }}
@@ -41,36 +43,49 @@ const SwiperNavButtons: React.FC<{
   );
 };
 
-export const ProductCarousel: React.FC<{}> = () => {
-  const [counter, setCounter] = React.useState(0);
+export const ProductCarousel: React.FC<{
+  imageData: HttpTypes.StoreProductImage[];
+  isMobile?: boolean;
+}> = ({ imageData, isMobile = false }) => {
+  const [activeIndex, setActiveIndex] = React.useState(false);
+
   return (
-    <div className="relative w-96 rounded border">
+    <div
+      className={twMerge(
+        'relative w-full overflow-hidden',
+        isMobile && 'mt-22 lg:hidden'
+      )}
+    >
       <Swiper
         pagination={{ type: 'fraction', clickable: true }}
         slidesPerView={'auto'}
-        spaceBetween={30}
-        onSlideChange={() => setCounter((prev) => prev + 1)}
+        spaceBetween={20} // 👈 adjust to control how much is revealed
+        onSlideChange={(swipe) => setActiveIndex(!!swipe.activeIndex)}
         modules={[Pagination, Navigation]}
-        className="mySwiper relative h-96 w-96"
-        loop
+        className={twJoin(
+          'mySwiper relative',
+          !isMobile ? 'h-[500px]' : 'h-96'
+        )}
       >
-        <SwiperNavButtons counter={counter} />
-        <SwiperSlide>
-          <Image
-            src={ImagePalomaHeaven}
-            alt="What us"
-            className="object-cover"
-            fill
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image
-            src={ImagePalomaHeaven}
-            alt="What us"
-            className="object-cover"
-            fill
-          />
-        </SwiperSlide>
+        {!isMobile && <SwiperNavButtons activeIndex={activeIndex} />}
+        {imageData.map((image) => (
+          <SwiperSlide
+            key={image.id}
+            className={twJoin(
+              'relative overflow-hidden',
+              !isMobile && '!w-[85%]'
+            )}
+          >
+            <div className="relative h-full w-full">
+              <Image
+                src={image.url}
+                alt="Product"
+                className="object-cover"
+                fill
+              />
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

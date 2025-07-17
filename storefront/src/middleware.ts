@@ -110,7 +110,7 @@ export async function middleware(request: NextRequest) {
     response = NextResponse.redirect(`${redirectUrl}`, 307);
   }
 
-  return response;
+  // return response;
 }
 export const config = {
   matcher: [

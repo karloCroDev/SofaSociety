@@ -44,29 +44,22 @@ export const ProductsMapping: React.FC<{
       limit: 12,
     };
 
-    if (collectionId) {
+    if (collectionId)
       queryParams['collection_id'] = Array.isArray(collectionId)
         ? collectionId
         : [collectionId];
-    }
 
-    if (categoryId) {
+    if (categoryId)
       queryParams['category_id'] = Array.isArray(categoryId)
         ? categoryId
         : [categoryId];
-    }
 
-    if (typeId) {
+    if (typeId)
       queryParams['type_id'] = Array.isArray(typeId) ? typeId : [typeId];
-    }
 
-    if (productsIds) {
-      queryParams['id'] = productsIds;
-    }
+    if (productsIds) queryParams['id'] = productsIds;
 
-    if (sortBy === 'created_at') {
-      queryParams['order'] = 'created_at';
-    }
+    if (sortBy === 'created_at') queryParams['order'] = sortBy;
 
     // console.log('Sort by', sortBy);
     console.log('Page', page);
@@ -150,7 +143,7 @@ export const ProductsMapping: React.FC<{
             <ProductsSkeletonMapping amount={4} />
           )}
         </LayoutRow>
-        {productsQuery.hasNextPage && productsQuery.isFetchingNextPage && (
+        {productsQuery.hasNextPage && !productsQuery.isFetchingNextPage && (
           <Button className="mx-auto" onPress={fetchNextProducts}>
             View All
           </Button>

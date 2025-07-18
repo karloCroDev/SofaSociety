@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { ProductCard, ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { Button } from '@/components/ui/Button';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Hooks
 import { useStoreProducts } from '@/hooks/store';
@@ -17,8 +18,6 @@ import { useStoreProducts } from '@/hooks/store';
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
 import { getProductPrice } from '@/lib/util/get-product-price';
-
-export type SortOptions = 'price_asc' | 'price_desc' | 'created_at'; // Karlo: Put this into sort options
 
 export const ProductsMapping: React.FC<{
   sortBy?: SortOptions;

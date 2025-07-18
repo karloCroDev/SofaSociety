@@ -2,7 +2,7 @@ import { getProductsListWithSort } from '@/lib/data/products';
 import { HttpTypes } from '@medusajs/types';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import { type SortOptions } from '@/components/ui/ProductsGrid';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 
 export const useStoreProducts = ({
   page,

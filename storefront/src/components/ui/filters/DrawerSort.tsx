@@ -36,7 +36,7 @@ const staticTransition = {
   ease: [0.32, 0.72, 0, 1],
 };
 
-export const DrawerSort = () => {
+export const DrawerSort: React.FC<{}> = () => {
   const [isOpen, setOpen] = React.useState(false);
 
   const [dimensions, setDimensions] = React.useState<{

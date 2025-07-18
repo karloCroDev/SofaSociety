@@ -4,9 +4,6 @@ import { Suspense } from 'react';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Slider } from '@/components/ui/filters/Slider';
-import { Color } from '@/components/ui/filters/Color';
-import { Materials } from '@/components/ui/filters/Materials';
 
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort } from '@/components/ui/filters/Sort';
@@ -15,8 +12,8 @@ import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 import {
   ProductsMapping,
   ProductsSkeletonMapping,
-  SortOptions,
 } from '@/components/ui/ProductsGrid';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Lib
 import { getCollectionByHandle } from '@/lib/data/collections';
@@ -30,6 +27,7 @@ interface PageProps {
   params: Promise<{ location: string; handle: string }>;
   searchParams: Promise<{
     category?: string | string[];
+    sortBy?: SortOptions;
     type?: string | string[];
     page?: string;
   }>;
@@ -40,7 +38,7 @@ export default async function CollectionPage({
   searchParams,
 }: PageProps) {
   const { handle, location } = await params;
-  const { category, type, page } = await searchParams;
+  const { category, type, page, sortBy } = await searchParams;
 
   console.log(page);
 
@@ -142,7 +140,7 @@ export default async function CollectionPage({
                 placement: 'bottom right',
               }}
             >
-              <Sort />
+              <Sort sort={sortBy} />
             </PopoverOption>
           </div>
 

@@ -14,8 +14,6 @@ import {
 } from '@/components/ui/ProductsGrid';
 import { ProductCarousel } from '@/components/shop/product/ProductCarousel';
 
-import { type SortOptions } from '@/components/ui/ProductsGrid';
-
 // Lib
 import {
   getProductByHandle,

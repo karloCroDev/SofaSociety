@@ -16,10 +16,9 @@ import { Color } from '@/components/ui/filters/Color';
 import { Materials } from '@/components/ui/filters/Materials';
 import { ProductFilters } from '@/components/ui/filters/ProductFilters';
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
-import { Sort } from '@/components/ui/filters/Sort';
+import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
 import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
 import { DrawerSort } from '@/components/ui/filters/DrawerSort';
-import { type SortOptions } from '@/components/ui/ProductsGrid';
 
 // Lib
 import { getCollectionsList } from '@/lib/data/collections';
@@ -150,7 +149,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
               placement: 'bottom right',
             }}
           >
-            <Sort />
+            <Sort sort={sortBy} />
           </PopoverOption>
         </div>
 

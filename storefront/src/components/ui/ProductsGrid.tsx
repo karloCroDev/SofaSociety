@@ -62,7 +62,7 @@ export const ProductsMapping: React.FC<{
     if (sortBy === 'created_at') queryParams['order'] = sortBy;
 
     // console.log('Sort by', sortBy);
-    console.log('Page', page);
+    // console.log('Page', page);
     // console.log('Location', location);
     // console.log('Query params', queryParams);
     // console.log(' Product ids', productsIds);

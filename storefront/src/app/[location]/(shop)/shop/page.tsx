@@ -29,15 +29,18 @@ import { getProductTypesList } from '@/lib/data/product-types';
 interface PageProps {
   params: Promise<{ location: string }>;
   searchParams: Promise<{
-    page: string;
-    sortBy: SortOptions;
+    page?: string;
+    sortBy?: SortOptions;
+    collection?: string | string[];
+    category?: string | string[];
+    type?: string | string[];
   }>;
 }
 
 export default async function Shop({ params, searchParams }: PageProps) {
   const { location } = await params;
 
-  const { page } = await searchParams;
+  const { page, category, collection, sortBy, type } = await searchParams;
   const { collections } = await getCollectionsList(0, 20, [
     'metadata',
     'handle',
@@ -109,7 +112,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
       <Suspense fallback={<ProductsSkeletonMapping />}>
         <ProductsMapping
           // Karlo: Account for params from the url
-          sortBy="created_at"
+          sortBy={sortBy}
           page={page ? +page : 1}
           collectionId={undefined}
           categoryId={categories.product_categories.map((c) => c.id)}

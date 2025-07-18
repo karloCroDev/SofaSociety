@@ -1,20 +1,19 @@
 'use client';
 
+// External packages
 import * as React from 'react';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper/modules';
 import Image from 'next/image';
 import { IconButton } from '@/components/ui/IconButton';
 import { Icon } from '@/components/ui/Icon';
+import { HttpTypes } from '@medusajs/types';
+import { twJoin, twMerge } from 'tailwind-merge';
 
+// Styles (external)
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-// Assets
-import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
-import { HttpTypes } from '@medusajs/types';
-import { twJoin, twMerge } from 'tailwind-merge';
 
 const SwiperNavButtons: React.FC<{
   activeIndex: boolean;
@@ -64,7 +63,7 @@ export const ProductCarousel: React.FC<{
         modules={[Pagination, Navigation]}
         className={twJoin(
           'mySwiper relative',
-          !isMobile ? 'h-[500px]' : 'h-96'
+          !isMobile ? 'h-[550px]' : 'h-96'
         )}
       >
         {!isMobile && <SwiperNavButtons activeIndex={activeIndex} />}

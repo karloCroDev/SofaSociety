@@ -45,11 +45,13 @@ export default async function ProductPage({ params }: PageProps) {
   const price = getProductPrice({
     product: productData,
   });
-
-  const collectioonData = collectionMetadataCustomFieldsSchema.safeParse(
+  console.log(productData);
+  console.log(fashionDetails);
+  const collectionData = collectionMetadataCustomFieldsSchema.safeParse(
     productData.collection?.metadata ?? {}
   );
 
+  if (!collectionData.success) redirect('/');
   return (
     <>
       <ProductCarousel isMobile imageData={productData.images!} />
@@ -63,7 +65,6 @@ export default async function ProductPage({ params }: PageProps) {
             <p className="text-gray-500">{productData.collection?.title}</p>
             <h1 className="text-xl lg:text-2xl">{productData.title}</h1>
             <p className="mt-2 text-lg">
-              {/* Karlo: Handle numbers */}
               {price.cheapestPrice?.calculated_price}
             </p>
             <p className="mt-8">{productData.description}</p>
@@ -73,30 +74,31 @@ export default async function ProductPage({ params }: PageProps) {
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-xl font-medium lg:mt-20 lg:text-3xl">
-          {collectioonData.data?.product_page_heading}
+          {collectionData.data?.product_page_heading}
         </h2>
-        <div className="relative mt-8 w-full lg:h-[500px] 2xl:h-[800px]">
+        <div className="relative mt-8 max-w-[100vw] lg:h-[500px] 2xl:h-[800px]">
           <Image
-            src={collectioonData.data?.collection_page_image?.url || ''}
+            src={collectionData.data?.product_page_image?.url || ''}
             alt="Inspired interior"
             className="object-cover"
             fill
           />
         </div>
       </Layout>
-      <div className="relative mt-8 lg:mt-20 lg:h-[800px] 2xl:h-[1200px]">
+      <div className="relative mt-8 h-[400px] w-screen overflow-hidden lg:mt-20 lg:h-[800px] 2xl:h-[1200px]">
         <Image
-          src={collectioonData.data?.product_page_cta_image?.url || ''}
+          src={collectionData.data?.product_page_wide_image?.url || ''}
           alt="Inspired interior"
-          className="object-cover"
+          className="object-cover object-right"
           fill
         />
       </div>
+
       <Layout>
         <LayoutRow className="mt-8 lg:mt-20">
           <LayoutColumn xs={8} lg={5} className="relative h-96 lg:pr-12">
             <Image
-              src={collectioonData.data?.product_page_image?.url || ''}
+              src={collectionData.data?.product_page_cta_image?.url || ''}
               alt="Inspired interior"
               className="object-cover"
               fill
@@ -104,10 +106,13 @@ export default async function ProductPage({ params }: PageProps) {
           </LayoutColumn>
           <LayoutColumn xs={12} lg={7} className="lg:pl-12">
             <h2 className="mt-8 text-lg lg:mt-20 lg:text-3xl lg:font-medium">
-              {collectioonData.data?.collection_page_heading}
+              {collectionData.data?.collection_page_heading}
             </h2>
-            <Link href="/about" className="mt-8 underline underline-offset-2">
-              {collectioonData.data?.product_page_cta_link}
+            <Link
+              href={`/collection/${productData.collection?.handle}`}
+              className="mt-8 underline underline-offset-2"
+            >
+              {collectionData.data?.product_page_cta_link}
             </Link>
           </LayoutColumn>
         </LayoutRow>

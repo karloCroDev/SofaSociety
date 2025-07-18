@@ -3,12 +3,13 @@
 // External packages
 import { useSearchParams, useRouter } from 'next/navigation';
 
+export type UrlParamsProps = 'collection' | 'type' | 'category' | 'sortBy';
 export const useSetUrlParams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const setUrlParams = (
-    key: 'price' | 'color' | 'materials' | 'collection' | 'sortBy',
+    key: UrlParamsProps,
     queryParams: string | string[]
   ) => {
     const normalizedParam = (queryParams = Array.isArray(queryParams)

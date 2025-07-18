@@ -20,7 +20,6 @@ import { Button } from '@/components/ui/Button';
 import { Slider } from '@/components/ui/filters/Slider';
 import { Color } from '@/components/ui/filters/Color';
 import { Materials } from '@/components/ui/filters/Materials';
-import { Collection } from '@/components/ui/filters/Collection';
 
 // Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);

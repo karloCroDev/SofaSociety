@@ -14,7 +14,7 @@ import {
 import { Slider } from '@/components/ui/filters/Slider';
 import { Color } from '@/components/ui/filters/Color';
 import { Materials } from '@/components/ui/filters/Materials';
-import { Collection } from '@/components/ui/filters/Collection';
+import { ProductFilters } from '@/components/ui/filters/ProductFilters';
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort } from '@/components/ui/filters/Sort';
 import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
@@ -43,11 +43,13 @@ export default async function Shop({ params, searchParams }: PageProps) {
   const { page, category, collection, sortBy, type } = await searchParams;
   const [collections, categories, types] = await Promise.all([
     getCollectionsList(0, 20, ['metadata', 'handle', 'title']),
-
-    await getCategoriesList(0, 100, ['id', 'name', 'handle']),
-
-    await getProductTypesList(0, 100, ['id', 'value']),
+    getCategoriesList(0, 100, ['id', 'name', 'handle']),
+    getProductTypesList(0, 100, ['id', 'value']),
   ]);
+
+  console.log(categories.product_categories);
+
+  console.log(collections);
 
   return (
     <Layout className="mt-32 lg:mt-44">
@@ -79,24 +81,65 @@ export default async function Shop({ params, searchParams }: PageProps) {
       {/* TODO: Ja bi ove filtere ubacija ode direktno na page. FIXED */}
       <div className="mt-6 flex justify-between lg:mt-8">
         <div className="hidden gap-4 lg:flex">
-          <PopoverOption title="Price">
+          {/* Karlo: try to add if there is option inside the api */}
+          {/* <PopoverOption title="Price">
             <Slider />
           </PopoverOption>
           <PopoverOption title="Color">
             <Color />
-          </PopoverOption>
-          <PopoverOption title="Materials">
+          </PopoverOption> */}
+          {/* <PopoverOption title="Materials">
             <Materials />
-          </PopoverOption>
+          </PopoverOption> */}
           <PopoverOption title="Collection">
-            <Collection
-              collection={
+            <ProductFilters
+              type="collection"
+              productFilters={
                 !collection
                   ? undefined
                   : Array.isArray(collection)
                     ? collection
                     : [collection]
               }
+              appliedProductFilters={collections.collections.map(
+                (collection) => ({
+                  handle: collection.handle,
+                  name: collection.title,
+                  id: collection.id,
+                })
+              )}
+            />
+          </PopoverOption>
+          <PopoverOption title="Category">
+            <ProductFilters
+              type="category"
+              productFilters={
+                !category
+                  ? undefined
+                  : Array.isArray(category)
+                    ? category
+                    : [category]
+              }
+              appliedProductFilters={categories.product_categories.map(
+                (collection) => ({
+                  handle: collection.handle,
+                  name: collection.name,
+                  id: collection.id,
+                })
+              )}
+            />
+          </PopoverOption>
+          <PopoverOption title="Types">
+            <ProductFilters
+              type="type"
+              productFilters={
+                !type ? undefined : Array.isArray(type) ? type : [type]
+              }
+              appliedProductFilters={types.productTypes.map((collection) => ({
+                handle: collection.value,
+                name: collection.value,
+                id: collection.id,
+              }))}
             />
           </PopoverOption>
         </div>
@@ -127,8 +170,20 @@ export default async function Shop({ params, searchParams }: PageProps) {
                   .filter((c) => collection.includes(c.handle))
                   .map((c) => c.id)
           }
-          categoryId={categories.product_categories.map((c) => c.id)}
-          typeId={types.productTypes.map((t) => t.id)}
+          categoryId={
+            !category
+              ? undefined
+              : categories.product_categories
+                  .filter((c) => category.includes(c.handle))
+                  .map((c) => c.id)
+          }
+          typeId={
+            !type
+              ? undefined
+              : types.productTypes
+                  .filter((c) => type.includes(c.value))
+                  .map((c) => c.id)
+          }
           location={location}
         />
       </Suspense>

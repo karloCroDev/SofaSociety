@@ -61,12 +61,6 @@ export const ProductsMapping: React.FC<{
 
     if (sortBy === 'created_at') queryParams['order'] = sortBy;
 
-    // console.log('Sort by', sortBy);
-    // console.log('Page', page);
-    // console.log('Location', location);
-    // console.log('Query params', queryParams);
-    // console.log(' Product ids', productsIds);
-
     const productsQuery = useStoreProducts({
       page,
       countryCode: location,
@@ -91,6 +85,7 @@ export const ProductsMapping: React.FC<{
       router.replace(`?${params.toString()}`, { scroll: false });
     };
 
+    console.log(productsQuery.data.pages);
     return (
       <>
         <LayoutRow
@@ -105,6 +100,7 @@ export const ProductsMapping: React.FC<{
               const { cheapestPrice } = getProductPrice({
                 product,
               });
+
               return (
                 <LayoutColumn
                   xs={6}

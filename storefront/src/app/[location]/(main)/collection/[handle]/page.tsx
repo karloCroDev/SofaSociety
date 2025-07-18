@@ -7,7 +7,7 @@ import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { Slider } from '@/components/ui/filters/Slider';
 import { Color } from '@/components/ui/filters/Color';
 import { Materials } from '@/components/ui/filters/Materials';
-import { Collection } from '@/components/ui/filters/Collection';
+
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort } from '@/components/ui/filters/Sort';
 import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
@@ -24,6 +24,7 @@ import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
 import { getCategoriesList } from '@/lib/data/categories';
 import { getProductTypesList } from '@/lib/data/product-types';
 import { getRegion } from '@/lib/data/regions';
+import { ProductFilters } from '@/components/ui/filters/ProductFilters';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;
@@ -101,14 +102,37 @@ export default async function CollectionPage({
 
         <div className="mt-6 flex justify-between lg:mt-8">
           <div className="hidden gap-4 lg:flex">
-            <PopoverOption title="Price">
-              <Slider />
+            <PopoverOption title="Category">
+              <ProductFilters
+                type="category"
+                productFilters={
+                  !category
+                    ? undefined
+                    : Array.isArray(category)
+                      ? category
+                      : [category]
+                }
+                appliedProductFilters={categories.product_categories.map(
+                  (collection) => ({
+                    handle: collection.handle,
+                    name: collection.name,
+                    id: collection.id,
+                  })
+                )}
+              />
             </PopoverOption>
-            <PopoverOption title="Color">
-              <Color />
-            </PopoverOption>
-            <PopoverOption title="Materials">
-              <Materials />
+            <PopoverOption title="Types">
+              <ProductFilters
+                type="type"
+                productFilters={
+                  !type ? undefined : Array.isArray(type) ? type : [type]
+                }
+                appliedProductFilters={types.productTypes.map((collection) => ({
+                  handle: collection.value,
+                  name: collection.value,
+                  id: collection.id,
+                }))}
+              />
             </PopoverOption>
           </div>
           <div className="hidden lg:block">
@@ -127,25 +151,27 @@ export default async function CollectionPage({
         </div>
 
         <Suspense fallback={<ProductsSkeletonMapping />}>
-          <ProductsMapping
-            page={page ? +page : 1}
-            collectionId={collection.id}
-            categoryId={
-              !isArrayCategory
-                ? undefined
-                : categories.product_categories
-                    .filter((c) => isArrayCategory.includes(c.handle))
-                    .map((c) => c.id)
-            }
-            typeId={
-              !isArrayType
-                ? undefined
-                : types.productTypes
-                    .filter((t) => isArrayType.includes(t.value))
-                    .map((t) => t.id)
-            }
-            location={location}
-          />
+          {region && (
+            <ProductsMapping
+              page={page ? +page : 1}
+              collectionId={collection.id}
+              categoryId={
+                !isArrayCategory
+                  ? undefined
+                  : categories.product_categories
+                      .filter((c) => isArrayCategory.includes(c.handle))
+                      .map((c) => c.id)
+              }
+              typeId={
+                !isArrayType
+                  ? undefined
+                  : types.productTypes
+                      .filter((t) => isArrayType.includes(t.value))
+                      .map((t) => t.id)
+              }
+              location={location}
+            />
+          )}
         </Suspense>
       </Layout>
     </>

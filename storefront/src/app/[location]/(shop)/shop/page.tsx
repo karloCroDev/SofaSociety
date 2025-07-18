@@ -41,15 +41,13 @@ export default async function Shop({ params, searchParams }: PageProps) {
   const { location } = await params;
 
   const { page, category, collection, sortBy, type } = await searchParams;
-  const { collections } = await getCollectionsList(0, 20, [
-    'metadata',
-    'handle',
-    'title',
+  const [collections, categories, types] = await Promise.all([
+    getCollectionsList(0, 20, ['metadata', 'handle', 'title']),
+
+    await getCategoriesList(0, 100, ['id', 'name', 'handle']),
+
+    await getProductTypesList(0, 100, ['id', 'value']),
   ]);
-
-  const categories = await getCategoriesList(0, 100, ['id', 'name', 'handle']);
-
-  const types = await getProductTypesList(0, 100, ['id', 'value']);
 
   return (
     <Layout className="mt-32 lg:mt-44">
@@ -57,7 +55,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
         Collections
       </h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
-        {collections.map((collection) => (
+        {collections.collections.map((collection) => (
           <LayoutColumn lg={3} className="pr-6" key={collection.id}>
             <Link href={`/collection/${collection.handle}`}>
               <div className="relative aspect-[3/4]">
@@ -74,7 +72,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
         ))}
       </LayoutRow>
       <div className="lg:hidden">
-        <Collections collections={collections} />
+        <Collections collections={collections.collections} />
       </div>
 
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
@@ -91,7 +89,15 @@ export default async function Shop({ params, searchParams }: PageProps) {
             <Materials />
           </PopoverOption>
           <PopoverOption title="Collection">
-            <Collection />
+            <Collection
+              collection={
+                !collection
+                  ? undefined
+                  : Array.isArray(collection)
+                    ? collection
+                    : [collection]
+              }
+            />
           </PopoverOption>
         </div>
         <div className="hidden lg:block">
@@ -114,7 +120,13 @@ export default async function Shop({ params, searchParams }: PageProps) {
           // Karlo: Account for params from the url
           sortBy={sortBy}
           page={page ? +page : 1}
-          collectionId={undefined}
+          collectionId={
+            !collection
+              ? undefined
+              : collections.collections
+                  .filter((c) => collection.includes(c.handle))
+                  .map((c) => c.id)
+          }
           categoryId={categories.product_categories.map((c) => c.id)}
           typeId={types.productTypes.map((t) => t.id)}
           location={location}

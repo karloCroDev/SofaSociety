@@ -10,7 +10,9 @@ import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 // Hooks
 import { useSetUrlParams } from '@/hooks/useSetUrlParams';
 
-export const Collection = () => {
+export const Collection: React.FC<{
+  collection?: string[];
+}> = ({ collection }) => {
   const setUrlParams = useSetUrlParams();
   return (
     <CheckboxGroup
@@ -18,6 +20,7 @@ export const Collection = () => {
       onChange={(val) => {
         setUrlParams('collection', val);
       }}
+      value={collection ?? []}
     >
       <CheckboxWithLabel value="scandinavian-simplicity">
         Scandinavian Simplicity

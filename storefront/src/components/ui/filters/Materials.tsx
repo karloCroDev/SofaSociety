@@ -13,14 +13,14 @@ import { Icon } from '@/components/ui/Icon';
 import { useSetUrlParams } from '@/hooks/useSetUrlParams';
 
 export const Materials = () => {
-  const setUrlParams = useSetUrlParams();
+  // const setUrlParams = useSetUrlParams();
 
   return (
     <CheckboxGroup
       className="flex flex-col gap-8"
-      onChange={(val) => {
-        setUrlParams('materials', val);
-      }}
+      // onChange={(val) => {
+      //   setUrlParams('materials', val);
+      // }}
     >
       <CheckboxWithLabel value="velvet">Velvet</CheckboxWithLabel>
       <CheckboxWithLabel value="linen">Linen</CheckboxWithLabel>

@@ -7,7 +7,7 @@ import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort } from '@/components/ui/filters/Sort';
-import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
+import { DrawerFilter } from '@/components/ui/filters/DrawerFilter';
 import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 import {
   ProductsMapping,

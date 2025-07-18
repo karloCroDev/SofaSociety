@@ -17,9 +17,7 @@ import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
 import { Icon } from '@/components/ui/Icon';
 import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
-import { Slider } from '@/components/ui/filters/Slider';
-import { Color } from '@/components/ui/filters/Color';
-import { Materials } from '@/components/ui/filters/Materials';
+import { ProductFilters } from '@/components/ui/filters/ProductFilters';
 
 // Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);
@@ -39,7 +37,34 @@ const staticTransition = {
 };
 const SHEET_MARGIN = 144;
 
-export const DrawerFilter = () => {
+export const DrawerFilter: React.FC<{
+  collectionAppliedFilter?: {
+    handle: string;
+    name: string;
+    id: string;
+  }[];
+  collectionType?: string[];
+  categoryAppliedFilter?: {
+    handle: string;
+    name: string;
+    id: string;
+  }[];
+  categoryType?: string[];
+  typeAppliedFilter?: {
+    handle: string;
+    name: string;
+    id: string;
+  }[];
+
+  typeType?: string[];
+}> = ({
+  collectionAppliedFilter,
+  collectionType,
+  categoryAppliedFilter,
+  categoryType,
+  typeAppliedFilter,
+  typeType,
+}) => {
   const [h, setH] = React.useState<number | null>(null);
   const [w, setW] = React.useState<number | null>(null);
 
@@ -96,14 +121,24 @@ export const DrawerFilter = () => {
               }}
             >
               <Dialog className="relative flex h-full flex-col gap-6 overflow-scroll p-6 pb-24 outline-none">
-                <h4 className="text-lg font-semibold">Shop</h4>
-                <Slider />
-                <h4 className="text-lg font-semibold">Color</h4>
-                <Color />
-                <h4 className="text-lg font-semibold">Materials</h4>
-                <Materials />
                 <h4 className="text-lg font-semibold">Collection</h4>
-                <Collection />
+                <ProductFilters
+                  type="collection"
+                  appliedProductFilters={collectionAppliedFilter}
+                  productFilters={collectionType}
+                />
+                <h4 className="text-lg font-semibold">Category</h4>
+                <ProductFilters
+                  type="category"
+                  appliedProductFilters={categoryAppliedFilter}
+                  productFilters={categoryType}
+                />
+                <h4 className="text-lg font-semibold">Types</h4>
+                <ProductFilters
+                  type="type"
+                  appliedProductFilters={typeAppliedFilter}
+                  productFilters={typeType}
+                />
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
                 <Button className="w-full" onPress={() => setOpen(false)}>

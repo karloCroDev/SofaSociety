@@ -11,13 +11,10 @@ import {
   ProductsMapping,
   ProductsSkeletonMapping,
 } from '@/components/ui/ProductsGrid';
-import { Slider } from '@/components/ui/filters/Slider';
-import { Color } from '@/components/ui/filters/Color';
-import { Materials } from '@/components/ui/filters/Materials';
 import { ProductFilters } from '@/components/ui/filters/ProductFilters';
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
-import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
+import { DrawerFilter } from '@/components/ui/filters/DrawerFilter';
 import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 
 // Lib
@@ -46,10 +43,29 @@ export default async function Shop({ params, searchParams }: PageProps) {
     getProductTypesList(0, 100, ['id', 'value']),
   ]);
 
-  console.log(categories.product_categories);
+  const collectionAppliedFilters = collections.collections.map(
+    (collection) => ({
+      handle: collection.handle,
+      name: collection.title,
+      id: collection.id,
+    })
+  );
+  const categoryAppliedFilters = categories.product_categories.map(
+    (collection) => ({
+      handle: collection.handle,
+      name: collection.name,
+      id: collection.id,
+    })
+  );
+  const typeAppliedFilters = types.productTypes.map((collection) => ({
+    handle: collection.value,
+    name: collection.value,
+    id: collection.id,
+  }));
 
-  console.log(collections);
-
+  const converterCheckerArray = (value: string | string[] | undefined) => {
+    return !value ? undefined : Array.isArray(value) ? value : [value];
+  };
   return (
     <Layout className="mt-32 lg:mt-44">
       <h2 className="hidden text-xl font-medium lg:block lg:text-3xl">
@@ -64,7 +80,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
                   // @ts-ignore
                   src={collection.metadata?.image?.url}
                   fill
-                  alt="Scandinavian furnuture"
+                  alt="Scandinavian furniture"
                 />
               </div>
               <p className="mt-6">{collection.title}</p>
@@ -77,68 +93,27 @@ export default async function Shop({ params, searchParams }: PageProps) {
       </div>
 
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
-      {/* TODO: Ja bi ove filtere ubacija ode direktno na page. FIXED */}
       <div className="mt-6 flex justify-between lg:mt-8">
         <div className="hidden gap-4 lg:flex">
-          {/* Karlo: try to add if there is option inside the api */}
-          {/* <PopoverOption title="Price">
-            <Slider />
-          </PopoverOption>
-          <PopoverOption title="Color">
-            <Color />
-          </PopoverOption> */}
-          {/* <PopoverOption title="Materials">
-            <Materials />
-          </PopoverOption> */}
           <PopoverOption title="Collection">
             <ProductFilters
               type="collection"
-              productFilters={
-                !collection
-                  ? undefined
-                  : Array.isArray(collection)
-                    ? collection
-                    : [collection]
-              }
-              appliedProductFilters={collections.collections.map(
-                (collection) => ({
-                  handle: collection.handle,
-                  name: collection.title,
-                  id: collection.id,
-                })
-              )}
+              productFilters={converterCheckerArray(collection)}
+              appliedProductFilters={collectionAppliedFilters}
             />
           </PopoverOption>
           <PopoverOption title="Category">
             <ProductFilters
               type="category"
-              productFilters={
-                !category
-                  ? undefined
-                  : Array.isArray(category)
-                    ? category
-                    : [category]
-              }
-              appliedProductFilters={categories.product_categories.map(
-                (collection) => ({
-                  handle: collection.handle,
-                  name: collection.name,
-                  id: collection.id,
-                })
-              )}
+              productFilters={converterCheckerArray(category)}
+              appliedProductFilters={categoryAppliedFilters}
             />
           </PopoverOption>
           <PopoverOption title="Types">
             <ProductFilters
               type="type"
-              productFilters={
-                !type ? undefined : Array.isArray(type) ? type : [type]
-              }
-              appliedProductFilters={types.productTypes.map((collection) => ({
-                handle: collection.value,
-                name: collection.value,
-                id: collection.id,
-              }))}
+              productFilters={converterCheckerArray(type)}
+              appliedProductFilters={typeAppliedFilters}
             />
           </PopoverOption>
         </div>
@@ -153,8 +128,15 @@ export default async function Shop({ params, searchParams }: PageProps) {
           </PopoverOption>
         </div>
 
-        <DrawerFilter />
-        <DrawerSort />
+        <DrawerFilter
+          collectionType={converterCheckerArray(collection)}
+          collectionAppliedFilter={collectionAppliedFilters}
+          categoryAppliedFilter={categoryAppliedFilters}
+          categoryType={converterCheckerArray(collection)}
+          typeAppliedFilter={typeAppliedFilters}
+          typeType={converterCheckerArray(type)}
+        />
+        <DrawerSort sortBy={sortBy} />
       </div>
 
       <Suspense fallback={<ProductsSkeletonMapping />}>

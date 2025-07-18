@@ -15,7 +15,7 @@ import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
 import { Icon } from '@/components/ui/Icon';
 import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
-import { Sort } from '@/components/ui/filters/Sort';
+import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
 
 const MotionModal = motion(Modal);
 const MotionModalOverlay = motion(ModalOverlay);
@@ -36,7 +36,9 @@ const staticTransition = {
   ease: [0.32, 0.72, 0, 1],
 };
 
-export const DrawerSort: React.FC<{}> = () => {
+export const DrawerSort: React.FC<{
+  sortBy?: SortOptions;
+}> = ({ sortBy }) => {
   const [isOpen, setOpen] = React.useState(false);
 
   const [dimensions, setDimensions] = React.useState<{
@@ -100,7 +102,7 @@ export const DrawerSort: React.FC<{}> = () => {
             >
               <Dialog className="relative flex h-full flex-col gap-6 overflow-scroll p-6 pb-24 outline-none">
                 <h4 className="text-lg font-semibold">Shop</h4>
-                <Sort />
+                <Sort sort={sortBy} />
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">
                 <Button className="w-full" onPress={() => setOpen(false)}>

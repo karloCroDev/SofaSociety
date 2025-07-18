@@ -35,22 +35,19 @@ export const Sort: React.FC<{
       </RadioGroup>
       <RadioGroup
         className="flex flex-col gap-8 lg:hidden"
-        defaultValue="featured"
+        onChange={(val) => setUrlParams('sortBy', val)}
+        defaultValue={sort ?? 'created_at'}
       >
-        <Radio value="featured" className="group flex justify-between">
-          Featured
+        <Radio value="created_at" className="group flex justify-between">
+          Newest
           <RadioIconVisual />
         </Radio>
-        <Radio value="best-selling" className="group flex justify-between">
-          Best selling
-          <RadioIconVisual />
-        </Radio>
-        <Radio value="lowest-price" className="group flex justify-between">
-          Lowest price
-          <RadioIconVisual />
-        </Radio>
-        <Radio value="highest-price" className="group flex justify-between">
+        <Radio value="price_desc" className="group flex justify-between">
           Highest price
+          <RadioIconVisual />
+        </Radio>
+        <Radio value="price_asc" className="group flex justify-between">
+          Lowest price
           <RadioIconVisual />
         </Radio>
       </RadioGroup>

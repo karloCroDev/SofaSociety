@@ -18,6 +18,7 @@ import { Icon } from '@/components/ui/Icon';
 import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Button } from '@/components/ui/Button';
 import { ProductFilters } from '@/components/ui/filters/ProductFilters';
+import { FilterProps } from './Filters';
 
 // Wrap React Aria modal components so they support framer-motion values.
 const MotionModal = motion(Modal);
@@ -37,33 +38,14 @@ const staticTransition = {
 };
 const SHEET_MARGIN = 144;
 
-export const DrawerFilter: React.FC<{
-  collectionAppliedFilter?: {
-    handle: string;
-    name: string;
-    id: string;
-  }[];
-  collectionType?: string[];
-  categoryAppliedFilter?: {
-    handle: string;
-    name: string;
-    id: string;
-  }[];
-  categoryType?: string[];
-  typeAppliedFilter?: {
-    handle: string;
-    name: string;
-    id: string;
-  }[];
-
-  typeType?: string[];
-}> = ({
-  collectionAppliedFilter,
-  collectionType,
-  categoryAppliedFilter,
-  categoryType,
-  typeAppliedFilter,
-  typeType,
+export const DrawerFilter: React.FC<FilterProps> = ({
+  appliedCategoryFilters,
+  categoryFilters,
+  collectionFilters,
+  appliedCollectionFilters,
+  typesFilters,
+  appliedTypeFilters,
+  isCollectionHidden,
 }) => {
   const [h, setH] = React.useState<number | null>(null);
   const [w, setW] = React.useState<number | null>(null);
@@ -122,22 +104,24 @@ export const DrawerFilter: React.FC<{
             >
               <Dialog className="relative flex h-full flex-col gap-6 overflow-scroll p-6 pb-24 outline-none">
                 <h4 className="text-lg font-semibold">Collection</h4>
-                <ProductFilters
-                  type="collection"
-                  appliedProductFilters={collectionAppliedFilter}
-                  productFilters={collectionType}
-                />
+                {!isCollectionHidden && (
+                  <ProductFilters
+                    type="collection"
+                    appliedProductFilters={appliedCollectionFilters}
+                    productFilters={collectionFilters}
+                  />
+                )}
                 <h4 className="text-lg font-semibold">Category</h4>
                 <ProductFilters
                   type="category"
-                  appliedProductFilters={categoryAppliedFilter}
-                  productFilters={categoryType}
+                  appliedProductFilters={appliedCategoryFilters}
+                  productFilters={categoryFilters}
                 />
                 <h4 className="text-lg font-semibold">Types</h4>
                 <ProductFilters
                   type="type"
-                  appliedProductFilters={typeAppliedFilter}
-                  productFilters={typeType}
+                  appliedProductFilters={appliedTypeFilters}
+                  productFilters={typesFilters}
                 />
               </Dialog>
               <div className="absolute bottom-0 w-full border-t border-gray-200 bg-gray-10 px-6 py-4">

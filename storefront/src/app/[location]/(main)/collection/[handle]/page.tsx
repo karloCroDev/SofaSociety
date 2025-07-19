@@ -23,6 +23,10 @@ import { getProductTypesList } from '@/lib/data/product-types';
 import { getRegion } from '@/lib/data/regions';
 import { ProductFilters } from '@/components/ui/filters/ProductFilters';
 
+// Lib2
+import { converterCheckerArray } from '@/lib2/util/arrayChecker';
+import { Filters } from '@/components/ui/filters/Filters';
+
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;
   searchParams: Promise<{
@@ -42,13 +46,8 @@ export default async function CollectionPage({
 
   console.log(page);
 
-  const isArrayCategory = !category
-    ? undefined
-    : Array.isArray(category)
-      ? category
-      : [category];
-
-  const isArrayType = !type ? undefined : Array.isArray(type) ? type : [type];
+  const isArrayCategory = converterCheckerArray(category);
+  const isArrayType = converterCheckerArray(type);
 
   const collection = await getCollectionByHandle(handle, [
     'metadata',
@@ -98,55 +97,24 @@ export default async function CollectionPage({
           {collection.title}
         </h2>
 
-        <div className="mt-6 flex justify-between lg:mt-8">
-          <div className="hidden gap-4 lg:flex">
-            <PopoverOption title="Category">
-              <ProductFilters
-                type="category"
-                productFilters={
-                  !category
-                    ? undefined
-                    : Array.isArray(category)
-                      ? category
-                      : [category]
-                }
-                appliedProductFilters={categories.product_categories.map(
-                  (collection) => ({
-                    handle: collection.handle,
-                    name: collection.name,
-                    id: collection.id,
-                  })
-                )}
-              />
-            </PopoverOption>
-            <PopoverOption title="Types">
-              <ProductFilters
-                type="type"
-                productFilters={
-                  !type ? undefined : Array.isArray(type) ? type : [type]
-                }
-                appliedProductFilters={types.productTypes.map((collection) => ({
-                  handle: collection.value,
-                  name: collection.value,
-                  id: collection.id,
-                }))}
-              />
-            </PopoverOption>
-          </div>
-          <div className="hidden lg:block">
-            <PopoverOption
-              title="Sort by"
-              popoverProps={{
-                placement: 'bottom right',
-              }}
-            >
-              <Sort sort={sortBy} />
-            </PopoverOption>
-          </div>
-
-          <DrawerFilter />
-          <DrawerSort />
-        </div>
+        <Filters
+          appliedCategoryFilters={categories.product_categories.map(
+            (collection) => ({
+              handle: collection.handle,
+              name: collection.name,
+              id: collection.id,
+            })
+          )}
+          categoryFilters={converterCheckerArray(category)}
+          appliedTypeFilters={types.productTypes.map((collection) => ({
+            handle: collection.value,
+            name: collection.value,
+            id: collection.id,
+          }))}
+          typesFilters={converterCheckerArray(type)}
+          sort={sortBy}
+          isCollectionHidden
+        />
 
         <Suspense fallback={<ProductsSkeletonMapping />}>
           {region && (
@@ -168,6 +136,7 @@ export default async function CollectionPage({
                       .map((t) => t.id)
               }
               location={location}
+              sortBy={sortBy}
             />
           )}
         </Suspense>

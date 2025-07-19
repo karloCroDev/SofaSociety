@@ -21,6 +21,10 @@ import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 import { getCollectionsList } from '@/lib/data/collections';
 import { getCategoriesList } from '@/lib/data/categories';
 import { getProductTypesList } from '@/lib/data/product-types';
+import { Filters } from '@/components/ui/filters/Filters';
+
+// Lib2
+import { converterCheckerArray } from '@/lib2/util/arrayChecker';
 
 interface PageProps {
   params: Promise<{ location: string }>;
@@ -43,29 +47,6 @@ export default async function Shop({ params, searchParams }: PageProps) {
     getProductTypesList(0, 100, ['id', 'value']),
   ]);
 
-  const collectionAppliedFilters = collections.collections.map(
-    (collection) => ({
-      handle: collection.handle,
-      name: collection.title,
-      id: collection.id,
-    })
-  );
-  const categoryAppliedFilters = categories.product_categories.map(
-    (collection) => ({
-      handle: collection.handle,
-      name: collection.name,
-      id: collection.id,
-    })
-  );
-  const typeAppliedFilters = types.productTypes.map((collection) => ({
-    handle: collection.value,
-    name: collection.value,
-    id: collection.id,
-  }));
-
-  const converterCheckerArray = (value: string | string[] | undefined) => {
-    return !value ? undefined : Array.isArray(value) ? value : [value];
-  };
   return (
     <Layout className="mt-32 lg:mt-44">
       <h2 className="hidden text-xl font-medium lg:block lg:text-3xl">
@@ -93,51 +74,29 @@ export default async function Shop({ params, searchParams }: PageProps) {
       </div>
 
       <h2 className="mt-24 text-xl font-medium lg:mt-36 lg:text-3xl">Shop</h2>
-      <div className="mt-6 flex justify-between lg:mt-8">
-        <div className="hidden gap-4 lg:flex">
-          <PopoverOption title="Collection">
-            <ProductFilters
-              type="collection"
-              productFilters={converterCheckerArray(collection)}
-              appliedProductFilters={collectionAppliedFilters}
-            />
-          </PopoverOption>
-          <PopoverOption title="Category">
-            <ProductFilters
-              type="category"
-              productFilters={converterCheckerArray(category)}
-              appliedProductFilters={categoryAppliedFilters}
-            />
-          </PopoverOption>
-          <PopoverOption title="Types">
-            <ProductFilters
-              type="type"
-              productFilters={converterCheckerArray(type)}
-              appliedProductFilters={typeAppliedFilters}
-            />
-          </PopoverOption>
-        </div>
-        <div className="hidden lg:block">
-          <PopoverOption
-            title="Sort by"
-            popoverProps={{
-              placement: 'bottom right',
-            }}
-          >
-            <Sort sort={sortBy} />
-          </PopoverOption>
-        </div>
-
-        <DrawerFilter
-          collectionType={converterCheckerArray(collection)}
-          collectionAppliedFilter={collectionAppliedFilters}
-          categoryAppliedFilter={categoryAppliedFilters}
-          categoryType={converterCheckerArray(collection)}
-          typeAppliedFilter={typeAppliedFilters}
-          typeType={converterCheckerArray(type)}
-        />
-        <DrawerSort sortBy={sortBy} />
-      </div>
+      <Filters
+        collectionFilters={converterCheckerArray(collection)}
+        appliedCollectionFilters={collections.collections.map((collection) => ({
+          handle: collection.handle,
+          name: collection.title,
+          id: collection.id,
+        }))}
+        categoryFilters={converterCheckerArray(category)}
+        appliedCategoryFilters={categories.product_categories.map(
+          (collection) => ({
+            handle: collection.handle,
+            name: collection.name,
+            id: collection.id,
+          })
+        )}
+        typesFilters={converterCheckerArray(type)}
+        appliedTypeFilters={types.productTypes.map((collection) => ({
+          handle: collection.value,
+          name: collection.value,
+          id: collection.id,
+        }))}
+        sort={sortBy}
+      />
 
       <Suspense fallback={<ProductsSkeletonMapping />}>
         <ProductsMapping

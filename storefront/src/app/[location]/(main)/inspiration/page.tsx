@@ -15,13 +15,61 @@ import ImageBelimeHeaven from '@/public/images/inspiration/belime-heaven.png';
 import ImageDoubleSofa from '@/public/images/inspiration/dobule-sofa.png';
 import ImageOsloDrift from '@/public/images/inspiration/oslo-drift.png';
 import { getCollectionsList } from '@/lib/data/collections';
+import { getProductsList, getProductsListWithSort } from '@/lib/data/products';
+import { getRegion } from '@/lib/data/regions';
+import { HttpTypes } from '@medusajs/types';
+import { getProductPrice } from '@/lib/util/get-product-price';
 
-export default async function Inspiration() {
-  const { collections } = await getCollectionsList(0, 20, [
-    'metadata',
-    'handle',
-    'title',
+interface PageProps {
+  params: Promise<{ location: string }>;
+}
+export default async function Inspiration({ params }: PageProps) {
+  const { location } = await params;
+
+  const queryParams: HttpTypes.StoreProductListParams = {
+    collection_id: 'pcol_01JYMAJJCKWT5SRM3PK7DKHD49', // Only this collection is shown as example in design file
+    limit: 4,
+  };
+
+  const [{ collections }, collectionProducts, region] = await Promise.all([
+    getCollectionsList(0, 20, ['metadata', 'handle', 'title']),
+    getProductsListWithSort({ countryCode: location, queryParams, page: 1 }),
+
+    getRegion(location),
   ]);
+
+  const scandinavianProducts =
+    region &&
+    collectionProducts.response.products.map((product) => {
+      const { cheapestPrice } = getProductPrice({
+        product,
+      });
+
+      return (
+        <ProductCard
+          name={product.title}
+          category={product.collection!.title}
+          image={
+            <div className="relative aspect-[4/3]">
+              <Image
+                src={product.thumbnail!}
+                className="object-cover"
+                alt={product.description!}
+                fill
+              />
+            </div>
+          }
+          price={cheapestPrice?.calculated_price.toString()!}
+          originalPrice={
+            cheapestPrice?.original_price === cheapestPrice?.calculated_price
+              ? undefined
+              : cheapestPrice?.original_price.toString()
+          }
+          href={`/product/${product.handle}`}
+        />
+      );
+    });
+
   return (
     <>
       <div className="mt-22 lg:mt-0">
@@ -44,17 +92,7 @@ export default async function Inspiration() {
             </p>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={4}>
-            <ProductCard
-              name="Astrid Curve"
-              category="Scandinavian Simplicity"
-              image={
-                <div className="mt-16 lg:mt-0">
-                  <Image src={ImageAstridCurve} alt="Astrid curve image" />
-                </div>
-              }
-              price="1800€"
-              href="/product"
-            />
+            {Array.isArray(scandinavianProducts) && scandinavianProducts[0]}
           </LayoutColumn>
         </LayoutRow>
         <div className="mt-24 lg:mt-36">
@@ -73,28 +111,11 @@ export default async function Inspiration() {
             </p>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={4} className="flex flex-col">
-            <ProductCard
-              name="Noridc Heaven"
-              category="Scandinavian Simplicity"
-              image={
-                <div className="mt-16 lg:mt-0">
-                  <Image src={ImageNordicHeaven} alt="Noridic Heaven" />
-                </div>
-              }
-              price="1800€"
-              href="/product"
-            />
-            <ProductCard
-              name="Belime Heaven"
-              category="Modern Luxe"
-              image={
-                <div className="mt-8 lg:mt-16">
-                  <Image src={ImageBelimeHeaven} alt="Belime Heaven" />
-                </div>
-              }
-              price="1800€"
-              href="/product"
-            />
+            {Array.isArray(scandinavianProducts) && scandinavianProducts[1]}
+
+            <div className="mt-8 lg:mt-16">
+              {Array.isArray(scandinavianProducts) && scandinavianProducts[1]}
+            </div>
           </LayoutColumn>
         </LayoutRow>
       </Layout>
@@ -120,18 +141,7 @@ export default async function Inspiration() {
             </p>
           </LayoutColumn>
           <LayoutColumn xs={12} lg={4}>
-            <ProductCard
-              name="Oslo Drift"
-              category="Scandinavian Simplicity"
-              image={
-                <div className="mt-8 lg:mt-16">
-                  <Image src={ImageOsloDrift} alt="Belime Heaven" />
-                </div>
-              }
-              price="2000€"
-              originalPrice="3000€"
-              href="/product"
-            />
+            {Array.isArray(scandinavianProducts) && scandinavianProducts[1]}
           </LayoutColumn>
         </LayoutRow>
         <div className="mt-24 lg:mt-32">

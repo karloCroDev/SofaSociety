@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { ProductCard, ProductCardSkeleton } from '@/components/ui/ProductCard';
 import { Button } from '@/components/ui/Button';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Hooks
 import { useStoreProducts } from '@/hooks/store';
@@ -17,8 +18,6 @@ import { useStoreProducts } from '@/hooks/store';
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
 import { getProductPrice } from '@/lib/util/get-product-price';
-
-export type SortOptions = 'price_asc' | 'price_desc' | 'created_at'; // Karlo: Put this into sort options
 
 export const ProductsMapping: React.FC<{
   sortBy?: SortOptions;
@@ -44,35 +43,22 @@ export const ProductsMapping: React.FC<{
       limit: 12,
     };
 
-    if (collectionId) {
+    if (collectionId)
       queryParams['collection_id'] = Array.isArray(collectionId)
         ? collectionId
         : [collectionId];
-    }
 
-    if (categoryId) {
+    if (categoryId)
       queryParams['category_id'] = Array.isArray(categoryId)
         ? categoryId
         : [categoryId];
-    }
 
-    if (typeId) {
+    if (typeId)
       queryParams['type_id'] = Array.isArray(typeId) ? typeId : [typeId];
-    }
 
-    if (productsIds) {
-      queryParams['id'] = productsIds;
-    }
+    if (productsIds) queryParams['id'] = productsIds;
 
-    if (sortBy === 'created_at') {
-      queryParams['order'] = 'created_at';
-    }
-
-    // console.log('Sort by', sortBy);
-    console.log('Page', page);
-    // console.log('Location', location);
-    // console.log('Query params', queryParams);
-    // console.log(' Product ids', productsIds);
+    if (sortBy === 'created_at') queryParams['order'] = sortBy;
 
     const productsQuery = useStoreProducts({
       page,
@@ -87,9 +73,8 @@ export const ProductsMapping: React.FC<{
 
     const fetchNextProducts = async () => {
       if (!productsQuery.hasNextPage) return;
-      const nextPage = await productsQuery.fetchNextPage();
 
-      if (!nextPage) return;
+      productsQuery.fetchNextPage();
 
       const params = new URLSearchParams(searchParams.toString());
 
@@ -99,6 +84,7 @@ export const ProductsMapping: React.FC<{
       router.replace(`?${params.toString()}`, { scroll: false });
     };
 
+    console.log(productsQuery.data.pages);
     return (
       <>
         <LayoutRow
@@ -108,11 +94,12 @@ export const ProductsMapping: React.FC<{
               : '"-mr-4 lg:-mr-12" mt-8 flex snap-x snap-mandatory flex-nowrap overflow-x-scroll'
           }
         >
-          {productsQuery.data?.pages.flatMap((page) =>
+          {productsQuery.data.pages.flatMap((page) =>
             page.response.products.map((product) => {
               const { cheapestPrice } = getProductPrice({
                 product,
               });
+
               return (
                 <LayoutColumn
                   xs={6}
@@ -122,20 +109,23 @@ export const ProductsMapping: React.FC<{
                 >
                   <ProductCard
                     name={product.title}
-                    category={product.collection?.title || ''}
+                    category={product.collection!.title}
                     image={
                       <div className="relative aspect-[4/3]">
                         <Image
                           src={product.thumbnail!}
                           className="object-cover"
-                          alt={product.description || ''}
+                          alt={product.description!}
                           fill
                         />
                       </div>
                     }
                     price={cheapestPrice?.calculated_price.toString()!}
                     originalPrice={
-                      cheapestPrice?.original_price?.toString() || undefined
+                      cheapestPrice?.original_price ===
+                      cheapestPrice?.calculated_price
+                        ? undefined
+                        : cheapestPrice?.original_price.toString()
                     }
                     href={`/product/${product.handle}`}
                   />
@@ -143,8 +133,12 @@ export const ProductsMapping: React.FC<{
               );
             })
           )}
+
+          {productsQuery.isFetchingNextPage && (
+            <ProductsSkeletonMapping amount={4} />
+          )}
         </LayoutRow>
-        {productsQuery.hasNextPage && (
+        {productsQuery.hasNextPage && !productsQuery.isFetchingNextPage && (
           <Button className="mx-auto" onPress={fetchNextProducts}>
             View All
           </Button>
@@ -158,7 +152,7 @@ export const ProductsMapping: React.FC<{
 
 export const ProductsSkeletonMapping: React.FC<{
   amount?: number;
-}> = ({ amount }) => {
+}> = ({ amount = 6 }) => {
   return (
     <LayoutRow className="-mr-4 mt-8 lg:-mr-12">
       {[...Array(amount)].map((_, index) => (

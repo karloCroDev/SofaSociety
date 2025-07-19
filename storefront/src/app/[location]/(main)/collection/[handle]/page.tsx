@@ -4,19 +4,16 @@ import { Suspense } from 'react';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Slider } from '@/components/ui/filters/Slider';
-import { Color } from '@/components/ui/filters/Color';
-import { Materials } from '@/components/ui/filters/Materials';
-import { Collection } from '@/components/ui/filters/Collection';
+
 import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort } from '@/components/ui/filters/Sort';
-import { DrawerFilter } from '@/components/ui/filters/DarwerFilter';
+import { DrawerFilter } from '@/components/ui/filters/DrawerFilter';
 import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 import {
   ProductsMapping,
   ProductsSkeletonMapping,
-  SortOptions,
 } from '@/components/ui/ProductsGrid';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Lib
 import { getCollectionByHandle } from '@/lib/data/collections';
@@ -24,11 +21,17 @@ import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
 import { getCategoriesList } from '@/lib/data/categories';
 import { getProductTypesList } from '@/lib/data/product-types';
 import { getRegion } from '@/lib/data/regions';
+import { ProductFilters } from '@/components/ui/filters/ProductFilters';
+
+// Lib2
+import { converterCheckerArray } from '@/lib2/util/arrayChecker';
+import { Filters } from '@/components/ui/filters/Filters';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;
   searchParams: Promise<{
     category?: string | string[];
+    sortBy?: SortOptions;
     type?: string | string[];
     page?: string;
   }>;
@@ -39,17 +42,12 @@ export default async function CollectionPage({
   searchParams,
 }: PageProps) {
   const { handle, location } = await params;
-  const { category, type, page } = await searchParams;
+  const { category, type, page, sortBy } = await searchParams;
 
   console.log(page);
 
-  const isArrayCategory = !category
-    ? undefined
-    : Array.isArray(category)
-      ? category
-      : [category];
-
-  const isArrayType = !type ? undefined : Array.isArray(type) ? type : [type];
+  const isArrayCategory = converterCheckerArray(category);
+  const isArrayType = converterCheckerArray(type);
 
   const collection = await getCollectionByHandle(handle, [
     'metadata',
@@ -65,10 +63,11 @@ export default async function CollectionPage({
     title: collection.title,
   };
 
-  const categories = await getCategoriesList(0, 100, ['id', 'name', 'handle']);
-  const types = await getProductTypesList(0, 100, ['id', 'value']);
-
-  console.log(types);
+  const [categories, types, region] = await Promise.all([
+    getCategoriesList(0, 100, ['id', 'name', 'handle']),
+    getProductTypesList(0, 100, ['id', 'value']),
+    getRegion(location),
+  ]);
 
   return (
     <>
@@ -98,56 +97,48 @@ export default async function CollectionPage({
           {collection.title}
         </h2>
 
-        <div className="mt-6 flex justify-between lg:mt-8">
-          <div className="hidden gap-4 lg:flex">
-            <PopoverOption title="Price">
-              <Slider />
-            </PopoverOption>
-            <PopoverOption title="Color">
-              <Color />
-            </PopoverOption>
-            <PopoverOption title="Materials">
-              <Materials />
-            </PopoverOption>
-            <PopoverOption title="Collection">
-              <Collection />
-            </PopoverOption>
-          </div>
-          <div className="hidden lg:block">
-            <PopoverOption
-              title="Sort by"
-              popoverProps={{
-                placement: 'bottom right',
-              }}
-            >
-              <Sort />
-            </PopoverOption>
-          </div>
-
-          <DrawerFilter />
-          <DrawerSort />
-        </div>
+        <Filters
+          appliedCategoryFilters={categories.product_categories.map(
+            (collection) => ({
+              handle: collection.handle,
+              name: collection.name,
+              id: collection.id,
+            })
+          )}
+          categoryFilters={converterCheckerArray(category)}
+          appliedTypeFilters={types.productTypes.map((collection) => ({
+            handle: collection.value,
+            name: collection.value,
+            id: collection.id,
+          }))}
+          typesFilters={converterCheckerArray(type)}
+          sort={sortBy}
+          isCollectionHidden
+        />
 
         <Suspense fallback={<ProductsSkeletonMapping />}>
-          <ProductsMapping
-            page={page ? +page : 1}
-            collectionId={collection.id}
-            categoryId={
-              !isArrayCategory
-                ? undefined
-                : categories.product_categories
-                    .filter((c) => isArrayCategory.includes(c.handle))
-                    .map((c) => c.id)
-            }
-            typeId={
-              !isArrayType
-                ? undefined
-                : types.productTypes
-                    .filter((t) => isArrayType.includes(t.value))
-                    .map((t) => t.id)
-            }
-            location={location}
-          />
+          {region && (
+            <ProductsMapping
+              page={page ? +page : 1}
+              collectionId={collection.id}
+              categoryId={
+                !isArrayCategory
+                  ? undefined
+                  : categories.product_categories
+                      .filter((c) => isArrayCategory.includes(c.handle))
+                      .map((c) => c.id)
+              }
+              typeId={
+                !isArrayType
+                  ? undefined
+                  : types.productTypes
+                      .filter((t) => isArrayType.includes(t.value))
+                      .map((t) => t.id)
+              }
+              location={location}
+              sortBy={sortBy}
+            />
+          )}
         </Suspense>
       </Layout>
     </>

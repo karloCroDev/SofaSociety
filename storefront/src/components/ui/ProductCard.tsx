@@ -32,7 +32,7 @@ export const ProductCard: React.FC<
           </p>
         )}
         {originalPrice && (
-          <p className="text-gray-500 line-through">{originalPrice}€</p>
+          <p className="text-gray-500 line-through">{originalPrice}</p>
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { sdk } from '@/lib/config';
 import { HttpTypes } from '@medusajs/types';
 import { getRegion } from '@/lib/data/regions';
-import { type SortOptions } from '@/components/ui/ProductsGrid';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 import { sortProducts } from '@/lib/util/sort-products';
 
 export const getProductsById = async function ({

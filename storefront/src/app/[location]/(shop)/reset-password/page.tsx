@@ -5,8 +5,21 @@ import { ResetPasswordForm } from '@/components/auth/login/ResetPasswordForm';
 
 // Lib
 import { getCustomer } from '@/lib/data/customer';
+import { redirect } from 'next/navigation';
 
-export default async function ResetPasswordPage() {
+interface PageProps {
+  searchParams: Promise<{
+    token?: string;
+    email?: string;
+  }>;
+}
+
+export default async function ResetPasswordPage({ searchParams }: PageProps) {
+  const { email, token } = await searchParams;
+
+  if (!email || !token) redirect('/');
+
+  console.log(email, token);
   const customer = await getCustomer();
 
   return (
@@ -17,7 +30,11 @@ export default async function ResetPasswordPage() {
             <h1 className="mb-8 text-xl font-semibold">Reset password </h1>
             {/* In layout component user will dire */}
 
-            <ResetPasswordForm isLoggedIn={!!customer} />
+            <ResetPasswordForm
+              isLoggedIn={!!customer}
+              email={email}
+              token={token}
+            />
           </LayoutColumn>
         </LayoutRow>
       </Layout>

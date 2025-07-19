@@ -12,8 +12,9 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { forgotPassword } from '@/lib/data/customer';
+import { resetPassword } from '@/lib/data/customer';
 import { HttpTypes } from '@medusajs/types';
+import { useRouter } from 'next/navigation';
 
 const resetPasswordLinkSchema = z
   .object({
@@ -29,8 +30,10 @@ const resetPasswordLinkSchema = z
 type ResetPasswordLinkProps = z.infer<typeof resetPasswordLinkSchema>;
 
 export const ResetPasswordForm: React.FC<{
+  token: string;
+  email: string;
   isLoggedIn: boolean;
-}> = ({ isLoggedIn }) => {
+}> = ({ isLoggedIn, email, token }) => {
   const {
     register,
     handleSubmit,
@@ -41,35 +44,77 @@ export const ResetPasswordForm: React.FC<{
     resolver: zodResolver(resetPasswordLinkSchema),
   });
 
-  // Karlo: Try to get mail, because without token I can't do nothing
-  // Karlo: get user session, if yes then give him the option
+  const [resetPasswordState, setResetPasswordAction, isPending] =
+    React.useActionState(resetPassword, {
+      email,
+      token,
+      state: 'initial',
+    });
 
-  const onSubmit = async () => {};
+  const router = useRouter();
+
+  const onSubmit = async (data: ResetPasswordLinkProps) => {
+    React.startTransition(() => {
+      setResetPasswordAction({
+        current_password: data.oldPassword || '',
+        new_password: data.password,
+        confirm_new_password: data.repeatPassword,
+        type: isLoggedIn ? 'reset' : 'reset',
+      });
+
+      if (resetPasswordState.state === 'error') {
+        return setError('root', {
+          message: resetPasswordState.error,
+        });
+      }
+
+      router.push('/login');
+      reset();
+    });
+  };
 
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       {isLoggedIn && (
+        <div>
+          <Input
+            inputProps={{ ...register('oldPassword'), type: 'password' }}
+            type="password"
+            label="New password"
+          />
+          <p className="text-red-500">
+            {errors.oldPassword && errors.oldPassword.message}
+          </p>
+        </div>
+      )}
+
+      <div>
         <Input
-          inputProps={{ ...register('oldPassword'), type: 'password' }}
+          inputProps={{ ...register('password'), type: 'password' }}
           type="password"
           label="New password"
         />
-      )}
-      <Input
-        inputProps={{ ...register('password'), type: 'password' }}
-        type="password"
-        label="New password"
-      />
-      <Input
-        inputProps={{ ...register('repeatPassword'), type: 'password' }}
-        type="password"
-        label="Confirm new password"
-      />
+        <p className="text-red-500">
+          {errors.password && errors.password.message}
+        </p>
+      </div>
+
+      <div>
+        <Input
+          inputProps={{ ...register('repeatPassword'), type: 'password' }}
+          type="password"
+          label="Confirm new password"
+        />
+        <p className="text-red-500">
+          {errors.repeatPassword && errors.repeatPassword.message}
+        </p>
+      </div>
+
       <Button
         type="submit"
         size="lg"
         className="mt-8 w-full"
-        disabled={isSubmitting}
+        disabled={isSubmitting || isPending}
       >
         Reset password
       </Button>

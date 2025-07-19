@@ -28,7 +28,11 @@ export const Header = () => (
       </LayoutColumn>
       <div className="ml-auto hidden items-center gap-8 lg:flex">
         <LanguageSelect />
+
         <Icon name="search" className="cursor-pointer" />
+        <Link href="/login">
+          <Icon name="user" className="cursor-pointer" />
+        </Link>
         <Link href="/">
           <Icon name="bag" />
         </Link>

@@ -29,7 +29,7 @@ export default function AuthPasswordForgotResetEmail({
       <Button
         href={`${
           process.env.STOREFRONT_URL || "http://localhost:8000"
-        }/auth/forgot-password/reset?email=${encodeURIComponent(
+        }/reset-password?email=${encodeURIComponent(
           customer.email
         )}&token=${encodeURIComponent(token)}`}
         className="inline-flex items-center focus-visible:outline-none rounded-xs justify-center transition-colors bg-black hover:bg-grayscale-500 text-white h-10 px-6 mb-10"

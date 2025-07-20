@@ -69,6 +69,9 @@ export const Header: React.FC<{
             </Link>
           </div>
           <div className="ml-auto flex items-center gap-8 lg:hidden">
+            <Link href="/login">
+              <Icon name="user" className="cursor-pointer" />
+            </Link>
             <Link href="/">
               <Icon name="bag" />
             </Link>

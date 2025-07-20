@@ -7,8 +7,15 @@ import { Form } from '@/components/ui/Form';
 import { CountrySelect } from '@/components/checkout/CountrySelect';
 import { Input } from '@/components/ui/Input';
 import { LogoutButton } from '@/components/ui/LogoutButton';
+import { getCustomer } from '@/lib/data/customer';
 
-export default function PersonalAndSecurity() {
+export default async function PersonalAndSecurity() {
+  const user = await getCustomer(); // I know I am going to get user from the layout
+
+  const username = [user?.first_name, user?.last_name]
+    .filter((name) => name !== undefined)
+    .join('');
+
   return (
     <div className="lg:min-h-[calc(100vh-88px-144px-144px)]">
       <h1 className="text-xl font-semibold">Personal & security</h1>
@@ -17,16 +24,13 @@ export default function PersonalAndSecurity() {
         <div className="flex flex-row items-center">
           <Icon name="user" />
           <p className="ml-8 before:block before:text-sm before:text-gray-500 before:content-['Name']">
-            Jovana Jeremic
+            {username}
           </p>
         </div>
-        <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0">
-          {/* TODO: Ovo ne treba biti ikona, može biti `-` karakter. FIXED */}-
-        </p>
+        <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0"></p>
         <Dialog
           title="Personal information"
           triggerChildren={
-            // TODO: Ovaj `Change` botun mi pari puno veći nego bi triba bit na `/account/personal-and-security` stranici. FIXED
             <Button
               variant="outline"
               className="mt-8 w-full lg:ml-auto lg:mt-0 lg:w-auto"
@@ -66,7 +70,6 @@ export default function PersonalAndSecurity() {
       <div className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8">
         <Icon name="user" className="self-start" />
         <div className="grid grid-cols-2 items-center gap-y-9 lg:gap-x-28">
-          {/* TODO: Nemoj koristiti `::before` za ove labele, jednostavno dodaj `<p>`. FIXED*/}
           <div>
             <p className="text-sm text-gray-500">Country</p>
             <p>Croatia</p>

@@ -63,7 +63,7 @@ export const ProductCarousel: React.FC<{
         modules={[Pagination, Navigation]}
         className={twJoin(
           'mySwiper relative',
-          !isMobile ? 'h-[550px]' : 'h-96'
+          !isMobile ? 'h-[650px]' : 'h-96'
         )}
       >
         {!isMobile && <SwiperNavButtons activeIndex={activeIndex} />}

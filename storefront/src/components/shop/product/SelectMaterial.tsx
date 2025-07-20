@@ -10,11 +10,13 @@ import {
   Select as AriaSelect,
   SelectValue,
 } from 'react-aria-components';
+import { HttpTypes } from '@medusajs/types';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { SelectColor } from '@/components/shop/product/SelectColor';
-import { HttpTypes } from '@medusajs/types';
+import { Button } from '@/components/ui/Button';
+import { AddToCart } from '@/components/shop/AddToCart';
 
 export const SelectMaterial: React.FC<{
   customatization: {
@@ -63,11 +65,18 @@ export const SelectMaterial: React.FC<{
           </ListBox>
         </Popover>
       </AriaSelect>
-      {/* // */}
+
       {material && (
         <SelectColor
           colors={customatization.flatMap((color) => color.colors)}
         />
+      )}
+
+      {material && (
+        <div className="mt-8 flex flex-col justify-between gap-4 lg:mt-auto lg:flex-row">
+          <AddToCart size="lg" />
+          <Button className="flex-1">Add to cart</Button>
+        </div>
       )}
     </>
   );

@@ -74,7 +74,7 @@ export const LanguageSelect: React.FC<{
       label: code.countryName,
     }))
   );
-
+  console.log(codeCountry);
   const pathname = usePathname();
   let currentPath = pathname;
 
@@ -83,11 +83,13 @@ export const LanguageSelect: React.FC<{
   }
 
   const updateRegion = useUpdateRegion();
+
   return (
     <Select
-      defaultSelectedKey={countryCode}
+      selectedKey={countryCode}
       aria-label="Country Selector"
       onSelectionChange={(key) => {
+        console.log(key);
         updateRegion.mutate({ countryCode: key.toString(), currentPath });
       }}
     >
@@ -116,7 +118,7 @@ export const LanguageSelect: React.FC<{
         <ListBox>
           {codeCountry.map((code) => (
             <ListBoxItem
-              key={code.country}
+              key={code.numCode}
               id={code.country}
               value={code}
               className="z-10 cursor-pointer p-4 outline-0"

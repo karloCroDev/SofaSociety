@@ -23,22 +23,18 @@ export default async function ResetPasswordPage({ searchParams }: PageProps) {
   const customer = await getCustomer();
 
   return (
-    <>
-      <Layout className="mt-32 lg:mt-48">
-        <LayoutRow className="justify-center">
-          <LayoutColumn lg={4} className="min-h-[500px]">
-            <h1 className="mb-8 text-xl font-semibold">Reset password </h1>
-            {/* In layout component user will dire */}
+    <Layout className="mt-32 lg:mt-48">
+      <LayoutRow className="justify-center">
+        <LayoutColumn lg={4} className="min-h-[500px]">
+          <h1 className="mb-8 text-xl font-semibold">Reset password </h1>
 
-            <ResetPasswordForm
-              isLoggedIn={!!customer}
-              email={email}
-              token={token}
-            />
-          </LayoutColumn>
-        </LayoutRow>
-      </Layout>
-      <Footer />
-    </>
+          <ResetPasswordForm
+            isLoggedIn={!!customer}
+            email={email}
+            token={token}
+          />
+        </LayoutColumn>
+      </LayoutRow>
+    </Layout>
   );
 }

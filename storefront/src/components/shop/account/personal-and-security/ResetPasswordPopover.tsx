@@ -22,11 +22,12 @@ export const ResetPasswordPopover = () => {
   const onSubmit = async () => {
     const request = await requestPasswordReset();
 
-    console.log(request);
     if (request.success) return setIsOpen(true);
 
     setError(request.error);
   };
+
+  React;
 
   return (
     <DialogTrigger isOpen={isOpen}>

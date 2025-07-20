@@ -14,13 +14,20 @@ import {
 import Link from 'next/link';
 
 // Components
-import { Header } from '@/components/ui/header/Header';
 import { Icon } from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
+import { CodeCountryTypes } from '@/components/ui/header/Header';
+
+// Hooks
+import { useCountryCode } from '@/hooks/country-code';
+import { useUpdateRegion } from '@/hooks/cart';
+import { withReactQueryProvider } from '@/lib/util/react-query';
+import { usePathname } from 'next/navigation';
 
 export const HeaderWrapper: React.FC<{
-  hasAnImage?: boolean;
-}> = ({ hasAnImage = false }) => {
+  hasAnImage: boolean;
+  children: React.ReactNode;
+}> = ({ hasAnImage, children }) => {
   const headerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
@@ -48,61 +55,84 @@ export const HeaderWrapper: React.FC<{
   }, [hasAnImage]);
 
   return (
-    <>
-      <div
-        className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 data-[background]:bg-gray-10 lg:data-[image]:bg-transparent lg:data-[image]:text-gray-10"
-        ref={headerRef}
-      >
-        <Header />
-      </div>
-    </>
+    <div
+      className="fixed left-0 top-0 z-10 w-full bg-gray-10 text-gray-900 data-[background]:bg-gray-10 lg:data-[image]:bg-transparent lg:data-[image]:text-gray-10"
+      ref={headerRef}
+    >
+      {children}
+    </div>
   );
 };
 
-// Pitanje: pošto su ove komponente isto client renderane (samo je header na serveru), hoću li ih passati kao prop na Header.tsx componenti ili da ostavim sada kako je napravljeno (exportanje u Header.tsx componentu) ili da napravim posebne componente za svaku te ih onda importam
+export const LanguageSelect: React.FC<{
+  codeCountry: CodeCountryTypes;
+}> = withReactQueryProvider(({ codeCountry }) => {
+  const countryCode = useCountryCode(
+    codeCountry.map((code) => ({
+      country: code.country,
+      region: code.id,
+      label: code.countryName,
+    }))
+  );
 
-export const LanguageSelect = () => (
-  <Select defaultSelectedKey="croatian" aria-label="visible">
-    <AriaButton className="outline-none">
-      <div className="flex gap-2">
-        <SelectValue className="uppercase">
-          {({ defaultChildren }) => defaultChildren?.toString().slice(0, 3)}
-        </SelectValue>
-        <Icon name="chevron" />
-      </div>
-    </AriaButton>
-    <Popover
-      placement="bottom"
-      className="relative z-[10000000] h-52 w-60 overflow-scroll rounded border border-gray-900 bg-gray-10"
+  const pathname = usePathname();
+  let currentPath = pathname;
+
+  if (countryCode) {
+    currentPath = pathname.split(`/${countryCode}`)[1];
+  }
+
+  const updateRegion = useUpdateRegion();
+  return (
+    <Select
+      defaultSelectedKey={countryCode}
+      aria-label="Country Selector"
+      onSelectionChange={(key) => {
+        updateRegion.mutate({ countryCode: key.toString(), currentPath });
+      }}
     >
-      <ListBox>
-        <ListBoxItem id="afghanistan" className="cursor-pointer p-4 outline-0">
-          afghanistan
-        </ListBoxItem>
-        <ListBoxItem id="albania" className="z-10 cursor-pointer p-4 outline-0">
-          albania
-        </ListBoxItem>
-        <ListBoxItem id="algeria" className="z-10 cursor-pointer p-4 outline-0">
-          algeria
-        </ListBoxItem>
-        <ListBoxItem id="andorra" className="z-10 cursor-pointer p-4 outline-0">
-          andorra
-        </ListBoxItem>
-        <ListBoxItem
-          id="croatian"
-          className="z-10 cursor-pointer p-4 outline-0"
-        >
-          croatian
-        </ListBoxItem>
-        <ListBoxItem id="english" className="z-10 cursor-pointer p-4 outline-0">
-          english
-        </ListBoxItem>
-      </ListBox>
-    </Popover>
-  </Select>
-);
+      <AriaButton className="outline-none">
+        <div className="flex items-center gap-2">
+          {/* Customize display: show the country code of the selected item */}
 
-export const SidebarDrawer = () => (
+          <SelectValue className="uppercase">
+            {(item) =>
+              typeof item.selectedItem === 'object' &&
+              !!item.selectedItem &&
+              'country' in item.selectedItem &&
+              typeof item.selectedItem.country === 'string'
+                ? item.selectedItem.country
+                : item.defaultChildren
+            }
+          </SelectValue>
+          <Icon name="chevron" />
+        </div>
+      </AriaButton>
+
+      <Popover
+        placement="bottom"
+        className="relative z-[10000000] h-52 w-60 overflow-scroll rounded border border-gray-900 bg-gray-10"
+      >
+        <ListBox>
+          {codeCountry.map((code) => (
+            <ListBoxItem
+              key={code.country}
+              id={code.country}
+              value={code}
+              className="z-10 cursor-pointer p-4 outline-0"
+            >
+              {code.countryName}
+            </ListBoxItem>
+          ))}
+        </ListBox>
+      </Popover>
+    </Select>
+  );
+});
+
+export const SidebarDrawer: React.FC<{
+  codeCountry: CodeCountryTypes;
+}> = ({ codeCountry }) => (
   <RadixDialog.Root>
     <RadixDialog.Trigger className="group cursor-pointer">
       <Icon
@@ -151,7 +181,7 @@ export const SidebarDrawer = () => (
           </li>
         </ul>
         <div className="mt-auto py-8 pl-8">
-          <LanguageSelect />
+          <LanguageSelect codeCountry={codeCountry} />
         </div>
       </div>
     </RadixDialog.Content>

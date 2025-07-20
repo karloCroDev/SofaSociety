@@ -2,7 +2,7 @@
 import { redirect } from 'next/navigation';
 
 // Components
-import { HeaderWrapper } from '@/components/ui/header/HeaderWrapper';
+import { Header } from '@/components/ui/header/Header';
 
 // Lib
 import { getCustomer } from '@/lib/data/customer';
@@ -17,7 +17,7 @@ export default async function MainLayout({
   if (customer) redirect('/account/orders');
   return (
     <>
-      <HeaderWrapper />
+      <Header />
       {children}
     </>
   );

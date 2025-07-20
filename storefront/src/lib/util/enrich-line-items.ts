@@ -1,6 +1,6 @@
 import 'server-only';
 import { HttpTypes } from '@medusajs/types';
-import { omit } from 'loadash';
+import { omit } from 'lodash';
 
 import { getProductsById } from '@/lib/data/products';
 

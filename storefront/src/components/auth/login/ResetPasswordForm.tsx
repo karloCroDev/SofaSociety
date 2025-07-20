@@ -13,7 +13,6 @@ import { Button } from '@/components/ui/Button';
 
 // Lib
 import { resetPassword } from '@/lib/data/customer';
-import { HttpTypes } from '@medusajs/types';
 import { useRouter } from 'next/navigation';
 
 const resetPasswordLinkSchema = z
@@ -80,7 +79,7 @@ export const ResetPasswordForm: React.FC<{
           <Input
             inputProps={{ ...register('oldPassword'), type: 'password' }}
             type="password"
-            label="New password"
+            label="Old password"
           />
           <p className="text-red-500">
             {errors.oldPassword && errors.oldPassword.message}

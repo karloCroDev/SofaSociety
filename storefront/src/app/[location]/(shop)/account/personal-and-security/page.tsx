@@ -8,11 +8,15 @@ import { CountrySelect } from '@/components/checkout/CountrySelect';
 import { Input } from '@/components/ui/Input';
 import { LogoutButton } from '@/components/ui/LogoutButton';
 import { getCustomer } from '@/lib/data/customer';
+import { PersonalInformationForm } from '@/components/shop/account/personal-and-security/PersonalInformationForm';
+import { DeleteAddressForm } from '@/components/shop/account/personal-and-security/DeleteAddressForm';
 
 export default async function PersonalAndSecurity() {
-  const user = await getCustomer(); // I know I am going to get user from the layout
+  const user = await getCustomer();
 
-  const username = [user?.first_name, user?.last_name]
+  if (!user) throw new Error('Expected user but got null');
+
+  const username = [user.first_name, user.last_name]
     .filter((name) => name !== undefined)
     .join('');
 
@@ -27,7 +31,9 @@ export default async function PersonalAndSecurity() {
             {username}
           </p>
         </div>
-        <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0"></p>
+        <p className="ml-16 mt-6 before:block before:text-sm before:text-gray-500 before:content-['Number'] lg:mt-0">
+          {user.phone ? user.phone : 'Not provided'}
+        </p>
         <Dialog
           title="Personal information"
           triggerChildren={
@@ -39,21 +45,11 @@ export default async function PersonalAndSecurity() {
             </Button>
           }
         >
-          <Form>
-            <div className="flex gap-6">
-              <Input label="First name" className="flex-1" />
-              <Input label="Last name" className="flex-1" />
-            </div>
-            <Input label="Phone" className="mt-8" />
-            <div className="mt-10 flex justify-between">
-              <Button isDisabled isVisuallyDisabled type="submit">
-                Save changes
-              </Button>
-              <Button variant="outline" slot="close">
-                Cancel
-              </Button>
-            </div>
-          </Form>
+          <PersonalInformationForm
+            firstName={user.first_name ? user.first_name : undefined}
+            lastName={user.last_name ? user.last_name : undefined}
+            phoneNumber={user.phone ? user.phone : undefined}
+          />
         </Dialog>
       </div>
       <p className="mt-16 text-lg">Contact</p>
@@ -98,9 +94,17 @@ export default async function PersonalAndSecurity() {
           </div>
         </div>
         <div className="ml-auto flex gap-6 self-start">
-          <Button variant="outline" className="p-2">
-            <Icon name="bin" className="size-4" />
-          </Button>
+          <Dialog
+            title="Do you want to delete this address?"
+            triggerChildren={
+              <Button variant="outline" className="p-2">
+                <Icon name="bin" className="size-4" />
+              </Button>
+            }
+          >
+            <DeleteAddressForm />
+          </Dialog>
+
           <Dialog
             title="Add address"
             triggerChildren={<Button variant="outline">Change</Button>}

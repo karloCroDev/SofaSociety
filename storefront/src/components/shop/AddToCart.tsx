@@ -16,20 +16,26 @@ import { getCartQuantity } from '@/lib/data/cart';
 
 export const AddToCart: React.FC<
   React.ComponentPropsWithoutRef<'div'> &
-    NumberFieldProps & { size?: 'sm' | 'lg' }
-> = ({ size = 'sm', className, ...rest }) => {
+    NumberFieldProps & {
+      size?: 'sm' | 'lg';
+      setAmount: React.Dispatch<React.SetStateAction<number>>;
+    }
+> = ({ size = 'sm', setAmount, className, ...rest }) => {
   return (
     <NumberField
       {...rest}
       defaultValue={1}
       minValue={1}
-      // maxValue={10}
+      maxValue={10}
       className={twMerge(
         'flex items-center justify-center rounded border border-gray-200 px-4',
         size === 'lg' && 'h-12',
         size === 'sm' && 'h-8',
         className
       )}
+      onChange={(val) => {
+        setAmount(val);
+      }}
     >
       <Group
         className={twJoin(

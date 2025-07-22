@@ -75,7 +75,10 @@ export default async function PersonalAndSecurity({ params }: PageProps) {
       </p>
       <p className="mt-16 text-lg">Address</p>
       {user.addresses.map((address) => (
-        <div className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8">
+        <div
+          className="mt-6 flex flex-col gap-3 rounded-sm border p-4 lg:flex-row lg:items-center lg:gap-8"
+          key={address.id}
+        >
           <Icon name="user" className="self-start" />
           <div className="grid grid-cols-2 items-center gap-y-9 lg:gap-x-28">
             <div>

@@ -27,6 +27,7 @@ import {
   getPricesForVariant,
   getProductPrice,
 } from '@/lib/util/get-product-price';
+import { ProductOptions } from '@/components/shop/product/ProductOptions';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;
@@ -43,17 +44,16 @@ export default async function ProductPage({ params }: PageProps) {
   const price = getProductPrice({
     product: productData,
   });
-  console.log(productData);
-  console.log(fashionDetails);
+
   const collectionData = collectionMetadataCustomFieldsSchema.safeParse(
     productData.collection?.metadata ?? {}
   );
 
   if (!collectionData.success) redirect('/');
+
   return (
     <>
       <ProductCarousel isMobile imageData={productData.images!} />
-
       <Layout className="mt-8 lg:mt-32">
         <LayoutRow>
           <LayoutColumn xs={12} lg={7} className="hidden lg:block lg:pr-8">
@@ -66,7 +66,10 @@ export default async function ProductPage({ params }: PageProps) {
               {price.cheapestPrice?.calculated_price}
             </p>
             <p className="mt-8">{productData.description}</p>
-            <SelectMaterial customatization={fashionDetails.materials} />
+            <ProductOptions
+              productItem={productData}
+              customization={fashionDetails.materials}
+            />
 
             <p className="mt-4 text-gray-500">Estimate delivery 2-3 days</p>
           </LayoutColumn>

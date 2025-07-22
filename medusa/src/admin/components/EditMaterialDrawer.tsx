@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { z } from 'zod';
-import { Button, Drawer } from '@medusajs/ui';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Form } from './Form/Form';
-import { InputField } from './Form/InputField';
+import * as React from "react";
+import { z } from "zod";
+import { Button, Drawer } from "@medusajs/ui";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Form } from "./Form/Form";
+import { InputField } from "./Form/InputField";
 
 export const materialFormSchema = z.object({
   name: z.string(),
@@ -17,17 +17,17 @@ export const EditMaterialDrawer: React.FC<{
   const queryClient = useQueryClient();
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const updateMaterialMutation = useMutation({
-    mutationKey: ['fashion', 'update'],
+    mutationKey: ["fashion", "update"],
     mutationFn: async (values: z.infer<typeof materialFormSchema>) => {
       return fetch(`/admin/fashion/${id}`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(values),
-        credentials: 'include',
+        credentials: "include",
       }).then((res) => res.json());
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey[0] === 'fashion',
+        predicate: (query) => query.queryKey[0] === "fashion",
       });
     },
   });
@@ -42,8 +42,8 @@ export const EditMaterialDrawer: React.FC<{
         <Drawer.Body>
           <Form
             schema={materialFormSchema}
-            onSubmit={async (values) => {
-              await updateMaterialMutation.mutateAsync(values);
+            onSubmit={(values) => {
+              updateMaterialMutation.mutateAsync(values);
               setIsDrawerOpen(false);
             }}
             formProps={{

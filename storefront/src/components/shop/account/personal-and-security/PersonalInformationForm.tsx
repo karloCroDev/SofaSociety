@@ -41,8 +41,7 @@ export const PersonalInformationForm: React.FC<{
     },
   });
 
-  const onSubmit = async (data: PersonalInformationFormProps) => {
-    console.log(data);
+  const onSubmit = (data: PersonalInformationFormProps) => {
     mutate(data, {
       onSuccess: (res) => {
         if (res.state === 'success') close();
@@ -59,31 +58,16 @@ export const PersonalInformationForm: React.FC<{
         <Controller
           control={control}
           name="first_name"
-          render={({ field: { value } }) => (
-            <Input
-              label="First name"
-              className="flex-1"
-              inputProps={{
-                ...register('first_name'),
-                value,
-              }}
-            />
+          render={({ field }) => (
+            <Input label="First name" className="flex-1" inputProps={field} />
           )}
         />
 
         <Controller
           control={control}
           name="last_name"
-          render={({ field: { value } }) => (
-            <Input
-              label="First name"
-              className="flex-1"
-              inputProps={{
-                ...register('last_name'),
-
-                value,
-              }}
-            />
+          render={({ field }) => (
+            <Input label="First name" className="flex-1" inputProps={field} />
           )}
         />
       </div>
@@ -91,14 +75,13 @@ export const PersonalInformationForm: React.FC<{
       <Controller
         control={control}
         name="phone"
-        render={({ field: { value } }) => (
+        render={({ field }) => (
           <Input
             label="Phone"
             className="mt-2 flex-1"
             inputProps={{
-              ...register('phone'),
-              value: value ?? '',
-              type: 'number',
+              ...field,
+              value: field.value ?? '',
             }}
           />
         )}
@@ -106,13 +89,13 @@ export const PersonalInformationForm: React.FC<{
 
       <div className="mt-10 flex justify-between">
         <Button
-          isDisabled={!isDirty}
-          isVisuallyDisabled={!isDirty}
+          isDisabled={!isDirty || isPending || isSubmitting}
+          isVisuallyDisabled={!isDirty || isPending || isSubmitting}
           type="submit"
         >
           Save changes
         </Button>
-        <Button variant="outline" slot="close">
+        <Button variant="outline" onPress={close}>
           Cancel
         </Button>
       </div>

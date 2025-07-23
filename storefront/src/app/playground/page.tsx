@@ -26,7 +26,7 @@ import { ProductCarousel } from '@/components/shop/product/ProductCarousel';
 export default function Page() {
   return (
     <>
-      <ProductCarousel />
+      {/* <ProductCarousel /> */}
       <Layout>
         <div className="flex flex-col items-start gap-4">
           <Icon name="search" className="text-black" />

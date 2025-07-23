@@ -29,10 +29,11 @@ export default function AuthPasswordResetEmail({
       <Button
         href={`${
           process.env.STOREFRONT_URL || "http://localhost:8000"
-        }/auth/reset-password?email=${encodeURIComponent(
+        }/reset-password?email=${encodeURIComponent(
           customer.email
         )}&token=${encodeURIComponent(token)}`}
-        className="inline-flex items-center focus-visible:outline-none rounded-xs justify-center transition-colors bg-black hover:bg-grayscale-500 text-white h-10 px-6 mb-10">
+        className="inline-flex items-center focus-visible:outline-none rounded-xs justify-center transition-colors bg-black hover:bg-grayscale-500 text-white h-10 px-6 mb-10"
+      >
         Reset password
       </Button>
       <Text className="text-md text-grayscale-500 m-0">

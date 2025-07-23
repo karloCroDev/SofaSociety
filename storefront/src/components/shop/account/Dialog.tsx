@@ -35,7 +35,7 @@ export const Dialog: React.FC<
               className="w-full overflow-hidden rounded bg-gray-10 px-4 py-6 text-left align-middle lg:p-6"
             >
               <AriaDialog className="relative z-max outline-none">
-                <Heading className="mb-10 text-lg" slot="title">
+                <Heading className="mb-8 text-center text-lg" slot="title">
                   {title}
                 </Heading>
                 {children}

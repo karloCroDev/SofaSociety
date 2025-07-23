@@ -2,7 +2,7 @@
 
 // External packages
 import * as React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -23,7 +23,7 @@ type ForgotPasswordProps = z.infer<typeof forgotPasswordSchema>;
 
 export const ForgotPasswordForm = () => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
@@ -50,11 +50,14 @@ export const ForgotPasswordForm = () => {
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input
-          inputProps={{ ...register('email') }}
-          type="email"
-          label="Email"
+        <Controller
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <Input inputProps={{ ...field }} type="email" label="Email" />
+          )}
         />
+
         {errors.email && (
           <p className="mt-2 text-red-400">{errors.email.message} </p>
         )}

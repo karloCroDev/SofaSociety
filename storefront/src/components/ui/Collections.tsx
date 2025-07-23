@@ -8,9 +8,9 @@ import { HttpTypes } from '@medusajs/types';
 
 // Components
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import { Icon } from '@/components/ui/Icon';
+import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
 export const Collections: React.FC<{
   collections: HttpTypes.StoreCollection[];
@@ -36,7 +36,9 @@ export const Collections: React.FC<{
     <>
       <div className="flex items-center gap-6">
         <h2 className="text-xl font-medium lg:text-3xl">Collections</h2>
-        <Button className="ml-auto">View All</Button>
+        <LinkAsButton href="/shop" className="ml-auto">
+          View All
+        </LinkAsButton>
         <div className="hidden lg:block">
           <IconButton
             variation="outline"

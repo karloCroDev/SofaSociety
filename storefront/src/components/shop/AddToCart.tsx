@@ -1,8 +1,6 @@
-// TODO: Za ovo imaš `NumberField` u `react-aria-components` paketu: https://react-spectrum.adobe.com/react-aria/NumberField.html FIXED
-
 'use client';
 
-// Etxernal packages
+// External packages
 import * as React from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import {
@@ -15,21 +13,31 @@ import {
 import { getCartQuantity } from '@/lib/data/cart';
 
 export const AddToCart: React.FC<
-  React.ComponentPropsWithoutRef<'div'> &
-    NumberFieldProps & { size?: 'sm' | 'lg' }
-> = ({ size = 'sm', className, ...rest }) => {
+  NumberFieldProps &
+    React.ComponentPropsWithoutRef<'div'> & {
+      size?: 'sm' | 'lg';
+      setAmount?: React.Dispatch<React.SetStateAction<number>>;
+    }
+> = ({
+  size = 'sm',
+  setAmount,
+  className,
+  defaultValue,
+  onChange,
+  ...rest
+}) => {
   return (
     <NumberField
       {...rest}
-      defaultValue={1}
+      defaultValue={defaultValue ?? 1}
       minValue={1}
-      // maxValue={10}
       className={twMerge(
         'flex items-center justify-center rounded border border-gray-200 px-4',
         size === 'lg' && 'h-12',
         size === 'sm' && 'h-8',
         className
       )}
+      onChange={setAmount ? (val) => setAmount(val) : onChange}
     >
       <Group
         className={twJoin(
@@ -47,7 +55,7 @@ export const AddToCart: React.FC<
         >
           -
         </Button>
-        <Input className="!w-8 text-center outline-none" />
+        <Input className="!w-8 bg-inherit text-center outline-none" />
 
         <Button
           slot="increment"

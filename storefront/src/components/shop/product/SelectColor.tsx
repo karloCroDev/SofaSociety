@@ -3,10 +3,7 @@
 // External packages
 import * as React from 'react';
 import { RadioGroup, Radio } from 'react-aria-components';
-
-// Components
-import { Button } from '@/components/ui/Button';
-import { AddToCart } from '@/components/shop/AddToCart';
+import { HttpTypes } from '@medusajs/types';
 
 export const SelectColor: React.FC<{
   colors: {
@@ -14,9 +11,19 @@ export const SelectColor: React.FC<{
     name: string;
     hex_code: string;
   }[];
-}> = ({ colors }) => {
+  setProductOptions: React.Dispatch<
+    React.SetStateAction<Record<string, string | undefined>>
+  >;
+  colorOption: HttpTypes.StoreProductOption | undefined;
+}> = ({ colors, setProductOptions, colorOption }) => {
   const [color, setColor] = React.useState(colors[0].name);
 
+  React.useEffect(() => {
+    setProductOptions((prev) => ({
+      ...prev,
+      [colorOption?.id!]: colors[0].name,
+    }));
+  }, []);
   return (
     <>
       <div className="mt-6 flex">
@@ -25,14 +32,25 @@ export const SelectColor: React.FC<{
           {color && color[0].toUpperCase() + color.slice(1)}
         </p>
       </div>
-      {/* TODO: Razmak ispod ove radio grupe mi pari manji nego bi triba bit. FIXED*/}
+
       <RadioGroup
-        onChange={(e) => setColor(e.toString())}
+        onChange={(val) => {
+          setColor(val.toString());
+          setProductOptions((prev) => ({
+            ...prev,
+            [colorOption?.id!]: val.toString(),
+          }));
+        }}
         defaultValue={color}
         className="mt-4 flex gap-6"
       >
         {colors.map((color) => (
-          <Radio value={color.name} className="group" key={color.id}>
+          <Radio
+            value={color.name}
+            className="group"
+            id={color.name}
+            key={color.id}
+          >
             <div
               className="relative size-8 cursor-pointer bg-gray-500 after:absolute after:-bottom-2 after:w-full after:bg-gray-900 group-data-[selected]:after:h-px"
               style={{ backgroundColor: color.hex_code }}
@@ -40,11 +58,6 @@ export const SelectColor: React.FC<{
           </Radio>
         ))}
       </RadioGroup>
-      <div className="mt-8 flex flex-col justify-between gap-4 lg:mt-auto lg:flex-row">
-        <AddToCart size="lg" />
-        {/* TODO: Ovaj botun ispod mi pari veći nego bi triba bit. FIXED */}
-        <Button className="flex-1">Add to cart</Button>
-      </div>
     </>
   );
 };

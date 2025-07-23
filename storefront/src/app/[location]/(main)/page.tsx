@@ -49,7 +49,7 @@ export default async function Home() {
           </LayoutColumn>
         </LayoutRow>
         <h2 className="mt-24 text-xl font-medium lg:mt-32 lg:text-3xl">
-          Our prodcuts
+          Our products
         </h2>
         <LayoutRow className="mt-8 lg:mt-16">
           <LayoutColumn xs={6} className="cursor-pointer pr-1 lg:pr-4">

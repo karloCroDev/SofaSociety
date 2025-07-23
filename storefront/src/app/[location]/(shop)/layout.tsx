@@ -1,6 +1,6 @@
 // Components
-import { HeaderWrapper } from '@/components/ui/header/HeaderWrapper';
 import { Footer } from '@/components/ui/Footer';
+import { Header } from '@/components/ui/header/Header';
 
 export default function ShopLayout({
   children,
@@ -9,7 +9,7 @@ export default function ShopLayout({
 }>) {
   return (
     <>
-      <HeaderWrapper />
+      <Header />
       {children}
       <Footer />
     </>

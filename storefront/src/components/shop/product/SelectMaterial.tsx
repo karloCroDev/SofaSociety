@@ -10,14 +10,13 @@ import {
   Select as AriaSelect,
   SelectValue,
 } from 'react-aria-components';
+import { HttpTypes } from '@medusajs/types';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { SelectColor } from '@/components/shop/product/SelectColor';
-import { HttpTypes } from '@medusajs/types';
 
 export const SelectMaterial: React.FC<{
-  customatization: {
+  customization: {
     id: string;
     name: string;
     colors: {
@@ -26,8 +25,22 @@ export const SelectMaterial: React.FC<{
       hex_code: string;
     }[];
   }[];
-}> = ({ customatization }) => {
-  const [material, setMaterial] = React.useState('');
+  materialOption: HttpTypes.StoreProductOption | undefined;
+  setProductOptions: React.Dispatch<
+    React.SetStateAction<Record<string, string | undefined>>
+  >;
+}> = ({ customization, setProductOptions, materialOption }) => {
+  const [material, setMaterial] = React.useState(
+    customization.length === 1 ? customization[0].name : undefined
+  );
+
+  React.useEffect(() => {
+    if (customization.length !== 1) return;
+    setProductOptions((prev) => ({
+      ...prev,
+      [materialOption?.id!]: customization[0].name,
+    }));
+  }, []);
 
   return (
     <>
@@ -39,7 +52,16 @@ export const SelectMaterial: React.FC<{
       </div>
       <AriaSelect
         className="relative"
-        onSelectionChange={(e) => setMaterial(e.toString())}
+        defaultSelectedKey={
+          customization.length === 1 ? customization[0].name : undefined
+        }
+        onSelectionChange={(val) => {
+          setMaterial(val.toString());
+          setProductOptions((prev) => ({
+            ...prev,
+            [materialOption?.id!]: val.toString(),
+          }));
+        }}
       >
         <AriaButton className="relative mt-4 flex h-12 w-full max-w-64 items-center justify-between rounded border border-gray-200 px-4 outline-none">
           <SelectValue className="data-[placeholder]:text-gray-500">
@@ -51,9 +73,9 @@ export const SelectMaterial: React.FC<{
         </AriaButton>
         <Popover className="max-h-[448px] w-[var(--trigger-width)] overflow-scroll rounded border bg-gray-10 outline-none">
           <ListBox className="w-full hover:cursor-pointer">
-            {customatization.map((material) => (
+            {customization.map((material) => (
               <ListBoxItem
-                id="velvet"
+                id={material.name}
                 className="p-4 outline-none data-[selected]:bg-gray-50 data-[selected]:font-bold"
                 key={material.id}
               >
@@ -63,12 +85,6 @@ export const SelectMaterial: React.FC<{
           </ListBox>
         </Popover>
       </AriaSelect>
-      {/* // */}
-      {material && (
-        <SelectColor
-          colors={customatization.flatMap((color) => color.colors)}
-        />
-      )}
     </>
   );
 };

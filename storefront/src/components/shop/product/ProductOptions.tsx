@@ -54,29 +54,21 @@ export const ProductOptions: React.FC<{
   const [amount, setAmount] = React.useState(1);
 
   // check if the selected variant is in stock
-  const itemsInStock = doesOptionExists
+  const isItemInStock = doesOptionExists
     ? getVariantItemsInStock(doesOptionExists)
     : 0;
 
   const location = useCountryCode();
 
-  const { mutateAsync, isPending } = useAddLineItem();
+  const { mutate, isPending } = useAddLineItem();
 
   const addToCart = async () => {
     if (!doesOptionExists?.id) return;
-    await mutateAsync(
-      {
-        variantId: doesOptionExists.id,
-        quantity: amount,
-        countryCode: location,
-      },
-      {
-        onSuccess: (res) => {
-          console.log(res);
-          console.log('success please');
-        },
-      }
-    );
+    mutate({
+      variantId: doesOptionExists.id,
+      quantity: amount,
+      countryCode: location,
+    });
   };
 
   const materialOption = productItem.options?.find(
@@ -84,7 +76,6 @@ export const ProductOptions: React.FC<{
   );
   const colorOption = productItem.options?.find((x) => x.title === 'Color');
 
-  console.log(productOptions);
   return (
     <>
       <SelectMaterial
@@ -103,7 +94,7 @@ export const ProductOptions: React.FC<{
         <AddToCart size="lg" setAmount={setAmount} />
         <Button
           className="flex-1"
-          isVisuallyDisabled={!!itemsInStock || isPending}
+          isVisuallyDisabled={!isItemInStock || isPending}
           onPress={addToCart}
         >
           Add to cart

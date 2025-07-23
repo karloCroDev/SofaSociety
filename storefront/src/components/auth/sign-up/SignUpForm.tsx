@@ -20,7 +20,7 @@ import { signupFormSchema, useSignup } from '@/hooks/customer';
 type SignUpProps = z.infer<typeof signupFormSchema>;
 
 export const SignUpForm = withReactQueryProvider(() => {
-  const { mutateAsync, isPending } = useSignup();
+  const { mutate, isPending } = useSignup();
   const {
     register,
     handleSubmit,
@@ -32,15 +32,12 @@ export const SignUpForm = withReactQueryProvider(() => {
   });
 
   const onSubmit = async (data: SignUpProps) => {
-    const userCredentials = await mutateAsync(data, {
+    mutate(data, {
       onSuccess(res) {
         if (!res.error) return reset();
         setError('root', { message: res.error });
       },
     });
-
-    console.log(userCredentials);
-    if (userCredentials.success) reset();
   };
   return (
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>

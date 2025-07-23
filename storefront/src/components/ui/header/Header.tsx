@@ -64,7 +64,7 @@ export const Header: React.FC<{
             <Link href="/login">
               <Icon name="user" className="cursor-pointer" />
             </Link>
-            <Link href="/">
+            <Link href="/cart">
               <Icon name="bag" />
             </Link>
           </div>
@@ -72,7 +72,7 @@ export const Header: React.FC<{
             <Link href="/login">
               <Icon name="user" className="cursor-pointer" />
             </Link>
-            <Link href="/">
+            <Link href="/cart">
               <Icon name="bag" />
             </Link>
             <SidebarDrawer codeCountry={codeCountry} />

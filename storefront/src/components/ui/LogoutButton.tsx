@@ -39,11 +39,11 @@ export const LogoutButton: React.FC<
   }) => {
     const countryCode = useCountryCode();
 
-    const { mutateAsync, isPending } = useSignout();
+    const { mutate, isPending } = useSignout();
 
     const handleSignout = async () => {
       if (!countryCode) return;
-      await mutateAsync(countryCode);
+      mutate(countryCode);
     };
     return (
       <Button

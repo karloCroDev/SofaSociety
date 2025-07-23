@@ -54,12 +54,13 @@ export const ResetPasswordForm: React.FC<{
   const router = useRouter();
 
   const onSubmit = async (data: ResetPasswordLinkProps) => {
+    console.log(data);
     React.startTransition(() => {
       setResetPasswordAction({
         current_password: data.oldPassword || '',
         new_password: data.password,
         confirm_new_password: data.repeatPassword,
-        type: isLoggedIn ? 'reset' : 'reset',
+        type: isLoggedIn ? 'reset' : 'forgot',
       });
 
       if (resetPasswordState.state === 'error') {

@@ -2,7 +2,7 @@
 
 // External packages
 import * as React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -34,6 +34,7 @@ export const ResetPasswordForm: React.FC<{
   isLoggedIn: boolean;
 }> = ({ isLoggedIn, email, token }) => {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -76,11 +77,18 @@ export const ResetPasswordForm: React.FC<{
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       {isLoggedIn && (
         <div>
-          <Input
-            inputProps={{ ...register('oldPassword'), type: 'password' }}
-            type="password"
-            label="Old password"
+          <Controller
+            control={control}
+            name="oldPassword"
+            render={({ field }) => (
+              <Input
+                inputProps={{ ...field, type: 'password' }}
+                type="password"
+                label="Old password"
+              />
+            )}
           />
+
           <p className="text-red-500">
             {errors.oldPassword && errors.oldPassword.message}
           </p>
@@ -88,22 +96,36 @@ export const ResetPasswordForm: React.FC<{
       )}
 
       <div>
-        <Input
-          inputProps={{ ...register('password'), type: 'password' }}
-          type="password"
-          label="New password"
+        <Controller
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <Input
+              inputProps={{ ...field, type: 'password' }}
+              type="password"
+              label="New password"
+            />
+          )}
         />
+
         <p className="text-red-500">
           {errors.password && errors.password.message}
         </p>
       </div>
 
       <div>
-        <Input
-          inputProps={{ ...register('repeatPassword'), type: 'password' }}
-          type="password"
-          label="Confirm new password"
+        <Controller
+          control={control}
+          name="repeatPassword"
+          render={({ field }) => (
+            <Input
+              inputProps={{ ...field, type: 'password' }}
+              type="password"
+              label="Confirm new password"
+            />
+          )}
         />
+
         <p className="text-red-500">
           {errors.repeatPassword && errors.repeatPassword.message}
         </p>

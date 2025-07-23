@@ -1,9 +1,9 @@
 'use client';
 
-// Extenral packages
+// External packages
 import * as React from 'react';
 import { Form } from 'react-aria-components';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
@@ -22,7 +22,7 @@ type SignUpProps = z.infer<typeof signupFormSchema>;
 export const SignUpForm = withReactQueryProvider(() => {
   const { mutate, isPending } = useSignup();
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
@@ -43,55 +43,82 @@ export const SignUpForm = withReactQueryProvider(() => {
     <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex gap-6">
         <div className="flex-1">
-          <Input
-            inputProps={{
-              ...register('first_name'),
-            }}
-            label="First name"
-            id="first-name"
-            name="first-name"
+          <Controller
+            control={control}
+            name="first_name"
+            render={({ field }) => (
+              <Input
+                inputProps={{
+                  ...field,
+                }}
+                label="First name"
+                id="first-name"
+                name="first-name"
+              />
+            )}
           />
+
           <p className="mt-2 text-red-400">
             {errors.first_name && errors.first_name.message}
           </p>
         </div>
 
         <div className="flex-1">
-          <Input
-            inputProps={{
-              ...register('last_name'),
-            }}
-            label="Last name"
-            id="last-name"
-            name="last-name"
+          <Controller
+            control={control}
+            name="last_name"
+            render={({ field }) => (
+              <Input
+                inputProps={{
+                  ...field,
+                }}
+                label="Last name"
+                id="last-name"
+                name="last-name"
+              />
+            )}
           />
+
           <p className="mt-2 text-red-400">
             {errors.last_name && errors.last_name.message}
           </p>
         </div>
       </div>
       <div>
-        <Input
-          inputProps={{ ...register('email') }}
-          label="Email"
-          id="email"
+        <Controller
+          control={control}
           name="email"
+          render={({ field }) => (
+            <Input
+              inputProps={{ ...field }}
+              label="Email"
+              id="email"
+              name="email"
+            />
+          )}
         />
+
         <p className="mt-2 text-red-400">
           {errors.email && errors.email.message}
         </p>
       </div>
       <div>
-        <Input
-          inputProps={{
-            ...register('password'),
-            type: 'password',
-          }}
-          label="Password"
-          id="password"
+        <Controller
+          control={control}
           name="password"
-          type="password"
+          render={({ field }) => (
+            <Input
+              inputProps={{
+                ...field,
+                type: 'password',
+              }}
+              label="Password"
+              id="password"
+              name="password"
+            />
+          )}
         />
+
         <p className="mt-2 text-red-400">
           {errors.password && errors.password.message}
         </p>

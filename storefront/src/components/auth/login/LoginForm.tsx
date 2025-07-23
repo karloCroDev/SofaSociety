@@ -3,7 +3,7 @@
 // External packages
 import * as React from 'react';
 import { Form } from 'react-aria-components';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
@@ -21,16 +21,16 @@ type LoginProps = z.infer<typeof loginFormSchema>;
 export const LoginForm = withReactQueryProvider(() => {
   const { isPending, mutate } = useLogin();
   const {
-    register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
     reset,
+    control,
   } = useForm<LoginProps>({
     resolver: zodResolver(loginFormSchema),
   });
 
-  const onSumbit = async (data: LoginProps) => {
+  const onSubmit = async (data: LoginProps) => {
     mutate(
       {
         ...data,
@@ -49,19 +49,37 @@ export const LoginForm = withReactQueryProvider(() => {
   };
 
   return (
-    <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSumbit)}>
+    <Form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input inputProps={{ ...register('email') }} label="Email" id="email" />
+        <Controller
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <Input
+              inputProps={{ ...field, type: 'email' }}
+              label="Email"
+              id="email"
+            />
+          )}
+        />
+
         <p className="mt-2 text-red-400">
           {errors.email && errors.email.message}
         </p>
       </div>
       <div>
-        <Input
-          inputProps={{ ...register('password'), type: 'password' }}
-          label="Password"
-          id="password"
+        <Controller
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <Input
+              inputProps={{ ...field, type: 'password' }}
+              label="Password"
+              id="password"
+            />
+          )}
         />
+
         <p className="mt-2 text-red-400">
           {errors.password && errors.password.message}
         </p>

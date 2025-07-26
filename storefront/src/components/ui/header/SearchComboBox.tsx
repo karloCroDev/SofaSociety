@@ -9,89 +9,122 @@ import {
   Popover,
   ListBox,
 } from 'react-aria-components';
-import { HttpTypes } from '@medusajs/types';
 import { useRouter } from 'next/navigation';
 import { twJoin } from 'tailwind-merge';
+
 //Components
 import { Icon } from '@/components/ui/Icon';
 import { CodeCountryTypes } from '@/components/ui/header/Header';
-
-// Lib
-import { MeiliSearchProductHit, searchClient } from '@/lib/search-client';
-import { getProductsById } from '@/lib/data/products';
+import Image from 'next/image';
 
 // Hooks
 import { useCountryCode } from '@/hooks/country-code';
 import { useDebounce } from '@/hooks2/useDebounce';
+import { getProductPrice } from '@/lib/util/get-product-price';
+import { useSearchProducts } from '@/hooks/store';
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
-export const SearchComboBox: React.FC<{ codeCountry: CodeCountryTypes }> = ({
-  codeCountry,
-}) => {
-  const router = useRouter();
-  const countryCode = useCountryCode();
-  const region = codeCountry.find((x) => x.country === countryCode)?.id;
+export const SearchComboBox: React.FC<{ codeCountry: CodeCountryTypes }> =
+  withReactQueryProvider(({ codeCountry }) => {
+    const router = useRouter();
+    const countryCode = useCountryCode();
 
-  const [displayComboBox, setDisplayComboBox] = React.useState(false);
-  const [value, setValue] = React.useState('');
+    const [displayComboBox, setDisplayComboBox] = React.useState(false);
 
-  const [products, setProducts] = React.useState<HttpTypes.StoreProduct[]>([]);
-  const [hasLoaded, setHasLoaded] = React.useState(false);
+    const [value, setValue] = React.useState('');
+    const debounceValue = useDebounce(value);
 
-  const debounceValue = useDebounce(value);
+    const {
+      data: products,
+      isLoading,
+      refetch,
+    } = useSearchProducts({
+      value: debounceValue,
+      region: codeCountry.find((x) => x.country === countryCode)?.id,
+    });
 
-  React.useEffect(() => {
-    const findQueries = async () => {
-      const results = await searchClient
-        .index('products')
-        .search<MeiliSearchProductHit>(debounceValue, undefined);
+    React.useEffect(() => {
+      refetch();
+    }, [debounceValue]);
 
-      const medusaProducts = await getProductsById({
-        ids: results.hits.map((h) => h.id),
-        regionId: region!,
-      });
+    return (
+      <div className="flex items-center gap-4">
+        <Icon
+          name="search"
+          className="cursor-pointer"
+          onClick={() => setDisplayComboBox(!displayComboBox)}
+        />
 
-      setProducts(medusaProducts);
-    };
-    hasLoaded && debounceValue && findQueries();
+        <div
+          className={twJoin(
+            'overflow-hidden transition-[width]',
+            displayComboBox ? 'w-36' : 'w-0'
+          )}
+        >
+          <ComboBox
+            inputValue={value}
+            onInputChange={setValue}
+            items={products}
+          >
+            <Input className="w-full border-0 border-b border-b-current bg-inherit outline-none" />
+            <Popover className="w-80">
+              <ListBox className="flex flex-col rounded border border-gray-900 bg-gray-10">
+                {Array.isArray(products) && products.length > 0 ? (
+                  products.map((product) => {
+                    const productPrice = getProductPrice({
+                      product,
+                    });
 
-    setHasLoaded(true);
-  }, [debounceValue]);
+                    console.log(product);
+                    return (
+                      <ListBoxItem
+                        key={product.id}
+                        onAction={() =>
+                          router.push(`/product/${product.handle}`)
+                        }
+                        className="flex cursor-pointer gap-2 border-b border-gray-300 p-6 hover:bg-gray-200"
+                      >
+                        <div className="relative h-24 w-20">
+                          <Image
+                            src={
+                              product.images && product.images.length > 0
+                                ? product.images[0].url
+                                : ''
+                            }
+                            alt={product.title}
+                            className="object-cover"
+                            fill
+                          />
+                        </div>
+                        <div>
+                          <p>{product.title}</p>
+                          {product.variants && (
+                            <p className="text-xs">
+                              {product.variants[0].title}
+                            </p>
+                          )}
+                        </div>
 
-  return (
-    <div className="flex items-center gap-4">
-      <Icon
-        name="search"
-        className="cursor-pointer"
-        onClick={() => setDisplayComboBox(!displayComboBox)}
-      />
+                        <div className="ml-auto">
+                          <p>{productPrice.cheapestPrice?.calculated_price}</p>
 
-      <div
-        className={twJoin(
-          'overflow-hidden transition-[width]',
-          displayComboBox ? 'w-36' : 'w-0'
-        )}
-      >
-        <ComboBox inputValue={value} onInputChange={setValue} items={products}>
-          <Input className="w-full border-0 border-b border-b-current bg-inherit outline-none" />
-          <Popover className="w-36">
-            <ListBox className="flex flex-col gap-y-4 rounded border border-gray-900 bg-gray-10 p-2">
-              {products.length > 0 ? (
-                products.map((product) => (
-                  <ListBoxItem
-                    key={product.id}
-                    onAction={() => router.push(`/product/${product.handle}`)}
-                    className="cursor-pointer"
-                  >
-                    {product.title}
-                  </ListBoxItem>
-                ))
-              ) : (
-                <ListBoxItem>No products found</ListBoxItem>
-              )}
-            </ListBox>
-          </Popover>
-        </ComboBox>
+                          {productPrice.cheapestPrice?.original_price !==
+                            productPrice.cheapestPrice?.calculated_price && (
+                            <p className="ml-auto text-end text-red-400 line-through">
+                              {productPrice.cheapestPrice?.original_price}
+                            </p>
+                          )}
+                        </div>
+                      </ListBoxItem>
+                    );
+                  })
+                ) : (
+                  <ListBoxItem>No products found</ListBoxItem>
+                )}
+              </ListBox>
+            </Popover>
+          </ComboBox>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  });

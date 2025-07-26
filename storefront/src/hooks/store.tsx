@@ -1,8 +1,9 @@
 import { getProductsListWithSort } from '@/lib/data/products';
 import { HttpTypes } from '@medusajs/types';
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import { type SortOptions } from '@/components/ui/filters/Sort';
+import { getSearchItems } from '@/lib2/data/search';
 
 export const useStoreProducts = ({
   page,
@@ -38,5 +39,24 @@ export const useStoreProducts = ({
         Math.ceil(lastPage.nextPage / (lastPage.queryParams?.limit || 12)) + 1
       );
     },
+  });
+};
+
+// Karlo
+export const useSearchProducts = ({
+  value,
+  region,
+}: {
+  value: string;
+  region?: string;
+}) => {
+  return useQuery({
+    queryKey: ['searchProducts'],
+    queryFn: () =>
+      getSearchItems({
+        value,
+        region,
+      }),
+    enabled: !!value, // Prevent fetching on load, only fetching when user writes something
   });
 };

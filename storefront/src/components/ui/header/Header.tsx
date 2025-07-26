@@ -13,6 +13,7 @@ import { Logo } from '@/components/ui/Logo';
 
 // Lib
 import { listRegions } from '@/lib/data/regions';
+import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
 
 export type CodeCountryTypes = {
   countryName: string | undefined;
@@ -59,8 +60,7 @@ export const Header: React.FC<{
           </LayoutColumn>
           <div className="ml-auto hidden items-center gap-8 lg:flex">
             <LanguageSelect codeCountry={codeCountry} />
-
-            <Icon name="search" className="cursor-pointer" />
+            <SearchComboBox codeCountry={codeCountry} />
             <Link href="/login">
               <Icon name="user" className="cursor-pointer" />
             </Link>

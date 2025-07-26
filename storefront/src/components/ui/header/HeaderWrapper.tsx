@@ -23,6 +23,7 @@ import { useCountryCode } from '@/hooks/country-code';
 import { useUpdateRegion } from '@/hooks/cart';
 import { withReactQueryProvider } from '@/lib/util/react-query';
 import { usePathname } from 'next/navigation';
+import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
 
 export const HeaderWrapper: React.FC<{
   hasAnImage: boolean;
@@ -148,12 +149,8 @@ export const SidebarDrawer: React.FC<{
       <div className="flex h-full flex-col text-gray-10">
         <div className="border-b border-gray-10">
           <div className="flex h-22 items-center pl-8 pr-6 text-md text-gray-10">
-            <Icon name="search" />
-            <Input
-              className="w-full text-gray-10"
-              label="Search"
-              inputProps={{ className: 'text-gray-10 bg-gray-900 border-0' }}
-            />
+            <SearchComboBox codeCountry={codeCountry} isMobile={true} />
+
             <RadixDialog.Close asChild>
               <Icon name="close" className="text-gray-10" />
             </RadixDialog.Close>

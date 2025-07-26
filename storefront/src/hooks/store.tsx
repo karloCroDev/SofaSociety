@@ -51,12 +51,12 @@ export const useSearchProducts = ({
   region?: string;
 }) => {
   return useQuery({
-    queryKey: ['searchProducts'],
+    queryKey: ['searchProducts', value, region],
     queryFn: () =>
       getSearchItems({
         value,
         region,
       }),
-    enabled: !!value, // Prevent fetching on load, only fetching when user writes something
+    enabled: !!value, // Prevent fetching on load, only fetching when user writes something, or region changes
   });
 };

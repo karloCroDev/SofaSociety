@@ -1,4 +1,4 @@
-import { sdk } from '@/lib/config';
+import { sdk } from '@/lib2/config';
 import medusaError from '@/lib/util/medusa-error';
 import { HttpTypes } from '@medusajs/types';
 

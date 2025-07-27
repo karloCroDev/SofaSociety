@@ -12,8 +12,10 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { resetPassword } from '@/lib/data/customer';
+// import { resetPassword } from '@/lib/data/customer';
+import { resetPassword } from '@/lib2/data/auth';
 import { useRouter } from 'next/navigation';
+import { repeat } from 'lodash';
 
 const resetPasswordLinkSchema = z
   .object({
@@ -53,19 +55,16 @@ export const ResetPasswordForm: React.FC<{
 
   const router = useRouter();
 
-  const onSubmit = async (data: ResetPasswordLinkProps) => {
-    console.log(data);
+  const onSubmit = async ({ repeatPassword }: ResetPasswordLinkProps) => {
     React.startTransition(() => {
       setResetPasswordAction({
-        current_password: data.oldPassword || '',
-        new_password: data.password,
-        confirm_new_password: data.repeatPassword,
+        newPassword: repeatPassword,
         type: isLoggedIn ? 'reset' : 'forgot',
       });
 
       if (resetPasswordState.state === 'error') {
         return setError('root', {
-          message: resetPasswordState.error,
+          message: resetPasswordState.message,
         });
       }
 

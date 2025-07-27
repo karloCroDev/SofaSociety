@@ -1,4 +1,4 @@
-import { sdk } from '@/lib/config';
+import { sdk } from '@/lib2/config';
 import { HttpTypes } from '@medusajs/types';
 
 export const listCategories = async function () {

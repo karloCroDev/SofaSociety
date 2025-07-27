@@ -17,6 +17,8 @@ import {
 import { z } from 'zod';
 import { StoreCustomer } from '@medusajs/types';
 
+// import { login } from '@/lib2/data/auth';
+
 export const useCustomer = () => {
   return useQuery({
     queryKey: ['customer'],

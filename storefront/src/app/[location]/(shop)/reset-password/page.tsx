@@ -30,7 +30,7 @@ export default async function ResetPasswordPage({ searchParams }: PageProps) {
 
           <ResetPasswordForm
             isLoggedIn={!!customer}
-            email={email}
+            email={customer?.email || email}
             token={token}
           />
         </LayoutColumn>

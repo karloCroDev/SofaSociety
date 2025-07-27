@@ -14,17 +14,18 @@ import { Icon } from '@/components/ui/Icon';
 
 // Lib
 import { requestPasswordReset } from '@/lib/data/customer';
+import { isLoggedInForgotPasswordReset } from '@/lib2/data/auth';
 
 export const ResetPasswordPopover = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [error, setError] = React.useState('');
 
   const onSubmit = async () => {
-    const request = await requestPasswordReset();
+    const request = await isLoggedInForgotPasswordReset();
 
-    if (request.success) return setIsOpen(true);
+    if (request?.state === 'success') return setIsOpen(true);
 
-    setError(request.error);
+    setError(request.message);
   };
 
   React;

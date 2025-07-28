@@ -219,5 +219,4 @@ export async function logOut() {
   await sdk.auth.logout();
   await removeAuthToken();
   revalidateTag('customer');
-  redirect('/login');
 }

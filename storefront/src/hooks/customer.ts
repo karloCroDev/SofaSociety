@@ -9,7 +9,7 @@ import {
   deleteCustomerAddress,
   getCustomer,
   // login,
-  signout,
+  // signout,
   // signup,
   updateCustomer,
   updateCustomerAddress,
@@ -17,7 +17,7 @@ import {
 import { z } from 'zod';
 import { StoreCustomer } from '@medusajs/types';
 
-import { login, signUp } from '@/lib2/data/auth';
+import { login, signUp, logOut } from '@/lib2/data/auth';
 
 export const useCustomer = () => {
   return useQuery({
@@ -58,22 +58,18 @@ export const useLogin = (
   });
 };
 
-export const useSignout = (
-  options?: UseMutationOptions<string, Error, string>
-) => {
+// Karlo
+export const useSignout = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['signout'],
-    mutationFn: async (countryCode: string) => {
-      return signout(countryCode);
+    mutationFn: async () => {
+      return logOut();
     },
-    onSuccess: async (...args) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['customer'] });
-      console.log(...args);
-      await options?.onSuccess?.(...args);
     },
-    ...options,
   });
 };
 

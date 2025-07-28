@@ -8,16 +8,16 @@ import {
   addCustomerAddress,
   deleteCustomerAddress,
   getCustomer,
-  login,
+  // login,
   signout,
-  signup,
+  // signup,
   updateCustomer,
   updateCustomerAddress,
 } from '@/lib/data/customer';
 import { z } from 'zod';
 import { StoreCustomer } from '@medusajs/types';
 
-// import { login } from '@/lib2/data/auth';
+import { login, signUp } from '@/lib2/data/auth';
 
 export const useCustomer = () => {
   return useQuery({
@@ -70,6 +70,7 @@ export const useSignout = (
     },
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      console.log(...args);
       await options?.onSuccess?.(...args);
     },
     ...options,
@@ -180,7 +181,7 @@ export const useSignup = (
   return useMutation({
     mutationKey: ['signup'],
     mutationFn: async (values: z.infer<typeof signupFormSchema>) => {
-      return signup(values);
+      return signUp(values);
     },
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({ queryKey: ['customer'] });

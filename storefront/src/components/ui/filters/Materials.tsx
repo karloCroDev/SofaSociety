@@ -10,7 +10,7 @@ import { FilterButton } from '@/components/ui/filters/FilterButton';
 import { Icon } from '@/components/ui/Icon';
 
 // Hooks
-import { useSetUrlParams } from '@/hooks/useSetUrlParams';
+import { useSetUrlParams } from '@/hooks2/useSetUrlParams';
 
 export const Materials = () => {
   // const setUrlParams = useSetUrlParams();

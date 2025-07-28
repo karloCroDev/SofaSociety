@@ -12,17 +12,17 @@ import { loginFormSchema, signupFormSchema } from '@/hooks/customer';
 import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
 import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
-import { getCartId } from '@/lib/data/cookies';
+import { getCartId, removeAuthToken } from '@/lib/data/cookies';
 
 export const getCustomer = async function () {
-  return await sdk.client
-    .fetch<{ customer: HttpTypes.StoreCustomer }>(`/store/customers/me`, {
-      next: { tags: ['customer'] }, // NEXT TAG: customer
-      headers: { ...(await getAuthHeaders()) },
-      cache: 'no-store',
-    })
-    .then(({ customer }) => customer)
-    .catch(() => null);
+  const { customer } = await sdk.client.fetch<{
+    customer: HttpTypes.StoreCustomer;
+  }>(`/store/customers/me`, {
+    next: { tags: ['customer'] }, // NEXT TAG: customer
+    headers: { ...(await getAuthHeaders()) },
+    cache: 'no-store',
+  });
+  return customer;
 };
 
 type LoginArgs = z.infer<typeof loginFormSchema>;
@@ -33,12 +33,19 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
       password,
     });
 
-    if (typeof token !== 'string')
+    // User already logged in handle that straightly
+    if (typeof token === 'object') {
+      return { success: true, redirectUrl: token.location };
+    }
+
+    // If there is no token returned than handle the error
+    if (typeof token !== 'string') {
       return {
         success: false,
-        message: 'Authentication requires additional steps',
+        message: 'Uhoh something went wrong please try again',
       };
-
+    }
+    console.log('Token', token);
     await setAuthToken(token);
     revalidateTag('customer');
 
@@ -51,13 +58,12 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
   } catch (error) {
     return {
       success: false,
-      message: error instanceof Error ? error.message : error,
+      message: error instanceof Error ? error.message : (error as string),
     };
   }
 }
 
 type SignUpArgs = z.infer<typeof signupFormSchema>;
-
 export async function signUp({
   email,
   first_name,
@@ -89,6 +95,13 @@ export async function signUp({
 
     if (typeof loginToken === 'object') redirect(loginToken.location);
 
+    // If there is no token returned than handle the error
+    if (typeof loginToken !== 'string') {
+      return {
+        success: false,
+        message: 'Uhoh something went wrong please try again',
+      };
+    }
     await setAuthToken(loginToken);
 
     await sdk.client.fetch('/store/custom/customer/send-welcome-email', {
@@ -100,13 +113,12 @@ export async function signUp({
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : error,
+      error: error instanceof Error ? error.message : (error as string),
     };
   }
 }
 
 // Forgot password (send email)
-
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
 });
@@ -143,7 +155,6 @@ export async function isLoggedInForgotPasswordReset() {
 }
 
 // Reset password
-
 const otpDataSchema = z.object({
   email: z.string().email(),
   token: z.string(),
@@ -204,8 +215,9 @@ export async function resetPassword(
   }
 }
 
-export async function nameUsername({ regionId }: { regionId: string }) {
-  await sdk.store.payment.listPaymentProviders({
-    region_id: regionId,
-  });
+export async function logOut() {
+  await sdk.auth.logout();
+  await removeAuthToken();
+  revalidateTag('customer');
+  redirect('/login');
 }

@@ -8,7 +8,7 @@ import { CheckboxGroup } from 'react-aria-components';
 import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 
 // Hooks
-import { useSetUrlParams, type UrlParamsProps } from '@/hooks/useSetUrlParams';
+import { useSetUrlParams, type UrlParamsProps } from '@/hooks2/useSetUrlParams';
 import { HttpTypes } from '@medusajs/types';
 
 export const ProductFilters: React.FC<{

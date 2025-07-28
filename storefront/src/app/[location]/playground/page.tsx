@@ -22,12 +22,14 @@ import { AnchorAsButton } from '@/components/ui/AnchorAsButton';
 import { Dialog } from '@/components/shop/account/Dialog';
 import { ProductsSkeletonMapping } from '@/components/ui/ProductsGrid';
 import { ProductCarousel } from '@/components/shop/product/ProductCarousel';
+import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
 
 export default function Page() {
   return (
     <>
       {/* <ProductCarousel /> */}
       <Layout>
+        <SearchComboBox />
         <div className="flex flex-col items-start gap-4">
           <Icon name="search" className="text-black" />
           <Button variant="outline" colorScheme="black" className="italic">

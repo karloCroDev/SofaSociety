@@ -15,12 +15,15 @@ import { Input } from '@/components/ui/Input';
 import { Form } from '@/components/ui/Form';
 
 // Hooks
-import { customerAddressSchema, useAddressMutation } from '@/hooks/customer';
+import {
+  CustomerAddressArgs,
+  useUpdateAddress,
+  customerAddressSchema,
+  useAddAddress,
+} from '@/hooks2/customer';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-
-type CustomerAddressSchemaProps = z.infer<typeof customerAddressSchema>;
 
 export const AddAddressForm: React.FC<{
   userRegion?: HttpTypes.StoreRegion;
@@ -33,28 +36,29 @@ export const AddAddressForm: React.FC<{
     setError,
     control,
     setValue,
-  } = useForm<CustomerAddressSchemaProps>({
+  } = useForm<CustomerAddressArgs>({
     resolver: zodResolver(customerAddressSchema),
     defaultValues: {
-      first_name: address?.first_name ?? '',
-      last_name: address?.last_name ?? '',
+      firstName: address?.first_name ?? '',
+      lastName: address?.last_name ?? '',
       phone: address?.phone ?? '',
-      address_1: address?.address_1 ?? '',
-      address_2: address?.address_2 ?? '',
-      postal_code: address?.postal_code ?? '',
+      address1: address?.address_1 ?? '',
+      address2: address?.address_2 ?? '',
+      postalCode: address?.postal_code ?? '',
       city: address?.city ?? '',
-      country_code: address?.country_code ?? '',
+      countryCode: address?.country_code ?? '',
     },
   });
   const { close } = React.useContext(OverlayTriggerStateContext)!;
-  console.log(address?.country_code);
-  const { isPending, mutate } = useAddressMutation(address?.id);
 
-  const onSubmit = (values: CustomerAddressSchemaProps) => {
+  const { isPending, mutate } = address?.id
+    ? useUpdateAddress(address.id)
+    : useAddAddress();
+
+  const onSubmit = (values: CustomerAddressArgs) => {
     mutate(values, {
       onSuccess: (res) => {
-        console.log(res.success);
-        if (res.success) {
+        if (res.state === 'success') {
           close();
         }
       },
@@ -63,8 +67,6 @@ export const AddAddressForm: React.FC<{
         setError('root', { message: error.message });
       },
     });
-
-    console.log(values);
   };
 
   return (
@@ -72,7 +74,7 @@ export const AddAddressForm: React.FC<{
       <div className="flex flex-col gap-8">
         <Controller
           control={control}
-          name="country_code"
+          name="countryCode"
           render={({ field }) => (
             <CountrySelect
               regions={regions}
@@ -84,14 +86,14 @@ export const AddAddressForm: React.FC<{
         />
         <Controller
           control={control}
-          name="first_name"
+          name="firstName"
           render={({ field }) => (
             <Input label="First name" className="flex-1" inputProps={field} />
           )}
         />
         <Controller
           control={control}
-          name="last_name"
+          name="lastName"
           render={({ field }) => (
             <Input label="Last name" className="flex-1" inputProps={field} />
           )}
@@ -114,7 +116,7 @@ export const AddAddressForm: React.FC<{
         />
         <Controller
           control={control}
-          name="address_1"
+          name="address1"
           render={({ field }) => (
             <Input
               label="Address"
@@ -128,7 +130,7 @@ export const AddAddressForm: React.FC<{
         />
         <Controller
           control={control}
-          name="address_2"
+          name="address2"
           render={({ field }) => (
             <Input
               label="Apartment, suite, etc. (Optional)"
@@ -144,7 +146,7 @@ export const AddAddressForm: React.FC<{
         <div className="flex gap-8">
           <Controller
             control={control}
-            name="postal_code"
+            name="postalCode"
             render={({ field }) => (
               <Input
                 label="Postal code"

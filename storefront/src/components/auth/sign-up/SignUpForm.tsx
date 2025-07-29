@@ -15,9 +15,9 @@ import { Button } from '@/components/ui/Button';
 import { withReactQueryProvider } from '@/lib/util/react-query';
 
 // Hook
-import { signupFormSchema, useSignup } from '@/hooks/customer';
+import { signupSchema, useSignup } from '@/hooks2/customer';
 
-type SignUpProps = z.infer<typeof signupFormSchema>;
+type SignUpProps = z.infer<typeof signupSchema>;
 
 export const SignUpForm = withReactQueryProvider(() => {
   const { mutate, isPending } = useSignup();
@@ -28,14 +28,14 @@ export const SignUpForm = withReactQueryProvider(() => {
     reset,
     setError,
   } = useForm<SignUpProps>({
-    resolver: zodResolver(signupFormSchema),
+    resolver: zodResolver(signupSchema),
   });
 
   const onSubmit = async (data: SignUpProps) => {
     mutate(data, {
       onSuccess(res) {
-        if (!res.error) return reset();
-        setError('root', { message: res.error });
+        if (!res.error || res.state !== 'error') return reset();
+        setError('root', { message: res.message });
       },
     });
   };

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 // Components
 import { Form } from '@/components/ui/Form';
@@ -12,10 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-// import { resetPassword } from '@/lib/data/customer';
 import { resetPassword } from '@/lib2/data/auth';
-import { useRouter } from 'next/navigation';
-import { repeat } from 'lodash';
 
 const resetPasswordLinkSchema = z
   .object({
@@ -37,7 +35,6 @@ export const ResetPasswordForm: React.FC<{
 }> = ({ isLoggedIn, email, token }) => {
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
@@ -136,6 +133,7 @@ export const ResetPasswordForm: React.FC<{
         size="lg"
         className="mt-8 w-full"
         disabled={isSubmitting || isPending}
+        isVisuallyDisabled={isSubmitting || isPending}
       >
         Reset password
       </Button>

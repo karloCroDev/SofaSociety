@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/LinkAsButton';
 
 // Hooks
-import { useSignout } from '@/hooks/customer';
+import { useLogout } from '@/hooks2/customer';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
@@ -36,7 +36,7 @@ export const LogoutButton: React.FC<
     className,
     ...rest
   }) => {
-    const { mutate, isPending } = useSignout();
+    const { mutate, isPending } = useLogout();
 
     return (
       <Button

@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/Button';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-import { useLogin, loginFormSchema } from '@/hooks/customer';
+import { useLogin, loginFormSchema } from '@/hooks2/customer';
 
 type LoginProps = z.infer<typeof loginFormSchema>;
 
@@ -38,7 +38,7 @@ export const LoginForm = withReactQueryProvider(() => {
       },
       {
         onSuccess(res) {
-          if (res.success) return reset();
+          if (res.state === 'success') return reset();
 
           setError('root', {
             message: res.message,
@@ -98,6 +98,7 @@ export const LoginForm = withReactQueryProvider(() => {
         size="lg"
         className="w-full"
         disabled={isPending || isSubmitting}
+        isVisuallyDisabled={isPending || isSubmitting}
       >
         Log in
       </Button>

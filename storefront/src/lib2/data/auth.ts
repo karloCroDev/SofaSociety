@@ -8,7 +8,11 @@ import { HttpTypes } from '@medusajs/types';
 import { sdk } from '@/lib2/config';
 
 // Hooks
-import { loginFormSchema, signupFormSchema } from '@/hooks/customer';
+import {
+  CustomerAddressArgs,
+  loginFormSchema,
+  signupSchema,
+} from '@/hooks2/customer';
 import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
 import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
@@ -54,16 +58,17 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
       await sdk.store.cart.transferCart(cartId, {}, await getAuthHeaders());
       revalidateTag('cart');
     }
-    return { success: true, redirectUrl: redirect_url || '/' };
+
+    return { state: 'success' as const, redirectUrl: redirect_url || '/' };
   } catch (error) {
     return {
-      success: false,
+      state: 'error' as const,
       message: error instanceof Error ? error.message : (error as string),
     };
   }
 }
 
-type SignUpArgs = z.infer<typeof signupFormSchema>;
+type SignUpArgs = z.infer<typeof signupSchema>;
 export async function signUp({
   email,
   first_name,
@@ -98,7 +103,7 @@ export async function signUp({
     // If there is no token returned than handle the error
     if (typeof loginToken !== 'string') {
       return {
-        success: false,
+        state: 'error' as const,
         message: 'Uhoh something went wrong please try again',
       };
     }
@@ -109,10 +114,13 @@ export async function signUp({
       headers: await getAuthHeaders(),
     });
     revalidateTag('customer');
-    return { success: true, customer };
+    return {
+      state: 'success' as const,
+      ...customer,
+    };
   } catch (error) {
     return {
-      success: false,
+      state: 'error' as const,
       error: error instanceof Error ? error.message : (error as string),
     };
   }
@@ -219,4 +227,116 @@ export async function logOut() {
   await sdk.auth.logout();
   await removeAuthToken();
   revalidateTag('customer');
+}
+
+// Update users data
+const updateCustomerDetailsSchema = z.object({
+  firstName: z.string().min(2),
+  lastName: z.string().min(2),
+  phone: z.string().min(6).nullable().optional(),
+});
+
+export async function updateCustomerDetails({
+  firstName,
+  lastName,
+  phone,
+}: z.infer<typeof updateCustomerDetailsSchema>) {
+  try {
+    await sdk.store.customer.update(
+      {
+        first_name: firstName,
+        last_name: lastName,
+        phone: phone || '',
+      },
+      {},
+      await getAuthHeaders()
+    );
+    revalidateTag('customer');
+
+    return {
+      state: 'success' as const,
+      message: 'Customer details updated successfully',
+    };
+  } catch (error) {
+    return {
+      state: 'error' as const,
+      message: 'Failed to update customer details',
+    };
+  }
+}
+
+// Address
+
+export async function deleteCustomerAddress(addressId: string) {
+  try {
+    await sdk.store.customer.deleteAddress(addressId);
+    revalidateTag('customer');
+
+    return {
+      state: 'success' as const,
+      message: 'Address deleted successfully',
+    };
+  } catch (error) {
+    return {
+      state: 'error' as const,
+      message: 'Failed to delete address',
+    };
+  }
+}
+
+const convertedObject = ({
+  address1,
+  city,
+  countryCode,
+  firstName,
+  lastName,
+  postalCode,
+  address2,
+  phone,
+}: CustomerAddressArgs) => ({
+  address_1: address1,
+  address_2: address2 || '',
+  city,
+  country_code: countryCode,
+  first_name: firstName,
+  last_name: lastName,
+  phone: phone || '',
+  postal_code: postalCode,
+});
+
+export async function addCustomerAddress(data: CustomerAddressArgs) {
+  try {
+    await sdk.store.customer.createAddress(convertedObject(data));
+    revalidateTag('customer');
+
+    return {
+      state: 'success' as const,
+      message: 'Address added successfully',
+    };
+  } catch (error) {
+    return {
+      state: 'error' as const,
+      message: 'Failed to add address',
+    };
+  }
+}
+
+export async function updateCustomerAddress(
+  data: CustomerAddressArgs,
+  addressId: string
+) {
+  try {
+    await sdk.store.customer.updateAddress(addressId, convertedObject(data));
+    revalidateTag('customer');
+
+    return {
+      state: 'success' as const,
+      message: 'Address added successfully',
+    };
+  } catch (error) {
+    return {
+      state: 'error' as const,
+      message: 'Failed to add address',
+    };
+  }
 }

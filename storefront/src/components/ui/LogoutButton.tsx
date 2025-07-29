@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/LinkAsButton';
 
 // Hooks
-import { useLogout } from '@/hooks2/customer';
+import { useLogout } from '@/hooks2/auth';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';

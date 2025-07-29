@@ -17,9 +17,8 @@ import { withReactQueryProvider } from '@/lib/util/react-query';
 import {
   updateCustomerDetailsSchema,
   useUpdateCustomer,
-} from '@/hooks2/customer';
-
-type PersonalInformationFormProps = z.infer<typeof updateCustomerDetailsSchema>;
+  UpdateCustomerDetailsArgs,
+} from '@/hooks2/user-settings';
 
 export const PersonalInformationForm: React.FC<{
   firstName?: string;
@@ -34,7 +33,7 @@ export const PersonalInformationForm: React.FC<{
     formState: { errors, isSubmitting, isDirty },
     setError,
     control,
-  } = useForm<PersonalInformationFormProps>({
+  } = useForm<UpdateCustomerDetailsArgs>({
     resolver: zodResolver(updateCustomerDetailsSchema),
     defaultValues: {
       firstName: firstName ?? '',
@@ -43,7 +42,7 @@ export const PersonalInformationForm: React.FC<{
     },
   });
 
-  const onSubmit = (data: PersonalInformationFormProps) => {
+  const onSubmit = (data: UpdateCustomerDetailsArgs) => {
     mutate(data, {
       onSuccess: (res) => {
         if (res.state === 'success') close();

@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Form } from 'react-aria-components';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 
 // Components
 import { Input } from '@/components/ui/Input';
@@ -14,10 +13,8 @@ import { Button } from '@/components/ui/Button';
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
 
-// Hook
-import { signupSchema, useSignup } from '@/hooks2/customer';
-
-type SignUpProps = z.infer<typeof signupSchema>;
+// Hooks
+import { SignUpArgs, signupSchema, useSignup } from '@/hooks2/auth';
 
 export const SignUpForm = withReactQueryProvider(() => {
   const { mutate, isPending } = useSignup();
@@ -27,11 +24,11 @@ export const SignUpForm = withReactQueryProvider(() => {
     formState: { errors, isSubmitting },
     reset,
     setError,
-  } = useForm<SignUpProps>({
+  } = useForm<SignUpArgs>({
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data: SignUpProps) => {
+  const onSubmit = async (data: SignUpArgs) => {
     mutate(data, {
       onSuccess(res) {
         if (!res.error || res.state !== 'error') return reset();

@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { HttpTypes } from '@medusajs/types';
-import { z } from 'zod';
 import { OverlayTriggerStateContext } from 'react-aria-components';
 
 // Components
@@ -14,16 +13,16 @@ import { CountrySelect } from '@/components/checkout/CountrySelect';
 import { Input } from '@/components/ui/Input';
 import { Form } from '@/components/ui/Form';
 
+// Lib
+import { withReactQueryProvider } from '@/lib/util/react-query';
+
 // Hooks
 import {
   CustomerAddressArgs,
   useUpdateAddress,
   customerAddressSchema,
   useAddAddress,
-} from '@/hooks2/customer';
-
-// Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+} from '@/hooks2/user-settings';
 
 export const AddAddressForm: React.FC<{
   userRegion?: HttpTypes.StoreRegion;
@@ -35,7 +34,6 @@ export const AddAddressForm: React.FC<{
     formState: { errors, isSubmitting, isDirty },
     setError,
     control,
-    setValue,
   } = useForm<CustomerAddressArgs>({
     resolver: zodResolver(customerAddressSchema),
     defaultValues: {
@@ -51,19 +49,22 @@ export const AddAddressForm: React.FC<{
   });
   const { close } = React.useContext(OverlayTriggerStateContext)!;
 
+  console.log(address?.id);
   const { isPending, mutate } = address?.id
     ? useUpdateAddress(address.id)
     : useAddAddress();
 
   const onSubmit = (values: CustomerAddressArgs) => {
+    console.log(values);
     mutate(values, {
       onSuccess: (res) => {
+        console.log(res);
         if (res.state === 'success') {
           close();
         }
       },
       onError: (error) => {
-        console.error(error);
+        console.log(error);
         setError('root', { message: error.message });
       },
     });
@@ -186,11 +187,11 @@ export const AddAddressForm: React.FC<{
         <Button variant="outline" onPress={close}>
           Cancel
         </Button>
-      </div>
 
-      {errors.root && (
-        <p className="mt-4 text-red-400">{errors.root.message}</p>
-      )}
+        {errors.root && (
+          <p className="mt-4 text-red-400">{errors.root.message}</p>
+        )}
+      </div>
     </Form>
   );
 });

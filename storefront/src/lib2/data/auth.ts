@@ -3,20 +3,16 @@
 // External packages
 import { z } from 'zod';
 import { HttpTypes } from '@medusajs/types';
+import { redirect } from 'next/navigation';
+import { revalidateTag } from 'next/cache';
 
 // Lib
 import { sdk } from '@/lib2/config';
+import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
+import { getCartId, removeAuthToken } from '@/lib/data/cookies';
 
 // Hooks
-import {
-  CustomerAddressArgs,
-  loginFormSchema,
-  signupSchema,
-} from '@/hooks2/customer';
-import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
-import { redirect } from 'next/navigation';
-import { revalidateTag } from 'next/cache';
-import { getCartId, removeAuthToken } from '@/lib/data/cookies';
+import { loginFormSchema, signupSchema } from '@/hooks2/auth';
 
 export const getCustomer = async function () {
   const { customer } = await sdk.client.fetch<{
@@ -227,116 +223,4 @@ export async function logOut() {
   await sdk.auth.logout();
   await removeAuthToken();
   revalidateTag('customer');
-}
-
-// Update users data
-const updateCustomerDetailsSchema = z.object({
-  firstName: z.string().min(2),
-  lastName: z.string().min(2),
-  phone: z.string().min(6).nullable().optional(),
-});
-
-export async function updateCustomerDetails({
-  firstName,
-  lastName,
-  phone,
-}: z.infer<typeof updateCustomerDetailsSchema>) {
-  try {
-    await sdk.store.customer.update(
-      {
-        first_name: firstName,
-        last_name: lastName,
-        phone: phone || '',
-      },
-      {},
-      await getAuthHeaders()
-    );
-    revalidateTag('customer');
-
-    return {
-      state: 'success' as const,
-      message: 'Customer details updated successfully',
-    };
-  } catch (error) {
-    return {
-      state: 'error' as const,
-      message: 'Failed to update customer details',
-    };
-  }
-}
-
-// Address
-
-export async function deleteCustomerAddress(addressId: string) {
-  try {
-    await sdk.store.customer.deleteAddress(addressId);
-    revalidateTag('customer');
-
-    return {
-      state: 'success' as const,
-      message: 'Address deleted successfully',
-    };
-  } catch (error) {
-    return {
-      state: 'error' as const,
-      message: 'Failed to delete address',
-    };
-  }
-}
-
-const convertedObject = ({
-  address1,
-  city,
-  countryCode,
-  firstName,
-  lastName,
-  postalCode,
-  address2,
-  phone,
-}: CustomerAddressArgs) => ({
-  address_1: address1,
-  address_2: address2 || '',
-  city,
-  country_code: countryCode,
-  first_name: firstName,
-  last_name: lastName,
-  phone: phone || '',
-  postal_code: postalCode,
-});
-
-export async function addCustomerAddress(data: CustomerAddressArgs) {
-  try {
-    await sdk.store.customer.createAddress(convertedObject(data));
-    revalidateTag('customer');
-
-    return {
-      state: 'success' as const,
-      message: 'Address added successfully',
-    };
-  } catch (error) {
-    return {
-      state: 'error' as const,
-      message: 'Failed to add address',
-    };
-  }
-}
-
-export async function updateCustomerAddress(
-  data: CustomerAddressArgs,
-  addressId: string
-) {
-  try {
-    await sdk.store.customer.updateAddress(addressId, convertedObject(data));
-    revalidateTag('customer');
-
-    return {
-      state: 'success' as const,
-      message: 'Address added successfully',
-    };
-  } catch (error) {
-    return {
-      state: 'error' as const,
-      message: 'Failed to add address',
-    };
-  }
 }

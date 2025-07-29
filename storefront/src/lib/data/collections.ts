@@ -1,4 +1,4 @@
-import { sdk } from '@/lib/config';
+import { sdk } from '@/lib2/config';
 import { getProductsList } from '@/lib/data/products';
 import { HttpTypes } from '@medusajs/types';
 

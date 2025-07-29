@@ -12,7 +12,6 @@ import {
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Button } from '@/components/ui/Button';
 
 export const Dialog: React.FC<
   React.ComponentPropsWithoutRef<'button'> &

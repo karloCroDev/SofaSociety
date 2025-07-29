@@ -14,9 +14,11 @@ import { Input } from '@/components/ui/Input';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-import { updateCustomerFormSchema, useUpdateCustomer } from '@/hooks/customer';
-
-type PersonalInformationFormProps = z.infer<typeof updateCustomerFormSchema>;
+import {
+  updateCustomerDetailsSchema,
+  useUpdateCustomer,
+  UpdateCustomerDetailsArgs,
+} from '@/hooks2/user-settings';
 
 export const PersonalInformationForm: React.FC<{
   firstName?: string;
@@ -27,21 +29,20 @@ export const PersonalInformationForm: React.FC<{
   const { close } = React.useContext(OverlayTriggerStateContext)!;
 
   const {
-    register,
     handleSubmit,
     formState: { errors, isSubmitting, isDirty },
     setError,
     control,
-  } = useForm<PersonalInformationFormProps>({
-    resolver: zodResolver(updateCustomerFormSchema),
+  } = useForm<UpdateCustomerDetailsArgs>({
+    resolver: zodResolver(updateCustomerDetailsSchema),
     defaultValues: {
-      first_name: firstName ?? '',
-      last_name: lastName ?? '',
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
       phone: phoneNumber ?? '',
     },
   });
 
-  const onSubmit = (data: PersonalInformationFormProps) => {
+  const onSubmit = (data: UpdateCustomerDetailsArgs) => {
     mutate(data, {
       onSuccess: (res) => {
         if (res.state === 'success') close();
@@ -57,7 +58,7 @@ export const PersonalInformationForm: React.FC<{
       <div className="flex gap-6">
         <Controller
           control={control}
-          name="first_name"
+          name="firstName"
           render={({ field }) => (
             <Input label="First name" className="flex-1" inputProps={field} />
           )}
@@ -65,7 +66,7 @@ export const PersonalInformationForm: React.FC<{
 
         <Controller
           control={control}
-          name="last_name"
+          name="lastName"
           render={({ field }) => (
             <Input label="First name" className="flex-1" inputProps={field} />
           )}

@@ -2,6 +2,7 @@
 
 // External packages
 import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 import { Button, ButtonProps } from 'react-aria-components';
 
 // Components
@@ -11,12 +12,10 @@ import {
 } from '@/components/ui/LinkAsButton';
 
 // Hooks
-import { useSignout } from '@/hooks/customer';
+import { useLogout } from '@/hooks2/auth';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-import { useCountryCode } from '@/hooks/country-code';
-import { twMerge } from 'tailwind-merge';
 
 export const LogoutButton: React.FC<
   React.ComponentPropsWithoutRef<'button'> &
@@ -37,14 +36,8 @@ export const LogoutButton: React.FC<
     className,
     ...rest
   }) => {
-    const countryCode = useCountryCode();
+    const { mutate, isPending } = useLogout();
 
-    const { mutate, isPending } = useSignout();
-
-    const handleSignout = async () => {
-      if (!countryCode) return;
-      mutate(countryCode);
-    };
     return (
       <Button
         {...rest}
@@ -59,7 +52,7 @@ export const LogoutButton: React.FC<
           className
         )}
         isDisabled={isPending}
-        onPress={handleSignout}
+        onPress={() => mutate()}
       >
         {children}
       </Button>

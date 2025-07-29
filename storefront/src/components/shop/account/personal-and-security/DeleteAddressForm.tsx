@@ -6,7 +6,7 @@ import { OverlayTriggerStateContext } from 'react-aria-components';
 
 // Components
 import { Button } from '@/components/ui/Button';
-import { useDeleteCustomerAddress } from '@/hooks/customer';
+import { useDeleteCustomerAddress } from '@/hooks2/user-settings';
 import { withReactQueryProvider } from '@/lib/util/react-query';
 
 export const DeleteAddressForm: React.FC<{
@@ -14,7 +14,7 @@ export const DeleteAddressForm: React.FC<{
 }> = withReactQueryProvider(({ addressId }) => {
   const { close } = React.useContext(OverlayTriggerStateContext)!;
 
-  const { mutate, isPending } = useDeleteCustomerAddress();
+  const { mutate, isPending } = useDeleteCustomerAddress(addressId);
   return (
     <>
       <div className="mx-auto mt-8 flex w-fit justify-between gap-6">
@@ -22,7 +22,7 @@ export const DeleteAddressForm: React.FC<{
           isDisabled={isPending}
           isVisuallyDisabled={isPending}
           onPress={() => {
-            mutate(addressId);
+            mutate();
           }}
         >
           Confirm

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 // Components
 import { Form } from '@/components/ui/Form';
@@ -13,7 +14,6 @@ import { Button } from '@/components/ui/Button';
 
 // Lib
 import { forgotPassword } from '@/lib/data/customer';
-import { useRouter } from 'next/navigation';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
@@ -67,6 +67,7 @@ export const ForgotPasswordForm = () => {
         size="lg"
         className="mt-8 w-full"
         isDisabled={isSubmitting}
+        isVisuallyDisabled={isSubmitting}
       >
         Reset password
       </Button>

@@ -14,9 +14,7 @@ import { Button } from '@/components/ui/Button';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
-import { useLogin, loginFormSchema } from '@/hooks/customer';
-
-type LoginProps = z.infer<typeof loginFormSchema>;
+import { useLogin, loginFormSchema, LoginArgs } from '@/hooks2/auth';
 
 export const LoginForm = withReactQueryProvider(() => {
   const { isPending, mutate } = useLogin();
@@ -26,11 +24,11 @@ export const LoginForm = withReactQueryProvider(() => {
     setError,
     reset,
     control,
-  } = useForm<LoginProps>({
+  } = useForm<LoginArgs>({
     resolver: zodResolver(loginFormSchema),
   });
 
-  const onSubmit = async (data: LoginProps) => {
+  const onSubmit = async (data: LoginArgs) => {
     mutate(
       {
         ...data,
@@ -38,7 +36,7 @@ export const LoginForm = withReactQueryProvider(() => {
       },
       {
         onSuccess(res) {
-          if (res.success) return reset();
+          if (res.state === 'success') return reset();
 
           setError('root', {
             message: res.message,
@@ -98,6 +96,7 @@ export const LoginForm = withReactQueryProvider(() => {
         size="lg"
         className="w-full"
         disabled={isPending || isSubmitting}
+        isVisuallyDisabled={isPending || isSubmitting}
       >
         Log in
       </Button>

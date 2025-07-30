@@ -27,8 +27,6 @@ export const Header: React.FC<{
 }> = async ({ hasAnImage = false }) => {
   const regions = await listRegions();
 
-  console.log(regions);
-
   const codeCountry = regions
     .flatMap((region) =>
       region.countries?.map((country) => ({

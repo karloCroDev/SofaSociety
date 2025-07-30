@@ -75,7 +75,6 @@ export const LanguageSelect: React.FC<{
       label: code.countryName,
     }))
   );
-  console.log(codeCountry);
   const pathname = usePathname();
   let currentPath = pathname;
 
@@ -90,7 +89,6 @@ export const LanguageSelect: React.FC<{
       selectedKey={countryCode}
       aria-label="Country Selector"
       onSelectionChange={(key) => {
-        console.log(key);
         updateRegion.mutate({ countryCode: key.toString(), currentPath });
       }}
     >

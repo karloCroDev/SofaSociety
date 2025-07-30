@@ -4,27 +4,28 @@ import Image from 'next/image';
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Icon } from '@/components/ui/Icon';
-import { getCustomer } from '@/lib/data/customer';
-
-// Assets
-import { AddToCart } from '@/components/shop/AddToCart';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+
+// Assets
+import { AddToCart } from '@/components/shop/AddToCart';
 import { redirect } from 'next/navigation';
-import { useCart } from '@/hooks/cart';
 import { getCartId } from '@/lib/data/cookies';
 import { retrieveCart } from '@/lib/data/cart';
 import { getPricesForVariant } from '@/lib/util/get-product-price';
 import { getVariantItemsInStock } from '@/lib/util/inventory';
 import { Products } from '@/components/shop/cart/Products';
+import { getCart } from '@/lib2/data/cart';
+import { getCustomer } from '@/lib2/data/auth';
+import { HttpTypes } from '@medusajs/types';
 
 export default async function CartPage() {
   const customer = await getCustomer();
   if (!customer) redirect('/login');
 
-  const cart = await retrieveCart();
-
+  const cart = await getCart();
+  console.log(cart);
   return (
     <Layout className="mt-28 lg:mt-32">
       <LayoutRow>

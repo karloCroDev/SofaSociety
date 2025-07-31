@@ -24,21 +24,15 @@ import { Address } from '@/components/checkout/Address';
 import { Shipping } from '@/components/checkout/Shipping';
 import { Payment } from '@/components/checkout/Payment';
 
-const chronologicalStepOrder: StepTypes[] = [
-  'email',
-  'address',
-  'shipping',
-  'payment',
-];
-
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
-}> = withReactQueryProvider(({ cart, stepURL }) => {
+  location: string;
+}> = withReactQueryProvider(({ cart, stepURL, location }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [initialLoad, setInitialLoad] = React.useState(false);
+  console.log(cart.email);
   React.useEffect(() => {
     let currentStep: StepTypes; // Default to last step if there are no previous steps
 
@@ -48,13 +42,13 @@ export const Accordion: React.FC<{
     else currentStep = 'payment';
 
     router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
+  }, []);
 
-    setInitialLoad(true);
-  }, [stepURL]);
-
+  const step = stepURL;
+  console.log(step);
   return (
-    <RadixAccordion.Root type="single" value={stepURL} collapsible>
-      <Email cart={cart} />
+    <RadixAccordion.Root type="single" value={step} collapsible>
+      <Email cart={cart} location={location} />
       <Address cart={cart} />
 
       <Shipping cart={cart} />

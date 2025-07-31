@@ -37,7 +37,7 @@ export const Shipping: React.FC<{
             </RadixAccordion.Trigger>
           </div>
         )}
-        {!isOpen && cart.shipping_methods && (
+        {!isOpen && !!cart.shipping_methods?.length && (
           <div className="mt-7 text-start text-sm">
             Shipping:
             <span className="ml-16">Standard delivery 3-5 days</span>

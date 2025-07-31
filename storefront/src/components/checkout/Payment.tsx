@@ -28,7 +28,7 @@ export const Payment: React.FC<{
           <div className="flex justify-between">
             <p>4. Payment</p>
 
-            {!isOpen && !!cart.payment_collection && (
+            {!isOpen && cart.payment_collection && (
               <RadixAccordion.Trigger
                 className="cursor-pointer underline"
                 onClick={() =>

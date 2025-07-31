@@ -85,20 +85,22 @@ export const AddAddressForm: React.FC<{
             />
           )}
         />
-        <Controller
-          control={control}
-          name="firstName"
-          render={({ field }) => (
-            <Input label="First name" className="flex-1" inputProps={field} />
-          )}
-        />
-        <Controller
-          control={control}
-          name="lastName"
-          render={({ field }) => (
-            <Input label="Last name" className="flex-1" inputProps={field} />
-          )}
-        />
+        <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
+          <Controller
+            control={control}
+            name="firstName"
+            render={({ field }) => (
+              <Input label="First name" className="flex-1" inputProps={field} />
+            )}
+          />
+          <Controller
+            control={control}
+            name="lastName"
+            render={({ field }) => (
+              <Input label="Last name" className="flex-1" inputProps={field} />
+            )}
+          />
+        </div>
 
         <Controller
           control={control}
@@ -144,7 +146,7 @@ export const AddAddressForm: React.FC<{
           )}
         />
 
-        <div className="flex gap-8">
+        <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
           <Controller
             control={control}
             name="postalCode"

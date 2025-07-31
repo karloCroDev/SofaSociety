@@ -41,7 +41,7 @@ export default async function CheckoutPage({
       <Layout>
         <LayoutRow>
           <LayoutColumn lg={6} xs={12} className="lg:mt-32">
-            <Accordion stepURL={stepURL} cart={cart} />
+            <Accordion stepURL={stepURL} cart={cart} location={location} />
           </LayoutColumn>
           <LayoutColumn
             lg={5}

@@ -25,7 +25,7 @@ export default async function CartPage() {
   if (!customer) redirect('/login');
 
   const cart = await getCart();
-  console.log(cart);
+
   return (
     <Layout className="mt-28 lg:mt-32">
       <LayoutRow>
@@ -73,7 +73,7 @@ export default async function CartPage() {
             <p className="text-md">Currently you have not ordered anything</p>
           )}
         </LayoutColumn>
-        {/* TODO: Mislim da bi ova kolumna ispod trebala biti fiksna, dok bi se content s lijeve strane trebao moći "skrolati". FIXED*/}
+
         <LayoutColumn xs={12} lg={3} className="lg:pl-6">
           <div className="lg:sticky lg:top-40">
             <hr className="mt-6 h-px border-0 bg-gray-200 lg:hidden" />
@@ -94,10 +94,15 @@ export default async function CartPage() {
               <Input label="Discount code" />
               <Button isVisuallyDisabled>Apply</Button>
             </div>
-            {/* TODO: Ovaj botun mi pari veći nego bi triba bit i slomljen mi je na širini prozora od `1040px`. FIXED */}
-            <LinkAsButton href="/checkout" className="mt-6 w-full">
-              Proceed to checkout
-            </LinkAsButton>
+            {!cart?.items?.length ? (
+              <Button isVisuallyDisabled disabled className="mt-6 w-full">
+                Proceed to checkout
+              </Button>
+            ) : (
+              <LinkAsButton href="/checkout" className="mt-6 w-full">
+                Proceed to checkout
+              </LinkAsButton>
+            )}
           </div>
         </LayoutColumn>
       </LayoutRow>

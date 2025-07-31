@@ -5,8 +5,13 @@ import { Logo } from '@/components/ui/Logo';
 import { Accordion } from '@/components/checkout/Accordion';
 import { ProductDetailsCollapsible } from '@/components/checkout/ProductDetailsCollapsible';
 import { Order } from '@/components/checkout/Order';
+import { getCart } from '@/lib2/data/cart';
+import { redirect } from 'next/navigation';
 
-export default function Page() {
+export default async function CheckoutPage() {
+  const cart = await getCart();
+
+  if (!cart?.items) redirect('/shop');
   return (
     <>
       <div className="absolute left-0 top-0 w-full">
@@ -30,7 +35,7 @@ export default function Page() {
             className="relative hidden lg:block"
           >
             <div className='pulled-background w-full p-8 pb-8 after:absolute after:left-0 after:top-0 after:z-[-1] after:h-full after:bg-gray-50 after:content-[""] lg:px-12 lg:pb-64 lg:pt-32'>
-              <Order />
+              <Order cart={cart} />
             </div>
           </LayoutColumn>
         </LayoutRow>

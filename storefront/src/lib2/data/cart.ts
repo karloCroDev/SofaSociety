@@ -5,7 +5,7 @@ import {
   DeleteItemArgs,
   UpdateCartItemArgs,
 } from '@/hooks2/cart';
-import { getAuthHeaders, getCartId } from '@/lib/data/cookies';
+import { getAuthHeaders, getCartId } from '@/lib2/data/cookies';
 import { getRegion } from '@/lib/data/regions';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import medusaError from '@/lib/util/medusa-error';
@@ -19,7 +19,7 @@ export async function getCart() {
   if (!id) return;
 
   try {
-    // Ante: Je li mogu ovako passati argumente, uz auth Headers ili moram fetchati
+    // Ante: Je li mogu ovako passati argumente, uz auth Headers ili moram fetchati. Ne pise nista u dokumentaciji, ali radi sasvim oke.
     const { cart } = await sdk.store.cart.retrieve(
       id,
       {},

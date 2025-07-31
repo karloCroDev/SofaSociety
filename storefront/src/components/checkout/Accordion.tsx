@@ -13,13 +13,18 @@ import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 import { CountrySelect } from '@/components/checkout/CountrySelect';
 import { RadioButtonVisual } from '@/components/ui/Radio';
 import { Icon } from '@/components/ui/Icon';
+import { getCustomer } from '@/lib2/data/auth';
+import { useCustomer } from '@/hooks2/auth';
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
-export const Accordion = () => {
-  const [step, setStep] = React.useState('1');
+export const Accordion = withReactQueryProvider(() => {
+  const [step, setStep] = React.useState('email');
+
+  const { data: customer } = useCustomer();
 
   return (
     <RadixAccordion.Root type="single" value={step} collapsible>
-      <RadixAccordion.Item value="1" className="lg:-mt-8">
+      <RadixAccordion.Item value="email" className="lg:-mt-8">
         <RadixAccordion.Header className="group w-full py-8">
           {step === '1' ? (
             <p className="group-data-[state=open]:font-bold">1. Email</p>
@@ -61,7 +66,7 @@ export const Accordion = () => {
       </RadixAccordion.Item>
 
       {/* Step 2 */}
-      <RadixAccordion.Item value="2" className="border-t">
+      <RadixAccordion.Item value="checkout" className="border-t">
         <RadixAccordion.Header className="group w-full py-8">
           {step === '2' ? (
             <p className="group-data-[state=open]:font-bold">
@@ -121,7 +126,7 @@ export const Accordion = () => {
       </RadixAccordion.Item>
 
       {/* Step 3 */}
-      <RadixAccordion.Item value="3" className="border-t">
+      <RadixAccordion.Item value="shipping" className="border-t">
         <RadixAccordion.Header className="group w-full py-8">
           {step === '3' ? (
             <p className="group-data-[state=open]:font-bold">3. Shipping</p>
@@ -166,7 +171,7 @@ export const Accordion = () => {
       </RadixAccordion.Item>
 
       {/* Step 4 */}
-      <RadixAccordion.Item value="4" className="border-t">
+      <RadixAccordion.Item value="payment" className="border-t">
         <RadixAccordion.Header className="group w-full py-8">
           {step === '4' ? (
             <p className="group-data-[state=open]:font-bold">4. Payment</p>
@@ -199,4 +204,4 @@ export const Accordion = () => {
       </LinkAsButton>
     </RadixAccordion.Root>
   );
-};
+});

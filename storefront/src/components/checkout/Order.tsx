@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/Input';
 import { Link } from 'react-aria-components';
 import { HttpTypes } from '@medusajs/types';
 import { getPricesForVariant } from '@/lib/util/get-product-price';
+import { StepTypes } from '@/app/[location]/checkout/page';
 
 export const Order: React.FC<{
   cart: HttpTypes.StoreCart;

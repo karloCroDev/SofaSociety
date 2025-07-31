@@ -8,10 +8,25 @@ import { Order } from '@/components/checkout/Order';
 import { getCart } from '@/lib2/data/cart';
 import { redirect } from 'next/navigation';
 
-export default async function CheckoutPage() {
+export type StepTypes = 'email' | 'address' | 'shipping' | 'payment';
+
+interface PageProps {
+  params: Promise<{ location: string }>;
+  searchParams: Promise<{
+    stepURL?: StepTypes;
+  }>;
+}
+export default async function CheckoutPage({
+  params,
+  searchParams,
+}: PageProps) {
   const cart = await getCart();
 
   if (!cart?.items) redirect('/shop');
+
+  const { location } = await params;
+  const { stepURL } = await searchParams;
+
   return (
     <>
       <div className="absolute left-0 top-0 w-full">
@@ -26,7 +41,7 @@ export default async function CheckoutPage() {
       <Layout>
         <LayoutRow>
           <LayoutColumn lg={6} xs={12} className="lg:mt-32">
-            <Accordion />
+            <Accordion stepURL={stepURL} cart={cart} />
           </LayoutColumn>
           <LayoutColumn
             lg={5}

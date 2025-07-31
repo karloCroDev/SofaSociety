@@ -2,22 +2,26 @@
 
 // External packages
 import * as React from 'react';
+import { Button as AriaButton } from 'react-aria-components';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { Button as AriaButton } from 'react-aria-components';
-import { useDeleteLineItem } from '@/hooks/cart';
+
+// Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
+
+// Hooks
+import { useDeleteCartItem } from '@/hooks2/cart';
 
 export const DeleteButton: React.FC<{
   itemId: string;
 }> = withReactQueryProvider(({ itemId }) => {
-  const { mutate, isPending } = useDeleteLineItem();
+  const { mutate, isPending } = useDeleteCartItem();
   return (
     <AriaButton
       onPress={() =>
         mutate({
-          lineId: itemId,
+          lineItemId: itemId,
         })
       }
       isDisabled={isPending}

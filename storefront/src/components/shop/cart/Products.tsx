@@ -23,7 +23,7 @@ export const Products: React.FC<{
 }) => (
   <div className="flex h-52 w-full gap-5 border-t border-gray-200 py-8">
     {image}
-    <div className="flex flex-col">
+    <div className="flex flex-1 flex-col">
       <h4 className="text-md lg:text-lg">{name}</h4>
       <p className="text-xs text-gray-500 lg:text-sm">{color}</p>
 

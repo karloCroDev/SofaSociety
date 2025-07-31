@@ -16,6 +16,7 @@ import {
 import { getRegion } from '@/lib/data/regions';
 import { z } from 'zod';
 import { addressesFormSchema } from '@/hooks/cart';
+import { getCart } from '@/lib2/data/cart';
 
 export async function retrieveCart() {
   const cartId = await getCartId();
@@ -58,26 +59,26 @@ export async function getOrSetCart(input: unknown) {
 
   const countryCode = input;
 
-  let cart = await retrieveCart();
   const region = await getRegion(countryCode);
 
   if (!region) {
     throw new Error(`Region not found for country code: ${countryCode}`);
   }
 
+  let cart = await getCart();
   if (!cart) {
-    const cartResp = await sdk.store.cart.create(
+    const newCart = await sdk.store.cart.create(
       { region_id: region.id },
       {},
       await getAuthHeaders()
     );
-    cart = cartResp.cart;
 
-    await setCartId(cart.id);
+    await setCartId(newCart.cart.id);
+    cart = newCart.cart;
     revalidateTag('cart');
   }
 
-  if (cart && cart?.region_id !== region.id) {
+  if (cart.region_id !== region.id) {
     await sdk.store.cart.update(
       cart.id,
       { region_id: region.id },
@@ -90,7 +91,7 @@ export async function getOrSetCart(input: unknown) {
   return cart;
 }
 
-async function updateCart(data: HttpTypes.StoreUpdateCart) {
+export async function updateCart(data: HttpTypes.StoreUpdateCart) {
   const cartId = await getCartId();
   if (!cartId) {
     throw new Error(

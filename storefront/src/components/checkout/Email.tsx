@@ -16,21 +16,21 @@ import { useSetEmail } from '@/hooks/cart';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from 'react-aria-components';
-
-const emailFormSchema = z.object({
-  email: z.string().email(),
-});
-type EmailFormArgs = z.infer<typeof emailFormSchema>;
+import {
+  EmailFormArgs,
+  emailFormSchema,
+  useEmailCheckout,
+} from '@/hooks2/checkout';
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
 export const Email: React.FC<{
   cart: HttpTypes.StoreCart;
-  location: string;
-}> = ({ cart, location }) => {
+}> = withReactQueryProvider(({ cart }) => {
   const { data: customer } = useCustomer();
 
   const {
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
     setError,
     control,
   } = useForm<EmailFormArgs>({
@@ -45,20 +45,20 @@ export const Email: React.FC<{
 
   const isOpen = searchParams.get('step') === 'email';
 
-  const { mutate, isPending } = useSetEmail();
+  const { isPending, mutate } = useEmailCheckout();
 
   const onSubmit = ({ email }: EmailFormArgs) => {
     mutate(
-      { email, country_code: location },
+      { email },
       {
         onSuccess(res) {
-          if (res.success)
+          if (res.state === 'success')
             return router.replace(`${pathname}?step=address`, {
               scroll: false,
             });
 
           setError('email', {
-            message: res.error || undefined,
+            message: res.message || undefined,
           });
         },
       }
@@ -121,8 +121,10 @@ export const Email: React.FC<{
             size="lg"
             type="submit"
             className="mb-8 self-start"
-            disabled={isSubmitting || isPending}
-            isVisuallyDisabled={isSubmitting || isPending}
+            disabled={isSubmitting || isPending || !isValid}
+            isVisuallyDisabled={
+              isSubmitting || isPending || !isDirty || !isValid
+            }
           >
             Next
           </Button>
@@ -130,4 +132,4 @@ export const Email: React.FC<{
       </RadixAccordion.Content>
     </RadixAccordion.Item>
   );
-};
+});

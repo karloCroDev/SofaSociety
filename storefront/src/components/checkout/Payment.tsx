@@ -2,12 +2,12 @@
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { HttpTypes } from '@medusajs/types';
+import { useRouter } from 'next/navigation';
 
 // Components
 import { Button } from '@/components/ui/Button';
-import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icon';
-import { HttpTypes } from '@medusajs/types';
 
 export const Payment: React.FC<{
   cart: HttpTypes.StoreCart;

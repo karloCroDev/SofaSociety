@@ -2,15 +2,15 @@
 
 // External packages
 import Image from 'next/image';
+import Link from 'next/link';
+import { HttpTypes } from '@medusajs/types';
 
 // Components
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
-import { Link } from 'react-aria-components';
-import { HttpTypes } from '@medusajs/types';
+// Lib
 import { getPricesForVariant } from '@/lib/util/get-product-price';
-import { StepTypes } from '@/app/[location]/checkout/page';
 
 export const Order: React.FC<{
   cart: HttpTypes.StoreCart;

@@ -3,26 +3,19 @@
 // External packages
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
-import { Radio, RadioGroup } from 'react-aria-components';
+import { HttpTypes } from '@medusajs/types';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 // Components
-import { Button } from '@/components/ui/Button';
-import { LinkAsButton } from '@/components/ui/LinkAsButton';
-import { Input } from '@/components/ui/Input';
-import { CheckboxWithLabel } from '@/components/ui/Checkbox';
-import { CountrySelect } from '@/components/checkout/CountrySelect';
-import { RadioButtonVisual } from '@/components/ui/Radio';
-import { Icon } from '@/components/ui/Icon';
-import { getCustomer } from '@/lib2/data/auth';
-import { useCustomer } from '@/hooks2/auth';
-import { withReactQueryProvider } from '@/lib/util/react-query';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { StepTypes } from '@/app/[location]/checkout/page';
-import { HttpTypes } from '@medusajs/types';
 import { Email } from '@/components/checkout/Email';
 import { Address } from '@/components/checkout/Address';
 import { Shipping } from '@/components/checkout/Shipping';
 import { Payment } from '@/components/checkout/Payment';
+import { LinkAsButton } from '@/components/ui/LinkAsButton';
+import { StepTypes } from '@/app/[location]/checkout/page';
+
+// Lib
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -66,6 +59,7 @@ export const Accordion: React.FC<{
         href="/confirmation"
         size="lg"
         className="mb-24 mt-8 w-full"
+        // Karlo: Check all logic once completed and make this a button!
       >
         Place an order
       </LinkAsButton>

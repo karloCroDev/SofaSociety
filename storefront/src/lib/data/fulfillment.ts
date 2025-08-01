@@ -1,5 +1,8 @@
-import { sdk } from '@/lib2/config';
+// External packages
 import { HttpTypes } from '@medusajs/types';
+
+// Lib
+import { sdk } from '@/lib2/config';
 
 // Shipping actions
 export const listCartShippingMethods = async function (cartId: string) {
@@ -17,6 +20,9 @@ export const listCartShippingMethods = async function (cartId: string) {
       return null;
     });
 };
+
+// Ante: Je li mogu provideati dodatne opcije poput cache ili query na ovaj nacin ispod
+
 //   try {
 //     const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
 //       cart_id: cartId,

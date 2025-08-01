@@ -8,17 +8,18 @@ import { useRouter } from 'next/navigation';
 import { HttpTypes } from '@medusajs/types';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Form } from 'react-aria-components';
 
 // Components
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { CountrySelect } from '@/components/checkout/CountrySelect';
 
+// Hooks
 import {
   customerAddressSchema,
   CustomerAddressArgs,
 } from '@/hooks2/user-settings';
-import { Form } from 'react-aria-components';
 import { useSetShippingAddress } from '@/hooks/cart';
 
 export const Address: React.FC<{

@@ -9,7 +9,7 @@ import { RadioButtonVisual } from '@/components/ui/Radio';
 import { useRouter } from 'next/navigation';
 import { Radio, RadioGroup } from 'react-aria-components';
 import { HttpTypes } from '@medusajs/types';
-import { useCartShippingMethods, useSetShippingMethod } from '@/hooks/cart';
+import { useCartShippingMethods } from '@/hooks/cart';
 import { convertToLocale } from '@/lib/util/money';
 
 export const Shipping: React.FC<{
@@ -21,11 +21,9 @@ export const Shipping: React.FC<{
 
   const isOpen = searchParams.get('step') === 'shipping';
 
-  const { data: allShippingMethods } = useCartShippingMethods(cart.id); // Ante: Hej ne dobivam ništa za vijrednost dobivam ovu vrijednost, je li znas kako ovo mogu popraviti
+  const { data: allShippingMethods } = useCartShippingMethods(cart.id); // Ante: Hej ne dobivam ništa za vijrednost dobivam ovu vrijednost, (istu stvar dobivam i na provideru) je li znas kako ovo mogu popraviti
   /* Error: Unable to retrieve the tax provider with id: null\n' +
       Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file. 
-      
-      
       */
 
   return (

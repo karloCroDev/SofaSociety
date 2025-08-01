@@ -1,18 +1,23 @@
 'use server';
 
+// External packages
+import { revalidateTag } from 'next/cache';
+import { HttpTypes } from '@medusajs/types';
+
+// Hooks
 import {
   AddItemToCartArgs,
   DeleteItemArgs,
   UpdateCartItemArgs,
 } from '@/hooks2/cart';
+
+// Lib
 import { getAuthHeaders, getCartId } from '@/lib2/data/cookies';
 import { getRegion } from '@/lib/data/regions';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import medusaError from '@/lib/util/medusa-error';
 import { sdk } from '@/lib2/config';
 import { setCartId } from '@/lib2/data/cookies';
-import { HttpTypes } from '@medusajs/types';
-import { revalidateTag } from 'next/cache';
 
 export async function getCart() {
   const id = await getCartId();

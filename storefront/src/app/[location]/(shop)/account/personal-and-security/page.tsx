@@ -4,10 +4,14 @@ import { Button } from '@/components/ui/Button';
 import { ResetPasswordPopover } from '@/components/shop/account/personal-and-security/ResetPasswordPopover';
 import { Dialog } from '@/components/shop/account/Dialog';
 import { LogoutButton } from '@/components/ui/LogoutButton';
+
+// Lib
 import { getCustomer } from '@/lib/data/customer';
+import { getRegion, listRegions } from '@/lib/data/regions';
+
+// Components
 import { PersonalInformationForm } from '@/components/shop/account/personal-and-security/PersonalInformationForm';
 import { DeleteAddressForm } from '@/components/shop/account/personal-and-security/DeleteAddressForm';
-import { getRegion, listRegions } from '@/lib/data/regions';
 import { AddAddressForm } from '@/components/shop/account/personal-and-security/AddAddressForm';
 
 interface PageProps {

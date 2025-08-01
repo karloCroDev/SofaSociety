@@ -7,7 +7,7 @@ import * as React from 'react';
 import { AddToCart } from '@/components/shop/AddToCart';
 
 // Hooks
-import { useUpdateLineItem } from '@/hooks/cart';
+import { useUpdateCartItem } from '@/hooks2/cart';
 
 // lib
 import { withReactQueryProvider } from '@/lib/util/react-query';
@@ -17,7 +17,7 @@ export const HandleAddToCart: React.FC<{
   amount: number;
   maxAmount: number;
 }> = withReactQueryProvider(({ amount, itemId, maxAmount }) => {
-  const { mutate, isPending } = useUpdateLineItem();
+  const { mutate, isPending } = useUpdateCartItem();
 
   return (
     <AddToCart
@@ -25,7 +25,7 @@ export const HandleAddToCart: React.FC<{
       maxValue={maxAmount}
       onChange={(value) => {
         mutate({
-          lineId: itemId,
+          lineItemId: itemId,
           quantity: value as number,
         });
       }}

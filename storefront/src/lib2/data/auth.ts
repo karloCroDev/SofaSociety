@@ -12,7 +12,12 @@ import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
 import { getCartId, removeAuthToken } from '@/lib/data/cookies';
 
 // Hooks
-import { loginFormSchema, signupSchema } from '@/hooks2/auth';
+import {
+  loginFormSchema,
+  LoginArgs,
+  signupSchema,
+  SignUpArgs,
+} from '@/hooks2/auth';
 
 export const getCustomer = async function () {
   const { customer } = await sdk.client.fetch<{
@@ -25,7 +30,6 @@ export const getCustomer = async function () {
   return customer;
 };
 
-type LoginArgs = z.infer<typeof loginFormSchema>;
 export async function login({ email, password, redirect_url }: LoginArgs) {
   try {
     const token = await sdk.auth.login('customer', 'emailpass', {
@@ -64,7 +68,6 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
   }
 }
 
-type SignUpArgs = z.infer<typeof signupSchema>;
 export async function signUp({
   email,
   first_name,

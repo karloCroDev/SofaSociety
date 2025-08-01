@@ -14,6 +14,7 @@ import { withReactQueryProvider } from '@/lib/util/react-query';
 import { getVariantItemsInStock } from '@/lib/util/inventory';
 import { useAddLineItem } from '@/hooks/cart';
 import { useCountryCode } from '@/hooks/country-code';
+import { useAddCartItem } from '@/hooks2/cart';
 
 const convertToObject = (options: HttpTypes.StoreProductVariant['options']) => {
   let converter: Record<string, string> = {};
@@ -60,14 +61,15 @@ export const ProductOptions: React.FC<{
 
   const location = useCountryCode();
 
-  const { mutate, isPending } = useAddLineItem();
+  const { mutate, isPending } = useAddCartItem();
 
   const addToCart = async () => {
     if (!doesOptionExists?.id) return;
+
     mutate({
-      variantId: doesOptionExists.id,
+      variant_id: doesOptionExists.id,
       quantity: amount,
-      countryCode: location,
+      location,
     });
   };
 

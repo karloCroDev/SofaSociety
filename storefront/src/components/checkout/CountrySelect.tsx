@@ -23,14 +23,12 @@ export const CountrySelect: React.FC<{
   return (
     <Select
       className="relative"
-      selectedKey={value || userRegion?.countries?.[0]?.display_name}
+      selectedKey={value || userRegion?.countries?.[0]?.iso_2}
       onSelectionChange={(key) => {
-        if (typeof key === 'string' && onChange) {
-          onChange(key);
-        }
+        if (typeof key === 'string' && onChange) onChange(key);
       }}
     >
-      <AriaButton className="relative flex w-full items-center justify-between rounded border border-gray-50 px-4 outline-none">
+      <AriaButton className="relative flex w-full items-center justify-between rounded border border-gray-200 px-4 outline-none">
         <SelectValue className="pb-3 pt-6" />
         <Icon name="chevron" />
         <label className="absolute left-2 top-1.5 scale-75 text-gray-400">
@@ -44,10 +42,9 @@ export const CountrySelect: React.FC<{
               region.countries &&
               region.countries.map((country) => (
                 <ListBoxItem
-                  key={country.display_name}
+                  key={country.iso_2}
                   className="flex items-center gap-2 py-2 outline-none"
-                  textValue={country.display_name}
-                  id={country.display_name} // Use iso_2 as ID
+                  id={country.iso_2}
                 >
                   {country.display_name}
                 </ListBoxItem>

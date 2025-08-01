@@ -4,26 +4,27 @@ import Image from 'next/image';
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Icon } from '@/components/ui/Icon';
-import { getCustomer } from '@/lib/data/customer';
-
-// Assets
-import { AddToCart } from '@/components/shop/AddToCart';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+
+// Assets
+import { AddToCart } from '@/components/shop/AddToCart';
 import { redirect } from 'next/navigation';
-import { useCart } from '@/hooks/cart';
 import { getCartId } from '@/lib/data/cookies';
 import { retrieveCart } from '@/lib/data/cart';
 import { getPricesForVariant } from '@/lib/util/get-product-price';
 import { getVariantItemsInStock } from '@/lib/util/inventory';
 import { Products } from '@/components/shop/cart/Products';
+import { getCart } from '@/lib2/data/cart';
+import { getCustomer } from '@/lib2/data/auth';
+import { HttpTypes } from '@medusajs/types';
 
 export default async function CartPage() {
   const customer = await getCustomer();
   if (!customer) redirect('/login');
 
-  const cart = await retrieveCart();
+  const cart = await getCart();
 
   return (
     <Layout className="mt-28 lg:mt-32">
@@ -72,7 +73,7 @@ export default async function CartPage() {
             <p className="text-md">Currently you have not ordered anything</p>
           )}
         </LayoutColumn>
-        {/* TODO: Mislim da bi ova kolumna ispod trebala biti fiksna, dok bi se content s lijeve strane trebao moći "skrolati". FIXED*/}
+
         <LayoutColumn xs={12} lg={3} className="lg:pl-6">
           <div className="lg:sticky lg:top-40">
             <hr className="mt-6 h-px border-0 bg-gray-200 lg:hidden" />
@@ -93,10 +94,15 @@ export default async function CartPage() {
               <Input label="Discount code" />
               <Button isVisuallyDisabled>Apply</Button>
             </div>
-            {/* TODO: Ovaj botun mi pari veći nego bi triba bit i slomljen mi je na širini prozora od `1040px`. FIXED */}
-            <LinkAsButton href="/checkout" className="mt-6 w-full">
-              Proceed to checkout
-            </LinkAsButton>
+            {!cart?.items?.length ? (
+              <Button isVisuallyDisabled disabled className="mt-6 w-full">
+                Proceed to checkout
+              </Button>
+            ) : (
+              <LinkAsButton href="/checkout" className="mt-6 w-full">
+                Proceed to checkout
+              </LinkAsButton>
+            )}
           </div>
         </LayoutColumn>
       </LayoutRow>

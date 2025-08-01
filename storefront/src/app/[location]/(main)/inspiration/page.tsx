@@ -1,6 +1,10 @@
 // External packages
 import Image from 'next/image';
 
+// External packages
+import { HttpTypes } from '@medusajs/types';
+import { getProductPrice } from '@/lib/util/get-product-price';
+
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { Collections } from '@/components/ui/Collections';
@@ -8,17 +12,13 @@ import { ProductCard } from '@/components/ui/ProductCard';
 
 // Assets
 import ImageHero from '@/public/images/inspiration/hero.png';
-import ImageAstridCurve from '@/public/images/inspiration/astrid-curve.png';
 import ImageLivingRoom from '@/public/images/about/living-room-sofa.png';
-import ImageNordicHeaven from '@/public/images/inspiration/nordic-heaven.png';
-import ImageBelimeHeaven from '@/public/images/inspiration/belime-heaven.png';
 import ImageDoubleSofa from '@/public/images/inspiration/dobule-sofa.png';
-import ImageOsloDrift from '@/public/images/inspiration/oslo-drift.png';
+
+// Lib
 import { getCollectionsList } from '@/lib/data/collections';
-import { getProductsList, getProductsListWithSort } from '@/lib/data/products';
+import { getProductsListWithSort } from '@/lib/data/products';
 import { getRegion } from '@/lib/data/regions';
-import { HttpTypes } from '@medusajs/types';
-import { getProductPrice } from '@/lib/util/get-product-price';
 
 interface PageProps {
   params: Promise<{ location: string }>;
@@ -34,7 +34,6 @@ export default async function Inspiration({ params }: PageProps) {
   const [{ collections }, collectionProducts, region] = await Promise.all([
     getCollectionsList(0, 20, ['metadata', 'handle', 'title']),
     getProductsListWithSort({ countryCode: location, queryParams, page: 1 }),
-
     getRegion(location),
   ]);
 

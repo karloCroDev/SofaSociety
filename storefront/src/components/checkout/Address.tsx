@@ -66,6 +66,7 @@ export const Address: React.FC<{
           city: data.city,
           country_code: data.countryCode,
         },
+        same_as_billing: 'on',
       },
       {
         onSuccess: (data) => {
@@ -86,16 +87,12 @@ export const Address: React.FC<{
   return (
     <RadixAccordion.Item value="address" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
-        {(!cart.shipping_address || isOpen) && (
-          <p className="group-data-[state=open]:font-bold">
-            2. Shipping address
-          </p>
-        )}
-
-        {!isOpen && cart.shipping_address && (
-          <>
-            <div className="flex justify-between">
-              <p>2. Shipping address</p>
+        <>
+          <div className="flex justify-between">
+            <p className="group-data-[state=open]:font-bold">
+              2. Shipping address
+            </p>
+            {!isOpen && cart.email && (
               <RadixAccordion.Trigger
                 className="cursor-pointer underline"
                 onClick={() =>
@@ -104,8 +101,9 @@ export const Address: React.FC<{
               >
                 Change
               </RadixAccordion.Trigger>
-            </div>
-
+            )}
+          </div>
+          {!isOpen && cart.shipping_address && (
             <div className="mt-7 text-start">
               <div>
                 Name:
@@ -130,8 +128,8 @@ export const Address: React.FC<{
                 <span className="ml-16">{cart.shipping_address.phone}</span>
               </div>
             </div>
-          </>
-        )}
+          )}
+        </>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
         <Form

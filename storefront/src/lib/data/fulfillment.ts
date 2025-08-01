@@ -17,3 +17,10 @@ export const listCartShippingMethods = async function (cartId: string) {
       return null;
     });
 };
+//   try {
+//     const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
+//       cart_id: cartId,
+//     });
+//     return shipping_options;
+//   } catch (error) {}
+// };

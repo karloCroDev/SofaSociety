@@ -5,9 +5,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 // Components
 import { Button } from '@/components/ui/Button';
-import { RadioButtonVisual } from '@/components/ui/Radio';
 import { useRouter } from 'next/navigation';
-import { Radio, RadioGroup } from 'react-aria-components';
 import { Icon } from '@/components/ui/Icon';
 import { HttpTypes } from '@medusajs/types';
 
@@ -25,18 +23,22 @@ export const Payment: React.FC<{
         <div className="flex justify-between">
           <p className="group-data-[state=open]:font-bold">4. Payment</p>
 
-          {!isOpen && cart.payment_collection && (
-            <RadixAccordion.Trigger
-              className="cursor-pointer underline"
-              onClick={() =>
-                router.replace(`${pathname}?step=shipping`, {
-                  scroll: false,
-                })
-              }
-            >
-              Change
-            </RadixAccordion.Trigger>
-          )}
+          {!isOpen &&
+            cart.email &&
+            cart.shipping_address &&
+            cart.billing_address &&
+            !!cart.shipping_methods?.length && (
+              <RadixAccordion.Trigger
+                className="cursor-pointer underline"
+                onClick={() =>
+                  router.replace(`${pathname}?step=shipping`, {
+                    scroll: false,
+                  })
+                }
+              >
+                Change
+              </RadixAccordion.Trigger>
+            )}
         </div>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">

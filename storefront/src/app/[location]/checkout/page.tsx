@@ -1,3 +1,6 @@
+// External packages
+import { redirect } from 'next/navigation';
+
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Logo } from '@/components/ui/Logo';
@@ -5,8 +8,9 @@ import { Logo } from '@/components/ui/Logo';
 import { Accordion } from '@/components/checkout/Accordion';
 import { ProductDetailsCollapsible } from '@/components/checkout/ProductDetailsCollapsible';
 import { Order } from '@/components/checkout/Order';
+
+// Lib2
 import { getCart } from '@/lib2/data/cart';
-import { redirect } from 'next/navigation';
 
 export type StepTypes = 'email' | 'address' | 'shipping' | 'payment';
 
@@ -37,7 +41,7 @@ export default async function CheckoutPage({
           </LayoutRow>
         </Layout>
       </div>
-      <ProductDetailsCollapsible />
+      <ProductDetailsCollapsible cart={cart} />
       <Layout>
         <LayoutRow>
           <LayoutColumn lg={6} xs={12} className="lg:mt-32">

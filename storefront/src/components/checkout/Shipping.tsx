@@ -21,24 +21,20 @@ export const Shipping: React.FC<{
 
   const isOpen = searchParams.get('step') === 'shipping';
 
-  const { data: allShippingMethods } = useCartShippingMethods(cart.id);
+  const { data: allShippingMethods } = useCartShippingMethods(cart.id); // Ante: Hej ne dobivam ništa za vijrednost dobivam ovu vrijednost, je li znas kako ovo mogu popraviti
+  /* Error: Unable to retrieve the tax provider with id: null\n' +
+      Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file. 
+      
+      
+      */
 
-  const { mutate, isPending } = useSetShippingMethod({ cartId: cart.id });
-  const selectedShippingMethod = allShippingMethods?.find(
-    (method) => method.id === cart.shipping_methods?.[0]?.shipping_option_id
-  );
-
-  console.log(allShippingMethods);
   return (
     <RadixAccordion.Item value="shipping" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
-        {(!cart.shipping_methods?.length || isOpen) && (
-          <p className="group-data-[state=open]:font-bold">3. Shipping</p>
-        )}
-        {!isOpen && !!cart.shipping_methods?.length && (
-          <>
-            <div className="flex justify-between">
-              <p>3. Shipping</p>
+        <>
+          <div className="flex justify-between">
+            <p className="group-data-[state=open]:font-bold">3. Shipping</p>
+            {!isOpen && cart.email && cart.shipping_address && (
               <RadixAccordion.Trigger
                 className="cursor-pointer underline"
                 onClick={() =>
@@ -47,13 +43,16 @@ export const Shipping: React.FC<{
               >
                 Change
               </RadixAccordion.Trigger>
-            </div>
+            )}
+          </div>
+
+          {!isOpen && !!cart.shipping_methods?.length && (
             <div className="mt-7 text-start text-sm">
               Shipping:
               <span className="ml-16">Standard delivery 3-5 days</span>
             </div>
-          </>
-        )}
+          )}
+        </>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
         <RadioGroup defaultValue="Standard delivery">
@@ -69,7 +68,7 @@ export const Shipping: React.FC<{
               </RadioButtonVisual>
             </Radio>
           ))}
-          <Radio className="group" value="standard-delivery">
+          {/* <Radio className="group" value="standard-delivery">
             <RadioButtonVisual additionalLabel="€50">
               Standard delivery
             </RadioButtonVisual>
@@ -78,7 +77,7 @@ export const Shipping: React.FC<{
             <RadioButtonVisual additionalLabel="€100" className="mt-2">
               Fast delivery
             </RadioButtonVisual>
-          </Radio>
+          </Radio> */}
         </RadioGroup>
         <Button
           size="lg"

@@ -337,6 +337,7 @@ export async function setAddresses(
           ? formData.shipping_address
           : formData.billing_address,
     });
+
     revalidateTag('shipping');
     return { success: true, error: null };
   } catch (e) {

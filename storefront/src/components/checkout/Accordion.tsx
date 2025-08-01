@@ -26,7 +26,7 @@ import { Payment } from '@/components/checkout/Payment';
 
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
-  stepURL: StepTypes;
+  stepURL?: StepTypes;
   location: string;
 }> = withReactQueryProvider(({ cart, stepURL, location }) => {
   const pathname = usePathname();
@@ -52,7 +52,11 @@ export const Accordion: React.FC<{
   const step = searchParams.get('step');
 
   return (
-    <RadixAccordion.Root type="single" value={stepURL || step} collapsible>
+    <RadixAccordion.Root
+      type="single"
+      value={stepURL || step || undefined}
+      collapsible
+    >
       <Email cart={cart} location={location} />
       <Address cart={cart} />
 

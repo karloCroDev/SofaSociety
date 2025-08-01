@@ -36,7 +36,7 @@ export const Email: React.FC<{
   } = useForm<EmailFormArgs>({
     resolver: zodResolver(emailFormSchema),
     defaultValues: {
-      email: customer?.email || '',
+      email: cart.email || customer?.email,
     },
   });
   const router = useRouter();
@@ -67,7 +67,7 @@ export const Email: React.FC<{
   return (
     <RadixAccordion.Item value="email" className="lg:-mt-8">
       <RadixAccordion.Header className="group w-full py-8">
-        {isOpen && (
+        {(!cart.email || isOpen) && (
           <p className="group-data-[state=open]:font-bold">1. Email</p>
         )}
         {!isOpen && cart.email && (
@@ -100,7 +100,11 @@ export const Email: React.FC<{
             control={control}
             name="email"
             render={({ field }) => (
-              <Input label="Email" inputProps={{ ...field }} type="email" />
+              <Input
+                label="Email"
+                inputProps={{ ...field, value: field.value ?? '' }}
+                type="email"
+              />
             )}
           />
 
@@ -117,7 +121,8 @@ export const Email: React.FC<{
             size="lg"
             type="submit"
             className="mb-8 self-start"
-            disabled={!isDirty || isSubmitting || isPending}
+            disabled={isSubmitting || isPending}
+            isVisuallyDisabled={isSubmitting || isPending}
           >
             Next
           </Button>

@@ -22,26 +22,22 @@ export const Payment: React.FC<{
   return (
     <RadixAccordion.Item value="payment" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
-        {isOpen ? (
+        <div className="flex justify-between">
           <p className="group-data-[state=open]:font-bold">4. Payment</p>
-        ) : (
-          <div className="flex justify-between">
-            <p>4. Payment</p>
 
-            {!isOpen && cart.payment_collection && (
-              <RadixAccordion.Trigger
-                className="cursor-pointer underline"
-                onClick={() =>
-                  router.replace(`${pathname}?step=shipping`, {
-                    scroll: false,
-                  })
-                }
-              >
-                Change
-              </RadixAccordion.Trigger>
-            )}
-          </div>
-        )}
+          {!isOpen && cart.payment_collection && (
+            <RadixAccordion.Trigger
+              className="cursor-pointer underline"
+              onClick={() =>
+                router.replace(`${pathname}?step=shipping`, {
+                  scroll: false,
+                })
+              }
+            >
+              Change
+            </RadixAccordion.Trigger>
+          )}
+        </div>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
         <Button

@@ -3,18 +3,17 @@
 // External packages
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
-import { useCustomer } from '@/hooks2/auth';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { HttpTypes } from '@medusajs/types';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 // Components
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { CountrySelect } from '@/components/checkout/CountrySelect';
-import { useRouter } from 'next/navigation';
-import { HttpTypes } from '@medusajs/types';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+
 import {
   customerAddressSchema,
   CustomerAddressArgs,
@@ -39,7 +38,6 @@ export const Address: React.FC<{
   } = useForm<CustomerAddressArgs>({
     resolver: zodResolver(customerAddressSchema),
 
-    mode: 'onChange', // or 'all'=
     defaultValues: {
       firstName: cart?.shipping_address?.first_name,
       lastName: cart?.shipping_address?.last_name,
@@ -48,7 +46,7 @@ export const Address: React.FC<{
       address2: cart?.shipping_address?.address_2,
       postalCode: cart?.shipping_address?.postal_code,
       city: cart?.shipping_address?.city,
-      countryCode: cart?.shipping_address?.country_code,
+      countryCode: cart.region?.countries?.[0]?.iso_2,
     },
   });
 
@@ -71,9 +69,16 @@ export const Address: React.FC<{
       },
       {
         onSuccess: (data) => {
-          if (isOpen && data.success) {
-            router.push(pathname + '?step=shipping', { scroll: false });
+          console.log(data);
+          if (data.success) {
+            return router.replace(`${pathname}?step=shipping`, {
+              scroll: false,
+            });
           }
+
+          setError('root', {
+            message: data.error || undefined,
+          });
         },
       }
     );
@@ -81,7 +86,7 @@ export const Address: React.FC<{
   return (
     <RadixAccordion.Item value="address" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
-        {!isOpen && (
+        {(!cart.shipping_address || isOpen) && (
           <p className="group-data-[state=open]:font-bold">
             2. Shipping address
           </p>
@@ -104,15 +109,25 @@ export const Address: React.FC<{
             <div className="mt-7 text-start">
               <div>
                 Name:
-                <span className="ml-16">Ante Antic</span>
+                <span className="ml-16">
+                  {[
+                    cart.shipping_address.first_name,
+                    cart.shipping_address.last_name,
+                  ]
+                    .map((x) => x && x[0].toUpperCase() + x.slice(1))
+                    .join(' ')}
+                </span>
               </div>
               <div>
                 Ship to:
-                <span className="ml-16">Trg Bana Jelacica</span>
+                <span className="ml-16">
+                  {cart.shipping_address.address_1 ||
+                    cart.shipping_address.address_2}
+                </span>
               </div>
               <div>
                 Phone:
-                <span className="ml-16">+385 226 2226</span>
+                <span className="ml-16">{cart.shipping_address.phone}</span>
               </div>
             </div>
           </>
@@ -238,16 +253,18 @@ export const Address: React.FC<{
               />
             )}
           />
+
+          {errors.root && (
+            <p className="mt-2 text-sm text-red-400">{errors.root.message}</p>
+          )}
           <Button
             size="lg"
             type="submit"
             className="mb-8 self-start"
-            onPress={() => {
-              router.replace(`${pathname}?step=shipping`, { scroll: false });
-            }}
             isVisuallyDisabled={
-              isSubmitting || isPending || !isDirty || !isValid
+              isSubmitting || isPending || !isValid || !isDirty
             }
+            isDisabled={isSubmitting || isPending || !isValid || !isDirty}
           >
             Next
           </Button>

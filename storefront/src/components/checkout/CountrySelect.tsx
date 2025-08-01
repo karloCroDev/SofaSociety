@@ -25,9 +25,7 @@ export const CountrySelect: React.FC<{
       className="relative"
       selectedKey={value || userRegion?.countries?.[0]?.display_name}
       onSelectionChange={(key) => {
-        if (typeof key === 'string' && onChange) {
-          onChange(key);
-        }
+        if (typeof key === 'string' && onChange) onChange(key);
       }}
     >
       <AriaButton className="relative flex w-full items-center justify-between rounded border border-gray-200 px-4 outline-none">
@@ -47,7 +45,7 @@ export const CountrySelect: React.FC<{
                   key={country.display_name}
                   className="flex items-center gap-2 py-2 outline-none"
                   textValue={country.display_name}
-                  id={country.display_name} // Use iso_2 as ID
+                  id={country.display_name} // Check if this code is correct
                 >
                   {country.display_name}
                 </ListBoxItem>

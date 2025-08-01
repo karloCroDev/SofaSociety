@@ -9,6 +9,8 @@ import { RadioButtonVisual } from '@/components/ui/Radio';
 import { useRouter } from 'next/navigation';
 import { Radio, RadioGroup } from 'react-aria-components';
 import { HttpTypes } from '@medusajs/types';
+import { useCartShippingMethods, useSetShippingMethod } from '@/hooks/cart';
+import { convertToLocale } from '@/lib/util/money';
 
 export const Shipping: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -18,34 +20,55 @@ export const Shipping: React.FC<{
   const searchParams = useSearchParams();
 
   const isOpen = searchParams.get('step') === 'shipping';
+
+  const { data: allShippingMethods } = useCartShippingMethods(cart.id);
+
+  const { mutate, isPending } = useSetShippingMethod({ cartId: cart.id });
+  const selectedShippingMethod = allShippingMethods?.find(
+    (method) => method.id === cart.shipping_methods?.[0]?.shipping_option_id
+  );
+
+  console.log(allShippingMethods);
   return (
     <RadixAccordion.Item value="shipping" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
-        {isOpen ? (
+        {(!cart.shipping_methods?.length || isOpen) && (
           <p className="group-data-[state=open]:font-bold">3. Shipping</p>
-        ) : (
-          <div className="flex justify-between">
-            <p>3. Shipping</p>
-
-            <RadixAccordion.Trigger
-              className="cursor-pointer underline"
-              onClick={() =>
-                router.replace(`${pathname}?step=shipping`, { scroll: false })
-              }
-            >
-              Change
-            </RadixAccordion.Trigger>
-          </div>
         )}
         {!isOpen && !!cart.shipping_methods?.length && (
-          <div className="mt-7 text-start text-sm">
-            Shipping:
-            <span className="ml-16">Standard delivery 3-5 days</span>
-          </div>
+          <>
+            <div className="flex justify-between">
+              <p>3. Shipping</p>
+              <RadixAccordion.Trigger
+                className="cursor-pointer underline"
+                onClick={() =>
+                  router.replace(`${pathname}?step=shipping`, { scroll: false })
+                }
+              >
+                Change
+              </RadixAccordion.Trigger>
+            </div>
+            <div className="mt-7 text-start text-sm">
+              Shipping:
+              <span className="ml-16">Standard delivery 3-5 days</span>
+            </div>
+          </>
         )}
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
         <RadioGroup defaultValue="Standard delivery">
+          {allShippingMethods?.map((method) => (
+            <Radio key={method.id} className="group" value={method.id}>
+              <RadioButtonVisual
+                additionalLabel={convertToLocale({
+                  amount: method.amount!,
+                  currency_code: cart?.currency_code,
+                })}
+              >
+                {method.name}
+              </RadioButtonVisual>
+            </Radio>
+          ))}
           <Radio className="group" value="standard-delivery">
             <RadioButtonVisual additionalLabel="€50">
               Standard delivery

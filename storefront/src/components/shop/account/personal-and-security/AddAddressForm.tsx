@@ -31,7 +31,7 @@ export const AddAddressForm: React.FC<{
 }> = withReactQueryProvider(({ regions, userRegion, address }) => {
   const {
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
     setError,
     control,
   } = useForm<CustomerAddressArgs>({
@@ -44,7 +44,8 @@ export const AddAddressForm: React.FC<{
       address2: address?.address_2 ?? '',
       postalCode: address?.postal_code ?? '',
       city: address?.city ?? '',
-      countryCode: address?.country_code ?? '',
+      countryCode:
+        address?.country_code || userRegion?.countries?.[0]?.display_name,
     },
   });
   const { close } = React.useContext(OverlayTriggerStateContext)!;
@@ -180,8 +181,8 @@ export const AddAddressForm: React.FC<{
 
       <div className="mt-10 flex justify-between">
         <Button
-          isDisabled={!isDirty || isPending || isSubmitting}
-          isVisuallyDisabled={!isDirty || isPending || isSubmitting}
+          isDisabled={!isDirty || !isValid || isPending || isSubmitting}
+          isVisuallyDisabled={!isDirty || !isValid || isPending || isSubmitting}
           type="submit"
         >
           Save changes

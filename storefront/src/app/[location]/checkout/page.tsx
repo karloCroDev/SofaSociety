@@ -20,15 +20,11 @@ interface PageProps {
     stepURL?: StepTypes;
   }>;
 }
-export default async function CheckoutPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function CheckoutPage({ searchParams }: PageProps) {
   const cart = await getCart();
 
   if (!cart?.items) redirect('/shop');
 
-  const { location } = await params;
   const { stepURL } = await searchParams;
 
   return (
@@ -45,7 +41,7 @@ export default async function CheckoutPage({
       <Layout>
         <LayoutRow>
           <LayoutColumn lg={6} xs={12} className="lg:mt-32">
-            <Accordion stepURL={stepURL} cart={cart} location={location} />
+            <Accordion stepURL={stepURL} cart={cart} />
           </LayoutColumn>
           <LayoutColumn
             lg={5}

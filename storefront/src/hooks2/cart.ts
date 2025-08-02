@@ -24,9 +24,7 @@ export const useAddCartItem = () => {
   return useMutation({
     mutationKey: ['add-cart-item'],
     mutationFn: async (data: AddItemToCartArgs) => addItemToCart(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
   });
 };
 
@@ -38,9 +36,7 @@ export const useDeleteCartItem = () => {
   return useMutation({
     mutationKey: ['delete-cart-item'],
     mutationFn: async (data: DeleteItemArgs) => deleteCartItem(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
   });
 };
 
@@ -52,8 +48,6 @@ export const useUpdateCartItem = () => {
   return useMutation({
     mutationKey: ['update-cart-item'],
     mutationFn: async (data: UpdateCartItemArgs) => updateCartItem(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
   });
 };

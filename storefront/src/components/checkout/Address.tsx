@@ -21,6 +21,10 @@ import {
   CustomerAddressArgs,
 } from '@/hooks2/user-settings';
 import { useSetShippingAddress } from '@/hooks/cart';
+import {
+  useAddressCheckout,
+  useShippingOptionCheckout,
+} from '@/hooks2/checkout';
 
 export const Address: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -40,50 +44,33 @@ export const Address: React.FC<{
     resolver: zodResolver(customerAddressSchema),
 
     defaultValues: {
-      firstName: cart?.shipping_address?.first_name,
-      lastName: cart?.shipping_address?.last_name,
+      first_name: cart?.shipping_address?.first_name,
+      last_name: cart?.shipping_address?.last_name,
       phone: cart?.shipping_address?.phone,
-      address1: cart?.shipping_address?.address_1,
-      address2: cart?.shipping_address?.address_2,
-      postalCode: cart?.shipping_address?.postal_code,
+      address_1: cart?.shipping_address?.address_1,
+      address_2: cart?.shipping_address?.address_2,
+      postal_code: cart?.shipping_address?.postal_code,
       city: cart?.shipping_address?.city,
-      countryCode: cart.region?.countries?.[0]?.iso_2,
+      country_code: cart.region?.countries?.[0]?.iso_2,
     },
   });
 
-  const { mutate, isPending } = useSetShippingAddress();
+  const { mutate, isPending } = useAddressCheckout();
 
   const onSubmit = (data: CustomerAddressArgs) => {
-    mutate(
-      {
-        shipping_address: {
-          first_name: data.firstName,
-          last_name: data.lastName,
-          phone: data.phone || '',
-          address_1: data.address1,
-          //@ts-ignore
-          address_2: data?.address2,
-          postal_code: data.postalCode,
-          city: data.city,
-          country_code: data.countryCode,
-        },
-        same_as_billing: 'on',
-      },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-          if (data.success) {
-            return router.replace(`${pathname}?step=shipping`, {
-              scroll: false,
-            });
-          }
-
-          setError('root', {
-            message: data.error || undefined,
+    mutate(data, {
+      onSuccess: (data) => {
+        if (data.state === 'success') {
+          return router.replace(`${pathname}?step=shipping`, {
+            scroll: false,
           });
-        },
-      }
-    );
+        }
+
+        setError('root', {
+          message: data.message || undefined,
+        });
+      },
+    });
   };
   return (
     <RadixAccordion.Item value="address" className="border-t">
@@ -140,7 +127,7 @@ export const Address: React.FC<{
           <div className="flex flex-col gap-8">
             <Controller
               control={control}
-              name="countryCode"
+              name="country_code"
               render={({ field }) => (
                 <CountrySelect
                   userRegion={cart.region}
@@ -155,7 +142,7 @@ export const Address: React.FC<{
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             <Controller
               control={control}
-              name="firstName"
+              name="first_name"
               render={({ field }) => (
                 <Input
                   label="First name"
@@ -166,7 +153,7 @@ export const Address: React.FC<{
             />
             <Controller
               control={control}
-              name="lastName"
+              name="last_name"
               render={({ field }) => (
                 <Input
                   label="Last name"
@@ -179,7 +166,7 @@ export const Address: React.FC<{
 
           <Controller
             control={control}
-            name="address1"
+            name="address_1"
             render={({ field }) => (
               <Input
                 label="Address"
@@ -193,7 +180,7 @@ export const Address: React.FC<{
           />
           <Controller
             control={control}
-            name="address2"
+            name="address_2"
             render={({ field }) => (
               <Input
                 label="Apartment, suite, etc. (Optional)"
@@ -209,7 +196,7 @@ export const Address: React.FC<{
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             <Controller
               control={control}
-              name="postalCode"
+              name="postal_code"
               render={({ field }) => (
                 <Input
                   label="Postal code"

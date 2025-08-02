@@ -20,8 +20,7 @@ import { withReactQueryProvider } from '@/lib/util/react-query';
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
-  location: string;
-}> = withReactQueryProvider(({ cart, stepURL, location }) => {
+}> = withReactQueryProvider(({ cart, stepURL }) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -50,7 +49,7 @@ export const Accordion: React.FC<{
       value={stepURL || step || undefined}
       collapsible
     >
-      <Email cart={cart} location={location} />
+      <Email cart={cart} />
       <Address cart={cart} />
 
       <Shipping cart={cart} />

@@ -20,9 +20,9 @@ import { Input } from '@/components/ui/Input';
 
 // Hooks
 import { useCountryCode } from '@/hooks/country-code';
-import { useDebounce } from '@/hooks2/useDebounce';
+import { useDebounce } from '@/hooks2/util/useDebounce';
 import { getProductPrice } from '@/lib/util/get-product-price';
-import { useSearchProducts } from '@/hooks/store';
+import { useSearchProducts } from '@/hooks2/store';
 import { withReactQueryProvider } from '@/lib/util/react-query';
 import { HttpTypes } from '@medusajs/types';
 

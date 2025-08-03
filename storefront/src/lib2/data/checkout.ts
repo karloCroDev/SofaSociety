@@ -1,6 +1,6 @@
 'use server';
 
-import { EmailFormArgs } from '@/hooks2/checkout';
+import { EmailFormArgs, ShippingOptionCheckoutArgs } from '@/hooks2/checkout';
 import { CustomerAddressArgs } from '@/hooks2/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
 import medusaError from '@/lib/util/medusa-error';
@@ -62,17 +62,34 @@ export async function addressCheckout(data: CustomerAddressArgs) {
     message: 'Email of cart updated successfully',
   };
 }
-export async function shippingOptionCheckout({ email }: EmailFormArgs) {
-  const cart = await updateCart({ email });
 
-  if (!cart) {
-    return {
-      state: 'error' as const,
-      message: 'Cart is not updated successfully',
-    };
+export async function getAllShippingOptions(cartId: string) {
+  try {
+    const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
+      cart_id: cartId,
+    });
+    return shipping_options;
+  } catch (error) {
+    medusaError(error);
   }
-  return {
-    state: 'success' as const,
-    message: 'Email of cart updated successfully',
-  };
+}
+
+export async function shippingOptionCheckout({
+  cartId,
+  optionId,
+}: ShippingOptionCheckoutArgs) {
+  try {
+    const cart = await sdk.store.cart.addShippingMethod(cartId, {
+      option_id: optionId,
+    });
+
+    if (!cart) {
+      return {
+        state: 'error' as const,
+        message: 'Cart is not updated successfully',
+      };
+    }
+  } catch (error) {
+    medusaError(error);
+  }
 }

@@ -11,14 +11,19 @@ export async function getSearchItems({
   value: string;
   region?: string;
 }) {
-  const results = await searchClient
-    .index('products')
-    .search<MeiliSearchProductHit>(value, undefined);
+  if (!region) throw new Error('Enter the region');
+  try {
+    const results = await searchClient
+      .index('products')
+      .search<MeiliSearchProductHit>(value, undefined);
 
-  const medusaProducts = await getProductsById({
-    ids: results.hits.map((h) => h.id),
-    regionId: region!,
-  });
+    const medusaProducts = await getProductsById({
+      ids: results.hits.map((h) => h.id),
+      regionId: region,
+    });
 
-  return medusaProducts;
+    return medusaProducts;
+  } catch (error) {
+    if (typeof error === 'string') throw new Error(error);
+  }
 }

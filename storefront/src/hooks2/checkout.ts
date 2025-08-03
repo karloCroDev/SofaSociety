@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addressCheckout,
   emailCheckout,
+  getAllShippingOptions,
   shippingOptionCheckout,
 } from '@/lib2/data/checkout';
 import { CustomerAddressArgs } from '@/hooks2/user-settings';
@@ -40,12 +41,24 @@ export const useAddressCheckout = () => {
   });
 };
 
+export const useGetCartShippingOptions = (cartId: string) => {
+  return useQuery({
+    queryKey: [cartId],
+    queryFn: () => getAllShippingOptions(cartId),
+  });
+};
+
+export type ShippingOptionCheckoutArgs = {
+  cartId: string;
+  optionId: string;
+};
 export const useShippingOptionCheckout = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['set-email'],
-    mutationFn: (data: EmailFormArgs) => shippingOptionCheckout(data),
+    mutationFn: (data: ShippingOptionCheckoutArgs) =>
+      shippingOptionCheckout(data),
     onSuccess: () =>
       queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)

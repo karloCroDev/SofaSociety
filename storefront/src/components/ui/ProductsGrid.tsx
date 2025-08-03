@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Hooks
-import { useStoreProducts } from '@/hooks/store';
+import { useStoreProducts } from '@/hooks2/store';
 
 // Lib
 import { withReactQueryProvider } from '@/lib/util/react-query';

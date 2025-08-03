@@ -82,14 +82,14 @@ export const LanguageSelect: React.FC<{
     currentPath = pathname.split(`/${countryCode}`)[1];
   }
 
-  const updateRegion = useUpdateRegion();
+  const { mutate } = useUpdateRegion();
 
   return (
     <Select
       selectedKey={countryCode}
       aria-label="Country Selector"
       onSelectionChange={(key) => {
-        updateRegion.mutate({ countryCode: key.toString(), currentPath });
+        mutate({ countryCode: key.toString(), currentPath });
       }}
     >
       <AriaButton className="outline-none">

@@ -20,13 +20,16 @@ interface PageProps {
     stepURL?: StepTypes;
   }>;
 }
-export default async function CheckoutPage({ searchParams }: PageProps) {
+export default async function CheckoutPage({
+  params,
+  searchParams,
+}: PageProps) {
   const cart = await getCart();
 
   if (!cart?.items) redirect('/shop');
 
   const { stepURL } = await searchParams;
-
+  const { location } = await params;
   return (
     <>
       <div className="absolute left-0 top-0 w-full">

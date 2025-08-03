@@ -25,10 +25,11 @@ import {
   useAddressCheckout,
   useShippingOptionCheckout,
 } from '@/hooks2/checkout';
+import { withReactQueryProvider } from '@/lib/util/react-query';
 
 export const Address: React.FC<{
   cart: HttpTypes.StoreCart;
-}> = ({ cart }) => {
+}> = withReactQueryProvider(({ cart }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -69,6 +70,12 @@ export const Address: React.FC<{
         setError('root', {
           message: data.message || undefined,
         });
+
+        // Kada submitam dobijem ovaj error, ali i dalje updatea podatke jesam li ja nesto faliio
+
+        /* Error: Unable to retrieve the tax provider with id: null\n' +
+      Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file. 
+      */
       },
     });
   };
@@ -258,4 +265,4 @@ export const Address: React.FC<{
       </RadixAccordion.Content>
     </RadixAccordion.Item>
   );
-};
+});

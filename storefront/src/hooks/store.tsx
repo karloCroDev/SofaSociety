@@ -1,7 +1,10 @@
-import { getProductsListWithSort } from '@/lib/data/products';
+// External packages
 import { HttpTypes } from '@medusajs/types';
 import { type SortOptions } from '@/components/ui/filters/Sort';
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+// Lib
+import { getProductsListWithSort } from '@/lib/data/products';
 
 export const useStoreProducts = ({
   page,

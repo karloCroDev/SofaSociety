@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Form } from 'react-aria-components';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import Link from 'next/link';
 
 // Components
@@ -13,7 +12,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 import { useLogin, loginFormSchema, LoginArgs } from '@/hooks2/auth';
 
 export const LoginForm = withReactQueryProvider(() => {

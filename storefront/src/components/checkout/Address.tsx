@@ -25,7 +25,9 @@ import {
   useAddressCheckout,
   useShippingOptionCheckout,
 } from '@/hooks2/checkout';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+
+// Lib
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 export const Address: React.FC<{
   cart: HttpTypes.StoreCart;

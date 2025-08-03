@@ -9,11 +9,13 @@ import { Radio, RadioGroup } from 'react-aria-components';
 // Components
 import { Button } from '@/components/ui/Button';
 import { RadioButtonVisual } from '@/components/ui/Radio';
+
+// Hooks
 import { useCartShippingMethods } from '@/hooks/cart';
 
 // Lib
-import { convertToLocale } from '@/lib/util/money';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { convertToLocale } from '@/lib2/util/money';
+import { withReactQueryProvider } from '@/lib2/react-query';
 import {
   useGetCartShippingOptions,
   useShippingOptionCheckout,

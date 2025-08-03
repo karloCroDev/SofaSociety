@@ -16,7 +16,7 @@ import { type SortOptions } from '@/components/ui/filters/Sort';
 import { useStoreProducts } from '@/hooks2/store';
 
 // Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 import { getProductPrice } from '@/lib/util/get-product-price';
 
 export const ProductsMapping: React.FC<{

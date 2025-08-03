@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { forgotPassword } from '@/lib/data/customer';
+import { forgotPassword } from '@/lib2/data/auth';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),
@@ -34,7 +34,7 @@ export const ForgotPasswordForm = () => {
 
   const router = useRouter();
   const onSubmit = async (data: ForgotPasswordProps) => {
-    const resetPasswordProposal = await forgotPassword(undefined, data);
+    const resetPasswordProposal = await forgotPassword(data);
 
     if (resetPasswordProposal.state === 'success') {
       router.push('/login/forgot-password/success');

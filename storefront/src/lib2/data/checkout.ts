@@ -3,7 +3,7 @@
 import { EmailFormArgs, ShippingOptionCheckoutArgs } from '@/hooks2/checkout';
 import { CustomerAddressArgs } from '@/hooks2/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
-import medusaError from '@/lib/util/medusa-error';
+import { medusaError } from '@/lib2/util/medusa-error';
 import { sdk } from '@/lib2/config';
 import { getCartId } from '@/lib2/data/cookies';
 import { HttpTypes } from '@medusajs/types';

@@ -23,7 +23,7 @@ import { useCountryCode } from '@/hooks/country-code';
 import { useDebounce } from '@/hooks2/util/useDebounce';
 import { getProductPrice } from '@/lib/util/get-product-price';
 import { useSearchProducts } from '@/hooks2/store';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 import { HttpTypes } from '@medusajs/types';
 
 export const SearchComboBox: React.FC<{

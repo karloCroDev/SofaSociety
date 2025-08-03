@@ -1,15 +1,16 @@
+// External packages
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
+
+// Lib
 import { login, signUp, logOut, getCustomer } from '@/lib2/data/auth';
 
 // Customer
 export const useCustomer = () => {
   return useQuery({
     queryKey: ['customer'],
-    queryFn: async () => {
-      return getCustomer();
-    },
-    staleTime: 5 * 60 * 1000,
+    queryFn: async () => getCustomer(),
+    staleTime: 5 * 60 * 1000, // 1000 ms * 60 => 1min * 5 => 5min
   });
 };
 
@@ -25,16 +26,11 @@ export const useLogin = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['login'],
-    mutationFn: async (values: z.infer<typeof loginFormSchema>) => {
-      return login({ ...values });
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['customer'] });
-    },
+    mutationFn: (values: z.infer<typeof loginFormSchema>) => login(values),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };
 
-// Sign up
 export const signupSchema = z.object({
   email: z.string().email(),
   first_name: z.string().min(1),
@@ -48,16 +44,11 @@ export const useSignup = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['signUp'],
-    mutationFn: async (values: z.infer<typeof signupSchema>) => {
-      return signUp(values);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['customer'] });
-    },
+    mutationFn: (values: z.infer<typeof signupSchema>) => signUp(values),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };
 
-// Log out
 export const useLogout = () => {
   const queryClient = useQueryClient();
 

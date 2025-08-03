@@ -15,7 +15,7 @@ import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { StepTypes } from '@/app/[location]/checkout/page';
 
 // Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;

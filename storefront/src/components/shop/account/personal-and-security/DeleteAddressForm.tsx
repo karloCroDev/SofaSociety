@@ -7,7 +7,7 @@ import { OverlayTriggerStateContext } from 'react-aria-components';
 // Components
 import { Button } from '@/components/ui/Button';
 import { useDeleteCustomerAddress } from '@/hooks2/user-settings';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 export const DeleteAddressForm: React.FC<{
   addressId: string;

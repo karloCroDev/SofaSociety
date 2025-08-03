@@ -13,7 +13,6 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 
 // Lib
-import { requestPasswordReset } from '@/lib/data/customer';
 import { isLoggedInForgotPasswordReset } from '@/lib2/data/auth';
 
 export const ResetPasswordPopover = () => {

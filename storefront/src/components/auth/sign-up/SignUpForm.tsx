@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 // Hooks
 import { SignUpArgs, signupSchema, useSignup } from '@/hooks2/auth';

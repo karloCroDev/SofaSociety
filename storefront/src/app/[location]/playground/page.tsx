@@ -29,7 +29,6 @@ export default function Page() {
     <>
       {/* <ProductCarousel /> */}
       <Layout>
-        <SearchComboBox />
         <div className="flex flex-col items-start gap-4">
           <Icon name="search" className="text-black" />
           <Button variant="outline" colorScheme="black" className="italic">

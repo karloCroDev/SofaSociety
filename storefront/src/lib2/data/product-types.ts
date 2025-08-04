@@ -15,7 +15,7 @@ export async function getSpecificProductType({
   fields?: (keyof HttpTypes.StoreProductType)[];
 }) {
   try {
-    const response = sdk.client.fetch<
+    const { product_types, count } = await sdk.client.fetch<
       PaginatedResponse<{
         product_types: HttpTypes.StoreProductType[];
         count: number;
@@ -24,8 +24,6 @@ export async function getSpecificProductType({
       query: { limit, offset, fields: fields ? fields.join(',') : undefined },
       cache: 'force-cache',
     });
-
-    const { product_types, count } = await response;
 
     return {
       product_types,
@@ -39,7 +37,7 @@ export async function getSpecificProductType({
 
 export const getProductTypeByHandle = async function (handle: string) {
   try {
-    const response = sdk.client.fetch<
+    const { product_types } = await sdk.client.fetch<
       PaginatedResponse<{
         product_types: HttpTypes.StoreProductType[];
         count: number;
@@ -48,8 +46,6 @@ export const getProductTypeByHandle = async function (handle: string) {
       query: { handle, limit: 1 },
       cache: 'force-cache',
     });
-
-    const { product_types } = await response;
 
     return product_types[0];
   } catch (error) {

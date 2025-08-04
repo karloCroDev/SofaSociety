@@ -14,7 +14,7 @@ import { Filters } from '@/components/ui/filters/Filters';
 // Lib
 import { getCollectionByHandle } from '@/lib2/data/collections';
 import { collectionMetadataCustomFieldsSchema } from '@/lib2/util/collections';
-import { getRegion } from '@/lib/data/regions';
+import { getRegion } from '@/lib2/data/regions';
 import { converterCheckerArray } from '@/lib2/util/arrayChecker';
 import { getSpecificCategories } from '@/lib2/data/categories';
 import { getSpecificProductType } from '@/lib2/data/product-types';

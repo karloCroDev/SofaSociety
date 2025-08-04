@@ -1,13 +1,26 @@
+'use client';
+
 // External packages
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { HttpTypes } from '@medusajs/types';
 import { useRouter } from 'next/navigation';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from '@stripe/react-stripe-js';
 
 // Components
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
+import { Form } from '@/components/ui/Form';
+import { completeCartServer } from '@/lib2/data/payment';
+
+const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || 'temp');
 
 export const Payment: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -17,31 +30,40 @@ export const Payment: React.FC<{
   const searchParams = useSearchParams();
 
   const isOpen = searchParams.get('step') === 'shipping';
+
+  const clientSecret = cart?.payment_collection?.payment_sessions?.[0].data
+    .client_secret as string;
+
+  console.log(clientSecret);
   return (
     <RadixAccordion.Item value="payment" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
         <div className="flex justify-between">
           <p className="group-data-[state=open]:font-bold">4. Payment</p>
 
-          {!isOpen &&
-            cart.email &&
-            cart.shipping_address &&
-            cart.billing_address &&
-            !!cart.shipping_methods?.length && (
-              <RadixAccordion.Trigger
-                className="cursor-pointer underline"
-                onClick={() =>
-                  router.replace(`${pathname}?step=shipping`, {
-                    scroll: false,
-                  })
-                }
-              >
-                Change
-              </RadixAccordion.Trigger>
-            )}
+          {!isOpen && cart.email && (
+            <RadixAccordion.Trigger
+              className="cursor-pointer underline"
+              onClick={() =>
+                router.replace(`${pathname}?step=shipping`, {
+                  scroll: false,
+                })
+              }
+            >
+              Change
+            </RadixAccordion.Trigger>
+          )}
         </div>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
+        <Elements
+          stripe={stripe}
+          options={{
+            clientSecret,
+          }}
+        >
+          <StripeForm cart={cart} clientSecret={clientSecret} />
+        </Elements>
         <Button
           size="lg"
           iconRight={<Icon name="arrow-up" />}
@@ -51,5 +73,78 @@ export const Payment: React.FC<{
         </Button>
       </RadixAccordion.Content>
     </RadixAccordion.Item>
+  );
+};
+
+const StripeForm: React.FC<{
+  cart: HttpTypes.StoreCart;
+  clientSecret?: string;
+}> = ({ cart, clientSecret }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [loading, setLoading] = React.useState(false);
+  const router = useRouter();
+
+  console.log(clientSecret);
+  const handlePayment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const card = elements?.getElement(CardElement);
+
+    if (!stripe || !elements || !card || !clientSecret) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Ante: Ughh, je li imaš neki prijedlog da ovo lijepše handleam?
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+
+        {
+          payment_method: {
+            card,
+            billing_details: {
+              name: `${cart.shipping_address?.first_name} ${cart.shipping_address?.last_name}`,
+              email: cart.email,
+              phone: cart.billing_address?.phone,
+              address: {
+                city: cart.billing_address?.city,
+                country: cart.billing_address?.country_code,
+                line1: cart.billing_address?.address_1,
+                line2: cart.billing_address?.address_2,
+                postal_code: cart.billing_address?.postal_code,
+              },
+            },
+          },
+        }
+      );
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      if (paymentIntent?.status === 'succeeded') {
+        // Move cart completion to the server
+
+        const result = await completeCartServer(cart.id);
+        if (result.success) {
+          // router.push('/confirmation');
+          console.log('Sigmaa', result);
+        }
+      }
+    } catch (err) {
+      throw new Error('Payment failed`');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Form onSubmit={handlePayment} className="flex flex-col gap-8">
+      <CardElement />
+      <Button isVisuallyDisabled={loading} isDisabled={loading} />
+    </Form>
   );
 };

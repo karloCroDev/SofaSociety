@@ -27,19 +27,19 @@ export const Accordion: React.FC<{
   const searchParams = useSearchParams();
   const [hasLoaded, setHadLoaded] = React.useState(false);
 
-  React.useEffect(() => {
-    if (hasLoaded) return;
-    let currentStep: StepTypes; // Default to last step if there are no previous steps
+  // React.useEffect(() => {
+  //   if (hasLoaded) return;
+  //   let currentStep: StepTypes; // Default to last step if there are no previous steps
 
-    if (!cart.email) currentStep = 'email';
-    else if (!cart.shipping_address) currentStep = 'address';
-    else if (!cart.shipping_methods?.length) currentStep = 'shipping';
-    else currentStep = 'payment';
+  //   if (!cart.email) currentStep = 'email';
+  //   else if (!cart.shipping_address) currentStep = 'address';
+  //   else if (!cart.shipping_methods?.length) currentStep = 'shipping';
+  //   else currentStep = 'payment';
 
-    router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
+  //   router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
 
-    setHadLoaded(true);
-  }, []);
+  //   setHadLoaded(true);
+  // }, []);
 
   const step = searchParams.get('step');
 

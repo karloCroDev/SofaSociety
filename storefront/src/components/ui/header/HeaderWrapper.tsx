@@ -21,7 +21,7 @@ import { CodeCountryTypes } from '@/components/ui/header/Header';
 // Hooks
 import { useCountryCode } from '@/hooks/country-code';
 import { useUpdateRegion } from '@/hooks/cart';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 import { usePathname } from 'next/navigation';
 import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
 
@@ -82,14 +82,14 @@ export const LanguageSelect: React.FC<{
     currentPath = pathname.split(`/${countryCode}`)[1];
   }
 
-  const updateRegion = useUpdateRegion();
+  const { mutate } = useUpdateRegion();
 
   return (
     <Select
       selectedKey={countryCode}
       aria-label="Country Selector"
       onSelectionChange={(key) => {
-        updateRegion.mutate({ countryCode: key.toString(), currentPath });
+        mutate({ countryCode: key.toString(), currentPath });
       }}
     >
       <AriaButton className="outline-none">

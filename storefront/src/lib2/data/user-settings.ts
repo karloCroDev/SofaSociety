@@ -13,6 +13,7 @@ import {
   CustomerAddressArgs,
   UpdateCustomerDetailsArgs,
 } from '@/hooks2/user-settings';
+import { HttpTypes } from '@medusajs/types';
 
 export async function updateCustomerDetails({
   firstName,
@@ -62,33 +63,9 @@ export async function deleteCustomerAddress(addressId: string) {
   }
 }
 
-const convertedObject = ({
-  address1,
-  city,
-  countryCode,
-  firstName,
-  lastName,
-  postalCode,
-  address2,
-  phone,
-}: CustomerAddressArgs) => ({
-  address_1: address1,
-  address_2: address2 || '',
-  city,
-  country_code: countryCode,
-  first_name: firstName,
-  last_name: lastName,
-  phone: phone || '',
-  postal_code: postalCode,
-});
-
 export async function addCustomerAddress(data: CustomerAddressArgs) {
   try {
-    await sdk.store.customer.createAddress(
-      convertedObject(data),
-      {},
-      await getAuthHeaders()
-    );
+    await sdk.store.customer.createAddress(data, {}, await getAuthHeaders());
     revalidateTag('customer');
 
     return {
@@ -108,10 +85,9 @@ export async function updateCustomerAddress(
   addressId: string
 ) {
   try {
-    console.log(convertedObject(data));
     await sdk.store.customer.updateAddress(
       addressId,
-      convertedObject(data),
+      data,
       {},
       await getAuthHeaders()
     );

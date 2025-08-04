@@ -5,23 +5,25 @@ import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { useCustomer } from '@/hooks2/auth';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { HttpTypes } from '@medusajs/types';
+import { Form } from 'react-aria-components';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 // Components
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { CheckboxWithLabel } from '@/components/ui/Checkbox';
-import { HttpTypes } from '@medusajs/types';
-import { z } from 'zod';
-import { useSetEmail } from '@/hooks/cart';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from 'react-aria-components';
+
+// Hooks
 import {
   EmailFormArgs,
   emailFormSchema,
   useEmailCheckout,
 } from '@/hooks2/checkout';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+
+// Lib
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 export const Email: React.FC<{
   cart: HttpTypes.StoreCart;

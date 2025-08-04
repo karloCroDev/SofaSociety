@@ -15,7 +15,7 @@ import {
 import { getAuthHeaders, getCartId } from '@/lib2/data/cookies';
 import { getRegion } from '@/lib/data/regions';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
-import medusaError from '@/lib/util/medusa-error';
+import { medusaError } from '@/lib2/util/medusa-error';
 import { sdk } from '@/lib2/config';
 import { setCartId } from '@/lib2/data/cookies';
 

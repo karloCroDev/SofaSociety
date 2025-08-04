@@ -2,7 +2,7 @@
 
 import { cache } from 'react';
 import { sdk } from '@/lib2/config';
-import medusaError from '@/lib/util/medusa-error';
+import { medusaError } from '@/lib2/util/medusa-error';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import { getAuthHeaders } from '@/lib/data/cookies';
 import { HttpTypes } from '@medusajs/types';

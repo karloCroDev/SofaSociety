@@ -2,6 +2,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
+// Lib
 import {
   deleteCustomerAddress,
   addCustomerAddress,
@@ -27,21 +28,19 @@ export const useUpdateCustomer = () => {
     mutationFn: async (values: z.infer<typeof updateCustomerDetailsSchema>) => {
       return updateCustomerDetails(values);
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['customer'] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };
 
 export const customerAddressSchema = z.object({
-  firstName: z.string().min(2),
-  lastName: z.string().min(3),
-  address1: z.string().min(1),
-  address2: z.string().optional().nullable(),
+  first_name: z.string().min(2),
+  last_name: z.string().min(3),
+  address_1: z.string().min(1),
+  address_2: z.string().optional(),
   city: z.string().min(1),
-  postalCode: z.string().min(1),
-  countryCode: z.string().min(2),
-  phone: z.string().optional().nullable(),
+  postal_code: z.string().min(1),
+  country_code: z.string().min(2),
+  phone: z.string().optional(),
 });
 export type CustomerAddressArgs = z.infer<typeof customerAddressSchema>;
 
@@ -50,12 +49,8 @@ export const useAddAddress = () => {
 
   return useMutation({
     mutationKey: ['add-address'],
-    mutationFn: async (values: z.infer<typeof customerAddressSchema>) => {
-      return addCustomerAddress(values);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['customer'] });
-    },
+    mutationFn: (values: CustomerAddressArgs) => addCustomerAddress(values),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };
 
@@ -64,12 +59,10 @@ export const useUpdateAddress = (addressId: string) => {
 
   return useMutation({
     mutationKey: ['update-address'],
-    mutationFn: async (values: z.infer<typeof customerAddressSchema>) => {
+    mutationFn: async (values: CustomerAddressArgs) => {
       return updateCustomerAddress(values, addressId);
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['customer'] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };
 
@@ -79,11 +72,8 @@ export const useDeleteCustomerAddress = (addressId: string) => {
 
   return useMutation({
     mutationKey: ['delete-address'],
-    mutationFn: async () => {
-      return deleteCustomerAddress(addressId);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['customer'] });
-    },
+    mutationFn: () => deleteCustomerAddress(addressId),
+
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };

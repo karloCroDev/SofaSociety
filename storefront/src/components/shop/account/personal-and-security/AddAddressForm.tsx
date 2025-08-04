@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/Input';
 import { Form } from '@/components/ui/Form';
 
 // Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 // Hooks
 import {
@@ -37,14 +37,14 @@ export const AddAddressForm: React.FC<{
   } = useForm<CustomerAddressArgs>({
     resolver: zodResolver(customerAddressSchema),
     defaultValues: {
-      firstName: address?.first_name ?? '',
-      lastName: address?.last_name ?? '',
+      first_name: address?.first_name ?? '',
+      last_name: address?.last_name ?? '',
       phone: address?.phone ?? '',
-      address1: address?.address_1 ?? '',
-      address2: address?.address_2 ?? '',
-      postalCode: address?.postal_code ?? '',
+      address_1: address?.address_1 ?? '',
+      address_2: address?.address_2 ?? '',
+      postal_code: address?.postal_code ?? '',
       city: address?.city ?? '',
-      countryCode: address?.country_code || userRegion?.countries?.[0]?.iso_2,
+      country_code: address?.country_code || userRegion?.countries?.[0]?.iso_2,
     },
   });
   const { close } = React.useContext(OverlayTriggerStateContext)!;
@@ -55,7 +55,6 @@ export const AddAddressForm: React.FC<{
     : useAddAddress();
 
   const onSubmit = (values: CustomerAddressArgs) => {
-    console.log(values);
     mutate(values, {
       onSuccess: (res) => {
         console.log(res);
@@ -75,7 +74,7 @@ export const AddAddressForm: React.FC<{
       <div className="flex flex-col gap-8">
         <Controller
           control={control}
-          name="countryCode"
+          name="country_code"
           render={({ field }) => (
             <CountrySelect
               regions={regions}
@@ -88,14 +87,14 @@ export const AddAddressForm: React.FC<{
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
           <Controller
             control={control}
-            name="firstName"
+            name="first_name"
             render={({ field }) => (
               <Input label="First name" className="flex-1" inputProps={field} />
             )}
           />
           <Controller
             control={control}
-            name="lastName"
+            name="last_name"
             render={({ field }) => (
               <Input label="Last name" className="flex-1" inputProps={field} />
             )}
@@ -119,7 +118,7 @@ export const AddAddressForm: React.FC<{
         />
         <Controller
           control={control}
-          name="address1"
+          name="address_1"
           render={({ field }) => (
             <Input
               label="Address"
@@ -133,7 +132,7 @@ export const AddAddressForm: React.FC<{
         />
         <Controller
           control={control}
-          name="address2"
+          name="address_2"
           render={({ field }) => (
             <Input
               label="Apartment, suite, etc. (Optional)"
@@ -149,7 +148,7 @@ export const AddAddressForm: React.FC<{
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
           <Controller
             control={control}
-            name="postalCode"
+            name="postal_code"
             render={({ field }) => (
               <Input
                 label="Postal code"

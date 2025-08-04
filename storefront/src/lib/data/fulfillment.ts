@@ -21,7 +21,7 @@ export const listCartShippingMethods = async function (cartId: string) {
     });
 };
 
-// Ante: Je li mogu provideati dodatne opcije poput cache ili query na ovaj nacin ispod
+// Ante: Je li mogu provideati dodatne opcije poput cache ili query na ovaj nacin ispod, nisam našao ništa konkretno u dokumentaciji
 
 //   try {
 //     const { shipping_options } = await sdk.store.fulfillment.listCartOptions({

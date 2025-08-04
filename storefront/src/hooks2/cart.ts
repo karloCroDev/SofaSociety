@@ -2,7 +2,7 @@
 import { HttpTypes } from '@medusajs/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-// Lib 2
+// Lib
 import {
   addItemToCart,
   deleteCartItem,
@@ -13,7 +13,7 @@ import {
 export const useCart = () =>
   useQuery({
     queryKey: ['cart'],
-    queryFn: async () => getCart(),
+    queryFn: () => getCart(),
   });
 
 export type AddItemToCartArgs = HttpTypes.StoreAddCartLineItem & {
@@ -23,10 +23,8 @@ export const useAddCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['add-cart-item'],
-    mutationFn: async (data: AddItemToCartArgs) => addItemToCart(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
+    mutationFn: (data: AddItemToCartArgs) => addItemToCart(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
   });
 };
 
@@ -37,10 +35,8 @@ export const useDeleteCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['delete-cart-item'],
-    mutationFn: async (data: DeleteItemArgs) => deleteCartItem(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
+    mutationFn: (data: DeleteItemArgs) => deleteCartItem(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
   });
 };
 
@@ -51,9 +47,7 @@ export const useUpdateCartItem = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['update-cart-item'],
-    mutationFn: async (data: UpdateCartItemArgs) => updateCartItem(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
-    },
+    mutationFn: (data: UpdateCartItemArgs) => updateCartItem(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
   });
 };

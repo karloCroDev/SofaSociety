@@ -16,9 +16,9 @@ import ImageLivingRoom from '@/public/images/about/living-room-sofa.png';
 import ImageDoubleSofa from '@/public/images/inspiration/dobule-sofa.png';
 
 // Lib
-import { getCollectionsList } from '@/lib/data/collections';
-import { getProductsListWithSort } from '@/lib/data/products';
-import { getRegion } from '@/lib/data/regions';
+import { getCollectionsList } from '@/lib2/data/collections';
+import { getProductsListWithSort } from '@/lib2/data/products';
+import { getRegion } from '@/lib2/data/regions';
 
 interface PageProps {
   params: Promise<{ location: string }>;
@@ -32,7 +32,11 @@ export default async function Inspiration({ params }: PageProps) {
   };
 
   const [{ collections }, collectionProducts, region] = await Promise.all([
-    getCollectionsList(0, 20, ['metadata', 'handle', 'title']),
+    getCollectionsList({
+      offset: 0,
+      limit: 20,
+      fields: ['metadata', 'handle', 'title'],
+    }),
     getProductsListWithSort({ countryCode: location, queryParams, page: 1 }),
     getRegion(location),
   ]);

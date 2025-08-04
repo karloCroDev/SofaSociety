@@ -5,7 +5,7 @@ import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { sdk } from '@/lib2/config';
-import medusaError from '@/lib/util/medusa-error';
+import { medusaError } from '@/lib2/util/medusa-error';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import {
   getCartId,

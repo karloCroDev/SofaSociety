@@ -4,28 +4,20 @@ import { Suspense } from 'react';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-
-import { PopoverOption } from '@/components/ui/filters/PopoverOption';
-import { Sort } from '@/components/ui/filters/Sort';
-import { DrawerFilter } from '@/components/ui/filters/DrawerFilter';
-import { DrawerSort } from '@/components/ui/filters/DrawerSort';
 import {
   ProductsMapping,
   ProductsSkeletonMapping,
 } from '@/components/ui/ProductsGrid';
 import { type SortOptions } from '@/components/ui/filters/Sort';
+import { Filters } from '@/components/ui/filters/Filters';
 
 // Lib
-import { getCollectionByHandle } from '@/lib/data/collections';
-import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
-import { getCategoriesList } from '@/lib/data/categories';
-import { getProductTypesList } from '@/lib/data/product-types';
-import { getRegion } from '@/lib/data/regions';
-import { ProductFilters } from '@/components/ui/filters/ProductFilters';
-
-// Lib2
+import { getCollectionByHandle } from '@/lib2/data/collections';
+import { collectionMetadataCustomFieldsSchema } from '@/lib2/util/collections';
+import { getRegion } from '@/lib2/data/regions';
 import { converterCheckerArray } from '@/lib2/util/arrayChecker';
-import { Filters } from '@/components/ui/filters/Filters';
+import { getSpecificCategories } from '@/lib2/data/categories';
+import { getSpecificProductType } from '@/lib2/data/product-types';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;
@@ -44,16 +36,13 @@ export default async function CollectionPage({
   const { handle, location } = await params;
   const { category, type, page, sortBy } = await searchParams;
 
-  console.log(page);
-
   const isArrayCategory = converterCheckerArray(category);
   const isArrayType = converterCheckerArray(type);
 
-  const collection = await getCollectionByHandle(handle, [
-    'metadata',
-    'title',
-    'products',
-  ]);
+  const collection = await getCollectionByHandle({
+    handle,
+    fields: ['metadata', 'title', 'products'],
+  });
   const collectionConverter = collectionMetadataCustomFieldsSchema.safeParse(
     collection.metadata ?? {}
   );
@@ -64,8 +53,16 @@ export default async function CollectionPage({
   };
 
   const [categories, types, region] = await Promise.all([
-    getCategoriesList(0, 100, ['id', 'name', 'handle']),
-    getProductTypesList(0, 100, ['id', 'value']),
+    getSpecificCategories({
+      offset: 0,
+      limit: 100,
+      fields: ['id', 'name', 'handle'],
+    }),
+    getSpecificProductType({
+      offset: 0,
+      limit: 100,
+      fields: ['id', 'value'],
+    }),
     getRegion(location),
   ]);
 
@@ -98,15 +95,13 @@ export default async function CollectionPage({
         </h2>
 
         <Filters
-          appliedCategoryFilters={categories.product_categories.map(
-            (collection) => ({
-              handle: collection.handle,
-              name: collection.name,
-              id: collection.id,
-            })
-          )}
+          appliedCategoryFilters={categories.map((collection) => ({
+            handle: collection.handle,
+            name: collection.name,
+            id: collection.id,
+          }))}
           categoryFilters={converterCheckerArray(category)}
-          appliedTypeFilters={types.productTypes.map((collection) => ({
+          appliedTypeFilters={types.product_types.map((collection) => ({
             handle: collection.value,
             name: collection.value,
             id: collection.id,
@@ -124,14 +119,14 @@ export default async function CollectionPage({
               categoryId={
                 !isArrayCategory
                   ? undefined
-                  : categories.product_categories
+                  : categories
                       .filter((c) => isArrayCategory.includes(c.handle))
                       .map((c) => c.id)
               }
               typeId={
                 !isArrayType
                   ? undefined
-                  : types.productTypes
+                  : types.product_types
                       .filter((t) => isArrayType.includes(t.value))
                       .map((t) => t.id)
               }

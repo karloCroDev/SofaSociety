@@ -3,16 +3,12 @@
 // Etxernal packages
 import * as React from 'react';
 import Image from 'next/image';
+import { HttpTypes } from '@medusajs/types';
 
 // Components
 import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { IconButton } from '@/components/ui/IconButton';
 import { Icon } from '@/components/ui/Icon';
-
-// Assets
-import ImagePalomaHeaven from '@/public/images/product/paloma-heaven.png';
-import ImagePalomaHeavenDetails from '@/public/images/product/paloma-heaven-details.png';
-import { HttpTypes } from '@medusajs/types';
 
 export const ImageSlider: React.FC<{
   imageData: HttpTypes.StoreProductImage[];

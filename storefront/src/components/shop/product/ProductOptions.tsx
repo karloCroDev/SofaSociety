@@ -10,7 +10,7 @@ import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
 import { Button } from '@/components/ui/Button';
 import { SelectColor } from '@/components/shop/product/SelectColor';
 import { isEqual } from 'lodash';
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 import { getVariantItemsInStock } from '@/lib/util/inventory';
 import { useAddLineItem } from '@/hooks/cart';
 import { useCountryCode } from '@/hooks/country-code';

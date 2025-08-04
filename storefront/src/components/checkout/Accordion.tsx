@@ -15,13 +15,12 @@ import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { StepTypes } from '@/app/[location]/checkout/page';
 
 // Lib
-import { withReactQueryProvider } from '@/lib/util/react-query';
+import { withReactQueryProvider } from '@/lib2/react-query';
 
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
-  location: string;
-}> = withReactQueryProvider(({ cart, stepURL, location }) => {
+}> = withReactQueryProvider(({ cart, stepURL }) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -50,7 +49,7 @@ export const Accordion: React.FC<{
       value={stepURL || step || undefined}
       collapsible
     >
-      <Email cart={cart} location={location} />
+      <Email cart={cart} />
       <Address cart={cart} />
 
       <Shipping cart={cart} />

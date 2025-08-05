@@ -4,7 +4,7 @@
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { HttpTypes } from '@medusajs/types';
+import { HttpTypes, StorePaymentSession } from '@medusajs/types';
 import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -19,8 +19,13 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { Form } from '@/components/ui/Form';
 import { completeCartServer } from '@/lib2/data/payment';
+import { isStripe } from '@/lib2/constants';
+import { useCartPaymentMethods, useGetPaymentMethod } from '@/hooks/cart';
+import { Radio, RadioGroup } from 'react-aria-components';
+import { RadioButtonVisual } from '@/components/ui/Radio';
+import { PaymentMethodButton } from '@/components/checkout/StipePaymentButton';
 
-const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || 'temp');
+const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || 'temp');
 
 export const Payment: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -31,10 +36,39 @@ export const Payment: React.FC<{
 
   const isOpen = searchParams.get('step') === 'shipping';
 
+  const createQueryString = React.useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   const clientSecret = cart?.payment_collection?.payment_sessions?.[0].data
     .client_secret as string;
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(
+    cart.payment_collection?.payment_sessions?.[0].provider_id || ''
+  );
+
+  const stripeChecker = isStripe(
+    cart.payment_collection?.payment_sessions?.[0].provider_id
+  );
+
+  const { data: allPaymentMethods } = useCartPaymentMethods(
+    cart?.region?.id ?? ''
+  );
+
+  const activeSession = cart?.payment_collection?.payment_sessions?.find(
+    (paymentSession: StorePaymentSession) => paymentSession.status === 'pending'
+  );
+
+  const paymentMethodId = activeSession?.data?.payment_method_id as string;
+  const { data: paymentMethod } = useGetPaymentMethod(paymentMethodId);
 
   console.log(clientSecret);
+
   return (
     <RadixAccordion.Item value="payment" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
@@ -56,21 +90,52 @@ export const Payment: React.FC<{
         </div>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
-        <Elements
-          stripe={stripe}
-          options={{
-            clientSecret,
-          }}
-        >
-          <StripeForm cart={cart} clientSecret={clientSecret} />
-        </Elements>
-        <Button
-          size="lg"
-          iconRight={<Icon name="arrow-up" />}
-          className="w-full"
-        >
-          Pay with stripe
-        </Button>
+        {allPaymentMethods?.length && (
+          <>
+            <RadioGroup
+              value={selectedPaymentMethod}
+              onChange={setSelectedPaymentMethod}
+              aria-label="Payment methods"
+            >
+              {allPaymentMethods
+                .sort((a, b) => {
+                  return a.id > b.id ? 1 : -1;
+                })
+
+                .map((paymentMethod) => (
+                  <Radio
+                    key={paymentMethod.id}
+                    className="group"
+                    value={paymentMethod.id}
+                  >
+                    <RadioButtonVisual
+                      additionalLabel={<Icon name="credit-card" />}
+                    >
+                      Credit card
+                    </RadioButtonVisual>
+                  </Radio>
+                ))}
+            </RadioGroup>
+            <PaymentMethodButton
+              cart={cart}
+              selectedPaymentMethod={selectedPaymentMethod}
+              createQueryString={createQueryString}
+            />
+          </>
+        )}
+
+        {stripeChecker && (
+          <>
+            <Elements
+              stripe={stripe}
+              options={{
+                clientSecret,
+              }}
+            >
+              <StripeForm cart={cart} clientSecret={clientSecret} />
+            </Elements>
+          </>
+        )}
       </RadixAccordion.Content>
     </RadixAccordion.Item>
   );

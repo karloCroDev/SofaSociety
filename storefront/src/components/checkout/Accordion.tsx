@@ -28,7 +28,6 @@ export const Accordion: React.FC<{
   const [hasLoaded, setHadLoaded] = React.useState(false);
 
   // React.useEffect(() => {
-  //   if (hasLoaded) return;
   //   let currentStep: StepTypes; // Default to last step if there are no previous steps
 
   //   if (!cart.email) currentStep = 'email';

@@ -3,6 +3,7 @@ import {
   applyPromotions,
   deleteLineItem,
   getCartQuantity,
+  getPaymentMethod,
   initiatePaymentSession,
   placeOrder,
   retrieveCart,
@@ -333,6 +334,19 @@ export const useSetPaymentMethod = (
       await options?.onSuccess?.(...args);
     },
     ...options,
+  });
+};
+
+export const useGetPaymentMethod = (id: string | undefined) => {
+  return useQuery({
+    queryKey: ['payment', id],
+    queryFn: async () => {
+      if (!id) {
+        return null;
+      }
+      const res = await getPaymentMethod(id);
+      return res;
+    },
   });
 };
 

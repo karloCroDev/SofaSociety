@@ -3,9 +3,11 @@
 import { HttpTypes } from '@medusajs/types';
 import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
+import { PaymentMethod } from '@stripe/stripe-js';
 
 import { sdk } from '@/lib2/config';
-import { medusaError } from '@/lib2/util/medusa-error';
+import medusaError from '@/lib/util/medusa-error';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import {
   getCartId,
@@ -14,9 +16,7 @@ import {
   removeCartId,
 } from '@/lib/data/cookies';
 import { getRegion } from '@/lib/data/regions';
-import { z } from 'zod';
 import { addressesFormSchema } from '@/hooks/cart';
-import { getCart } from '@/lib2/data/cart';
 
 export async function retrieveCart() {
   const cartId = await getCartId();
@@ -59,26 +59,26 @@ export async function getOrSetCart(input: unknown) {
 
   const countryCode = input;
 
+  let cart = await retrieveCart();
   const region = await getRegion(countryCode);
 
   if (!region) {
     throw new Error(`Region not found for country code: ${countryCode}`);
   }
 
-  let cart = await getCart();
   if (!cart) {
-    const newCart = await sdk.store.cart.create(
+    const cartResp = await sdk.store.cart.create(
       { region_id: region.id },
       {},
       await getAuthHeaders()
     );
+    cart = cartResp.cart;
 
-    await setCartId(newCart.cart.id);
-    cart = newCart.cart;
+    await setCartId(cart.id);
     revalidateTag('cart');
   }
 
-  if (cart.region_id !== region.id) {
+  if (cart && cart?.region_id !== region.id) {
     await sdk.store.cart.update(
       cart.id,
       { region_id: region.id },
@@ -91,7 +91,7 @@ export async function getOrSetCart(input: unknown) {
   return cart;
 }
 
-export async function updateCart(data: HttpTypes.StoreUpdateCart) {
+async function updateCart(data: HttpTypes.StoreUpdateCart) {
   const cartId = await getCartId();
   if (!cartId) {
     throw new Error(
@@ -249,6 +249,15 @@ export async function setPaymentMethod(
     .catch(medusaError);
 }
 
+export async function getPaymentMethod(id: string) {
+  return await sdk.client
+    .fetch<PaymentMethod>(`/store/custom/stripe/get-payment-method/${id}`)
+    .then((resp: PaymentMethod) => {
+      return resp;
+    })
+    .catch(medusaError);
+}
+
 export async function initiatePaymentSession(provider_id: unknown) {
   const cart = await retrieveCart();
 
@@ -337,7 +346,6 @@ export async function setAddresses(
           ? formData.shipping_address
           : formData.billing_address,
     });
-
     revalidateTag('shipping');
     return { success: true, error: null };
   } catch (e) {
@@ -370,6 +378,11 @@ export async function placeOrder() {
   return cartRes;
 }
 
+/**
+ * Updates the countryCode param and revalidate the regions cache
+ * @param regionId
+ * @param countryCode
+ */
 export async function updateRegion(countryCode: string, currentPath: string) {
   if (typeof countryCode !== 'string') {
     throw new Error('Invalid country code');

@@ -17,7 +17,7 @@ export const RadioIconVisual: React.FC<
 
 export const RadioButtonVisual: React.FC<
   React.ComponentPropsWithoutRef<'div'> & {
-    additionalLabel: string;
+    additionalLabel: React.ReactNode | string;
   }
 > = ({ additionalLabel, children, className, ...rest }) => {
   return (

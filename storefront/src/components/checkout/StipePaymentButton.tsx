@@ -1,73 +1,60 @@
 'use client';
 
-import { useElements, useStripe } from '@stripe/react-stripe-js';
+// External packages
 import * as React from 'react';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { HttpTypes } from '@medusajs/types';
-
-import { isStripe } from '@/lib2/constants';
-import { Button } from '@/components/ui/Button';
 import { usePathname, useRouter } from 'next/navigation';
+
+// Lib
+import { isStripe } from '@/lib2/constants';
+import { withReactQueryProvider } from '@/lib2/react-query';
+
+// Components
+import { Button } from '@/components/ui/Button';
+
+// Hooks
 import { useInitiatePaymentSession, useSetPaymentMethod } from '@/hooks/cart';
-import { withReactQueryProvider } from '@/lib/util/react-query';
 
-type PaymentButtonProps = {
+export const PaymentCardButton: React.FC<{
   cart: HttpTypes.StoreCart;
-  isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
-  cardComplete?: boolean;
-  createQueryString: (name: string, value: string) => string;
+  cardComplete: boolean;
   selectedPaymentMethod: string;
-  setError: (value: string | null) => void;
-};
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
+}> = withReactQueryProvider(
+  ({ cart, cardComplete, selectedPaymentMethod, setError }) => {
+    const session = cart.payment_collection?.payment_sessions?.find(
+      (s) => s.status === 'pending'
+    );
 
-const PaymentCardButton: React.FC<PaymentButtonProps> = ({
-  cart,
-  isLoading,
-  setIsLoading,
-  cardComplete,
-  createQueryString,
-  selectedPaymentMethod,
-  setError,
-}) => {
-  const session = cart.payment_collection?.payment_sessions?.find(
-    (s) => s.status === 'pending'
-  );
-  if (isStripe(session?.provider_id) && isStripe(selectedPaymentMethod)) {
+    if (isStripe(session?.provider_id) && isStripe(selectedPaymentMethod)) {
+      return (
+        <StripeCardPaymentButton
+          setError={setError}
+          cart={cart}
+          cardComplete={cardComplete}
+        />
+      );
+    }
+
     return (
-      <StripeCardPaymentButton
+      <PaymentMethodButton
         setError={setError}
         cart={cart}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        cardComplete={cardComplete}
-        createQueryString={createQueryString}
+        selectedPaymentMethod={selectedPaymentMethod}
       />
     );
   }
-
-  return (
-    <PaymentMethodButton
-      cart={cart}
-      createQueryString={createQueryString}
-      selectedPaymentMethod={selectedPaymentMethod}
-    />
-  );
-};
+);
 
 const StripeCardPaymentButton = ({
   cart,
-  isLoading,
-  setIsLoading,
   cardComplete,
-  createQueryString,
   setError,
 }: {
   cart: HttpTypes.StoreCart;
-  isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
   cardComplete?: boolean;
-  createQueryString: (name: string, value: string) => string;
-  setError: (value: string | null) => void;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -85,7 +72,6 @@ const StripeCardPaymentButton = ({
   const initiatePaymentSession = useInitiatePaymentSession();
 
   const handleSubmit = async () => {
-    setIsLoading(true);
     try {
       const shouldInputCard = !session;
 
@@ -95,35 +81,29 @@ const StripeCardPaymentButton = ({
       if (!shouldInputCard) {
         if (card) {
           const token = await stripe?.createToken(card, {
-            name:
-              cart.billing_address?.first_name +
-              ' ' +
-              cart.billing_address?.last_name,
-            address_line1: cart.billing_address?.address_1 ?? undefined,
-            address_line2: cart.billing_address?.address_2 ?? undefined,
-            address_city: cart.billing_address?.city ?? undefined,
-            address_country: cart.billing_address?.country_code ?? undefined,
-            address_zip: cart.billing_address?.postal_code ?? undefined,
-            address_state: cart.billing_address?.province ?? undefined,
+            name: `${cart.billing_address?.first_name} ${cart.billing_address?.last_name}`,
+            address_line1: cart.billing_address?.address_1 || '',
+            address_line2: cart.billing_address?.address_2 || '',
+            address_city: cart.billing_address?.city || '',
+            address_country: cart.billing_address?.country_code || '',
+            address_zip: cart.billing_address?.postal_code || '',
+            address_state: cart.billing_address?.province || '',
           });
+
           if (token) {
-            await setPaymentMethod.mutateAsync({
+            setPaymentMethod.mutate({
               sessionId: session.id,
               token: token.token?.id,
             });
           }
         }
-        return router.push(
-          pathname + '?' + createQueryString('step', 'review'),
-          {
-            scroll: false,
-          }
-        );
+
+        return router.push(`${pathname}?step=review`, {
+          scroll: false,
+        });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : `${err}`);
-    } finally {
-      setIsLoading(false);
+      setError(err instanceof Error ? err.message : (err as string));
     }
   };
 
@@ -139,14 +119,13 @@ const StripeCardPaymentButton = ({
   );
 };
 
-export const PaymentMethodButton = ({
-  createQueryString,
+const PaymentMethodButton = ({
   selectedPaymentMethod,
+  setError,
 }: {
   cart: HttpTypes.StoreCart;
-
-  createQueryString: (name: string, value: string) => string;
   selectedPaymentMethod: string;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -161,16 +140,13 @@ export const PaymentMethodButton = ({
       {
         onSuccess: () => {
           if (!isStripe(selectedPaymentMethod)) {
-            return router.push(
-              pathname + '?' + createQueryString('step', 'review'),
-              {
-                scroll: false,
-              }
-            );
+            return router.push(`${pathname}?step=completed`, {
+              scroll: false,
+            });
           }
         },
         onError: (err) => {
-          console.error(err);
+          setError(err instanceof Error ? err.message : (err as string));
         },
       }
     );
@@ -189,5 +165,3 @@ export const PaymentMethodButton = ({
     </Button>
   );
 };
-
-export default withReactQueryProvider(PaymentCardButton);

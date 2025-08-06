@@ -16,6 +16,7 @@ import { StepTypes } from '@/app/[location]/checkout/page';
 
 // Lib
 import { withReactQueryProvider } from '@/lib2/react-query';
+import { Button } from '@/components/ui/Button';
 
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -42,6 +43,17 @@ export const Accordion: React.FC<{
 
   const step = searchParams.get('step');
 
+  const allStepsChecker =
+    !!cart.email &&
+    !!cart.shipping_address &&
+    !!cart.billing_address &&
+    // Ante: Ugl malo me zafrkava zbog tax regiona (pogledaj prijašnja pitanja)
+    // Array.isArray(cart.shipping_methods) &&
+    // cart.shipping_methods.length > 0 &&
+    !!cart.payment_collection &&
+    step === 'completed';
+
+  console.log(allStepsChecker);
   return (
     <RadixAccordion.Root
       type="single"
@@ -53,14 +65,15 @@ export const Accordion: React.FC<{
 
       <Shipping cart={cart} />
       <Payment cart={cart} />
-      <LinkAsButton
-        href="/confirmation"
+
+      <Button
         size="lg"
         className="mb-24 mt-8 w-full"
-        // Karlo: Check all logic once completed and make this a button!
+        isVisuallyDisabled={!allStepsChecker}
+        isDisabled={!allStepsChecker}
       >
         Place an order
-      </LinkAsButton>
+      </Button>
     </RadixAccordion.Root>
   );
 });

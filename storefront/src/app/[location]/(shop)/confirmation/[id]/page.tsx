@@ -3,8 +3,17 @@
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+import { retrieveOrder } from '@/lib/data/orders';
 
-export default function Confirmation() {
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
+export default async function Confirmation({ params }: PageProps) {
+  const { id } = await params;
+  const order = await retrieveOrder(id);
+
   return (
     <Layout className="mt-28 lg:mt-32">
       <LayoutRow className="justify-center">
@@ -26,7 +35,7 @@ export default function Confirmation() {
             {/* TODO: Izbaci `<span>` sa linije ispod van paragrafa i dodaj ga ispod kao `<p>` element. FIXED*/}
           </p>
           <p>
-            Your order number is <strong>#100002.</strong>
+            Your order number is <strong>{order.display_id}</strong>
           </p>
           <div className="mt-16 flex flex-col lg:flex-row lg:justify-between">
             <div>

@@ -51,7 +51,6 @@ export const ProductOptions: React.FC<{
       return JSON.stringify(variantOptions) === JSON.stringify(productOptions);
     });
 
-  console.log(doesOptionExists);
   const [amount, setAmount] = React.useState(1);
 
   // check if the selected variant is in stock

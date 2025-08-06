@@ -5,6 +5,8 @@ import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { HttpTypes } from '@medusajs/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 // Components
 import { Email } from '@/components/checkout/Email';
@@ -17,7 +19,10 @@ import { StepTypes } from '@/app/[location]/checkout/page';
 // Lib
 import { withReactQueryProvider } from '@/lib2/react-query';
 import { Button } from '@/components/ui/Button';
+import { PaymentButton } from '@/components/checkout/CompleteOrder';
+import path from 'path';
 
+const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || 'temp');
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
@@ -50,30 +55,35 @@ export const Accordion: React.FC<{
     // Ante: Ugl malo me zafrkava zbog tax regiona (pogledaj prijašnja pitanja)
     // Array.isArray(cart.shipping_methods) &&
     // cart.shipping_methods.length > 0 &&
-    !!cart.payment_collection &&
-    step === 'completed';
+    !!cart.payment_collection;
 
   console.log(allStepsChecker);
   return (
-    <RadixAccordion.Root
-      type="single"
-      value={stepURL || step || undefined}
-      collapsible
+    <Elements
+      stripe={stripe}
+      options={{
+        clientSecret: cart?.payment_collection?.payment_sessions?.[0].data
+          .client_secret as string,
+      }}
     >
-      <Email cart={cart} />
-      <Address cart={cart} />
-
-      <Shipping cart={cart} />
-      <Payment cart={cart} />
-
-      <Button
-        size="lg"
-        className="mb-24 mt-8 w-full"
-        isVisuallyDisabled={!allStepsChecker}
-        isDisabled={!allStepsChecker}
+      <RadixAccordion.Root
+        type="single"
+        value={stepURL || step || undefined}
+        collapsible
       >
-        Place an order
-      </Button>
-    </RadixAccordion.Root>
+        <Email cart={cart} />
+        <Address cart={cart} />
+
+        <Shipping cart={cart} />
+        <Payment cart={cart} />
+
+        <PaymentButton
+          cart={cart}
+          selectPaymentMethod={() =>
+            router.push(`${pathname}?step=payment`, { scroll: false })
+          }
+        />
+      </RadixAccordion.Root>
+    </Elements>
   );
 });

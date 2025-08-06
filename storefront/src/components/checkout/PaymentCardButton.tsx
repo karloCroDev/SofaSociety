@@ -15,14 +15,19 @@ import { Button } from '@/components/ui/Button';
 
 // Hooks
 import { useInitiatePaymentSession, useSetPaymentMethod } from '@/hooks/cart';
+import { ButtonProps } from 'react-aria-components';
+import { AdditionalButtonProps } from '@/components/ui/LinkAsButton';
 
-export const PaymentCardButton: React.FC<{
-  cart: HttpTypes.StoreCart;
-  cardComplete: boolean;
-  selectedPaymentMethod: string;
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
-}> = withReactQueryProvider(
-  ({ cart, cardComplete, selectedPaymentMethod, setError }) => {
+export const PaymentCardButton: React.FC<
+  ButtonProps &
+    AdditionalButtonProps & {
+      cart: HttpTypes.StoreCart;
+      cardComplete: boolean;
+      selectedPaymentMethod: string;
+      setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
+    }
+> = withReactQueryProvider(
+  ({ cart, cardComplete, selectedPaymentMethod, setErrorMessage }) => {
     const session = cart.payment_collection?.payment_sessions?.find(
       (s) => s.status === 'pending'
     );
@@ -30,7 +35,7 @@ export const PaymentCardButton: React.FC<{
     if (isStripe(session?.provider_id) && isStripe(selectedPaymentMethod)) {
       return (
         <StripeCardPaymentButton
-          setError={setError}
+          setErrorMessage={setErrorMessage}
           cart={cart}
           cardComplete={cardComplete}
         />
@@ -39,7 +44,7 @@ export const PaymentCardButton: React.FC<{
 
     return (
       <PaymentMethodButton
-        setError={setError}
+        setErrorMessage={setErrorMessage}
         cart={cart}
         selectedPaymentMethod={selectedPaymentMethod}
       />
@@ -50,11 +55,11 @@ export const PaymentCardButton: React.FC<{
 const StripeCardPaymentButton = ({
   cart,
   cardComplete,
-  setError,
+  setErrorMessage,
 }: {
   cart: HttpTypes.StoreCart;
   cardComplete?: boolean;
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -98,12 +103,12 @@ const StripeCardPaymentButton = ({
           }
         }
 
-        return router.push(`${pathname}?step=review`, {
+        return router.push(`${pathname}?step=completed`, {
           scroll: false,
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : (err as string));
+      setErrorMessage(err instanceof Error ? err.message : (err as string));
     }
   };
 
@@ -114,18 +119,18 @@ const StripeCardPaymentButton = ({
       isDisabled={!cardComplete}
       data-testid="submit-payment-button"
     >
-      {!session ? 'Enter card details' : 'Continue to review'}
+      {!session ? 'Enter card details' : 'Complete'}
     </Button>
   );
 };
 
 const PaymentMethodButton = ({
   selectedPaymentMethod,
-  setError,
+  setErrorMessage,
 }: {
   cart: HttpTypes.StoreCart;
   selectedPaymentMethod: string;
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -146,7 +151,7 @@ const PaymentMethodButton = ({
           }
         },
         onError: (err) => {
-          setError(err instanceof Error ? err.message : (err as string));
+          setErrorMessage(err instanceof Error ? err.message : (err as string));
         },
       }
     );

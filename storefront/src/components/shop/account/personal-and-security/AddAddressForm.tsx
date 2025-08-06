@@ -44,7 +44,7 @@ export const AddAddressForm: React.FC<{
       address_2: address?.address_2 ?? '',
       postal_code: address?.postal_code ?? '',
       city: address?.city ?? '',
-      country_code: address?.country_code || userRegion?.countries?.[0]?.iso_2,
+      country_code: userRegion?.countries?.[0]?.iso_2,
     },
   });
   const { close } = React.useContext(OverlayTriggerStateContext)!;

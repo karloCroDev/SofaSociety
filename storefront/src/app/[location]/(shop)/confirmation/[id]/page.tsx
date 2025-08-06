@@ -145,6 +145,28 @@ export default async function Confirmation({ params }: PageProps) {
                 </>
               ))}
           </div>
+
+          <div className="mt-6 flex flex-col items-center gap-y-5 rounded border border-gray-200 p-4 lg:flex-row lg:items-start">
+            <div className="flex h-fit w-full items-center gap-2">
+              <Icon name="credit-card" className="size-3" />
+              <p className="text-gray-500">Payment</p>
+            </div>
+            <div>
+              <div className="flex">
+                <p className="text-gray-500">Subtotal</p>
+                <p className="ml-40">€{order.item_subtotal}</p>
+              </div>
+              <div className="mt-2 flex">
+                <p className="text-gray-500">Shipping</p>
+                <p className="ml-40">€{order.shipping_total}</p>
+              </div>
+              <div className="mt-6 flex text-lg">
+                <p>Total</p>
+                <p className="ml-40">€{order.total}</p>
+              </div>
+              <p className="text-sm text-gray-500">Including 11.25 tax </p>
+            </div>
+          </div>
         </LayoutColumn>
       </LayoutRow>
     </Layout>

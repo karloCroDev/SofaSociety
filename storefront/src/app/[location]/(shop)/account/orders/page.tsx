@@ -1,9 +1,3 @@
-// TODO:
-// 1. Imaš console error na ovoj stranici. Molim te da prođeš sve stranice i provjeriš da li imaš još sličnih problema. FIXED
-// 2. Sidebar na ovoj stranici treba biti fiksan, dok se samo sadržaj s desne strane može "skrolati". FIXED
-// 3. Također, sidebar mora ići skroz do kraja prozora lijevo, trenutno imaš nekakav razmak. FIXED
-// 4. Točke 2. i 3. također vrijede za `/account/orders/order` i `/account/personal-and-security` stranice. FIXED
-
 // External packages
 import Image from 'next/image';
 
@@ -13,33 +7,44 @@ import { Tag } from '@/components/ui/Tag';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
 // Assets
-import ImageExample from '@/public/images/home/modern-luxe.png';
+import { listOrders, retrieveOrder } from '@/lib/data/orders';
 
-export default function Orders() {
+export default async function OrdersPage() {
+  const { orders } = await listOrders();
+  console.log(orders);
+
+  if (!orders)
+    return <p className="mt-16 text-lg">You haven't ordered anything</p>;
+
   return (
     <>
       <h1 className="text-xl font-semibold">My orders</h1>
 
-      {/* <p className="mt-16 text-lg">You haven't ordered anything</p> */}
-      <div className="mt-16">
-        {[...Array(8)].map((_, i: number) => (
+      <div className="mt-16 lg:min-h-[calc(100vh-128px-144px-340px)]">
+        {orders.map((order, i: number) => (
           <OrderCard
             key={i}
-            orderId="000000004"
-            orderDate="29 December 2024"
-            status={
-              <Tag iconLeft={<Icon name="package" className="size-3" />}>
-                Packing{' '}
-              </Tag>
+            orderId={
+              order.id.includes('order_')
+                ? order.id.split('order_')[1]
+                : order.id
             }
+            orderHandle={order.id}
+            // mock date
+            orderDate={new Date(order.created_at).toLocaleDateString()}
+            status={<GetOrderStatusTag status={order.fulfillment_status} />}
             productImages={
-              <div className="ml-auto h-24 w-20">
-                <Image
-                  src={ImageExample}
-                  alt="Example image"
-                  className="h-full w-full object-cover"
-                />
-              </div>
+              order.items &&
+              order.items[0].thumbnail && (
+                <div className="relative ml-auto h-24 w-20">
+                  <Image
+                    src={order.items[0].thumbnail}
+                    alt={order.items[0].thumbnail}
+                    fill
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )
             }
           />
         ))}
@@ -49,30 +54,67 @@ export default function Orders() {
 }
 const OrderCard: React.FC<{
   orderId: string;
+  orderHandle: string;
   status: React.ReactNode;
   orderDate: string;
   productImages: React.ReactNode;
-}> = ({ orderId, status, orderDate, productImages }) => (
-  <div className="mb-4 rounded border border-gray-200 p-4">
-    <div className="flex">
-      <div>
-        {/* TODO: Pari mi da ti je ovaj `<div>` na liniji ispod višak. FIXED*/}
+}> = ({ orderId, orderHandle, status, orderDate, productImages }) => {
+  return (
+    <div className="mb-4 rounded border border-gray-200 p-4">
+      <div className="flex">
+        <div>
+          {/* TODO: Pari mi da ti je ovaj `<div>` na liniji ispod višak. FIXED*/}
 
-        <div className="text-lg">
-          <h4 className="font-bold">Order:</h4>
-          <p>{orderId}</p>
+          <div className="lg:text-md">
+            <h4 className="font-bold">Order:</h4>
+            <p>{orderId}</p>
+          </div>
+
+          <p className="text-gray-500">Order date: {orderDate}</p>
         </div>
-
-        <p className="text-gray-500">Order date: {orderDate}</p>
+        <div className="ml-auto h-24 w-20">{productImages}</div>
       </div>
-      <div className="ml-auto h-24 w-20">{productImages}</div>
-    </div>
 
-    <div className="mt-8 flex items-center justify-between">
-      {status}
-      <LinkAsButton href="/account/orders/order" variant="outline">
-        Check status
-      </LinkAsButton>
+      <div className="mt-8 flex items-center justify-between">
+        {status}
+        <LinkAsButton
+          href={`/account/orders/order/${orderHandle}`}
+          variant="outline"
+        >
+          Check status
+        </LinkAsButton>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+const GetOrderStatusTag: React.FC<{
+  status: string;
+}> = ({ status }) => {
+  switch (status) {
+    case 'canceled':
+      return (
+        <Tag iconLeft={<Icon name="close" className="size-3" />}>Canceled</Tag>
+      );
+
+    case 'delivered':
+      return (
+        <Tag iconLeft={<Icon name="checkmark" className="size-3" />}>
+          Delivered
+        </Tag>
+      );
+
+    case 'shipped':
+    case 'partially_shipped':
+      return (
+        <Tag iconLeft={<Icon name="truck" className="size-3" />}>Shipped</Tag>
+      );
+
+    default:
+      return (
+        <Tag iconLeft={<Icon name="truck" className="size-3" />}>
+          Delivering
+        </Tag>
+      );
+  }
+};

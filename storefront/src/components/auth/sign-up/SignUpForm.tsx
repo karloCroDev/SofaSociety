@@ -31,7 +31,7 @@ export const SignUpForm = withReactQueryProvider(() => {
   const onSubmit = async (data: SignUpArgs) => {
     mutate(data, {
       onSuccess(res) {
-        if (!res.error || res.state !== 'error') return reset();
+        if (res.state !== 'error') return reset();
         setError('root', { message: res.message });
       },
     });

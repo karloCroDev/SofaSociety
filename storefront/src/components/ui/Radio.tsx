@@ -17,14 +17,14 @@ export const RadioIconVisual: React.FC<
 
 export const RadioButtonVisual: React.FC<
   React.ComponentPropsWithoutRef<'div'> & {
-    additionalLabel: string;
+    additionalLabel: React.ReactNode | string;
   }
 > = ({ additionalLabel, children, className, ...rest }) => {
   return (
     <div
       {...rest}
       className={twMerge(
-        'flex h-14 min-w-56 cursor-pointer items-center border border-gray-200 px-4 hover:!border-gray-400 group-data-[selected]:border-gray-200',
+        'flex h-14 min-w-56 cursor-pointer items-center rounded border border-gray-200 px-4 hover:!border-gray-400 group-data-[selected]:border-gray-200',
         className
       )}
     >

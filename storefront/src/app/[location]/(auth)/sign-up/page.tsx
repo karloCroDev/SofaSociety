@@ -26,7 +26,7 @@ export default function SignUp() {
         >
           <div className="flex w-full flex-col gap-6">
             <h1 className="mb-10 text-3xl font-semibold">
-              Welcome back to Sofa Society!
+              Hey, welcome to Sofa Society!
             </h1>
 
             <SignUpForm />

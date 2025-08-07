@@ -23,6 +23,7 @@ export type IconNames =
   | 'checkmark'
   | 'package'
   | 'credit-card'
+  | 'paypal'
   | 'undo'
   | 'hamburger'
   | 'close';
@@ -97,6 +98,9 @@ export const Icon: React.FC<
     )}
     {name === 'hamburger' && (
       <Icons.Hamburger {...rest} className={twMerge(baseClasses, className)} />
+    )}
+    {name === 'paypal' && (
+      <Icons.Paypal {...rest} className={twMerge(baseClasses, className)} />
     )}
   </>
 );

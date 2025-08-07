@@ -1,5 +1,9 @@
 // External packages
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { z } from 'zod';
 
 // Lib
@@ -44,36 +48,75 @@ export const customerAddressSchema = z.object({
 });
 export type CustomerAddressArgs = z.infer<typeof customerAddressSchema>;
 
-export const useAddAddress = () => {
+export const useAddAddress = (
+  options?: UseMutationOptions<
+    {
+      state: 'success' | 'error';
+      message: string;
+    },
+    Error,
+    CustomerAddressArgs
+  >
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['add-address'],
     mutationFn: (values: CustomerAddressArgs) => addCustomerAddress(values),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };
 
-export const useUpdateAddress = (addressId: string) => {
+export const useUpdateAddress = (
+  addressId: string,
+  options?: UseMutationOptions<
+    {
+      state: 'success' | 'error';
+      message: string;
+    },
+    Error,
+    CustomerAddressArgs
+  >
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['update-address'],
-    mutationFn: async (values: CustomerAddressArgs) => {
-      return updateCustomerAddress(values, addressId);
+    mutationFn: (values: CustomerAddressArgs) =>
+      updateCustomerAddress(values, addressId),
+
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
   });
 };
 
 // Delete customer address
-export const useDeleteCustomerAddress = (addressId: string) => {
+export const useDeleteCustomerAddress = (
+  addressId: string,
+  options?: UseMutationOptions<
+    {
+      state: 'success' | 'error';
+      message: string;
+    },
+    Error,
+    void
+  >
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['delete-address'],
     mutationFn: () => deleteCustomerAddress(addressId),
 
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
+    },
   });
 };

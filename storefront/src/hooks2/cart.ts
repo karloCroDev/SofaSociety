@@ -1,6 +1,11 @@
 // External packages
 import { HttpTypes } from '@medusajs/types';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 // Lib
 import {
@@ -19,35 +24,54 @@ export const useCart = () =>
 export type AddItemToCartArgs = HttpTypes.StoreAddCartLineItem & {
   location?: string;
 };
-export const useAddCartItem = () => {
+export const useAddCartItem = (
+  options: UseMutationOptions<void, Error, AddItemToCartArgs>
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['add-cart-item'],
     mutationFn: (data: AddItemToCartArgs) => addItemToCart(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['cart'] });
+      await options?.onSuccess?.(...args);
+    },
+
+    ...options,
   });
 };
 
 export type DeleteItemArgs = {
   lineItemId: string;
 };
-export const useDeleteCartItem = () => {
+export const useDeleteCartItem = (
+  options: UseMutationOptions<void, Error, DeleteItemArgs>
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['delete-cart-item'],
     mutationFn: (data: DeleteItemArgs) => deleteCartItem(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['cart'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };
 
 export type UpdateCartItemArgs = HttpTypes.StoreUpdateCartLineItem & {
   lineItemId?: string;
 };
-export const useUpdateCartItem = () => {
+export const useUpdateCartItem = (
+  options: UseMutationOptions<void, Error, UpdateCartItemArgs>
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['update-cart-item'],
     mutationFn: (data: UpdateCartItemArgs) => updateCartItem(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['cart'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };

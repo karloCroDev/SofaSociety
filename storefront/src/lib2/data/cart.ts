@@ -92,18 +92,11 @@ export async function addItemToCart({
   quantity,
   variant_id,
 }: AddItemToCartArgs) {
-  const id = await getCartId();
-
-  if (!id) return;
-
   const doesCartExist = await initializeCart(location);
 
-  if (!doesCartExist) throw new Error('Cart already exists');
-
-  console.log(variant_id, quantity);
   try {
     await sdk.store.cart.createLineItem(
-      id,
+      doesCartExist.id,
       {
         quantity,
         variant_id,
@@ -112,6 +105,8 @@ export async function addItemToCart({
       await getAuthHeaders()
     );
     revalidateTag('cart');
+
+    console.log('Added to cart!!!!');
   } catch (error) {
     medusaError(error);
   }

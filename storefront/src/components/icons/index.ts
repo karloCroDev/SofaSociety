@@ -19,6 +19,7 @@ import { CreditCard } from './CreditCard';
 import { Undo } from './Undo';
 import { Close } from './Close';
 import { Hamburger } from './Hamburger';
+import { Paypal } from '@/components/icons/Paypal';
 
 export {
   Search,
@@ -42,4 +43,5 @@ export {
   Undo,
   Close,
   Hamburger,
+  Paypal,
 };

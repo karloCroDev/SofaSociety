@@ -9,97 +9,81 @@ import { useRouter } from 'next/navigation';
 // Components
 import { Button } from '@/components/ui/Button';
 
-// Hooks
-import { usePlaceOrder } from '@/hooks/cart';
-
 // Lib
 import { withReactQueryProvider } from '@/lib2/react-query';
+import { placeOrder } from '@/lib2/data/checkout';
 
 export const StripePaymentButton = withReactQueryProvider(
   ({ cart, notReady }: { cart: HttpTypes.StoreCart; notReady: boolean }) => {
     const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-    const { mutate } = usePlaceOrder();
+
     const router = useRouter();
-
-    const onCompletion = () => {
-      mutate(null, {
-        onSuccess: (data) => {
-          if (!data) return;
-
-          if (data?.type === 'order') {
-            const countryCode =
-              data.order.shipping_address?.country_code?.toLowerCase();
-            return router.push(`/${countryCode}/confirmation/${data.order.id}`);
-          }
-
-          setErrorMessage(data.error.message);
-
-          console.log(data.error.message);
-          console.log('Ajde u k stripe :(');
-        },
-        onError: (error) => {
-          setErrorMessage(error.message);
-        },
-      });
-    };
-
     const stripe = useStripe();
 
     const session = cart.payment_collection?.payment_sessions?.find(
       (s) => s.status === 'pending'
     );
 
-    const disabled =
-      !stripe || !session?.data?.payment_method_id ? true : false;
+    const onCompletion = async () => {
+      const data = await placeOrder();
+
+      if (data.type === 'order')
+        return router.push(`/confirmation/${data.order.id}`);
+
+      setErrorMessage(data.error.message);
+
+      console.log(data.error.message);
+      console.log('Ajde u k stripe ;(');
+    };
+
+    const isSuccessStatus = (status?: string) => {
+      return status === 'succeeded' || status === 'requires_capture';
+    };
 
     const handlePayment = async () => {
-      if (!stripe) return;
-      const paymentMethodId = session?.data?.payment_method_id as string;
+      if (!stripe || !session?.data?.client_secret) return;
 
-      await stripe
-        .confirmCardPayment(session?.data.client_secret as string, {
-          payment_method: paymentMethodId,
-        })
-        .then(({ error, paymentIntent }) => {
-          if (error) {
-            const pi = error.payment_intent;
-
-            if (
-              (pi && pi.status === 'requires_capture') ||
-              (pi && pi.status === 'succeeded')
-            ) {
-              onCompletion();
-            }
-
-            setErrorMessage(error.message || null);
-
-            console.log(error.message);
-            return;
+      try {
+        const result = await stripe.confirmCardPayment(
+          session.data.client_secret as string,
+          {
+            payment_method: session.data.payment_method_id as string,
           }
+        );
 
-          if (
-            (paymentIntent && paymentIntent.status === 'requires_capture') ||
-            paymentIntent.status === 'succeeded'
-          ) {
-            onCompletion();
-          }
-        });
+        if (
+          isSuccessStatus(
+            result.paymentIntent?.status || result.error?.payment_intent?.status
+          )
+        ) {
+          return onCompletion();
+        }
+
+        if (result.error) {
+          setErrorMessage(result.error.message || null);
+          console.error(result.error.message);
+        }
+      } catch (err) {
+        setErrorMessage('Unexpected error occurred.');
+        console.error(err);
+      }
     };
 
     return (
       <>
         <Button
-          isDisabled={disabled || notReady}
-          isVisuallyDisabled={disabled || notReady}
+          isDisabled={!stripe || !session?.data?.payment_method_id || notReady}
+          isVisuallyDisabled={
+            !stripe || !session?.data?.payment_method_id || notReady
+          }
           onPress={handlePayment}
           className="mt-6 w-full"
         >
           Place an order
         </Button>
         {errorMessage && (
-          <p className="mt-3 text-sm text-red-400">{errorMessage}</p>
+          <p className="mt-4 text-sm text-red-400">{errorMessage}</p>
         )}
-        <p></p>
       </>
     );
   }

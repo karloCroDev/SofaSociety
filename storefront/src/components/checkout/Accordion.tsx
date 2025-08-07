@@ -20,9 +20,9 @@ import { StepTypes } from '@/app/[location]/checkout/page';
 import { withReactQueryProvider } from '@/lib2/react-query';
 import { Button } from '@/components/ui/Button';
 import { StripePaymentButton } from '@/components/checkout/StripePaymentButton';
-import path from 'path';
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || 'temp');
+
 export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
@@ -54,7 +54,7 @@ export const Accordion: React.FC<{
     !!cart.email &&
     !!cart.shipping_address &&
     !!cart.billing_address &&
-    // Ante: Ugl malo me zafrkava zbog tax regiona (pogledaj prijašnja pitanja)
+    // Ante: Ugl malo me zafrkava zbog tax regiona (pogledaj prijašnja pitanja), ne prikazuje mi ni jednu opciju
 
     // Array.isArray(cart.shipping_methods) &&
     // cart.shipping_methods.length > 0 &&

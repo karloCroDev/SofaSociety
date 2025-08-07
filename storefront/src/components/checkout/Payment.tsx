@@ -6,24 +6,23 @@ import * as RadixAccordion from '@radix-ui/react-accordion';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { HttpTypes, StorePaymentSession } from '@medusajs/types';
 import { useRouter } from 'next/navigation';
-import { loadStripe } from '@stripe/stripe-js';
 import { Radio, RadioGroup } from 'react-aria-components';
-import { CardElement, Elements } from '@stripe/react-stripe-js';
+import { CardElement } from '@stripe/react-stripe-js';
 
 // Components
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { RadioButtonVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
-import { PaymentCardButton } from '@/components/checkout/PaymentCardButton';
+import { StripeCardPaymentButton } from '@/components/checkout/PaymentCardButton';
 
 // Hooks
-import {
-  useCartPaymentMethods,
-  useGetPaymentMethod,
-  useSetPaymentMethod,
-} from '@/hooks/cart';
 import { isStripe as isStripeFunc, paymentInfoObj } from '@/lib2/constants';
+import {
+  useChoosePaymentMethod,
+  useListPaymentProviders,
+  useGetPaymentMethod,
+} from '@/hooks2/checkout';
 
 export const Payment: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -38,25 +37,17 @@ export const Payment: React.FC<{
   const [cardComplete, setCardComplete] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    setErrorMessage(null);
-  }, [isOpen]);
-
-  const setPaymentMethod = useSetPaymentMethod();
-
   const currentSession = cart?.payment_collection?.payment_sessions?.find(
-    (paymentSession: StorePaymentSession) => paymentSession.status === 'pending'
+    (s: StorePaymentSession) => s.status === 'pending'
   );
-
   const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(
     currentSession?.provider_id ?? ''
   );
 
-  const { data: availablePaymentMethods } = useCartPaymentMethods(
+  const choosePaymentMethod = useChoosePaymentMethod();
+  const { data: availablePaymentMethods } = useListPaymentProviders(
     cart?.region?.id ?? ''
   );
-  const isStripe = isStripeFunc(currentSession?.provider_id);
-
   const { data: paymentMethod } = useGetPaymentMethod(
     currentSession?.data?.payment_method_id as string
   );
@@ -64,22 +55,17 @@ export const Payment: React.FC<{
   const handleRemoveCard = React.useCallback(() => {
     if (!currentSession?.id) return;
 
-    try {
-      setPaymentMethod.mutate(
-        { sessionId: currentSession.id, token: null },
-
-        {
-          onSuccess: () => {
-            setCardLogo(null);
-            setCardComplete(false);
-          },
-          onError: () => setErrorMessage('Failed to remove card :((('),
-        }
-      );
-    } catch (error) {
-      setErrorMessage('Failed to remove card :(((');
-    }
-  }, [currentSession?.id, setPaymentMethod]);
+    choosePaymentMethod.mutate(
+      { sessionId: currentSession.id, token: null },
+      {
+        onSuccess: () => {
+          setCardLogo(null);
+          setCardComplete(false);
+        },
+        onError: () => setErrorMessage('Failed to remove card :((('),
+      }
+    );
+  }, [currentSession?.id, choosePaymentMethod]);
 
   React.useEffect(() => {
     if (paymentMethod) {
@@ -91,9 +77,6 @@ export const Payment: React.FC<{
     }
   }, [paymentMethod]);
 
-  if (!cart) {
-    return null;
-  }
   return (
     <RadixAccordion.Item value="payment" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
@@ -124,16 +107,16 @@ export const Payment: React.FC<{
           {cart && currentSession && !isOpen && (
             <div className="mt-7 flex flex-col gap-4">
               <div className="flex justify-between">
-                <div className="text-grayscale-500">Payment method</div>
-                <div className="text-grayscale-600">
+                <div className="text-gray-500">Payment method</div>
+                <div className="text-gray-600">
                   {paymentInfoObj[selectedPaymentMethod]?.title ||
                     selectedPaymentMethod}
                 </div>
               </div>
               <div className="flex justify-between">
-                <div className="text-grayscale-500">Payment details</div>
+                <div className="text-gray-500">Payment details</div>
                 {isStripeFunc(selectedPaymentMethod) && cardLogo ? (
-                  <div className="text-grayscale-600 flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-gray-600">
                     {paymentInfoObj[selectedPaymentMethod]?.icon || (
                       <Icon name="credit-card" />
                     )}
@@ -148,6 +131,7 @@ export const Payment: React.FC<{
         </div>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
+        {/* Trenutno samo handleam stripe, reci ako trbeam koristiti još neki payment provider */}
         {availablePaymentMethods?.length && (
           <>
             <RadioGroup
@@ -159,7 +143,6 @@ export const Payment: React.FC<{
                 .sort((a, b) => {
                   return a.id > b.id ? 1 : -1;
                 })
-
                 .map((paymentMethod) => (
                   <Radio
                     key={paymentMethod.id}
@@ -177,7 +160,7 @@ export const Payment: React.FC<{
           </>
         )}
 
-        {isStripe && (
+        {isStripeFunc(currentSession?.provider_id) && (
           <>
             <div className="mt-5">
               {isStripeFunc(selectedPaymentMethod) &&
@@ -217,11 +200,14 @@ export const Payment: React.FC<{
             Change card
           </Button>
         )}
-        <PaymentCardButton
+
+        {/* -||- */}
+        {/* Trenutno samo handleam stripe, reci ako trbeam koristiti još neki payment provider */}
+        <StripeCardPaymentButton
           setErrorMessage={setErrorMessage}
-          selectedPaymentMethod={selectedPaymentMethod}
           cart={cart}
           cardComplete={cardComplete}
+          currentSession={currentSession}
         />
 
         {errorMessage && <p className="mt-2 text-red-400">{errorMessage}</p>}

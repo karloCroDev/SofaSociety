@@ -7,14 +7,19 @@ import {
 } from '@tanstack/react-query';
 import {
   addressCheckout,
+  choosePaymentMethod,
   emailCheckout,
   getAllShippingOptions,
+  getPaymentMethod,
+  initiatePaymentSession,
+  listPaymentProviders,
   shippingOptionCheckout,
 } from '@/lib2/data/checkout';
 import { z } from 'zod';
 
 // Hooks
 import { CustomerAddressArgs } from '@/hooks2/user-settings';
+import { HttpTypes } from '@medusajs/types';
 
 export const emailFormSchema = z.object({
   email: z.string().email(),
@@ -31,7 +36,7 @@ export const useEmailCheckout = (
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['email-checkout'],
-    mutationFn: ({ email }: EmailFormArgs) => emailCheckout({ email }),
+    mutationFn: ({ email }) => emailCheckout({ email }),
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)
@@ -54,7 +59,7 @@ export const useAddressCheckout = (
 
   return useMutation({
     mutationKey: ['address-checkout'],
-    mutationFn: (data: CustomerAddressArgs) => addressCheckout(data),
+    mutationFn: (data) => addressCheckout(data),
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)
@@ -85,13 +90,88 @@ export const useShippingOptionCheckout = (
 
   return useMutation({
     mutationKey: ['shipping-checkout'],
-    mutationFn: (data: ShippingOptionCheckoutArgs) =>
-      shippingOptionCheckout(data),
+    mutationFn: (data) => shippingOptionCheckout(data),
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)
         queryKey: ['cart'],
       });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+};
+
+// Stripe
+export const useListPaymentProviders = (
+  regionId?: string,
+  options?: UseMutationOptions<HttpTypes.StorePaymentProvider[], Error, void>
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['shipping-checkout-stripe'],
+    mutationFn: () => listPaymentProviders(regionId),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
+        // exact: false // See if I need this (if something starts also with cart)
+        queryKey: ['cart'],
+      });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+};
+
+export const useGetPaymentMethod = (id?: string) => {
+  return useQuery({
+    queryKey: [id],
+    queryFn: () => getPaymentMethod(id),
+  });
+};
+
+export type ChoosePaymentMethodOption = {
+  sessionId: string;
+  token: string | null | undefined;
+};
+
+export const useInitiatePaymentSession = (
+  providerId: string,
+  options?: UseMutationOptions<HttpTypes.StorePaymentCollection, Error, void>
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['start-payment-session'],
+    mutationFn: async () => initiatePaymentSession(providerId),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
+        // exact: false,
+        queryKey: ['cart'],
+      });
+
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+};
+export const useChoosePaymentMethod = (
+  options?: UseMutationOptions<void, Error, ChoosePaymentMethodOption>
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['choose-payment'],
+    mutationFn: async ({ sessionId, token }) => {
+      await choosePaymentMethod({
+        sessionId,
+        token,
+      });
+    },
+
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
+        // exact: false,
+        queryKey: ['cart'],
+      });
+
       await options?.onSuccess?.(...args);
     },
     ...options,

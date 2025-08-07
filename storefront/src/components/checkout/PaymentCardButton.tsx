@@ -14,74 +14,37 @@ import { withReactQueryProvider } from '@/lib2/react-query';
 import { Button } from '@/components/ui/Button';
 
 // Hooks
-import { useInitiatePaymentSession, useSetPaymentMethod } from '@/hooks/cart';
-import { ButtonProps } from 'react-aria-components';
-import { AdditionalButtonProps } from '@/components/ui/LinkAsButton';
+import { useInitiatePaymentSession } from '@/hooks2/checkout';
+import { useChoosePaymentMethod } from '@/hooks2/checkout';
 
-export const PaymentCardButton: React.FC<
-  ButtonProps &
-    AdditionalButtonProps & {
-      cart: HttpTypes.StoreCart;
-      cardComplete: boolean;
-      selectedPaymentMethod: string;
-      setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
-    }
-> = withReactQueryProvider(
-  ({ cart, cardComplete, selectedPaymentMethod, setErrorMessage }) => {
-    const session = cart.payment_collection?.payment_sessions?.find(
-      (s) => s.status === 'pending'
-    );
-
-    if (isStripe(session?.provider_id) && isStripe(selectedPaymentMethod)) {
-      return (
-        <StripeCardPaymentButton
-          setErrorMessage={setErrorMessage}
-          cart={cart}
-          cardComplete={cardComplete}
-        />
-      );
-    }
-
-    return (
-      <PaymentMethodButton
-        setErrorMessage={setErrorMessage}
-        cart={cart}
-        selectedPaymentMethod={selectedPaymentMethod}
-      />
-    );
-  }
-);
-
-const StripeCardPaymentButton = ({
+export const StripeCardPaymentButton = ({
   cart,
   cardComplete,
+  currentSession,
   setErrorMessage,
 }: {
   cart: HttpTypes.StoreCart;
+  currentSession?: HttpTypes.StorePaymentSession;
   cardComplete?: boolean;
   setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const stripe = useStripe();
+
   const elements = useElements();
   const card = elements?.getElement('card');
 
   const router = useRouter();
-
-  const setPaymentMethod = useSetPaymentMethod();
-
-  const session = cart.payment_collection?.payment_sessions?.find(
-    (s) => s.status === 'pending'
-  );
   const pathname = usePathname();
 
-  const initiatePaymentSession = useInitiatePaymentSession();
+  const choosePaymentMethod = useChoosePaymentMethod();
+  const initiatePaymentSession = useInitiatePaymentSession('stripe');
 
   const handleSubmit = async () => {
     try {
-      const shouldInputCard = !session;
+      const shouldInputCard = !currentSession;
 
-      if (!isStripe(session?.provider_id)) {
-        await initiatePaymentSession.mutateAsync({ providerId: 'stripe' });
+      if (!isStripe(currentSession?.provider_id)) {
+        await initiatePaymentSession.mutateAsync();
       }
       if (!shouldInputCard) {
         if (card) {
@@ -96,14 +59,15 @@ const StripeCardPaymentButton = ({
           });
 
           if (token) {
-            setPaymentMethod.mutate({
-              sessionId: session.id,
+            choosePaymentMethod.mutate({
+              sessionId: currentSession.id,
               token: token.token?.id,
             });
           }
         }
 
-        return router.push(`${pathname}?step=completed`, {
+        // Handling of closing all the accordions
+        return router.push(pathname, {
           scroll: false,
         });
       }
@@ -119,54 +83,7 @@ const StripeCardPaymentButton = ({
       isDisabled={!cardComplete}
       data-testid="submit-payment-button"
     >
-      {!session ? 'Enter card details' : 'Complete'}
-    </Button>
-  );
-};
-
-const PaymentMethodButton = ({
-  selectedPaymentMethod,
-  setErrorMessage,
-}: {
-  cart: HttpTypes.StoreCart;
-  selectedPaymentMethod: string;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
-}) => {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const initiatePaymentSession = useInitiatePaymentSession();
-
-  const handleSubmit = () => {
-    initiatePaymentSession.mutate(
-      {
-        providerId: selectedPaymentMethod,
-      },
-      {
-        onSuccess: () => {
-          if (!isStripe(selectedPaymentMethod)) {
-            return router.push(`${pathname}?step=completed`, {
-              scroll: false,
-            });
-          }
-        },
-        onError: (err) => {
-          setErrorMessage(err instanceof Error ? err.message : (err as string));
-        },
-      }
-    );
-  };
-
-  return (
-    <Button
-      className="mt-6"
-      onPress={handleSubmit}
-      data-testid="submit-payment-button"
-      isDisabled={!selectedPaymentMethod}
-    >
-      {isStripe(selectedPaymentMethod)
-        ? 'Enter card details'
-        : 'Continue to review'}
+      {!currentSession ? 'Enter card details' : 'Complete'}
     </Button>
   );
 };

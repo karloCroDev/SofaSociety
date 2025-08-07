@@ -1,6 +1,10 @@
 'use server';
 
-import { EmailFormArgs, ShippingOptionCheckoutArgs } from '@/hooks2/checkout';
+import {
+  ChoosePaymentMethodOption,
+  EmailFormArgs,
+  ShippingOptionCheckoutArgs,
+} from '@/hooks2/checkout';
 import { CustomerAddressArgs } from '@/hooks2/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
 import { medusaError } from '@/lib2/util/medusa-error';
@@ -8,6 +12,8 @@ import { sdk } from '@/lib2/config';
 import { getCartId, removeCartId } from '@/lib2/data/cookies';
 import { HttpTypes } from '@medusajs/types';
 import { revalidateTag } from 'next/cache';
+import { PaymentMethod } from '@stripe/stripe-js';
+import { retrieveCart } from '@/lib/data/cart';
 
 async function updateCart(data: HttpTypes.StoreUpdateCart) {
   const cartId = await getCartId();
@@ -87,7 +93,8 @@ export async function shippingOptionCheckout({
   }
 }
 
-// Stripe payment
+// Credit card handling
+
 export async function placeOrder() {
   const cartId = await getCartId();
   if (!cartId) {
@@ -108,6 +115,74 @@ export async function placeOrder() {
     }
 
     return result;
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export async function listPaymentProviders(regionId?: string) {
+  if (!regionId) throw new Error('Region not found');
+  try {
+    const { payment_providers } = await sdk.store.payment.listPaymentProviders({
+      region_id: regionId,
+    });
+
+    return payment_providers;
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export async function getPaymentMethod(id?: string) {
+  if (!id) throw new Error('Method id not found');
+  try {
+    const response = await sdk.client.fetch<PaymentMethod>(
+      `/store/custom/stripe/get-payment-method/${id}`
+    );
+    return response;
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export async function choosePaymentMethod({
+  sessionId,
+  token,
+}: ChoosePaymentMethodOption) {
+  try {
+    const resp = await sdk.client.fetch(
+      '/store/custom/stripe/set-payment-method',
+      {
+        method: 'POST',
+        body: { session_id: sessionId, token },
+      }
+    );
+
+    revalidateTag('cart');
+    return resp;
+  } catch (err) {
+    medusaError(err);
+  }
+}
+
+export async function initiatePaymentSession(provider_id: string) {
+  const cart = await retrieveCart();
+
+  if (!cart) {
+    throw new Error("Can't initiate payment without cart");
+  }
+
+  try {
+    const { payment_collection } =
+      await sdk.store.payment.initiatePaymentSession(
+        cart,
+        {
+          provider_id,
+        },
+        {},
+        await getAuthHeaders()
+      );
+    return payment_collection;
   } catch (error) {
     medusaError(error);
   }

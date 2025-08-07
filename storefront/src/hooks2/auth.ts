@@ -1,5 +1,10 @@
 // External packages
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { z } from 'zod';
 
 // Lib
@@ -22,12 +27,22 @@ export const loginFormSchema = z.object({
 });
 export type LoginArgs = z.infer<typeof loginFormSchema>;
 
-export const useLogin = () => {
+export const useLogin = (
+  options?: UseMutationOptions<
+    { state: 'success' | 'error'; redirectUrl?: string; message?: string },
+    Error,
+    LoginArgs
+  >
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['login'],
-    mutationFn: (values: z.infer<typeof loginFormSchema>) => login(values),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
+    mutationFn: (values: LoginArgs) => login(values),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };
 
@@ -40,25 +55,35 @@ export const signupSchema = z.object({
 });
 export type SignUpArgs = z.infer<typeof signupSchema>;
 
-export const useSignup = () => {
+export const useSignup = (
+  options?: UseMutationOptions<
+    { state: 'success' | 'error'; message?: string },
+    Error,
+    SignUpArgs
+  >
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['signUp'],
-    mutationFn: (values: z.infer<typeof signupSchema>) => signUp(values),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customer'] }),
+    mutationFn: (values: SignUpArgs) => signUp(values),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };
 
-export const useLogout = () => {
+export const useLogout = (options?: UseMutationOptions<void, Error, void>) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['logOut'],
-    mutationFn: async () => {
-      return logOut();
-    },
-    onSuccess: async () => {
+    mutationFn: () => logOut(),
+    onSuccess: async (...args) => {
       await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
     },
+    ...options,
   });
 };

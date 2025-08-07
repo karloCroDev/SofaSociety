@@ -6,8 +6,8 @@ import { Icon } from '@/components/ui/Icon';
 import { Tag } from '@/components/ui/Tag';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
-// Assets
-import { listOrders, retrieveOrder } from '@/lib/data/orders';
+// Lib
+import { listOrders } from '@/lib2/data/orders';
 
 export default async function OrdersPage() {
   const { orders } = await listOrders();

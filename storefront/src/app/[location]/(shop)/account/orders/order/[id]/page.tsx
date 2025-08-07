@@ -1,16 +1,14 @@
 // External packages
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Components
 import { Tag } from '@/components/ui/Tag';
 import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 
-// Assets
-import ImageExample from '@/public/images/home/modern-luxe.png';
-import { twJoin } from 'tailwind-merge';
+// Lib
 import { retrieveOrder } from '@/lib/data/orders';
-import Link from 'next/link';
 import { convertToLocale } from '@/lib2/util/money';
 
 interface PageProps {
@@ -20,6 +18,7 @@ interface PageProps {
 }
 
 export default async function OrderPage({ params }: PageProps) {
+  // Handling if customer exists in layout!
   const { id } = await params;
   const order = await retrieveOrder(id);
 
@@ -92,7 +91,6 @@ export default async function OrderPage({ params }: PageProps) {
             </>
           )}
         </div>
-        {/* TODO: Pogledaj botun ispod na širini prozora `1040px`, bude slomljen. FIXED */}
         <Button variant="outline" className="ml-auto mt-4 xl:hidden">
           Check status
         </Button>
@@ -145,12 +143,8 @@ export default async function OrderPage({ params }: PageProps) {
       <div className="border-200 mt-5 rounded border p-4">
         {order.items &&
           order.items.map((item, index) => (
-            <>
-              <Link
-                key={item.id}
-                href={`/product/${item.product_handle}`}
-                className="flex"
-              >
+            <div key={item.id}>
+              <Link href={`/product/${item.product_handle}`} className="flex">
                 {item.thumbnail && (
                   <div className="relative h-52 w-36">
                     <Image
@@ -196,9 +190,9 @@ export default async function OrderPage({ params }: PageProps) {
                 </div>
               </Link>
               {order.items!.length - 1 !== index && (
-                <div className="my-4 h-px bg-gray-100" />
+                <div className="my-4 h-px bg-gray-100" key={item.id} />
               )}
-            </>
+            </div>
           ))}
       </div>
 
@@ -226,33 +220,3 @@ export default async function OrderPage({ params }: PageProps) {
     </>
   );
 }
-
-const OrderedProduct: React.FC<{
-  orderImage: React.ReactNode;
-  title: string;
-  material: string;
-  color: string;
-  quantity: number;
-  price: number;
-  hasBorder: boolean;
-}> = ({ orderImage, title, material, color, quantity, price, hasBorder }) => (
-  <div
-    className={twJoin('flex', hasBorder && 'border-t border-t-gray-200 pt-6')}
-  >
-    {orderImage}
-    <div className="ml-8 flex flex-1 flex-col">
-      <h4 className="text-lg">{title}</h4>
-
-      <p className="text-gray-500">
-        Material: <span className="text-gray-900"> {material}</span>
-      </p>
-      <p className="text-gray-500">
-        Color: <span className="text-gray-900"> {color}</span>
-      </p>
-      <p className="mt-auto text-gray-500">
-        Quantity: <span className="text-gray-900">{quantity}</span>
-      </p>
-    </div>
-    <p className="mt-auto lg:text-lg">€{price}</p>
-  </div>
-);

@@ -1,15 +1,17 @@
 // External packages
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
-import { retrieveOrder } from '@/lib/data/orders';
+
+// Lib
+import { retrieveOrder } from '@/lib2/data/orders';
 import { getCustomer } from '@/lib2/data/auth';
-import { redirect } from 'next/navigation';
-import { convertToLocale } from '@/lib/util/money';
-import Link from 'next/link';
+import { convertToLocale } from '@/lib2/util/money';
 
 interface PageProps {
   params: Promise<{

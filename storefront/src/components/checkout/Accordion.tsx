@@ -19,7 +19,7 @@ import { StepTypes } from '@/app/[location]/checkout/page';
 // Lib
 import { withReactQueryProvider } from '@/lib2/react-query';
 import { Button } from '@/components/ui/Button';
-import { PaymentButton } from '@/components/checkout/CompleteOrder';
+import { StripePaymentButton } from '@/components/checkout/StripePaymentButton';
 import path from 'path';
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || 'temp');
@@ -32,6 +32,8 @@ export const Accordion: React.FC<{
 
   const searchParams = useSearchParams();
   const [hasLoaded, setHadLoaded] = React.useState(false);
+
+  // Karlo: Pogledaj ovo
 
   // React.useEffect(() => {
   //   let currentStep: StepTypes; // Default to last step if there are no previous steps
@@ -53,6 +55,7 @@ export const Accordion: React.FC<{
     !!cart.shipping_address &&
     !!cart.billing_address &&
     // Ante: Ugl malo me zafrkava zbog tax regiona (pogledaj prijašnja pitanja)
+
     // Array.isArray(cart.shipping_methods) &&
     // cart.shipping_methods.length > 0 &&
     !!cart.payment_collection;
@@ -73,16 +76,9 @@ export const Accordion: React.FC<{
       >
         <Email cart={cart} />
         <Address cart={cart} />
-
         <Shipping cart={cart} />
         <Payment cart={cart} />
-
-        <PaymentButton
-          cart={cart}
-          selectPaymentMethod={() =>
-            router.push(`${pathname}?step=payment`, { scroll: false })
-          }
-        />
+        <StripePaymentButton cart={cart} notReady={allStepsChecker} />
       </RadixAccordion.Root>
     </Elements>
   );

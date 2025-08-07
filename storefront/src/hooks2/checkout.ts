@@ -1,5 +1,10 @@
 // External packages
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   addressCheckout,
   emailCheckout,
@@ -16,31 +21,48 @@ export const emailFormSchema = z.object({
 });
 export type EmailFormArgs = z.infer<typeof emailFormSchema>;
 
-export const useEmailCheckout = () => {
+export const useEmailCheckout = (
+  options?: UseMutationOptions<
+    { state: 'success' | 'error'; message: string },
+    Error,
+    EmailFormArgs
+  >
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['email-checkout'],
     mutationFn: ({ email }: EmailFormArgs) => emailCheckout({ email }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)
         queryKey: ['cart'],
-      }),
+      });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };
 
-export const useAddressCheckout = () => {
+export const useAddressCheckout = (
+  options?: UseMutationOptions<
+    { state: 'success' | 'error'; message: string },
+    Error,
+    CustomerAddressArgs
+  >
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['address-checkout'],
     mutationFn: (data: CustomerAddressArgs) => addressCheckout(data),
-
-    onSuccess: () =>
-      queryClient.invalidateQueries({
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)
         queryKey: ['cart'],
-      }),
+      });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };
 
@@ -55,17 +77,23 @@ export type ShippingOptionCheckoutArgs = {
   cartId: string;
   optionId: string;
 };
-export const useShippingOptionCheckout = () => {
+// Karlo: Setting shipping options so no need for error message
+export const useShippingOptionCheckout = (
+  options?: UseMutationOptions<void, Error, ShippingOptionCheckoutArgs>
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['shipping-checkout'],
     mutationFn: (data: ShippingOptionCheckoutArgs) =>
       shippingOptionCheckout(data),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
         // exact: false // See if I need this (if something starts also with cart)
         queryKey: ['cart'],
-      }),
+      });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
   });
 };

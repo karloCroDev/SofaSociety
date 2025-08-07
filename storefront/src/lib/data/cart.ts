@@ -356,26 +356,30 @@ export async function setAddresses(
   }
 }
 
+// KARLO
 export async function placeOrder() {
   const cartId = await getCartId();
   if (!cartId) {
     throw new Error('No existing cart found when placing an order');
   }
 
-  const cartRes = await sdk.store.cart
-    .complete(cartId, {}, await getAuthHeaders())
-    .then((cartRes) => {
-      revalidateTag('cart');
-      revalidateTag('orders');
-      return cartRes;
-    })
-    .catch(medusaError);
+  try {
+    const result = await sdk.store.cart.complete(
+      cartId,
+      {},
+      await getAuthHeaders()
+    );
 
-  if (cartRes?.type === 'order') {
-    await removeCartId();
+    revalidateTag('cart');
+
+    if (result?.type === 'order') {
+      await removeCartId();
+    }
+
+    return result;
+  } catch (error) {
+    medusaError(error);
   }
-
-  return cartRes;
 }
 
 /**

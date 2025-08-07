@@ -39,13 +39,13 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
 
     // User already logged in handle that straightly
     if (typeof token === 'object') {
-      return { success: true, redirectUrl: token.location };
+      return { state: 'success' as const, redirectUrl: token.location };
     }
 
     // If there is no token returned than handle the error
     if (typeof token !== 'string') {
       return {
-        success: false,
+        state: 'error' as const,
         message: 'Uhoh something went wrong please try again',
       };
     }

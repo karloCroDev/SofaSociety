@@ -5,7 +5,7 @@ import { CustomerAddressArgs } from '@/hooks2/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
 import { medusaError } from '@/lib2/util/medusa-error';
 import { sdk } from '@/lib2/config';
-import { getCartId } from '@/lib2/data/cookies';
+import { getCartId, removeCartId } from '@/lib2/data/cookies';
 import { HttpTypes } from '@medusajs/types';
 import { revalidateTag } from 'next/cache';
 
@@ -79,16 +79,35 @@ export async function shippingOptionCheckout({
   optionId,
 }: ShippingOptionCheckoutArgs) {
   try {
-    const cart = await sdk.store.cart.addShippingMethod(cartId, {
+    await sdk.store.cart.addShippingMethod(cartId, {
       option_id: optionId,
     });
+  } catch (error) {
+    medusaError(error);
+  }
+}
 
-    if (!cart) {
-      return {
-        state: 'error' as const,
-        message: 'Cart is not updated successfully',
-      };
+// Stripe payment
+export async function placeOrder() {
+  const cartId = await getCartId();
+  if (!cartId) {
+    throw new Error('No existing cart found when placing an order');
+  }
+
+  try {
+    const result = await sdk.store.cart.complete(
+      cartId,
+      {},
+      await getAuthHeaders()
+    );
+
+    revalidateTag('cart');
+
+    if (result?.type === 'order') {
+      await removeCartId();
     }
+
+    return result;
   } catch (error) {
     medusaError(error);
   }

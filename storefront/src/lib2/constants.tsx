@@ -24,6 +24,3 @@ export const isStripe = (providerId?: string) => {
 export const isPaypal = (providerId?: string) => {
   return providerId?.startsWith('pp_paypal');
 };
-export const isManual = (providerId?: string) => {
-  return providerId?.startsWith('pp_system_default');
-};

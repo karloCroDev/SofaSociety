@@ -11,6 +11,41 @@ import { LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { IconButton } from '@/components/ui/IconButton';
 import { Icon } from '@/components/ui/Icon';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
+import z from 'zod';
+
+const collectionMetadataSchema = z
+  .object({
+    image: z
+      .object({
+        url: z.string().optional().nullable(),
+      })
+      .optional()
+      .nullable(),
+  })
+  .optional()
+  .nullable();
+
+const CollectionImage: React.FC<{ collection: HttpTypes.StoreCollection }> = ({
+  collection,
+}) => {
+  const validatedMetadata = collectionMetadataSchema.safeParse(
+    collection.metadata
+  );
+
+  if (!validatedMetadata.success || !validatedMetadata.data?.image?.url) {
+    return null;
+  }
+
+  return (
+    <div className="relative aspect-[3/4]">
+      <Image
+        src={validatedMetadata.data.image.url}
+        fill
+        alt={collection.title}
+      />
+    </div>
+  );
+};
 
 export const Collections: React.FC<{
   collections: HttpTypes.StoreCollection[];
@@ -67,14 +102,7 @@ export const Collections: React.FC<{
             key={collection.id}
           >
             <Link href={`/collection/${collection.handle}`}>
-              <div className="relative aspect-[3/4]">
-                <Image
-                  // @ts-ignore --> Ante: Nisam nasao nikakav conveter za metadatu za kolekcije, paa...
-                  src={collection.metadata?.image?.url}
-                  fill
-                  alt={collection.title}
-                />
-              </div>
+              <CollectionImage collection={collection} />
               <h4 className="mt-4 text-lg font-medium md:mt-6 xl:mt-8 2xl:text-xl">
                 {collection.title}
               </h4>

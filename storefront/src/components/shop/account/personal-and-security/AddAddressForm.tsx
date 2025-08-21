@@ -49,7 +49,6 @@ export const AddAddressForm: React.FC<{
   });
   const { close } = React.useContext(OverlayTriggerStateContext)!;
 
-  console.log(address?.id);
   const { isPending, mutate } = address?.id
     ? useUpdateAddress(address.id)
     : useAddAddress();
@@ -57,13 +56,11 @@ export const AddAddressForm: React.FC<{
   const onSubmit = (values: CustomerAddressArgs) => {
     mutate(values, {
       onSuccess: (res) => {
-        console.log(res);
         if (res.state === 'success') {
           close();
         }
       },
       onError: (error) => {
-        console.log(error);
         setError('root', { message: error.message });
       },
     });

@@ -20,7 +20,6 @@ export default async function ResetPasswordPage({ searchParams }: PageProps) {
 
   if (!email || !token) redirect('/');
 
-  console.log(email, token);
   const customer = await getCustomer();
 
   return (

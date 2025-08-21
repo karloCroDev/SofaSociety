@@ -17,7 +17,6 @@ export const useCountryCode = (
   if (countryOptions) {
     // Check if the path contains a country code and update the current path
     const pathParts = pathName.replace(/^\//, '').split('/');
-    console.log(pathParts);
 
     const firstPathPart = pathParts[0];
     const country = countryOptions.find(

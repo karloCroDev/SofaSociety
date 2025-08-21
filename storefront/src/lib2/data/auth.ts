@@ -53,7 +53,7 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
         message: 'Uhoh something went wrong please try again',
       };
     }
-    console.log('Token', token);
+
     await setAuthToken(token);
     revalidateTag('customer');
 

@@ -107,8 +107,6 @@ export async function addItemToCart({
       await getAuthHeaders()
     );
     revalidateTag('cart');
-
-    console.log('Added to cart!!!!');
   } catch (error) {
     medusaError(error);
   }

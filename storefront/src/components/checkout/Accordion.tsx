@@ -58,7 +58,6 @@ export const Accordion: React.FC<{
     // cart.shipping_methods.length > 0 &&
     !!cart.payment_collection;
 
-  console.log(allStepsChecker);
   return (
     <Elements
       stripe={stripe}

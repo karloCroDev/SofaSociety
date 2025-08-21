@@ -31,9 +31,6 @@ export const StripePaymentButton = withReactQueryProvider(
         return router.push(`/confirmation/${data.order.id}`);
 
       setErrorMessage(data.error.message);
-
-      console.log(data.error.message);
-      console.log('Ajde u k stripe ;(');
     };
 
     const isSuccessStatus = (status?: string) => {

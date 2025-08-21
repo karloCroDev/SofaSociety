@@ -84,7 +84,6 @@ export const ProductsMapping: React.FC<{
       router.replace(`?${params.toString()}`, { scroll: false });
     };
 
-    console.log(productsQuery.data.pages);
     return (
       <>
         <LayoutRow

@@ -11,7 +11,6 @@ import { listOrders } from '@/lib2/data/orders';
 
 export default async function OrdersPage() {
   const { orders } = await listOrders();
-  console.log(orders);
 
   if (!orders)
     return <p className="mt-16 text-lg">You haven't ordered anything</p>;

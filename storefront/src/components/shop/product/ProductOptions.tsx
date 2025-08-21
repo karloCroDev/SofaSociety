@@ -9,11 +9,10 @@ import { AddToCart } from '@/components/shop/AddToCart';
 import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
 import { Button } from '@/components/ui/Button';
 import { SelectColor } from '@/components/shop/product/SelectColor';
-import { isEqual } from 'lodash';
-import { withReactQueryProvider } from '@/lib2/react-query';
-import { getVariantItemsInStock } from '@/lib/util/inventory';
-import { useAddLineItem } from '@/hooks/cart';
-import { useCountryCode } from '@/hooks/country-code';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
+
+// Hooks
+import { useCountryCode } from '@/hooks2/util/country-code';
 import { useAddCartItem } from '@/hooks2/cart';
 
 const convertToObject = (options: HttpTypes.StoreProductVariant['options']) => {
@@ -54,9 +53,6 @@ export const ProductOptions: React.FC<{
   const [amount, setAmount] = React.useState(1);
 
   // check if the selected variant is in stock
-  const isItemInStock = doesOptionExists
-    ? getVariantItemsInStock(doesOptionExists)
-    : 0;
 
   const location = useCountryCode();
 
@@ -95,7 +91,7 @@ export const ProductOptions: React.FC<{
         <AddToCart size="lg" setAmount={setAmount} />
         <Button
           className="flex-1"
-          isVisuallyDisabled={!isItemInStock || isPending}
+          isVisuallyDisabled={!doesOptionExists || isPending}
           onPress={addToCart}
         >
           Add to cart

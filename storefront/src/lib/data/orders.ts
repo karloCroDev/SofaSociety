@@ -1,7 +1,7 @@
 'use server';
 
 import { cache } from 'react';
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { medusaError } from '@/lib2/util/medusa-error';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import { getAuthHeaders } from '@/lib/data/cookies';

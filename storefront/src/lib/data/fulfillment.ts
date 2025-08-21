@@ -2,7 +2,7 @@
 import { HttpTypes } from '@medusajs/types';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 
 // Shipping actions
 export const listCartShippingMethods = async function (cartId: string) {

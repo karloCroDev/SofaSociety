@@ -15,7 +15,7 @@ import {
 import { useLogout } from '@/hooks2/auth';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 export const LogoutButton: React.FC<
   React.ComponentPropsWithoutRef<'button'> &

@@ -8,7 +8,7 @@ import { Button as AriaButton } from 'react-aria-components';
 import { Icon } from '@/components/ui/Icon';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 // Hooks
 import { useDeleteCartItem } from '@/hooks2/cart';

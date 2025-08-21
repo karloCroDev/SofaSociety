@@ -15,7 +15,7 @@ export default async function AccountLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const customer = await getCustomer();
+  const customer = await getCustomer().catch(() => null);
 
   if (!customer) redirect('/');
   return (

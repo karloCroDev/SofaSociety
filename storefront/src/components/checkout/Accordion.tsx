@@ -10,16 +10,14 @@ import { loadStripe } from '@stripe/stripe-js';
 
 // Components
 import { Email } from '@/components/checkout/Email';
+import { StripePaymentButton } from '@/components/checkout/StripePaymentButton';
 import { Address } from '@/components/checkout/Address';
 import { Shipping } from '@/components/checkout/Shipping';
 import { Payment } from '@/components/checkout/Payment';
-import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { StepTypes } from '@/app/[location]/checkout/page';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
-import { Button } from '@/components/ui/Button';
-import { StripePaymentButton } from '@/components/checkout/StripePaymentButton';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || 'temp');
 
@@ -33,7 +31,7 @@ export const Accordion: React.FC<{
   const searchParams = useSearchParams();
   const [hasLoaded, setHadLoaded] = React.useState(false);
 
-  // Karlo: Pogledaj ovo
+  // Karlo: Kada rijesis problem s regionom onda ovo stavi jer trenutno je u test modu
 
   // React.useEffect(() => {
   //   let currentStep: StepTypes; // Default to last step if there are no previous steps

@@ -1,5 +1,7 @@
 'use server';
 
+// External packages
+import { PaymentMethod } from '@stripe/stripe-js';
 import {
   ChoosePaymentMethodOption,
   EmailFormArgs,
@@ -8,12 +10,11 @@ import {
 import { CustomerAddressArgs } from '@/hooks2/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
 import { medusaError } from '@/lib2/util/medusa-error';
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { getCartId, removeCartId } from '@/lib2/data/cookies';
 import { HttpTypes } from '@medusajs/types';
 import { revalidateTag } from 'next/cache';
-import { PaymentMethod } from '@stripe/stripe-js';
-import { retrieveCart } from '@/lib/data/cart';
+import { getCart } from '@/lib2/data/cart';
 
 async function updateCart(data: HttpTypes.StoreUpdateCart) {
   const cartId = await getCartId();
@@ -166,7 +167,7 @@ export async function choosePaymentMethod({
 }
 
 export async function initiatePaymentSession(provider_id: string) {
-  const cart = await retrieveCart();
+  const cart = await getCart();
 
   if (!cart) {
     throw new Error("Can't initiate payment without cart");

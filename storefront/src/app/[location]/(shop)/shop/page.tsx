@@ -11,20 +11,14 @@ import {
   ProductsMapping,
   ProductsSkeletonMapping,
 } from '@/components/ui/ProductsGrid';
-import { ProductFilters } from '@/components/ui/filters/ProductFilters';
-import { PopoverOption } from '@/components/ui/filters/PopoverOption';
 import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
-import { DrawerFilter } from '@/components/ui/filters/DrawerFilter';
-import { DrawerSort } from '@/components/ui/filters/DrawerSort';
-
-// Lib
-import { getCollectionsList } from '@/lib/data/collections';
-import { getCategoriesList } from '@/lib/data/categories';
-import { getProductTypesList } from '@/lib/data/product-types';
 import { Filters } from '@/components/ui/filters/Filters';
 
-// Lib2
+// Lib
+import { getCollectionsList } from '@/lib2/data/collections';
+import { getSpecificCategories } from '@/lib2/data/categories';
 import { converterCheckerArray } from '@/lib2/util/arrayChecker';
+import { getSpecificProductType } from '@/lib2/data/product-types';
 
 interface PageProps {
   params: Promise<{ location: string }>;
@@ -42,9 +36,13 @@ export default async function Shop({ params, searchParams }: PageProps) {
 
   const { page, category, collection, sortBy, type } = await searchParams;
   const [collections, categories, types] = await Promise.all([
-    getCollectionsList(0, 20, ['metadata', 'handle', 'title']),
-    getCategoriesList(0, 100, ['id', 'name', 'handle']),
-    getProductTypesList(0, 100, ['id', 'value']),
+    getCollectionsList({ fields: ['id', 'metadata', 'handle'] }),
+    getSpecificCategories({
+      fields: ['id', 'name', 'handle'],
+    }),
+    getSpecificProductType({
+      fields: ['id', 'value'],
+    }),
   ]);
 
   return (
@@ -82,15 +80,13 @@ export default async function Shop({ params, searchParams }: PageProps) {
           id: collection.id,
         }))}
         categoryFilters={converterCheckerArray(category)}
-        appliedCategoryFilters={categories.product_categories.map(
-          (collection) => ({
-            handle: collection.handle,
-            name: collection.name,
-            id: collection.id,
-          })
-        )}
+        appliedCategoryFilters={categories.map((collection) => ({
+          handle: collection.handle,
+          name: collection.name,
+          id: collection.id,
+        }))}
         typesFilters={converterCheckerArray(type)}
-        appliedTypeFilters={types.productTypes.map((collection) => ({
+        appliedTypeFilters={types.product_types.map((collection) => ({
           handle: collection.value,
           name: collection.value,
           id: collection.id,
@@ -113,14 +109,14 @@ export default async function Shop({ params, searchParams }: PageProps) {
           categoryId={
             !category
               ? undefined
-              : categories.product_categories
+              : categories
                   .filter((c) => category.includes(c.handle))
                   .map((c) => c.id)
           }
           typeId={
             !type
               ? undefined
-              : types.productTypes
+              : types.product_types
                   .filter((c) => type.includes(c.value))
                   .map((c) => c.id)
           }

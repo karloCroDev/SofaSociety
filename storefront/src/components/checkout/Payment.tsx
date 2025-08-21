@@ -16,8 +16,10 @@ import { RadioButtonVisual } from '@/components/ui/Radio';
 import { Input } from '@/components/ui/Input';
 import { StripeCardPaymentButton } from '@/components/checkout/PaymentCardButton';
 
-// Hooks
+// Lib
 import { isStripe as isStripeFunc, paymentInfoObj } from '@/lib2/constants';
+
+// Hooks
 import {
   useChoosePaymentMethod,
   useListPaymentProviders,
@@ -202,7 +204,7 @@ export const Payment: React.FC<{
         )}
 
         {/* -||- */}
-        {/* Trenutno samo handleam stripe, reci ako trbeam koristiti još neki payment provider */}
+        {/* Ante: Trenutno samo handleam stripe, reci ako trbeam koristiti još neki payment provider */}
         <StripeCardPaymentButton
           setErrorMessage={setErrorMessage}
           cart={cart}

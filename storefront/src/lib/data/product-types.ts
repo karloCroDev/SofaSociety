@@ -1,4 +1,4 @@
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { HttpTypes, PaginatedResponse } from '@medusajs/types';
 
 export const getProductTypesList = async function (

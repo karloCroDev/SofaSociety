@@ -14,59 +14,50 @@ import { Button } from '@/components/ui/Button';
 
 // Lib
 import { resetPassword } from '@/lib2/data/auth';
+import { resetPasswordLinkSchema, useResetPassword } from '@/hooks2/auth';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
-const resetPasswordLinkSchema = z
-  .object({
-    oldPassword: z.string().min(6).optional(), // If there is no session then nothing,
-    password: z.string().min(6, 'Password must be atleast 6 charachters long'),
-    repeatPassword: z.string().min(6),
-  })
-  .refine((data) => data.password === data.repeatPassword, {
-    message: 'Passwords do not match',
-    path: ['repeatPassword'],
-  });
-
-type ResetPasswordLinkProps = z.infer<typeof resetPasswordLinkSchema>;
+type ResetPasswordFormProps = z.infer<typeof resetPasswordLinkSchema>;
 
 export const ResetPasswordForm: React.FC<{
   token: string;
   email: string;
   isLoggedIn: boolean;
-}> = ({ isLoggedIn, email, token }) => {
+}> = withReactQueryProvider(({ isLoggedIn, email, token }) => {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
     reset,
-  } = useForm<ResetPasswordLinkProps>({
+  } = useForm<ResetPasswordFormProps>({
     resolver: zodResolver(resetPasswordLinkSchema),
   });
 
-  const [resetPasswordState, setResetPasswordAction, isPending] =
-    React.useActionState(resetPassword, {
-      email,
-      token,
-      state: 'initial',
-    });
-
-  const router = useRouter();
-
-  const onSubmit = async ({ repeatPassword }: ResetPasswordLinkProps) => {
-    React.startTransition(() => {
-      setResetPasswordAction({
-        newPassword: repeatPassword,
-        type: isLoggedIn ? 'reset' : 'forgot',
-      });
-
-      if (resetPasswordState.state === 'error') {
+  const { mutate: setResetPasswordAction, isPending } = useResetPassword({
+    onSuccess: ({ state, message }) => {
+      if (state === 'error')
         return setError('root', {
-          message: resetPasswordState.message,
+          message: message as string,
         });
-      }
 
       router.push('/login');
-      reset();
+    },
+  });
+  const router = useRouter();
+
+  const onSubmit = async ({
+    repeatPassword,
+    password,
+    oldPassword,
+  }: ResetPasswordFormProps) => {
+    setResetPasswordAction({
+      email,
+      password,
+      repeatPassword,
+      token,
+      oldPassword,
+      type: isLoggedIn ? 'reset' : 'forgot',
     });
   };
 
@@ -139,4 +130,4 @@ export const ResetPasswordForm: React.FC<{
       </Button>
     </Form>
   );
-};
+});

@@ -20,14 +20,10 @@ import {
   customerAddressSchema,
   CustomerAddressArgs,
 } from '@/hooks2/user-settings';
-import { useSetShippingAddress } from '@/hooks/cart';
-import {
-  useAddressCheckout,
-  useShippingOptionCheckout,
-} from '@/hooks2/checkout';
+import { useAddressCheckout } from '@/hooks2/checkout';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 export const Address: React.FC<{
   cart: HttpTypes.StoreCart;

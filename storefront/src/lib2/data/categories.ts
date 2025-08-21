@@ -2,7 +2,7 @@
 import { HttpTypes } from '@medusajs/types';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { medusaError } from '@/lib2/util/medusa-error';
 
 export async function allCategories() {
@@ -19,8 +19,8 @@ export async function getSpecificCategories({
   limit = 100,
   fields,
 }: {
-  offset: number;
-  limit: number;
+  offset?: number;
+  limit?: number;
   fields?: (keyof HttpTypes.StoreProductCategory)[];
 }) {
   try {

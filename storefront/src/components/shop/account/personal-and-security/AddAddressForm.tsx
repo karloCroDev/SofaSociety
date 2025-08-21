@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/Input';
 import { Form } from '@/components/ui/Form';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 // Hooks
 import {

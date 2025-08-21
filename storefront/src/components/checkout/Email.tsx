@@ -3,7 +3,6 @@
 // External packages
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
-import { useCustomer } from '@/hooks2/auth';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { HttpTypes } from '@medusajs/types';
 import { Form } from 'react-aria-components';
@@ -16,6 +15,7 @@ import { Input } from '@/components/ui/Input';
 import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 
 // Hooks
+import { useCustomer } from '@/hooks2/auth';
 import {
   EmailFormArgs,
   emailFormSchema,
@@ -23,7 +23,7 @@ import {
 } from '@/hooks2/checkout';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 export const Email: React.FC<{
   cart: HttpTypes.StoreCart;

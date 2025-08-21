@@ -2,7 +2,7 @@
 import { HttpTypes } from '@medusajs/types';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { medusaError } from '@/lib2/util/medusa-error';
 
 export async function allRegions() {

@@ -1,11 +1,10 @@
 'use server';
 
 // External packages
-import { z } from 'zod';
 import { revalidateTag } from 'next/cache';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { getAuthHeaders } from '@/lib2/data/cookies';
 
 // Hooks
@@ -13,7 +12,6 @@ import {
   CustomerAddressArgs,
   UpdateCustomerDetailsArgs,
 } from '@/hooks2/user-settings';
-import { HttpTypes } from '@medusajs/types';
 
 export async function updateCustomerDetails({
   firstName,

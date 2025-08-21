@@ -1,11 +1,12 @@
+// External packages
+import { redirect } from 'next/navigation';
+
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
-import { Footer } from '@/components/ui/Footer';
 import { ResetPasswordForm } from '@/components/auth/login/ResetPasswordForm';
 
 // Lib
-import { getCustomer } from '@/lib/data/customer';
-import { redirect } from 'next/navigation';
+import { getCustomer } from '@/lib2/data/auth';
 
 interface PageProps {
   searchParams: Promise<{
@@ -20,7 +21,7 @@ export default async function ResetPasswordPage({ searchParams }: PageProps) {
   if (!email || !token) redirect('/');
 
   console.log(email, token);
-  const customer = await getCustomer();
+  const customer = await getCustomer().catch(() => null);
 
   return (
     <Layout className="mt-32 lg:mt-48">

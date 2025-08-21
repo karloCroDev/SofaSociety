@@ -5,7 +5,7 @@ import { HttpTypes } from '@medusajs/types';
 import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { getRegion } from '@/lib2/data/regions';
 import { sortProducts } from '@/lib2/util/sort-products';
 import { medusaError } from '@/lib2/util/medusa-error';

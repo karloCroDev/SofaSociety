@@ -8,7 +8,6 @@ import { usePathname, useRouter } from 'next/navigation';
 
 // Lib
 import { isStripe } from '@/lib2/constants';
-import { withReactQueryProvider } from '@/lib2/react-query';
 
 // Components
 import { Button } from '@/components/ui/Button';

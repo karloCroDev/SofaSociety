@@ -12,7 +12,7 @@ export default async function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const customer = await getCustomer();
+  const customer = await getCustomer().catch(() => null);
 
   if (customer) redirect('/account/orders');
   return (

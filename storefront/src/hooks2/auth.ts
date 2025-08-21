@@ -8,7 +8,14 @@ import {
 import { z } from 'zod';
 
 // Lib
-import { login, signUp, logOut, getCustomer } from '@/lib2/data/auth';
+import {
+  login,
+  signUp,
+  logOut,
+  getCustomer,
+  resetPassword,
+} from '@/lib2/data/auth';
+import { email } from 'node_modules/zod/v4/core/regexes.cjs';
 
 // Customer
 export const useCustomer = () => {
@@ -46,6 +53,7 @@ export const useLogin = (
   });
 };
 
+// Sign up
 export const signupSchema = z.object({
   email: z.string().email(),
   first_name: z.string().min(1),
@@ -66,6 +74,63 @@ export const useSignup = (
   return useMutation({
     mutationKey: ['signUp'],
     mutationFn: (values: SignUpArgs) => signUp(values),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['customer'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+};
+
+// Reset password
+
+const OtpSchema = z.object({
+  email: z.string().email(),
+  token: z.string(),
+});
+
+export const resetPasswordLinkSchema = z
+  .object({
+    oldPassword: z.string().min(6).optional(), // If there is no session then nothing,
+    password: z
+      .string()
+      .min(6, 'New password must be atleast 6 charachters long'),
+    repeatPassword: z.string().min(6),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: 'Passwords do not match',
+    path: ['repeatPassword'],
+  });
+
+export type ResetPasswordLinkProps = z.infer<typeof resetPasswordLinkSchema> &
+  z.infer<typeof OtpSchema> & {
+    type: 'forgot' | 'reset';
+  };
+
+export const useResetPassword = (
+  options?: UseMutationOptions<
+    { state: 'success' | 'error'; redirectUrl?: string; message?: string },
+    Error,
+    ResetPasswordLinkProps
+  >
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['login'],
+    mutationFn: ({
+      oldPassword,
+      email,
+      repeatPassword,
+      token,
+      type,
+    }: ResetPasswordLinkProps) =>
+      resetPassword({
+        email,
+        repeatPassword,
+        type,
+        token,
+        oldPassword,
+      }),
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({ queryKey: ['customer'] });
       await options?.onSuccess?.(...args);

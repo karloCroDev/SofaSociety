@@ -2,7 +2,7 @@
 import { HttpTypes, PaginatedResponse } from '@medusajs/types';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { medusaError } from '@/lib2/util/medusa-error';
 
 export async function getSpecificProductType({
@@ -35,7 +35,7 @@ export async function getSpecificProductType({
   }
 }
 
-export const getProductTypeByHandle = async function (handle: string) {
+export async function getTypesProductHandle(handle: string) {
   try {
     const { product_types } = await sdk.client.fetch<
       PaginatedResponse<{
@@ -51,4 +51,4 @@ export const getProductTypeByHandle = async function (handle: string) {
   } catch (error) {
     medusaError(error);
   }
-};
+}

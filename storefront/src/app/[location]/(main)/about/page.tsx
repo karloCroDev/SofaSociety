@@ -52,7 +52,6 @@ export default function About() {
               personal style.
             </h2>
             <p className="mt-6 lg:mt-10">
-              {/* TODO: U tekstu ispod imaš karakter `’` koji bi trebao zamijeniti sa `&apos;`. Ako ostaviš ovako build ti neće proć. Zamijeni na cijelom projektu to dvoje. FIXED*/}
               At the heart of our brand is a deep commitment to quality. We
               understand that a sofa isn&apos;t just another piece of furniture;
               it&apos;s where you unwind, gather with loved ones, and make

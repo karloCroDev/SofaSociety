@@ -6,28 +6,21 @@ import { redirect } from 'next/navigation';
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
-import { ImageSlider } from '@/components/shop/product/ImageSlider';
 import {
   ProductsMapping,
   ProductsSkeletonMapping,
 } from '@/components/ui/ProductsGrid';
 import { ProductCarousel } from '@/components/shop/product/ProductCarousel';
+import { ProductOptions } from '@/components/shop/product/ProductOptions';
 
 // Lib
 import {
   getProductByHandle,
   getProductFashionDataByHandle,
-} from '@/lib/data/products';
-import { getRegion } from '@/lib/data/regions';
-import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
-
-// Assets
-import {
-  getPricesForVariant,
-  getProductPrice,
-} from '@/lib/util/get-product-price';
-import { ProductOptions } from '@/components/shop/product/ProductOptions';
+} from '@/lib2/data/products';
+import { getRegion } from '@/lib2/data/regions';
+import { collectionMetadataCustomFieldsSchema } from '@/lib2/util/collections';
+import { getProductPrice } from '@/lib2/util/money';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;
@@ -39,7 +32,10 @@ export default async function ProductPage({ params }: PageProps) {
 
   if (!region) redirect('/');
 
-  const productData = await getProductByHandle(handle, region.id);
+  const productData = await getProductByHandle({
+    handle,
+    regionId: region.id,
+  });
   const fashionDetails = await getProductFashionDataByHandle(handle);
   const price = getProductPrice({
     product: productData,
@@ -68,7 +64,7 @@ export default async function ProductPage({ params }: PageProps) {
             <p className="mt-8">{productData.description}</p>
             <ProductOptions
               productItem={productData}
-              customization={fashionDetails.materials}
+              customization={fashionDetails}
             />
 
             <p className="mt-4 text-gray-500">Estimate delivery 2-3 days</p>

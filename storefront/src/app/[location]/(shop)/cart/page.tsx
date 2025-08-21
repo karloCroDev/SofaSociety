@@ -1,5 +1,6 @@
 // External packages
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
@@ -7,21 +8,15 @@ import { Icon } from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
-
-// Assets
-import { AddToCart } from '@/components/shop/AddToCart';
-import { redirect } from 'next/navigation';
-import { getCartId } from '@/lib/data/cookies';
-import { retrieveCart } from '@/lib/data/cart';
-import { getPricesForVariant } from '@/lib/util/get-product-price';
-import { getVariantItemsInStock } from '@/lib/util/inventory';
 import { Products } from '@/components/shop/cart/Products';
+
+// Lib
+import { getPricesForVariant } from '@/lib2/util/money';
 import { getCart } from '@/lib2/data/cart';
 import { getCustomer } from '@/lib2/data/auth';
-import { HttpTypes } from '@medusajs/types';
 
 export default async function CartPage() {
-  const customer = await getCustomer();
+  const customer = await getCustomer().catch(() => null);
   if (!customer) redirect('/login');
 
   const cart = await getCart();
@@ -62,9 +57,7 @@ export default async function CartPage() {
                       : undefined
                   }
                   amount={item.quantity}
-                  maxAmount={
-                    item.variant ? getVariantItemsInStock(item.variant) : 0
-                  }
+                  maxAmount={item.variant?.inventory_quantity || 0}
                   key={i}
                 />
               );

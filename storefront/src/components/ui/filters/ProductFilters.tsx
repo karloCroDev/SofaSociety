@@ -11,7 +11,7 @@ import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 import {
   useSetUrlParams,
   type UrlParamsProps,
-} from '@/hooks2/util/useSetUrlParams';
+} from '@/hooks2/util/country-code';
 import { HttpTypes } from '@medusajs/types';
 
 export const ProductFilters: React.FC<{

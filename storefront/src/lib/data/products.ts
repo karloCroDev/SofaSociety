@@ -1,4 +1,4 @@
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { HttpTypes } from '@medusajs/types';
 import { getRegion } from '@/lib/data/regions';
 import { type SortOptions } from '@/components/ui/filters/Sort';

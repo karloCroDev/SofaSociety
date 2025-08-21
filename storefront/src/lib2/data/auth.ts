@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
 
 // Lib
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
 import { getCartId, removeAuthToken } from '@/lib/data/cookies';
 
@@ -19,16 +19,16 @@ import {
   SignUpArgs,
 } from '@/hooks2/auth';
 
-export const getCustomer = async function () {
+export async function getCustomer() {
   const { customer } = await sdk.client.fetch<{
     customer: HttpTypes.StoreCustomer;
   }>(`/store/customers/me`, {
     next: { tags: ['customer'] }, // NEXT TAG: customer
-    headers: { ...(await getAuthHeaders()) },
+    headers: await getAuthHeaders(),
     cache: 'no-store',
   });
   return customer;
-};
+}
 
 export async function login({ email, password, redirect_url }: LoginArgs) {
   try {
@@ -150,7 +150,7 @@ export async function forgotPassword({
 }
 
 export async function isLoggedInForgotPasswordReset() {
-  const user = await getCustomer();
+  const user = await getCustomer().catch(() => null);
 
   if (!user) {
     return {
@@ -162,36 +162,33 @@ export async function isLoggedInForgotPasswordReset() {
 }
 
 // Reset password
-const otpDataSchema = z.object({
-  email: z.string().email(),
-  token: z.string(),
-});
-type OtpDataArgs = z.infer<typeof otpDataSchema>;
 
 const resetFormDataSchema = z.object({
-  newPassword: z.string().min(6, 'Password must be atleast 6 charachters long'),
+  email: z.string().email(),
+  token: z.string(),
+  oldPassword: z.string().min(6).optional(),
+  repeatPassword: z
+    .string()
+    .min(6, 'Password must be atleast 6 charachters long'),
   type: z.union([z.literal('forgot'), z.literal('reset')]),
 });
 type ResetFormDataArgs = z.infer<typeof resetFormDataSchema>;
 
-export async function resetPassword(
-  initialValue: unknown,
-  { newPassword, type }: ResetFormDataArgs
-): Promise<
-  | (OtpDataArgs & { state: 'initial' | 'success' })
-  | { state: 'error'; message: string }
-> {
-  const validate = otpDataSchema.parse(initialValue);
-
+export async function resetPassword({
+  email,
+  token,
+  oldPassword,
+  repeatPassword,
+  type,
+}: ResetFormDataArgs) {
   if (type === 'reset') {
     try {
       await sdk.auth.login('customer', 'emailpass', {
-        email: validate.email,
-        password: newPassword,
+        email,
+        password: oldPassword!,
       });
     } catch (error) {
       return {
-        ...validate,
         state: 'error' as const,
         message: 'Wrong password',
       };
@@ -203,19 +200,17 @@ export async function resetPassword(
       type === 'reset' ? 'logged-in-customer' : 'customer',
       'emailpass',
       {
-        email: validate.email,
-        password: newPassword,
+        email,
+        password: repeatPassword,
       },
-      validate.token
+      token
     );
 
     return {
-      ...validate,
       state: 'success' as const,
     };
   } catch {
     return {
-      ...validate,
       state: 'error' as const,
       message: 'Failed to update password',
     };

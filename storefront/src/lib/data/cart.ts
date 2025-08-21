@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { PaymentMethod } from '@stripe/stripe-js';
 
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import medusaError from '@/lib/util/medusa-error';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import {

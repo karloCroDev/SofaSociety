@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 import { useLogin, loginFormSchema, LoginArgs } from '@/hooks2/auth';
 
 export const LoginForm = withReactQueryProvider(() => {

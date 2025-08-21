@@ -11,15 +11,14 @@ import { Button } from '@/components/ui/Button';
 import { RadioButtonVisual } from '@/components/ui/Radio';
 
 // Hooks
-import { useCartShippingMethods } from '@/hooks/cart';
-
-// Lib
-import { convertToLocale } from '@/lib2/util/money';
-import { withReactQueryProvider } from '@/lib2/react-query';
 import {
   useGetCartShippingOptions,
   useShippingOptionCheckout,
 } from '@/hooks2/checkout';
+
+// Lib
+import { convertToLocale } from '@/lib2/util/money';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 export const Shipping: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -30,7 +29,8 @@ export const Shipping: React.FC<{
 
   const isOpen = searchParams.get('step') === 'shipping';
 
-  const { data: allShippingMethods } = useGetCartShippingOptions(cart.id); // Ante: Hej ne dobivam ništa za ovu vijrednost vrijednost, je li tako treba biti ili sam ja nešto falio?
+  // Ante: Hej ne dobivam ništa za ovu vijrednost vrijednost, je li tako treba biti ili sam ja nešto falio?
+  const { data: allShippingMethods } = useGetCartShippingOptions(cart.id);
   const { mutate } = useShippingOptionCheckout();
 
   return (

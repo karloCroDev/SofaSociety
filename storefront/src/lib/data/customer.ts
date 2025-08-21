@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
 import { HttpTypes } from '@medusajs/types';
 
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import {
   getAuthHeaders,
   setAuthToken,
@@ -241,7 +241,7 @@ export const updateCustomerAddress = async (
 };
 
 export async function requestPasswordReset() {
-  const customer = await getCustomer();
+  const customer = await getCustomer().catch(() => null);
 
   if (!customer) {
     return {

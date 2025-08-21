@@ -1,7 +1,10 @@
 'use client';
 
 // Lib
-import { MeiliSearchProductHit, searchClient } from '@/lib2/search-client';
+import {
+  MeiliSearchProductHit,
+  searchClient,
+} from '@/lib2/config/search-client';
 import { getProductsById } from '@/lib/data/products';
 
 export async function getSearchItems({

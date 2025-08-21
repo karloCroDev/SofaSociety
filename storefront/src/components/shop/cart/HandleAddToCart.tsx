@@ -10,7 +10,7 @@ import { AddToCart } from '@/components/shop/AddToCart';
 import { useUpdateCartItem } from '@/hooks2/cart';
 
 // lib
-import { withReactQueryProvider } from '@/lib2/react-query';
+import { withReactQueryProvider } from '@/lib2/config/react-query';
 
 export const HandleAddToCart: React.FC<{
   itemId: string;

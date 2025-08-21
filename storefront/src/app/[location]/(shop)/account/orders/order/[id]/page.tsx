@@ -8,7 +8,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { retrieveOrder } from '@/lib/data/orders';
+import { retrieveOrder } from '@/lib2/data/orders';
 import { convertToLocale } from '@/lib2/util/money';
 
 interface PageProps {

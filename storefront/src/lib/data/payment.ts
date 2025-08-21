@@ -1,4 +1,4 @@
-import { sdk } from '@/lib2/config';
+import { sdk } from '@/lib2/config/config';
 import { HttpTypes } from '@medusajs/types';
 
 // Shipping actions

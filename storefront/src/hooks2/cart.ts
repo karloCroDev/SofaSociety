@@ -25,7 +25,7 @@ export type AddItemToCartArgs = HttpTypes.StoreAddCartLineItem & {
   location?: string;
 };
 export const useAddCartItem = (
-  options: UseMutationOptions<void, Error, AddItemToCartArgs>
+  options?: UseMutationOptions<void, Error, AddItemToCartArgs>
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -44,7 +44,7 @@ export type DeleteItemArgs = {
   lineItemId: string;
 };
 export const useDeleteCartItem = (
-  options: UseMutationOptions<void, Error, DeleteItemArgs>
+  options?: UseMutationOptions<void, Error, DeleteItemArgs>
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -62,7 +62,7 @@ export type UpdateCartItemArgs = HttpTypes.StoreUpdateCartLineItem & {
   lineItemId?: string;
 };
 export const useUpdateCartItem = (
-  options: UseMutationOptions<void, Error, UpdateCartItemArgs>
+  options?: UseMutationOptions<void, Error, UpdateCartItemArgs>
 ) => {
   const queryClient = useQueryClient();
   return useMutation({

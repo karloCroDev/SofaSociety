@@ -17,14 +17,16 @@ import Image from 'next/image';
 import { Icon } from '@/components/ui/Icon';
 import { CodeCountryTypes } from '@/components/ui/header/Header';
 import { Input } from '@/components/ui/Input';
+import { HttpTypes } from '@medusajs/types';
+
+// Lib
+import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { getProductPrice } from '@/lib2/util/money';
 
 // Hooks
-import { useCountryCode } from '@/hooks/country-code';
+import { useCountryCode } from '@/hooks2/util/country-code';
 import { useDebounce } from '@/hooks2/util/useDebounce';
-import { getProductPrice } from '@/lib/util/get-product-price';
 import { useSearchProducts } from '@/hooks2/store';
-import { withReactQueryProvider } from '@/lib2/react-query';
-import { HttpTypes } from '@medusajs/types';
 
 export const SearchComboBox: React.FC<{
   codeCountry: CodeCountryTypes;

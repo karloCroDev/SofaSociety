@@ -14,9 +14,15 @@ import { getPricesForVariant } from '@/lib2/util/money';
 import { getCart } from '@/lib2/data/cart';
 import { getCustomer } from '@/lib2/data/auth';
 
-export default async function CartPage() {
+export default async function CartPage({
+  params,
+}: {
+  params: Promise<{ location: string }>;
+}) {
+  const { location } = await params;
+
   const customer = await getCustomer();
-  if (!customer) redirect('/login');
+  if (!customer) redirect(`/login?redirect_url=/${location}/cart`);
 
   const cart = await getCart();
 

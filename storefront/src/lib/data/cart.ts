@@ -29,7 +29,6 @@ export async function getCart() {
       {},
       await getAuthHeaders()
       // {
-      // Ante: Je li mogu ovako passati argumente, uz auth Headers ili moram fetchati. Msm da ne mogu, ali ne pise nista explicitno u dokumentaciji
       // next: { tags: ['cart'] }, // NEXT TAG: cart
       // cache: 'no-store',
 
@@ -39,7 +38,6 @@ export async function getCart() {
 
     if (!cart || !cart.items || !cart.region_id) return;
 
-    // Ante: Pretpostvljam da ovo koristite na svim projektima paaa nisam htio mjenjati funkciju enrichLineItems
     cart.items = await enrichLineItems(cart.items, cart.region_id);
 
     return cart;

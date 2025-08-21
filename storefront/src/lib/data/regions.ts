@@ -7,7 +7,6 @@ import { medusaError } from '@/lib/util/medusa-error';
 
 export async function allRegions() {
   try {
-    // Ante: Pretpostavaljam da ovdje moram koristiti "fetch" umjesto modulea jerr  moram passati tag na fetch (osim ako ne postoji nacin da passam to na moduleu :))
     const { regions } = await sdk.client.fetch<{
       regions: HttpTypes.StoreRegion[];
     }>(`/store/regions`, {

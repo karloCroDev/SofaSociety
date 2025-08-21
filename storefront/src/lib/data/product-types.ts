@@ -30,7 +30,6 @@ export async function getSpecificProductType({
       count,
     };
   } catch (error) {
-    // Ante: Je li mogu ovako handleati error ako je ovo naša api ruta?
     medusaError(error);
   }
 }

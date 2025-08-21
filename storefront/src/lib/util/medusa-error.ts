@@ -1,5 +1,3 @@
-// Ante: Ovo nisam uopće mijenjao jer pretpostavljam da ovako inaće handleate na drugim projektima
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function medusaError(error: any): never {
   if (error.response) {

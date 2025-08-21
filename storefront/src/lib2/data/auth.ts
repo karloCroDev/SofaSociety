@@ -24,21 +24,35 @@ export async function getCustomer() {
     const { customer } = await sdk.client.fetch<{
       customer: HttpTypes.StoreCustomer;
     }>(`/store/customers/me`, {
-      next: { tags: ['customer'] }, // NEXT TAG: customer
+      next: { tags: ['customer'] },
       headers: await getAuthHeaders(),
       cache: 'no-store',
     });
     return customer;
   } catch (error) {
+    console.error(error);
     return null;
   }
 }
 
 export async function login({ email, password, redirect_url }: LoginArgs) {
   try {
-    const token = await sdk.auth.login('customer', 'emailpass', {
+    const validatedData = loginFormSchema.safeParse({
       email,
       password,
+      redirect_url,
+    });
+
+    if (!validatedData.success) {
+      return {
+        state: 'error' as const,
+        message: 'Invalid login credentials',
+      };
+    }
+
+    const token = await sdk.auth.login('customer', 'emailpass', {
+      email: validatedData.data.email,
+      password: validatedData.data.password,
     });
 
     // User already logged in handle that straightly
@@ -63,7 +77,10 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
       revalidateTag('cart');
     }
 
-    return { state: 'success' as const, redirectUrl: redirect_url || '/' };
+    return {
+      state: 'success' as const,
+      redirectUrl: validatedData.data.redirect_url || '/',
+    };
   } catch (error) {
     return {
       state: 'error' as const,

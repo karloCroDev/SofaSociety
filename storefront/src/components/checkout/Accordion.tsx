@@ -52,7 +52,7 @@ export const Accordion: React.FC<{
     !!cart.email &&
     !!cart.shipping_address &&
     !!cart.billing_address &&
-    // Ante: Ugl malo me zafrkava zbog tax regiona (pogledaj prijašnja pitanja), ne prikazuje mi ni jednu opciju
+    // TODO: @karloCroDev postavi tax region u medusa admin
 
     // Array.isArray(cart.shipping_methods) &&
     // cart.shipping_methods.length > 0 &&

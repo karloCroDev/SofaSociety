@@ -203,8 +203,6 @@ export const Payment: React.FC<{
           </Button>
         )}
 
-        {/* -||- */}
-        {/* Ante: Trenutno samo handleam stripe, reci ako trbeam koristiti još neki payment provider */}
         <StripeCardPaymentButton
           setErrorMessage={setErrorMessage}
           cart={cart}

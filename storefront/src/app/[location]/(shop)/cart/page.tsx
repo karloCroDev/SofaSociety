@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 
 // Components
 import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
-import { Icon } from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
@@ -16,7 +15,7 @@ import { getCart } from '@/lib2/data/cart';
 import { getCustomer } from '@/lib2/data/auth';
 
 export default async function CartPage() {
-  const customer = await getCustomer().catch(() => null);
+  const customer = await getCustomer();
   if (!customer) redirect('/login');
 
   const cart = await getCart();

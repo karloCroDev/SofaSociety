@@ -241,7 +241,7 @@ export const updateCustomerAddress = async (
 };
 
 export async function requestPasswordReset() {
-  const customer = await getCustomer().catch(() => null);
+  const customer = await getCustomer();
 
   if (!customer) {
     return {

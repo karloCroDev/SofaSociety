@@ -21,7 +21,7 @@ export const useCustomer = () => {
   return useQuery({
     queryKey: ['customer'],
     queryFn: async () => {
-      const customer = await getCustomer().catch(() => null);
+      const customer = await getCustomer();
       return customer;
     },
     staleTime: 5 * 60 * 1000,

@@ -5,14 +5,14 @@ import { redirect } from 'next/navigation';
 import { Header } from '@/components/ui/header/Header';
 
 // Lib
-import { getCustomer } from '@/lib/data/customer';
+import { getCustomer } from '@/lib2/data/auth';
 
 export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const customer = await getCustomer().catch(() => null);
+  const customer = await getCustomer();
 
   if (customer) redirect('/account/orders');
   return (

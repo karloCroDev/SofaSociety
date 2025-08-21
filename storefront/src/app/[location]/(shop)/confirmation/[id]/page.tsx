@@ -19,7 +19,7 @@ interface PageProps {
   }>;
 }
 export default async function Confirmation({ params }: PageProps) {
-  const customer = await getCustomer().catch(() => null);
+  const customer = await getCustomer();
   if (!customer) {
     redirect(`/`);
   }

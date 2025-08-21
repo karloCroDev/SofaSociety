@@ -21,7 +21,7 @@ export default async function ResetPasswordPage({ searchParams }: PageProps) {
   if (!email || !token) redirect('/');
 
   console.log(email, token);
-  const customer = await getCustomer().catch(() => null);
+  const customer = await getCustomer();
 
   return (
     <Layout className="mt-32 lg:mt-48">

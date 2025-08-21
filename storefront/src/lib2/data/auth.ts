@@ -20,14 +20,18 @@ import {
 } from '@/hooks2/auth';
 
 export async function getCustomer() {
-  const { customer } = await sdk.client.fetch<{
-    customer: HttpTypes.StoreCustomer;
-  }>(`/store/customers/me`, {
-    next: { tags: ['customer'] }, // NEXT TAG: customer
-    headers: await getAuthHeaders(),
-    cache: 'no-store',
-  });
-  return customer;
+  try {
+    const { customer } = await sdk.client.fetch<{
+      customer: HttpTypes.StoreCustomer;
+    }>(`/store/customers/me`, {
+      next: { tags: ['customer'] }, // NEXT TAG: customer
+      headers: await getAuthHeaders(),
+      cache: 'no-store',
+    });
+    return customer;
+  } catch (error) {
+    return null;
+  }
 }
 
 export async function login({ email, password, redirect_url }: LoginArgs) {

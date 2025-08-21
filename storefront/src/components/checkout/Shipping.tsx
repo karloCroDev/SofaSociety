@@ -29,7 +29,7 @@ export const Shipping: React.FC<{
 
   const isOpen = searchParams.get('step') === 'shipping';
 
-  // Ante: Hej ne dobivam ništa za ovu vijrednost vrijednost, je li tako treba biti ili sam ja nešto falio?
+  // TODO: @karloCroDev definirati shipping methods & options u medusa admin
   const { data: allShippingMethods } = useGetCartShippingOptions(cart.id);
   const { mutate } = useShippingOptionCheckout();
 

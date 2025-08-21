@@ -13,14 +13,14 @@ import { Form } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
 import {
   updateCustomerDetailsSchema,
   useUpdateCustomer,
   UpdateCustomerDetailsArgs,
-} from '@/hooks2/user-settings';
+} from '@/hooks/user-settings';
 
 export const PersonalInformationForm: React.FC<{
   firstName?: string;

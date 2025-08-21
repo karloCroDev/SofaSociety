@@ -11,10 +11,10 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
-import { SignUpArgs, signupSchema, useSignup } from '@/hooks2/auth';
+import { SignUpArgs, signupSchema, useSignup } from '@/hooks/auth';
 
 export const SignUpForm = withReactQueryProvider(() => {
   const { mutate, isPending } = useSignup();

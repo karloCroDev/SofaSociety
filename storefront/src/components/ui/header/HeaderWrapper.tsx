@@ -19,9 +19,9 @@ import { Input } from '@/components/ui/Input';
 import { CodeCountryTypes } from '@/components/ui/header/Header';
 
 // Hooks
-import { useCountryCode } from '@/hooks2/util/country-code';
+import { useCountryCode } from '@/hooks/util/country-code';
 import { useUpdateRegion } from '@/hooks/cart';
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 import { usePathname } from 'next/navigation';
 import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
 

@@ -14,11 +14,11 @@ import {
   initiatePaymentSession,
   listPaymentProviders,
   shippingOptionCheckout,
-} from '@/lib2/data/checkout';
+} from '@/lib/data/checkout';
 import { z } from 'zod';
 
 // Hooks
-import { CustomerAddressArgs } from '@/hooks2/user-settings';
+import { CustomerAddressArgs } from '@/hooks/user-settings';
 import { HttpTypes } from '@medusajs/types';
 
 export const emailFormSchema = z.object({

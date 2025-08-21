@@ -6,8 +6,8 @@ import { Dialog } from '@/components/shop/account/Dialog';
 import { LogoutButton } from '@/components/ui/LogoutButton';
 
 // Lib
-import { getCustomer } from '@/lib2/data/auth';
-import { getRegion, allRegions } from '@/lib2/data/regions';
+import { getCustomer } from '@/lib/data/auth';
+import { getRegion, allRegions } from '@/lib/data/regions';
 
 // Components
 import { PersonalInformationForm } from '@/components/shop/account/personal-and-security/PersonalInformationForm';

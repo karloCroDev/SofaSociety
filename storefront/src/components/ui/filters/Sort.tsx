@@ -8,7 +8,7 @@ import { Radio, RadioGroup } from 'react-aria-components';
 import { RadioIconVisual } from '@/components/ui/Radio';
 
 // Hooks
-import { useSetUrlParams } from '@/hooks2/util/country-code';
+import { useSetUrlParams } from '@/hooks/util/country-code';
 
 export type SortOptions = 'price_asc' | 'price_desc' | 'created_at';
 

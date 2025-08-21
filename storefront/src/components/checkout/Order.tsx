@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
 // Lib
-import { getPricesForVariant } from '@/lib2/util/money';
+import { getPricesForVariant } from '@/lib/util/money';
 
 export const Order: React.FC<{
   cart: HttpTypes.StoreCart;

@@ -13,9 +13,9 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { resetPassword } from '@/lib2/data/auth';
-import { resetPasswordLinkSchema, useResetPassword } from '@/hooks2/auth';
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { resetPassword } from '@/lib/data/auth';
+import { resetPasswordLinkSchema, useResetPassword } from '@/hooks/auth';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 type ResetPasswordFormProps = z.infer<typeof resetPasswordLinkSchema>;
 

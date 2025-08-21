@@ -1,38 +1,36 @@
-import { sdk } from '@/lib2/config/config';
-import { medusaError } from '@/lib2/util/medusa-error';
+// External packages
 import { HttpTypes } from '@medusajs/types';
 
-export const listRegions = async function () {
-  return sdk.client
-    .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
+// Lib
+import { sdk } from '@/lib/config/config';
+import { medusaError } from '@/lib/util/medusa-error';
+
+export async function allRegions() {
+  try {
+    // Ante: Pretpostavaljam da ovdje moram koristiti "fetch" umjesto modulea jerr  moram passati tag na fetch (osim ako ne postoji nacin da passam to na moduleu :))
+    const { regions } = await sdk.client.fetch<{
+      regions: HttpTypes.StoreRegion[];
+    }>(`/store/regions`, {
       method: 'GET',
       next: { tags: ['regions'] },
       cache: 'force-cache',
-    })
-    .then(({ regions }) => regions)
-    .catch(medusaError);
-};
+    });
 
-export const retrieveRegion = async function (id: string) {
-  return sdk.client
-    .fetch<{ region: HttpTypes.StoreRegion }>(`/store/regions/${id}`, {
-      method: 'GET',
-      next: { tags: [`regions`] },
-      cache: 'force-cache',
-    })
-    .then(({ region }) => region)
-    .catch(medusaError);
-};
+    return regions;
+  } catch (error) {
+    medusaError(error);
+  }
+}
 
-const regionMap = new Map<string, HttpTypes.StoreRegion>();
+const regionMap: Record<string, HttpTypes.StoreRegion> = {};
 
 export const getRegion = async function (countryCode: string) {
   try {
-    if (regionMap.has(countryCode)) {
-      return regionMap.get(countryCode);
+    if (regionMap[countryCode]) {
+      return regionMap[countryCode];
     }
 
-    const regions = await listRegions();
+    const regions = await allRegions();
 
     if (!regions) {
       return null;
@@ -40,17 +38,20 @@ export const getRegion = async function (countryCode: string) {
 
     regions.forEach((region) => {
       region.countries?.forEach((c) => {
-        regionMap.set(c?.iso_2 ?? '', region);
+        const code = c?.iso_2 ?? '';
+        if (code) {
+          regionMap[code] = region;
+        }
       });
     });
 
-    const region = countryCode
-      ? regionMap.get(countryCode)
-      : regionMap.get('us');
+    const region =
+      countryCode && regionMap[countryCode]
+        ? regionMap[countryCode]
+        : regionMap['us'];
 
     return region;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e) {
-    return null;
+  } catch (error) {
+    medusaError(error);
   }
 };

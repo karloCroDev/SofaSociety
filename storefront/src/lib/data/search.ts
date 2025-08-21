@@ -4,7 +4,7 @@
 import {
   MeiliSearchProductHit,
   searchClient,
-} from '@/lib2/config/search-client';
+} from '@/lib/config/search-client';
 import { getProductsById } from '@/lib/data/products';
 
 export async function getSearchItems({

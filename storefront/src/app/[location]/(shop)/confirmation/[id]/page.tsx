@@ -9,9 +9,9 @@ import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
 // Lib
-import { retrieveOrder } from '@/lib2/data/orders';
-import { getCustomer } from '@/lib2/data/auth';
-import { convertToLocale } from '@/lib2/util/money';
+import { retrieveOrder } from '@/lib/data/orders';
+import { getCustomer } from '@/lib/data/auth';
+import { convertToLocale } from '@/lib/util/money';
 
 interface PageProps {
   params: Promise<{

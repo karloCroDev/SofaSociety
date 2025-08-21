@@ -4,14 +4,14 @@
 import { revalidateTag } from 'next/cache';
 
 // Lib
-import { sdk } from '@/lib2/config/config';
-import { getAuthHeaders } from '@/lib2/data/cookies';
+import { sdk } from '@/lib/config/config';
+import { getAuthHeaders } from '@/lib/data/cookies';
 
 // Hooks
 import {
   CustomerAddressArgs,
   UpdateCustomerDetailsArgs,
-} from '@/hooks2/user-settings';
+} from '@/hooks/user-settings';
 
 export async function updateCustomerDetails({
   firstName,

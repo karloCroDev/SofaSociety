@@ -12,12 +12,12 @@ import { type SortOptions } from '@/components/ui/filters/Sort';
 import { Filters } from '@/components/ui/filters/Filters';
 
 // Lib
-import { getCollectionByHandle } from '@/lib2/data/collections';
-import { collectionMetadataCustomFieldsSchema } from '@/lib2/util/collections';
-import { getRegion } from '@/lib2/data/regions';
-import { converterCheckerArray } from '@/lib2/util/arrayChecker';
-import { getSpecificCategories } from '@/lib2/data/categories';
-import { getSpecificProductType } from '@/lib2/data/product-types';
+import { getCollectionByHandle } from '@/lib/data/collections';
+import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
+import { getRegion } from '@/lib/data/regions';
+import { converterCheckerArray } from '@/lib/util/arrayChecker';
+import { getSpecificCategories } from '@/lib/data/categories';
+import { getSpecificProductType } from '@/lib/data/product-types';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;

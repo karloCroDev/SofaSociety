@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/Input';
 import { Form } from '@/components/ui/Form';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
 import {
@@ -22,7 +22,7 @@ import {
   useUpdateAddress,
   customerAddressSchema,
   useAddAddress,
-} from '@/hooks2/user-settings';
+} from '@/hooks/user-settings';
 
 export const AddAddressForm: React.FC<{
   userRegion?: HttpTypes.StoreRegion;

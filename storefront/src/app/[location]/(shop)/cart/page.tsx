@@ -10,9 +10,9 @@ import { LinkAsButton } from '@/components/ui/LinkAsButton';
 import { Products } from '@/components/shop/cart/Products';
 
 // Lib
-import { getPricesForVariant } from '@/lib2/util/money';
-import { getCart } from '@/lib2/data/cart';
-import { getCustomer } from '@/lib2/data/auth';
+import { getPricesForVariant } from '@/lib/util/money';
+import { getCart } from '@/lib/data/cart';
+import { getCustomer } from '@/lib/data/auth';
 
 export default async function CartPage({
   params,

@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
-import { placeOrder } from '@/lib2/data/checkout';
+import { withReactQueryProvider } from '@/lib/config/react-query';
+import { placeOrder } from '@/lib/data/checkout';
 
 export const StripePaymentButton = withReactQueryProvider(
   ({ cart, notReady }: { cart: HttpTypes.StoreCart; notReady: boolean }) => {

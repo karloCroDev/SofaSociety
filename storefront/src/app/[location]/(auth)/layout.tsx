@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { Header } from '@/components/ui/header/Header';
 
 // Lib
-import { getCustomer } from '@/lib2/data/auth';
+import { getCustomer } from '@/lib/data/auth';
 
 export default async function MainLayout({
   children,

@@ -7,14 +7,14 @@ import { HttpTypes } from '@medusajs/types';
 import { usePathname, useRouter } from 'next/navigation';
 
 // Lib
-import { isStripe } from '@/lib2/constants';
+import { isStripe } from '@/lib/constants';
 
 // Components
 import { Button } from '@/components/ui/Button';
 
 // Hooks
-import { useInitiatePaymentSession } from '@/hooks2/checkout';
-import { useChoosePaymentMethod } from '@/hooks2/checkout';
+import { useInitiatePaymentSession } from '@/hooks/checkout';
+import { useChoosePaymentMethod } from '@/hooks/checkout';
 
 export const StripeCardPaymentButton = ({
   cart,

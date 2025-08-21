@@ -14,11 +14,11 @@ import { RadioButtonVisual } from '@/components/ui/Radio';
 import {
   useGetCartShippingOptions,
   useShippingOptionCheckout,
-} from '@/hooks2/checkout';
+} from '@/hooks/checkout';
 
 // Lib
-import { convertToLocale } from '@/lib2/util/money';
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { convertToLocale } from '@/lib/util/money';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 export const Shipping: React.FC<{
   cart: HttpTypes.StoreCart;

@@ -15,15 +15,15 @@ import { Input } from '@/components/ui/Input';
 import { CheckboxWithLabel } from '@/components/ui/Checkbox';
 
 // Hooks
-import { useCustomer } from '@/hooks2/auth';
+import { useCustomer } from '@/hooks/auth';
 import {
   EmailFormArgs,
   emailFormSchema,
   useEmailCheckout,
-} from '@/hooks2/checkout';
+} from '@/hooks/checkout';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 export const Email: React.FC<{
   cart: HttpTypes.StoreCart;

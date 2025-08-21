@@ -1,57 +1,67 @@
-import { sdk } from '@/lib2/config/config';
-import { getProductsList } from '@/lib/data/products';
+// External packages
 import { HttpTypes } from '@medusajs/types';
 
-export const retrieveCollection = async function (id: string) {
-  return sdk.client
-    .fetch<{ collection: HttpTypes.StoreCollection }>(
-      `/store/collections/${id}`,
-      {
-        next: { tags: ['collections'] },
-        cache: 'force-cache',
-      }
-    )
-    .then(({ collection }) => collection);
+// Lib
+import { sdk } from '@/lib/config/config';
+import { getProductsList } from '@/lib/data/products';
+import { medusaError } from '@/lib/util/medusa-error';
+
+export async function getCollection(id: string) {
+  try {
+    const { collection } = await sdk.store.collection.retrieve(id);
+
+    if (collection) return collection;
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export async function getCollectionsList({
+  offset = 0,
+  limit = 100,
+  fields,
+}: {
+  limit?: number;
+  offset?: number;
+  fields?: (keyof HttpTypes.StoreCollection)[];
+}) {
+  try {
+    const { collections, count } = await sdk.store.collection.list({
+      limit,
+      offset,
+      fields: fields ? fields.join(',') : undefined,
+    });
+    return { collections, count };
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export const getCollectionByHandle = async function ({
+  handle,
+  fields,
+}: {
+  handle: string;
+  fields?: (keyof HttpTypes.StoreCollection)[];
+}): Promise<HttpTypes.StoreCollection> {
+  try {
+    const { collections } = await sdk.store.collection.list({
+      limit: 1,
+      handle,
+      fields: fields ? fields.join(',') : undefined,
+    });
+    return collections[0];
+  } catch (error) {
+    medusaError(error);
+  }
 };
 
-export const getCollectionsList = async function (
-  offset: number = 0,
-  limit: number = 100,
-  fields?: (keyof HttpTypes.StoreCollection)[]
-): Promise<{ collections: HttpTypes.StoreCollection[]; count: number }> {
-  return sdk.client
-    .fetch<{
-      collections: HttpTypes.StoreCollection[];
-      count: number;
-    }>('/store/collections', {
-      query: { limit, offset, fields: fields ? fields.join(',') : undefined },
-      next: { tags: ['collections'] },
-      cache: 'force-cache',
-    })
-    .then(({ collections }) => ({ collections, count: collections.length }));
-};
-
-export const getCollectionByHandle = async function (
-  handle: string,
-  fields?: (keyof HttpTypes.StoreCollection)[]
-): Promise<HttpTypes.StoreCollection> {
-  return sdk.client
-    .fetch<HttpTypes.StoreCollectionListResponse>(`/store/collections`, {
-      query: {
-        handle,
-        fields: fields ? fields.join(',') : undefined,
-        limit: 1,
-      },
-      next: { tags: ['collections'] },
-      cache: 'force-cache',
-    })
-    .then(({ collections }) => collections[0]);
-};
-
-export const getCollectionsWithProducts = async (
+export async function getCollectionsWithProducts(
   countryCode: string
-): Promise<HttpTypes.StoreCollection[] | null> => {
-  const { collections } = await getCollectionsList(0, 3);
+): Promise<HttpTypes.StoreCollection[] | null> {
+  const { collections } = await getCollectionsList({
+    limit: 3,
+  });
 
   if (!collections) {
     return null;
@@ -59,7 +69,7 @@ export const getCollectionsWithProducts = async (
 
   const collectionIds = collections
     .map((collection) => collection.id)
-    .filter(Boolean) as string[];
+    .filter((collection) => collection !== undefined) as string[];
 
   const { response } = await getProductsList({
     queryParams: { collection_id: collectionIds },
@@ -81,4 +91,4 @@ export const getCollectionsWithProducts = async (
   });
 
   return collections as unknown as HttpTypes.StoreCollection[];
-};
+}

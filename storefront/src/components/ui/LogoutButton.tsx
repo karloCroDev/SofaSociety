@@ -12,10 +12,10 @@ import {
 } from '@/components/ui/LinkAsButton';
 
 // Hooks
-import { useLogout } from '@/hooks2/auth';
+import { useLogout } from '@/hooks/auth';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 export const LogoutButton: React.FC<
   React.ComponentPropsWithoutRef<'button'> &

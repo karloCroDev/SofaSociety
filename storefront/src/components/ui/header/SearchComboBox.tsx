@@ -20,13 +20,13 @@ import { Input } from '@/components/ui/Input';
 import { HttpTypes } from '@medusajs/types';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
-import { getProductPrice } from '@/lib2/util/money';
+import { withReactQueryProvider } from '@/lib/config/react-query';
+import { getProductPrice } from '@/lib/util/money';
 
 // Hooks
-import { useCountryCode } from '@/hooks2/util/country-code';
-import { useDebounce } from '@/hooks2/util/useDebounce';
-import { useSearchProducts } from '@/hooks2/store';
+import { useCountryCode } from '@/hooks/util/country-code';
+import { useDebounce } from '@/hooks/util/useDebounce';
+import { useSearchProducts } from '@/hooks/store';
 
 export const SearchComboBox: React.FC<{
   codeCountry: CodeCountryTypes;

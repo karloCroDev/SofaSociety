@@ -15,10 +15,10 @@ import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
 import { Filters } from '@/components/ui/filters/Filters';
 
 // Lib
-import { getCollectionsList } from '@/lib2/data/collections';
-import { getSpecificCategories } from '@/lib2/data/categories';
-import { converterCheckerArray } from '@/lib2/util/arrayChecker';
-import { getSpecificProductType } from '@/lib2/data/product-types';
+import { getCollectionsList } from '@/lib/data/collections';
+import { getSpecificCategories } from '@/lib/data/categories';
+import { converterCheckerArray } from '@/lib/util/arrayChecker';
+import { getSpecificProductType } from '@/lib/data/product-types';
 
 interface PageProps {
   params: Promise<{ location: string }>;

@@ -7,8 +7,8 @@ import { redirect } from 'next/navigation';
 import { revalidateTag } from 'next/cache';
 
 // Lib
-import { sdk } from '@/lib2/config/config';
-import { getAuthHeaders, setAuthToken } from '@/lib2/data/cookies';
+import { sdk } from '@/lib/config/config';
+import { getAuthHeaders, setAuthToken } from '@/lib/data/cookies';
 import { getCartId, removeAuthToken } from '@/lib/data/cookies';
 
 // Hooks
@@ -17,7 +17,7 @@ import {
   LoginArgs,
   signupSchema,
   SignUpArgs,
-} from '@/hooks2/auth';
+} from '@/hooks/auth';
 
 export async function getCustomer() {
   try {

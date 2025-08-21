@@ -7,10 +7,10 @@ import * as React from 'react';
 import { AddToCart } from '@/components/shop/AddToCart';
 
 // Hooks
-import { useUpdateCartItem } from '@/hooks2/cart';
+import { useUpdateCartItem } from '@/hooks/cart';
 
 // lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 export const HandleAddToCart: React.FC<{
   itemId: string;

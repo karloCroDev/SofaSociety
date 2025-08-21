@@ -19,11 +19,11 @@ import { CountrySelect } from '@/components/checkout/CountrySelect';
 import {
   customerAddressSchema,
   CustomerAddressArgs,
-} from '@/hooks2/user-settings';
-import { useAddressCheckout } from '@/hooks2/checkout';
+} from '@/hooks/user-settings';
+import { useAddressCheckout } from '@/hooks/checkout';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 export const Address: React.FC<{
   cart: HttpTypes.StoreCart;
@@ -72,7 +72,7 @@ export const Address: React.FC<{
         // Kada submitam dobijem ovaj error, ali i dalje updatea podatke jesam li ja nesto faliio
 
         /* Error: Unable to retrieve the tax provider with id: null\n' +
-      Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file. 
+      Please make sure that the provider is registered in the container and it is configured correctly in your project configuration file.
       */
       },
     });

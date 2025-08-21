@@ -8,11 +8,10 @@ export const ProductCard: React.FC<
       image: React.ReactNode;
       name: string;
       category: string;
-      price: string;
+      price: string | undefined;
       originalPrice?: string;
     }
 > = ({ name, category, price, originalPrice, image, ...rest }) => (
-  // TODO: Ovaj `{...rest}` uvijek stavljaj kao prvi prop, a ovaj `href` izbaci van komponente. Imat ćeš mjesta gdje ćeš htjeti imati drugačiji href, a nećeš moći. FIXED
   <Link {...rest}>
     {image}
     <div className="mt-6 flex flex-col md:flex-row md:justify-between">

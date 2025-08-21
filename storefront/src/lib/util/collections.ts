@@ -1,4 +1,5 @@
-import { z } from "zod"
+// External packages
+import { z } from 'zod';
 
 export const collectionMetadataCustomFieldsSchema = z.object({
   image: z
@@ -37,4 +38,4 @@ export const collectionMetadataCustomFieldsSchema = z.object({
     .optional(),
   product_page_cta_heading: z.string().optional(),
   product_page_cta_link: z.string().optional(),
-})
+});

@@ -1,53 +1,40 @@
 'use server';
 
-import { cache } from 'react';
-import { sdk } from '@/lib2/config/config';
-import { medusaError } from '@/lib2/util/medusa-error';
+// Lib
+import { sdk } from '@/lib/config/config';
+import { medusaError } from '@/lib/util/medusa-error';
 import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import { getAuthHeaders } from '@/lib/data/cookies';
-import { HttpTypes } from '@medusajs/types';
 
-export const retrieveOrder = cache(async function (id: unknown) {
-  if (typeof id !== 'string') {
-    throw new Error('Invalid order id');
+export async function retrieveOrder(id: string) {
+  try {
+    const { order } = await sdk.store.order.retrieve(
+      id,
+      {
+        fields: '*payment_collections.payments',
+      },
+      await getAuthHeaders()
+    );
+
+    if (order.items?.length && order.region_id) {
+      order.items = await enrichLineItems(order.items, order.region_id);
+    }
+
+    return order;
+  } catch (error) {
+    medusaError(error);
   }
+}
 
-  const order = await sdk.client
-    .fetch<HttpTypes.StoreOrderResponse>(`/store/orders/${id}`, {
-      query: { fields: '*payment_collections.payments' },
-      next: { tags: ['orders'] },
-      headers: { ...(await getAuthHeaders()) },
-    })
-    .then(({ order }) => order)
-    .catch((err) => medusaError(err));
+export async function listOrders(limit: number = 10, offset: number = 0) {
+  try {
+    const listOrders = await sdk.store.order.list(
+      { limit, offset },
+      await getAuthHeaders()
+    );
 
-  if (order.items?.length && order.region_id) {
-    order.items = await enrichLineItems(order.items, order.region_id);
+    return listOrders;
+  } catch (error) {
+    medusaError(error);
   }
-
-  return order;
-});
-
-export const listOrders = async function (
-  limit: number = 10,
-  offset: number = 0
-) {
-  if (
-    typeof limit !== 'number' ||
-    typeof offset !== 'number' ||
-    limit < 1 ||
-    offset < 0 ||
-    limit > 100 ||
-    !Number.isSafeInteger(offset)
-  ) {
-    throw new Error('Invalid input data');
-  }
-
-  return sdk.client
-    .fetch<HttpTypes.StoreOrderListResponse>(`/store/orders`, {
-      query: { limit, offset, order: '-created_at' },
-      next: { tags: ['orders'] },
-      headers: { ...(await getAuthHeaders()) },
-    })
-    .catch((err) => medusaError(err));
-};
+}

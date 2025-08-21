@@ -7,7 +7,7 @@ import { Tag } from '@/components/ui/Tag';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
 
 // Lib
-import { listOrders } from '@/lib2/data/orders';
+import { listOrders } from '@/lib/data/orders';
 
 export default async function OrdersPage() {
   const { orders } = await listOrders();

@@ -9,8 +9,8 @@ import { Accordion } from '@/components/checkout/Accordion';
 import { ProductDetailsCollapsible } from '@/components/checkout/ProductDetailsCollapsible';
 import { Order } from '@/components/checkout/Order';
 
-// Lib2
-import { getCart } from '@/lib2/data/cart';
+// lib
+import { getCart } from '@/lib/data/cart';
 
 export type StepTypes = 'email' | 'address' | 'shipping' | 'payment';
 

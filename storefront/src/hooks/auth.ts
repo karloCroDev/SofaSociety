@@ -14,7 +14,7 @@ import {
   logOut,
   getCustomer,
   resetPassword,
-} from '@/lib2/data/auth';
+} from '@/lib/data/auth';
 import { email } from 'node_modules/zod/v4/core/regexes.cjs';
 
 // Customer

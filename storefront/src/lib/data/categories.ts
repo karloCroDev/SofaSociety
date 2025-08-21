@@ -1,44 +1,54 @@
-import { sdk } from '@/lib2/config/config';
+// External packages
 import { HttpTypes } from '@medusajs/types';
 
-export const listCategories = async function () {
-  return sdk.client
-    .fetch<{ product_categories: HttpTypes.StoreProductCategory[] }>(
-      '/store/product-categories',
-      {
-        query: { fields: '+category_children' },
-        next: { tags: ['categories'] },
-        cache: 'force-cache',
-      }
-    )
-    .then(({ product_categories }) => product_categories);
-};
+// Lib
+import { sdk } from '@/lib/config/config';
+import { medusaError } from '@/lib/util/medusa-error';
 
-export const getCategoriesList = async function (
-  offset: number = 0,
-  limit: number = 100,
-  fields?: (keyof HttpTypes.StoreProductCategory)[]
-) {
-  return sdk.client.fetch<{
-    product_categories: HttpTypes.StoreProductCategory[];
-  }>('/store/product-categories', {
-    query: {
+export async function allCategories() {
+  try {
+    const { product_categories } = await sdk.store.category.list();
+    return product_categories;
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export async function getSpecificCategories({
+  offset = 0,
+  limit = 100,
+  fields,
+}: {
+  offset?: number;
+  limit?: number;
+  fields?: (keyof HttpTypes.StoreProductCategory)[];
+}) {
+  try {
+    const { product_categories } = await sdk.store.category.list({
       limit,
       offset,
       fields: fields ? fields.join(',') : undefined,
-    },
-    next: { tags: ['categories'] },
-    cache: 'force-cache',
-  });
-};
+    });
+    return product_categories;
+  } catch (error) {
+    medusaError(error);
+  }
+}
 
-export const getCategoryByHandle = async function (categoryHandle: string[]) {
-  return sdk.client.fetch<HttpTypes.StoreProductCategoryListResponse>(
-    `/store/product-categories`,
-    {
-      query: { handle: categoryHandle },
-      next: { tags: ['categories'] },
-      cache: 'force-cache',
-    }
-  );
-};
+export async function getCategoryByHandle({
+  handle,
+  fields,
+}: {
+  handle: string;
+  fields?: (keyof HttpTypes.StoreProductCategory)[];
+}) {
+  try {
+    const { product_categories } = await sdk.store.category.list({
+      handle,
+      fields: fields ? fields.join(',') : undefined,
+    });
+    return product_categories;
+  } catch (error) {
+    medusaError(error);
+  }
+}

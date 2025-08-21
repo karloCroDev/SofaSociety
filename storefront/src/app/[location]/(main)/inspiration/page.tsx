@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 // External packages
 import { HttpTypes } from '@medusajs/types';
-import { getProductPrice } from '@/lib/util/get-product-price';
 
 // Components
 import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
@@ -16,9 +15,10 @@ import ImageLivingRoom from '@/public/images/about/living-room-sofa.png';
 import ImageDoubleSofa from '@/public/images/inspiration/dobule-sofa.png';
 
 // Lib
-import { getCollectionsList } from '@/lib2/data/collections';
-import { getProductsListWithSort } from '@/lib2/data/products';
-import { getRegion } from '@/lib2/data/regions';
+import { getCollectionsList } from '@/lib/data/collections';
+import { getProductsListWithSort } from '@/lib/data/products';
+import { getRegion } from '@/lib/data/regions';
+import { getProductPrice } from '@/lib/util/money';
 
 interface PageProps {
   params: Promise<{ location: string }>;

@@ -9,11 +9,11 @@ import { AddToCart } from '@/components/shop/AddToCart';
 import { SelectMaterial } from '@/components/shop/product/SelectMaterial';
 import { Button } from '@/components/ui/Button';
 import { SelectColor } from '@/components/shop/product/SelectColor';
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
-import { useCountryCode } from '@/hooks2/util/country-code';
-import { useAddCartItem } from '@/hooks2/cart';
+import { useCountryCode } from '@/hooks/util/country-code';
+import { useAddCartItem } from '@/hooks/cart';
 
 const convertToObject = (options: HttpTypes.StoreProductVariant['options']) => {
   let converter: Record<string, string> = {};

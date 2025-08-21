@@ -8,7 +8,7 @@ import { Navigation } from '@/components/shop/account/Navigation';
 import { LogoutButton } from '@/components/ui/LogoutButton';
 
 // Lib
-import { getCustomer } from '@/lib/data/customer';
+import { getCustomer } from '@/lib/data/auth';
 
 export default async function AccountLayout({
   children,

@@ -1,18 +1,26 @@
-import { sdk } from '@/lib2/config/config';
+// External packages
 import { HttpTypes } from '@medusajs/types';
-import { getRegion } from '@/lib/data/regions';
-import { type SortOptions } from '@/components/ui/filters/Sort';
-import { sortProducts } from '@/lib2/util/sort-products';
 
-export const getProductsById = async function ({
+// Components (types)
+import { type SortOptions } from '@/components/ui/filters/Sort';
+
+// Lib
+import { sdk } from '@/lib/config/config';
+import { getRegion } from '@/lib/data/regions';
+import { sortProducts } from '@/lib/util/sort-products';
+import { medusaError } from '@/lib/util/medusa-error';
+
+export async function getProductsById({
   ids,
   regionId,
 }: {
   ids: string[];
   regionId: string;
 }) {
-  return sdk.client
-    .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
+  try {
+    const { products } = await sdk.client.fetch<{
+      products: HttpTypes.StoreProduct[];
+    }>(`/store/products`, {
       query: {
         id: ids,
         region_id: regionId,
@@ -20,45 +28,62 @@ export const getProductsById = async function ({
       },
       next: { tags: ['products'] },
       cache: 'force-cache',
-    })
-    .then(({ products }) => products);
-};
+    });
 
-export const getProductByHandle = async function (
-  handle: string,
-  regionId: string
-) {
-  return sdk.client
-    .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
+    return products;
+  } catch (error) {
+    medusaError(error);
+  }
+}
+
+export async function getProductByHandle({
+  handle,
+  regionId,
+}: {
+  handle: string;
+  regionId: string;
+}) {
+  try {
+    const { products } = await sdk.client.fetch<{
+      products: HttpTypes.StoreProduct[];
+    }>(`/store/products`, {
       query: {
         handle,
         region_id: regionId,
         fields: '*variants.calculated_price,+variants.inventory_quantity',
       },
       next: { tags: ['products'] },
-    })
-    .then(({ products }) => products[0]);
-};
+    });
+    return products[0];
+  } catch (error) {
+    medusaError(error);
+  }
+}
 
-export const getProductFashionDataByHandle = async function (handle: string) {
-  return sdk.client.fetch<{
-    materials: {
-      id: string;
-      name: string;
-      colors: {
+export async function getProductFashionDataByHandle(handle: string) {
+  try {
+    const { materials } = await sdk.client.fetch<{
+      materials: {
         id: string;
         name: string;
-        hex_code: string;
+        colors: {
+          id: string;
+          name: string;
+          hex_code: string;
+        }[];
       }[];
-    }[];
-  }>(`/store/custom/fashion/${handle}`, {
-    method: 'GET',
-    next: { tags: ['products'] },
-    cache: 'force-cache',
-  });
-};
+    }>(`/store/custom/fashion/${handle}`, {
+      method: 'GET',
+      next: { tags: ['products'] },
+      cache: 'force-cache',
+    });
+    return materials;
+  } catch (error) {
+    medusaError(error);
+  }
+}
 
-export const getProductsList = async function ({
+export async function getProductsList({
   pageParam = 1,
   queryParams,
   countryCode,
@@ -109,13 +134,13 @@ export const getProductsList = async function ({
         queryParams,
       };
     });
-};
+}
 
 /**
  * This will fetch 100 products to the Next.js cache and sort them based on the sortBy parameter.
  * It will then return the paginated products based on the page and limit parameters.
  */
-export const getProductsListWithSort = async function ({
+export async function getProductsListWithSort({
   page = 0,
   queryParams,
   sortBy = 'created_at',
@@ -159,4 +184,4 @@ export const getProductsListWithSort = async function ({
     nextPage,
     queryParams,
   };
-};
+}

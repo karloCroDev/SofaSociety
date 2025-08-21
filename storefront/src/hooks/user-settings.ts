@@ -12,7 +12,7 @@ import {
   addCustomerAddress,
   updateCustomerAddress,
   updateCustomerDetails,
-} from '@/lib2/data/user-settings';
+} from '@/lib/data/user-settings';
 
 // Address
 export const updateCustomerDetailsSchema = z.object({

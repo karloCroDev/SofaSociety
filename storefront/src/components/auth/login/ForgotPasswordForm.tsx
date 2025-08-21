@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { forgotPassword } from '@/lib2/data/auth';
+import { forgotPassword } from '@/lib/data/auth';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email(),

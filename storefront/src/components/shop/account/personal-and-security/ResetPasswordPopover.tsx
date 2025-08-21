@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 
 // Lib
-import { isLoggedInForgotPasswordReset } from '@/lib2/data/auth';
+import { isLoggedInForgotPasswordReset } from '@/lib/data/auth';
 
 export const ResetPasswordPopover = () => {
   const [isOpen, setIsOpen] = React.useState(false);

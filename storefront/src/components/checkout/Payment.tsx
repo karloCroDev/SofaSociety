@@ -17,14 +17,14 @@ import { Input } from '@/components/ui/Input';
 import { StripeCardPaymentButton } from '@/components/checkout/PaymentCardButton';
 
 // Lib
-import { isStripe as isStripeFunc, paymentInfoObj } from '@/lib2/constants';
+import { isStripe as isStripeFunc, paymentInfoObj } from '@/lib/constants';
 
 // Hooks
 import {
   useChoosePaymentMethod,
   useListPaymentProviders,
   useGetPaymentMethod,
-} from '@/hooks2/checkout';
+} from '@/hooks/checkout';
 
 export const Payment: React.FC<{
   cart: HttpTypes.StoreCart;

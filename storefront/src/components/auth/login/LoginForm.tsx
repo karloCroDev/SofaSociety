@@ -12,8 +12,8 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
-import { useLogin, loginFormSchema, LoginArgs } from '@/hooks2/auth';
+import { withReactQueryProvider } from '@/lib/config/react-query';
+import { useLogin, loginFormSchema, LoginArgs } from '@/hooks/auth';
 
 export const LoginForm = withReactQueryProvider(
   ({ redirectUrl }: { redirectUrl: string | undefined }) => {

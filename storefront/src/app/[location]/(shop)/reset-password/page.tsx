@@ -6,7 +6,7 @@ import { Layout, LayoutRow, LayoutColumn } from '@/components/ui/Layout';
 import { ResetPasswordForm } from '@/components/auth/login/ResetPasswordForm';
 
 // Lib
-import { getCustomer } from '@/lib2/data/auth';
+import { getCustomer } from '@/lib/data/auth';
 
 interface PageProps {
   searchParams: Promise<{

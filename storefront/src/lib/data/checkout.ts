@@ -6,15 +6,15 @@ import {
   ChoosePaymentMethodOption,
   EmailFormArgs,
   ShippingOptionCheckoutArgs,
-} from '@/hooks2/checkout';
-import { CustomerAddressArgs } from '@/hooks2/user-settings';
+} from '@/hooks/checkout';
+import { CustomerAddressArgs } from '@/hooks/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
-import { medusaError } from '@/lib2/util/medusa-error';
-import { sdk } from '@/lib2/config/config';
-import { getCartId, removeCartId } from '@/lib2/data/cookies';
+import { medusaError } from '@/lib/util/medusa-error';
+import { sdk } from '@/lib/config/config';
+import { getCartId, removeCartId } from '@/lib/data/cookies';
 import { HttpTypes } from '@medusajs/types';
 import { revalidateTag } from 'next/cache';
-import { getCart } from '@/lib2/data/cart';
+import { getCart } from '@/lib/data/cart';
 
 async function updateCart(data: HttpTypes.StoreUpdateCart) {
   const cartId = await getCartId();

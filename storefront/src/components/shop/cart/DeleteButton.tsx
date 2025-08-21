@@ -8,10 +8,10 @@ import { Button as AriaButton } from 'react-aria-components';
 import { Icon } from '@/components/ui/Icon';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
-import { useDeleteCartItem } from '@/hooks2/cart';
+import { useDeleteCartItem } from '@/hooks/cart';
 
 export const DeleteButton: React.FC<{
   itemId: string;

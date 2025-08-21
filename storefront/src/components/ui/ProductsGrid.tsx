@@ -13,11 +13,11 @@ import { Button } from '@/components/ui/Button';
 import { type SortOptions } from '@/components/ui/filters/Sort';
 
 // Hooks
-import { useStoreProducts } from '@/hooks2/store';
+import { useStoreProducts } from '@/hooks/store';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
-import { getProductPrice } from '@/lib/util/get-product-price';
+import { withReactQueryProvider } from '@/lib/config/react-query';
+import { getProductPrice } from '@/lib/util/money';
 
 export const ProductsMapping: React.FC<{
   sortBy?: SortOptions;
@@ -119,12 +119,12 @@ export const ProductsMapping: React.FC<{
                         />
                       </div>
                     }
-                    price={cheapestPrice?.calculated_price.toString()!}
+                    price={cheapestPrice?.calculated_price}
                     originalPrice={
                       cheapestPrice?.original_price ===
                       cheapestPrice?.calculated_price
                         ? undefined
-                        : cheapestPrice?.original_price.toString()
+                        : cheapestPrice?.original_price
                     }
                     href={`/product/${product.handle}`}
                   />

@@ -17,10 +17,10 @@ import { ProductOptions } from '@/components/shop/product/ProductOptions';
 import {
   getProductByHandle,
   getProductFashionDataByHandle,
-} from '@/lib2/data/products';
-import { getRegion } from '@/lib2/data/regions';
-import { collectionMetadataCustomFieldsSchema } from '@/lib2/util/collections';
-import { getProductPrice } from '@/lib2/util/money';
+} from '@/lib/data/products';
+import { getRegion } from '@/lib/data/regions';
+import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
+import { getProductPrice } from '@/lib/util/money';
 
 interface PageProps {
   params: Promise<{ location: string; handle: string }>;

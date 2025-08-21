@@ -17,7 +17,7 @@ import { Payment } from '@/components/checkout/Payment';
 import { StepTypes } from '@/app/[location]/checkout/page';
 
 // Lib
-import { withReactQueryProvider } from '@/lib2/config/react-query';
+import { withReactQueryProvider } from '@/lib/config/react-query';
 
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || 'temp');
 

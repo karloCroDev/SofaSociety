@@ -35,13 +35,9 @@ export async function getCustomer() {
   }
 }
 
-export async function login({ email, password, redirect_url }: LoginArgs) {
+export async function login(data: LoginArgs) {
   try {
-    const validatedData = loginFormSchema.safeParse({
-      email,
-      password,
-      redirect_url,
-    });
+    const validatedData = loginFormSchema.safeParse(data);
 
     if (!validatedData.success) {
       return {
@@ -89,23 +85,27 @@ export async function login({ email, password, redirect_url }: LoginArgs) {
   }
 }
 
-export async function signUp({
-  email,
-  first_name,
-  last_name,
-  password,
-}: SignUpArgs) {
+export async function signUp(data: SignUpArgs) {
   try {
+    const validatedData = signupSchema.safeParse(data);
+
+    if (!validatedData.success) {
+      return {
+        state: 'error' as const,
+        message: 'Invalid signup credentials',
+      };
+    }
+
     const signUpToken = await sdk.auth.register('customer', 'emailpass', {
-      email,
-      password,
+      email: validatedData.data.email,
+      password: validatedData.data.password,
     });
 
     const { customer } = await sdk.store.customer.create(
       {
-        email,
-        first_name,
-        last_name,
+        email: validatedData.data.email,
+        first_name: validatedData.data.first_name,
+        last_name: validatedData.data.last_name,
       },
       {},
       {
@@ -114,8 +114,8 @@ export async function signUp({
     );
 
     const loginToken = await sdk.auth.login('customer', 'emailpass', {
-      email,
-      password,
+      email: validatedData.data.email,
+      password: validatedData.data.password,
     });
 
     if (typeof loginToken === 'object') redirect(loginToken.location);
@@ -155,14 +155,26 @@ export async function forgotPassword({
   email,
 }: z.infer<typeof forgotPasswordSchema>) {
   try {
+    const validatedData = forgotPasswordSchema.safeParse({
+      email,
+    });
+
+    if (!validatedData.success) {
+      return {
+        state: 'error' as const,
+        message: 'Invalid mail',
+      };
+    }
+
     await sdk.auth.resetPassword('customer', 'emailpass', {
-      identifier: email,
+      identifier: validatedData.data.email,
     });
     return {
       state: 'success' as const,
       message: 'Password reset email sent',
     };
   } catch (error) {
+    console.error(error);
     return {
       state: 'error' as const,
       message: 'Failed to reset password',
@@ -171,7 +183,7 @@ export async function forgotPassword({
 }
 
 export async function isLoggedInForgotPasswordReset() {
-  const user = await getCustomer().catch(() => null);
+  const user = await getCustomer();
 
   if (!user) {
     return {
@@ -195,20 +207,24 @@ const resetFormDataSchema = z.object({
 });
 type ResetFormDataArgs = z.infer<typeof resetFormDataSchema>;
 
-export async function resetPassword({
-  email,
-  token,
-  oldPassword,
-  repeatPassword,
-  type,
-}: ResetFormDataArgs) {
-  if (type === 'reset') {
+export async function resetPassword(data: ResetFormDataArgs) {
+  const validatedData = resetFormDataSchema.safeParse(data);
+
+  if (!validatedData.success) {
+    return {
+      state: 'error' as const,
+      message: 'Invalid reset password data',
+    };
+  }
+
+  if (validatedData.data.type === 'reset') {
     try {
       await sdk.auth.login('customer', 'emailpass', {
-        email,
-        password: oldPassword!,
+        email: validatedData.data.email,
+        password: validatedData.data.oldPassword,
       });
     } catch (error) {
+      console.error(error);
       return {
         state: 'error' as const,
         message: 'Wrong password',
@@ -218,13 +234,13 @@ export async function resetPassword({
 
   try {
     await sdk.auth.updateProvider(
-      type === 'reset' ? 'logged-in-customer' : 'customer',
+      validatedData.data?.type === 'reset' ? 'logged-in-customer' : 'customer',
       'emailpass',
       {
-        email,
-        password: repeatPassword,
+        email: validatedData.data.email,
+        password: validatedData.data.repeatPassword,
       },
-      token
+      validatedData.data.token
     );
 
     return {

@@ -8,6 +8,7 @@ import { medusaError } from '@/lib/util/medusa-error';
 
 export async function getCollection(id: string) {
   try {
+    if (!id) throw new Error('Collection ID is required');
     const { collection } = await sdk.store.collection.retrieve(id);
 
     if (collection) return collection;
@@ -45,6 +46,7 @@ export const getCollectionByHandle = async function ({
   fields?: (keyof HttpTypes.StoreCollection)[];
 }): Promise<HttpTypes.StoreCollection> {
   try {
+    if (!handle) throw new Error('Handle is required');
     const { collections } = await sdk.store.collection.list({
       limit: 1,
       handle,

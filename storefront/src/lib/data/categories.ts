@@ -43,6 +43,10 @@ export async function getCategoryByHandle({
   fields?: (keyof HttpTypes.StoreProductCategory)[];
 }) {
   try {
+    if (!handle)
+      return {
+        error: 'Handle is required',
+      };
     const { product_categories } = await sdk.store.category.list({
       handle,
       fields: fields ? fields.join(',') : undefined,

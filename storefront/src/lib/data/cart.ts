@@ -2,13 +2,14 @@
 
 // External packages
 import { revalidateTag } from 'next/cache';
-import { HttpTypes } from '@medusajs/types';
 
 // Hooks
 import {
   AddItemToCartArgs,
+  deleteCartItemSchema,
   DeleteItemArgs,
   UpdateCartItemArgs,
+  updateCartSchema,
 } from '@/hooks/cart';
 
 // Lib
@@ -28,12 +29,6 @@ export async function getCart() {
       id,
       {},
       await getAuthHeaders()
-      // {
-      // next: { tags: ['cart'] }, // NEXT TAG: cart
-      // cache: 'no-store',
-
-      // ...(await getAuthHeaders())
-      // }
     );
 
     if (!cart || !cart.items || !cart.region_id) return;
@@ -110,22 +105,20 @@ export async function addItemToCart({
   }
 }
 
-export async function updateCartItem({
-  quantity,
-  lineItemId,
-}: UpdateCartItemArgs) {
+export async function updateCartItem(data: UpdateCartItemArgs) {
+  const validatedData = updateCartSchema.safeParse(data);
+
+  if (!validatedData.success) throw new Error('Invalid data');
+
   const id = await getCartId();
   if (!id) throw new Error('Cart not found');
-
-  if (!lineItemId || !Number.isSafeInteger(quantity))
-    throw new Error('Invalid data');
 
   try {
     await sdk.store.cart.updateLineItem(
       id,
-      lineItemId,
+      validatedData.data.lineItemId,
       {
-        quantity,
+        quantity: validatedData.data.quantity,
       },
       {},
       await getAuthHeaders()
@@ -136,17 +129,19 @@ export async function updateCartItem({
   }
 }
 
-export async function deleteCartItem({ lineItemId }: DeleteItemArgs) {
+export async function deleteCartItem(data: DeleteItemArgs) {
+  const validateData = deleteCartItemSchema.safeParse(data);
+
+  if (!validateData.success) return;
+
   const cartId = await getCartId();
 
   if (!cartId) throw new Error('Cart not found');
 
-  if (!lineItemId) throw new Error('Line item not found');
-
   try {
     await sdk.store.cart.deleteLineItem(
       cartId,
-      lineItemId,
+      validateData.data.lineItemId,
       await getAuthHeaders()
     );
     revalidateTag('cart');

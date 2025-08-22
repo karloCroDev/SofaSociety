@@ -25,6 +25,7 @@ const regionMap: Record<string, HttpTypes.StoreRegion> = {};
 
 export const getRegion = async function (countryCode: string) {
   try {
+    if (!countryCode) throw new Error('Country code is required');
     if (regionMap[countryCode]) {
       return regionMap[countryCode];
     }

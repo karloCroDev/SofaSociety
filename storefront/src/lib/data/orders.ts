@@ -8,6 +8,7 @@ import { getAuthHeaders } from '@/lib/data/cookies';
 
 export async function retrieveOrder(id: string) {
   try {
+    if (!id) throw new Error('Order ID is required');
     const { order } = await sdk.store.order.retrieve(
       id,
       {

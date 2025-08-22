@@ -6,6 +6,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { z } from 'zod';
 
 // Lib
 import {
@@ -40,9 +41,11 @@ export const useAddCartItem = (
   });
 };
 
-export type DeleteItemArgs = {
-  lineItemId: string;
-};
+export const deleteCartItemSchema = z.object({
+  lineItemId: z.string(),
+});
+export type DeleteItemArgs = z.infer<typeof deleteCartItemSchema>;
+
 export const useDeleteCartItem = (
   options?: UseMutationOptions<void, Error, DeleteItemArgs>
 ) => {
@@ -58,9 +61,13 @@ export const useDeleteCartItem = (
   });
 };
 
-export type UpdateCartItemArgs = HttpTypes.StoreUpdateCartLineItem & {
-  lineItemId?: string;
-};
+export const updateCartSchema = z.object({
+  lineItemId: z.string(),
+  quantity: z.number(),
+});
+
+export type UpdateCartItemArgs = z.infer<typeof updateCartSchema>;
+
 export const useUpdateCartItem = (
   options?: UseMutationOptions<void, Error, UpdateCartItemArgs>
 ) => {

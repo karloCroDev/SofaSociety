@@ -78,10 +78,13 @@ export const useGetCartShippingOptions = (cartId: string) => {
   });
 };
 
-export type ShippingOptionCheckoutArgs = {
-  cartId: string;
-  optionId: string;
-};
+export const shippingOptionCheckoutSchema = z.object({
+  cartId: z.string().uuid(),
+  optionId: z.string().uuid(),
+});
+export type ShippingOptionCheckoutArgs = z.infer<
+  typeof shippingOptionCheckoutSchema
+>;
 // Karlo: Setting shipping options so no need for error message
 export const useShippingOptionCheckout = (
   options?: UseMutationOptions<void, Error, ShippingOptionCheckoutArgs>
@@ -129,10 +132,14 @@ export const useGetPaymentMethod = (id?: string) => {
   });
 };
 
-export type ChoosePaymentMethodOption = {
-  sessionId: string;
-  token: string | null | undefined;
-};
+export const choosePaymentProviderSchema = z.object({
+  sessionId: z.string(),
+  token: z.string().optional().nullable(),
+});
+
+export type ChoosePaymentMethodOption = z.infer<
+  typeof choosePaymentProviderSchema
+>;
 
 export const useInitiatePaymentSession = (
   providerId: string,

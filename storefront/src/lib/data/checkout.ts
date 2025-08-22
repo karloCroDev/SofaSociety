@@ -4,10 +4,16 @@
 import { PaymentMethod } from '@stripe/stripe-js';
 import {
   ChoosePaymentMethodOption,
+  choosePaymentProviderSchema,
   EmailFormArgs,
+  emailFormSchema,
   ShippingOptionCheckoutArgs,
+  shippingOptionCheckoutSchema,
 } from '@/hooks/checkout';
-import { CustomerAddressArgs } from '@/hooks/user-settings';
+import {
+  CustomerAddressArgs,
+  customerAddressSchema,
+} from '@/hooks/user-settings';
 import { getAuthHeaders } from '@/lib/data/cookies';
 import { medusaError } from '@/lib/util/medusa-error';
 import { sdk } from '@/lib/config/config';
@@ -37,8 +43,16 @@ async function updateCart(data: HttpTypes.StoreUpdateCart) {
     medusaError(error);
   }
 }
-export async function emailCheckout({ email }: EmailFormArgs) {
-  const cart = await updateCart({ email });
+export async function emailCheckout(data: EmailFormArgs) {
+  const validateData = emailFormSchema.safeParse(data);
+
+  if (!validateData.success) {
+    return {
+      state: 'error' as const,
+      message: 'Wrong data provided',
+    };
+  }
+  const cart = await updateCart({ email: validateData.data.email });
 
   if (!cart) {
     return {
@@ -53,9 +67,17 @@ export async function emailCheckout({ email }: EmailFormArgs) {
 }
 
 export async function addressCheckout(data: CustomerAddressArgs) {
+  const validateData = customerAddressSchema.safeParse(data);
+
+  if (!validateData.success) {
+    return {
+      state: 'error' as const,
+      message: 'Wrong data provided',
+    };
+  }
   const cart = await updateCart({
-    shipping_address: data,
-    billing_address: data,
+    shipping_address: validateData.data,
+    billing_address: validateData.data,
   });
 
   if (!cart) {
@@ -72,6 +94,7 @@ export async function addressCheckout(data: CustomerAddressArgs) {
 
 export async function getAllShippingOptions(cartId: string) {
   try {
+    if (!cartId) throw new Error('Cart ID is required');
     const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
       cart_id: cartId,
     });
@@ -81,13 +104,15 @@ export async function getAllShippingOptions(cartId: string) {
   }
 }
 
-export async function shippingOptionCheckout({
-  cartId,
-  optionId,
-}: ShippingOptionCheckoutArgs) {
+export async function shippingOptionCheckout(data: ShippingOptionCheckoutArgs) {
   try {
-    await sdk.store.cart.addShippingMethod(cartId, {
-      option_id: optionId,
+    const validateData = shippingOptionCheckoutSchema.safeParse(data);
+
+    if (!validateData.success) {
+      throw new Error('Invalid shipping option data');
+    }
+    await sdk.store.cart.addShippingMethod(validateData.data.cartId, {
+      option_id: validateData.data.optionId,
     });
   } catch (error) {
     medusaError(error);
@@ -146,16 +171,21 @@ export async function getPaymentMethod(id?: string) {
   }
 }
 
-export async function choosePaymentMethod({
-  sessionId,
-  token,
-}: ChoosePaymentMethodOption) {
+export async function choosePaymentMethod(data: ChoosePaymentMethodOption) {
   try {
+    const validateData = choosePaymentProviderSchema.safeParse(data);
+    if (!validateData.success) {
+      throw new Error('Invalid payment method data');
+    }
+
     const resp = await sdk.client.fetch(
       '/store/custom/stripe/set-payment-method',
       {
         method: 'POST',
-        body: { session_id: sessionId, token },
+        body: {
+          session_id: validateData.data.sessionId,
+          token: validateData.data.token,
+        },
       }
     );
 
@@ -167,6 +197,7 @@ export async function choosePaymentMethod({
 }
 
 export async function initiatePaymentSession(provider_id: string) {
+  if (!provider_id) throw new Error('Provider ID is required');
   const cart = await getCart();
 
   if (!cart) {

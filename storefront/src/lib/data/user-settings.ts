@@ -35,6 +35,7 @@ export async function updateCustomerDetails({
       message: 'Customer details updated successfully',
     };
   } catch (error) {
+    console.error(error);
     return {
       state: 'error' as const,
       message: 'Failed to update customer details',
@@ -54,6 +55,7 @@ export async function deleteCustomerAddress(addressId: string) {
       message: 'Address deleted successfully',
     };
   } catch (error) {
+    console.error(error);
     return {
       state: 'error' as const,
       message: 'Failed to delete address',
@@ -71,6 +73,7 @@ export async function addCustomerAddress(data: CustomerAddressArgs) {
       message: 'Address added successfully',
     };
   } catch (error) {
+    console.error(error);
     return {
       state: 'error' as const,
       message: 'Failed to add address',
@@ -96,6 +99,7 @@ export async function updateCustomerAddress(
       message: 'Address updated successfully',
     };
   } catch (error) {
+    console.error(error);
     return {
       state: 'error' as const,
       message: 'Failed to update address',

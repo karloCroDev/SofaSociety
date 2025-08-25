@@ -2,8 +2,8 @@ import {
   createSelectParams,
   createFindParams,
   createOperatorMap,
-} from '@medusajs/medusa/api/utils/validators';
-import { z } from 'zod';
+} from "@medusajs/medusa/api/utils/validators";
+import { z } from "zod";
 
 export type AdminGetProductTypeParamsType = z.infer<
   typeof AdminGetProductTypeParams
@@ -28,5 +28,5 @@ export const AdminGetProductTypesParams = createFindParams({
     deleted_at: createOperatorMap().optional(),
     $and: z.lazy(() => AdminGetProductTypesParams.array()).optional(),
     $or: z.lazy(() => AdminGetProductTypesParams.array()).optional(),
-  }),
+  })
 );

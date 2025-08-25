@@ -18,6 +18,8 @@ export async function getProductsById({
   regionId: string;
 }) {
   try {
+    if (!ids || !regionId) throw new Error('Invalid product IDs or region ID');
+
     const { products } = await sdk.client.fetch<{
       products: HttpTypes.StoreProduct[];
     }>(`/store/products`, {
@@ -62,6 +64,8 @@ export async function getProductByHandle({
 
 export async function getProductFashionDataByHandle(handle: string) {
   try {
+    if (!handle) throw new Error('Invalid product handle');
+
     const { materials } = await sdk.client.fetch<{
       materials: {
         id: string;
@@ -73,7 +77,6 @@ export async function getProductFashionDataByHandle(handle: string) {
         }[];
       }[];
     }>(`/store/custom/fashion/${handle}`, {
-      method: 'GET',
       next: { tags: ['products'] },
       cache: 'force-cache',
     });
@@ -96,6 +99,8 @@ export async function getProductsList({
   nextPage: number | null;
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductListParams;
 }> {
+  if (!countryCode) throw new Error('Country code is required');
+
   const page = Math.max(1, pageParam || 1);
   const limit = queryParams?.limit || 12;
   const offset = (page - 1) * limit;
@@ -136,10 +141,6 @@ export async function getProductsList({
     });
 }
 
-/**
- * This will fetch 100 products to the Next.js cache and sort them based on the sortBy parameter.
- * It will then return the paginated products based on the page and limit parameters.
- */
 export async function getProductsListWithSort({
   page = 0,
   queryParams,

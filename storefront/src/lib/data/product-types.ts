@@ -36,6 +36,7 @@ export async function getSpecificProductType({
 
 export async function getTypesProductHandle(handle: string) {
   try {
+    if (!handle) throw new Error('Invalid product type handle');
     const { product_types } = await sdk.client.fetch<
       PaginatedResponse<{
         product_types: HttpTypes.StoreProductType[];

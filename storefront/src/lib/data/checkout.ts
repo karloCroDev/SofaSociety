@@ -44,15 +44,15 @@ async function updateCart(data: HttpTypes.StoreUpdateCart) {
   }
 }
 export async function emailCheckout(data: EmailFormArgs) {
-  const validateData = emailFormSchema.safeParse(data);
+  const validatedData = emailFormSchema.safeParse(data);
 
-  if (!validateData.success) {
+  if (!validatedData.success) {
     return {
       state: 'error' as const,
       message: 'Wrong data provided',
     };
   }
-  const cart = await updateCart({ email: validateData.data.email });
+  const cart = await updateCart({ email: validatedData.data.email });
 
   if (!cart) {
     return {
@@ -67,17 +67,17 @@ export async function emailCheckout(data: EmailFormArgs) {
 }
 
 export async function addressCheckout(data: CustomerAddressArgs) {
-  const validateData = customerAddressSchema.safeParse(data);
+  const validatedData = customerAddressSchema.safeParse(data);
 
-  if (!validateData.success) {
+  if (!validatedData.success) {
     return {
       state: 'error' as const,
       message: 'Wrong data provided',
     };
   }
   const cart = await updateCart({
-    shipping_address: validateData.data,
-    billing_address: validateData.data,
+    shipping_address: validatedData.data,
+    billing_address: validatedData.data,
   });
 
   if (!cart) {
@@ -106,13 +106,13 @@ export async function getAllShippingOptions(cartId: string) {
 
 export async function shippingOptionCheckout(data: ShippingOptionCheckoutArgs) {
   try {
-    const validateData = shippingOptionCheckoutSchema.safeParse(data);
+    const validatedData = shippingOptionCheckoutSchema.safeParse(data);
 
-    if (!validateData.success) {
+    if (!validatedData.success) {
       throw new Error('Invalid shipping option data');
     }
-    await sdk.store.cart.addShippingMethod(validateData.data.cartId, {
-      option_id: validateData.data.optionId,
+    await sdk.store.cart.addShippingMethod(validatedData.data.cartId, {
+      option_id: validatedData.data.optionId,
     });
   } catch (error) {
     medusaError(error);
@@ -173,8 +173,8 @@ export async function getPaymentMethod(id?: string) {
 
 export async function choosePaymentMethod(data: ChoosePaymentMethodOption) {
   try {
-    const validateData = choosePaymentProviderSchema.safeParse(data);
-    if (!validateData.success) {
+    const validatedData = choosePaymentProviderSchema.safeParse(data);
+    if (!validatedData.success) {
       throw new Error('Invalid payment method data');
     }
 
@@ -183,8 +183,8 @@ export async function choosePaymentMethod(data: ChoosePaymentMethodOption) {
       {
         method: 'POST',
         body: {
-          session_id: validateData.data.sessionId,
-          token: validateData.data.token,
+          session_id: validatedData.data.sessionId,
+          token: validatedData.data.token,
         },
       }
     );

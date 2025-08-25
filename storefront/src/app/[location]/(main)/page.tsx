@@ -17,11 +17,9 @@ import ImageAboutSofa from '@/public/images/home/about-sofa.png';
 import { getCollectionsList } from '@/lib/data/collections';
 
 export default async function Home() {
-  const { collections } = await getCollectionsList(0, 20, [
-    'metadata',
-    'handle',
-    'title',
-  ]);
+  const { collections } = await getCollectionsList({
+    fields: ['metadata', 'handle', 'title'],
+  });
 
   return (
     <>

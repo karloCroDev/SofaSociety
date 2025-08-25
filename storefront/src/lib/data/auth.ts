@@ -234,7 +234,7 @@ export async function resetPassword(data: ResetFormDataArgs) {
 
   try {
     await sdk.auth.updateProvider(
-      validatedData.data?.type === 'reset' ? 'logged-in-customer' : 'customer',
+      validatedData.data.type === 'reset' ? 'logged-in-customer' : 'customer',
       'emailpass',
       {
         email: validatedData.data.email,

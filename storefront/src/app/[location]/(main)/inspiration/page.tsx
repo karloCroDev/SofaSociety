@@ -50,6 +50,7 @@ export default async function Inspiration({ params }: PageProps) {
 
       return (
         <ProductCard
+          key={product.id}
           name={product.title}
           category={product.collection!.title}
           image={

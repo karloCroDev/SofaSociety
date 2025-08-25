@@ -87,6 +87,9 @@ export async function addItemToCart({
   quantity,
   variant_id,
 }: AddItemToCartArgs) {
+  // Ante: Posto quantity i variant_id dobivam od HttpTypes.StoreAddCartLineItem
+  if (!location && !quantity && !variant_id) throw new Error('Invalid data');
+
   const doesCartExist = await initializeCart(location);
 
   try {
@@ -130,9 +133,9 @@ export async function updateCartItem(data: UpdateCartItemArgs) {
 }
 
 export async function deleteCartItem(data: DeleteItemArgs) {
-  const validateData = deleteCartItemSchema.safeParse(data);
+  const validatedData = deleteCartItemSchema.safeParse(data);
 
-  if (!validateData.success) return;
+  if (!validatedData.success) return;
 
   const cartId = await getCartId();
 
@@ -141,7 +144,7 @@ export async function deleteCartItem(data: DeleteItemArgs) {
   try {
     await sdk.store.cart.deleteLineItem(
       cartId,
-      validateData.data.lineItemId,
+      validatedData.data.lineItemId,
       await getAuthHeaders()
     );
     revalidateTag('cart');

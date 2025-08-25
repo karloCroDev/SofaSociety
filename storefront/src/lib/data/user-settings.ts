@@ -10,20 +10,26 @@ import { getAuthHeaders } from '@/lib/data/cookies';
 // Hooks
 import {
   CustomerAddressArgs,
+  customerAddressSchema,
   UpdateCustomerDetailsArgs,
+  updateCustomerDetailsSchema,
 } from '@/hooks/user-settings';
 
-export async function updateCustomerDetails({
-  firstName,
-  lastName,
-  phone,
-}: UpdateCustomerDetailsArgs) {
+export async function updateCustomerDetails(data: UpdateCustomerDetailsArgs) {
   try {
+    const validatedData = updateCustomerDetailsSchema.safeParse(data);
+
+    if (!validatedData.success)
+      return {
+        state: 'error' as const,
+        message: 'Invalid customer details',
+      };
+
     await sdk.store.customer.update(
       {
-        first_name: firstName,
-        last_name: lastName,
-        phone: phone || '',
+        first_name: validatedData.data.firstName,
+        last_name: validatedData.data.lastName,
+        phone: validatedData.data.phone || '',
       },
       {},
       await getAuthHeaders()
@@ -44,9 +50,14 @@ export async function updateCustomerDetails({
 }
 
 // Address
-
 export async function deleteCustomerAddress(addressId: string) {
   try {
+    if (!addressId)
+      return {
+        state: 'error' as const,
+        message: 'Invalid address ID',
+      };
+
     await sdk.store.customer.deleteAddress(addressId);
     revalidateTag('customer');
 
@@ -65,7 +76,19 @@ export async function deleteCustomerAddress(addressId: string) {
 
 export async function addCustomerAddress(data: CustomerAddressArgs) {
   try {
-    await sdk.store.customer.createAddress(data, {}, await getAuthHeaders());
+    const validatedData = customerAddressSchema.safeParse(data);
+
+    if (!validatedData.success)
+      return {
+        state: 'error' as const,
+        message: 'Invalid customer address',
+      };
+
+    await sdk.store.customer.createAddress(
+      validatedData.data,
+      {},
+      await getAuthHeaders()
+    );
     revalidateTag('customer');
 
     return {
@@ -86,9 +109,17 @@ export async function updateCustomerAddress(
   addressId: string
 ) {
   try {
+    const validatedData = customerAddressSchema.safeParse(data);
+
+    if (!validatedData.success || !addressId)
+      return {
+        state: 'error' as const,
+        message: 'Invalid customer address',
+      };
+
     await sdk.store.customer.updateAddress(
       addressId,
-      data,
+      validatedData.data,
       {},
       await getAuthHeaders()
     );

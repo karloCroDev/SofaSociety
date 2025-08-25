@@ -10,7 +10,6 @@ export async function allRegions() {
     const { regions } = await sdk.client.fetch<{
       regions: HttpTypes.StoreRegion[];
     }>(`/store/regions`, {
-      method: 'GET',
       next: { tags: ['regions'] },
       cache: 'force-cache',
     });

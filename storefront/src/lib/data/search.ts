@@ -15,6 +15,8 @@ export async function getSearchItems({
   region?: string;
 }) {
   if (!region) throw new Error('Enter the region');
+
+  if (!value) throw new Error('Enter the search value');
   try {
     const results = await searchClient
       .index('products')

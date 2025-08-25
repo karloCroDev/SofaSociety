@@ -16,7 +16,7 @@ import { useCountryCode } from '@/hooks/util/country-code';
 import { useAddCartItem } from '@/hooks/cart';
 
 const convertToObject = (options: HttpTypes.StoreProductVariant['options']) => {
-  let converter: Record<string, string> = {};
+  const converter: Record<string, string> = {};
 
   options?.forEach((option) => {
     if (option.option_id) {
@@ -75,12 +75,14 @@ export const ProductOptions: React.FC<{
 
   return (
     <>
-      <SelectMaterial
-        setProductOptions={setProductOptions}
-        customization={customization}
-        materialOption={materialOption}
-      />
-      {!!productOptions[materialOption?.id!] && (
+      {materialOption && (
+        <SelectMaterial
+          setProductOptions={setProductOptions}
+          customization={customization}
+          materialOption={materialOption}
+        />
+      )}
+      {materialOption && colorOption && productOptions[materialOption.id] && (
         <SelectColor
           setProductOptions={setProductOptions}
           colors={customization.flatMap((color) => color.colors)}

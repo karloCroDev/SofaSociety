@@ -25,7 +25,7 @@ export const SelectMaterial: React.FC<{
       hex_code: string;
     }[];
   }[];
-  materialOption: HttpTypes.StoreProductOption | undefined;
+  materialOption: HttpTypes.StoreProductOption;
   setProductOptions: React.Dispatch<
     React.SetStateAction<Record<string, string | undefined>>
   >;
@@ -38,7 +38,7 @@ export const SelectMaterial: React.FC<{
     if (customization.length !== 1) return;
     setProductOptions((prev) => ({
       ...prev,
-      [materialOption?.id!]: customization[0].name,
+      [materialOption.id]: customization[0].name,
     }));
   }, []);
 
@@ -59,7 +59,7 @@ export const SelectMaterial: React.FC<{
           setMaterial(val.toString());
           setProductOptions((prev) => ({
             ...prev,
-            [materialOption?.id!]: val.toString(),
+            [materialOption.id]: val.toString(),
           }));
         }}
       >

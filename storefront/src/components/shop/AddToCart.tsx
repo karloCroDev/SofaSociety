@@ -10,7 +10,6 @@ import {
   Button,
   Input,
 } from 'react-aria-components';
-import { getCartQuantity } from '@/lib/data/cart';
 
 export const AddToCart: React.FC<
   NumberFieldProps &

@@ -8,7 +8,6 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
 import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
@@ -80,7 +79,7 @@ export const DrawerFilter: React.FC<FilterProps> = ({
             isOpen
             onOpenChange={setOpen}
             className="fixed inset-0 z-10"
-            style={{ backgroundColor: bg as any }}
+            style={{ backgroundColor: bg }}
           >
             <MotionModal
               className="-max-h-20 absolute bottom-0 w-full bg-gray-10 shadow-lg will-change-transform"

@@ -78,7 +78,7 @@ export const DrawerSort: React.FC<{
             isOpen
             onOpenChange={setOpen}
             className="fixed inset-0 z-10"
-            style={{ backgroundColor: bg as any }}
+            style={{ backgroundColor: bg }}
           >
             <MotionModal
               className="-max-h-20 absolute bottom-0 w-full bg-gray-10 shadow-lg will-change-transform"

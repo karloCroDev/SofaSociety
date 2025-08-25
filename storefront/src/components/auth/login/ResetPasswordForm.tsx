@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
 // Lib
-import { resetPassword } from '@/lib/data/auth';
 import { resetPasswordLinkSchema, useResetPassword } from '@/hooks/auth';
 import { withReactQueryProvider } from '@/lib/config/react-query';
 
@@ -29,7 +28,6 @@ export const ResetPasswordForm: React.FC<{
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-    reset,
   } = useForm<ResetPasswordFormProps>({
     resolver: zodResolver(resetPasswordLinkSchema),
   });

@@ -14,14 +14,14 @@ export const SelectColor: React.FC<{
   setProductOptions: React.Dispatch<
     React.SetStateAction<Record<string, string | undefined>>
   >;
-  colorOption: HttpTypes.StoreProductOption | undefined;
+  colorOption: HttpTypes.StoreProductOption;
 }> = ({ colors, setProductOptions, colorOption }) => {
   const [color, setColor] = React.useState(colors[0].name);
 
   React.useEffect(() => {
     setProductOptions((prev) => ({
       ...prev,
-      [colorOption?.id!]: colors[0].name,
+      [colorOption.id]: colors[0].name,
     }));
   }, []);
   return (
@@ -38,7 +38,7 @@ export const SelectColor: React.FC<{
           setColor(val.toString());
           setProductOptions((prev) => ({
             ...prev,
-            [colorOption?.id!]: val.toString(),
+            [colorOption.id]: val.toString(),
           }));
         }}
         defaultValue={color}

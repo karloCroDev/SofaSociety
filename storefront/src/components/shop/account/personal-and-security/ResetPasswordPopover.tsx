@@ -27,8 +27,6 @@ export const ResetPasswordPopover = () => {
     setError(request.message);
   };
 
-  React;
-
   return (
     <DialogTrigger isOpen={isOpen}>
       <Button className="mt-6 w-full lg:w-fit" onPress={onSubmit}>

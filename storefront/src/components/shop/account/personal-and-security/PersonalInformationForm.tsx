@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { OverlayTriggerStateContext } from 'react-aria-components';
 
 // Components
@@ -70,7 +69,7 @@ export const PersonalInformationForm: React.FC<{
           control={control}
           name="lastName"
           render={({ field }) => (
-            <Input label="First name" className="flex-1" inputProps={field} />
+            <Input label="Last name" className="flex-1" inputProps={field} />
           )}
         />
       </div>

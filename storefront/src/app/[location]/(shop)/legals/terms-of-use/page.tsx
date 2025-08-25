@@ -87,10 +87,11 @@ export default function TermsOfUse() {
 
               <h4>4. Disclaimer of Warranties:</h4>
               <p>
-                Our website is provided on an "as is" and "as available" basis.
-                We do not make any warranties, express or implied, regarding the
-                operation, availability, or accuracy of our website or the
-                content therein. Your use of our website is at your sole risk.
+                Our website is provided on an &quot;as is&apos; and &apos;as
+                available&quot; basis. We do not make any warranties, express or
+                implied, regarding the operation, availability, or accuracy of
+                our website or the content therein. Your use of our website is
+                at your sole risk.
               </p>
 
               <h4>5. Limitation of Liability:</h4>
@@ -108,8 +109,8 @@ export default function TermsOfUse() {
                 You agree to indemnify, defend, and hold harmless Sofa Society
                 and its affiliates, officers, directors, employees, and agents
                 from and against any claims, liabilities, damages, losses, and
-                expenses, including reasonable attorney's fees, arising out of
-                or in connection with your use of our website or violation of
+                expenses, including reasonable attorney&apos;s fees, arising out
+                of or in connection with your use of our website or violation of
                 these Terms of Use.
               </p>
 
@@ -118,8 +119,8 @@ export default function TermsOfUse() {
                 You agree to indemnify, defend, and hold harmless Sofa Society
                 and its affiliates, officers, directors, employees, and agents
                 from and against any claims, liabilities, damages, losses, and
-                expenses, including reasonable attorney's fees, arising out of
-                or in connection with your use of our website or violation of
+                expenses, including reasonable attorney&apos;s fees, arising out
+                of or in connection with your use of our website or violation of
                 these Terms of Use.
               </p>
 

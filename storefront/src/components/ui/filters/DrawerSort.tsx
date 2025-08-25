@@ -1,5 +1,6 @@
 'use client';
 
+// External pocakges
 import * as React from 'react';
 import {
   animate,
@@ -7,7 +8,6 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useMotionValueEvent,
   useTransform,
 } from 'framer-motion';
 import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
@@ -19,9 +19,6 @@ import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
 
 const MotionModal = motion(Modal);
 const MotionModalOverlay = motion(ModalOverlay);
-
-// Constants
-const SHEET_RADIUS = 12;
 
 // Animations
 const inertiaTransition = {

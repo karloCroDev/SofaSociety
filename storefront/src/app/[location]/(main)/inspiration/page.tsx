@@ -63,7 +63,7 @@ export default async function Inspiration({ params }: PageProps) {
               />
             </div>
           }
-          price={cheapestPrice?.calculated_price.toString()!}
+          price={cheapestPrice?.calculated_price}
           originalPrice={
             cheapestPrice?.original_price === cheapestPrice?.calculated_price
               ? undefined
@@ -139,7 +139,7 @@ export default async function Inspiration({ params }: PageProps) {
               with eclectic vibes.
             </h2>
             <p className="mt-6 lg:mt-16">
-              Whether you're looking for bold statement pieces or subtle
+              Whether you&apos;re looking for bold statement pieces or subtle
               elegance, this collection elevates your home with a touch of
               glamour, sophistication, and unmatched coziness.
             </p>

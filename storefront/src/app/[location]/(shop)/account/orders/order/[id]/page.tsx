@@ -159,14 +159,16 @@ export default async function OrderPage({ params }: PageProps) {
                 <div className="flex flex-col pl-8 text-sm md:text-base">
                   <h4 className="text-lg">{item.title}</h4>
 
-                  {item.variant?.options?.map((option) => (
-                    <p>
-                      <span className="pr-2 text-gray-500">
-                        {option.option?.title}
-                      </span>
-                      {option.value}
-                    </p>
-                  ))}
+                  {item.variant?.options?.map(
+                    ({ value, option_id, option }) => (
+                      <p key={option_id}>
+                        <span className="pr-2 text-gray-500">
+                          {option?.title}
+                        </span>
+                        {value}
+                      </p>
+                    )
+                  )}
 
                   <p className="md:mt-auto">
                     <span className="pr-2 text-gray-500">Quantity:</span>

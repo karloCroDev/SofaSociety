@@ -54,7 +54,9 @@ export const LogoutButton: React.FC<
         isDisabled={isPending}
         onPress={() => mutate()}
       >
+        {iconLeft}
         {children}
+        {iconRight}
       </Button>
     );
   }

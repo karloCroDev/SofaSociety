@@ -22,7 +22,9 @@ import { HttpTypes } from '@medusajs/types';
 import { revalidateTag } from 'next/cache';
 import { getCart } from '@/lib/data/cart';
 
-async function updateCart(data: HttpTypes.StoreUpdateCart) {
+export async function updateCart(data: HttpTypes.StoreUpdateCart) {
+  if (!data) throw new Error('No data provided');
+
   const cartId = await getCartId();
   if (!cartId) {
     throw new Error('No cart id :(');

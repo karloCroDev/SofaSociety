@@ -68,6 +68,8 @@ export const LinkAsButton: React.FC<
       className
     )}
   >
+    {iconLeft}
     {children}
+    {iconRight}
   </Link>
 );

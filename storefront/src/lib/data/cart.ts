@@ -42,17 +42,16 @@ export async function getCart() {
 }
 
 async function initializeCart(location?: string) {
-  if (!location) {
-    throw new Error('Enter the location bro');
-  }
-
-  const region = await getRegion(location);
-
-  if (!region) {
-    throw new Error('Mann your living on north pole :(((((');
-  }
-
   try {
+    if (!location) {
+      throw new Error('Enter the location bro');
+    }
+
+    const region = await getRegion(location);
+
+    if (!region) {
+      throw new Error('Mann your living on north pole :(((((');
+    }
     let cart = await getCart();
 
     if (!cart) {
@@ -87,7 +86,8 @@ export async function addItemToCart({
   quantity,
   variant_id,
 }: AddItemToCartArgs) {
-  // Ante: Posto quantity i variant_id dobivam od HttpTypes.StoreAddCartLineItem
+  // Ante: Posto quantity i variant_id dobivam od HttpTypes.StoreAddCartLineItem hocu li ih onda convertati u zod schemu ili da ovako ostavim
+
   if (!location && !quantity && !variant_id) throw new Error('Invalid data');
 
   const doesCartExist = await initializeCart(location);

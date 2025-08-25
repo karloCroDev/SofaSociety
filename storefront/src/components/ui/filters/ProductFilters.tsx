@@ -12,7 +12,6 @@ import {
   useSetUrlParams,
   type UrlParamsProps,
 } from '@/hooks/util/country-code';
-import { HttpTypes } from '@medusajs/types';
 
 export const ProductFilters: React.FC<{
   productFilters?: string[];

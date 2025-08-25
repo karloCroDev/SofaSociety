@@ -15,15 +15,14 @@ import Link from 'next/link';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
-import { Input } from '@/components/ui/Input';
 import { CodeCountryTypes } from '@/components/ui/header/Header';
 
 // Hooks
 import { useCountryCode } from '@/hooks/util/country-code';
-import { useUpdateRegion } from '@/hooks/cart';
 import { withReactQueryProvider } from '@/lib/config/react-query';
 import { usePathname } from 'next/navigation';
 import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
+import { useUpdateRegion } from '@/hooks/cart';
 
 export const HeaderWrapper: React.FC<{
   hasAnImage: boolean;

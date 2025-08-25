@@ -15,7 +15,6 @@ import {
   getCustomer,
   resetPassword,
 } from '@/lib/data/auth';
-import { email } from 'node_modules/zod/v4/core/regexes.cjs';
 
 // Customer
 export const useCustomer = () => {
@@ -84,11 +83,6 @@ export const useSignup = (
 
 // Reset password
 
-const OtpSchema = z.object({
-  email: z.string().email(),
-  token: z.string(),
-});
-
 export const resetPasswordLinkSchema = z
   .object({
     oldPassword: z.string().min(6).optional(), // If there is no session then nothing,
@@ -102,10 +96,11 @@ export const resetPasswordLinkSchema = z
     path: ['repeatPassword'],
   });
 
-export type ResetPasswordLinkProps = z.infer<typeof resetPasswordLinkSchema> &
-  z.infer<typeof OtpSchema> & {
-    type: 'forgot' | 'reset';
-  };
+export type ResetPasswordLinkProps = z.infer<typeof resetPasswordLinkSchema> & {
+  email: string;
+  token: string;
+  type: 'forgot' | 'reset';
+};
 
 export const useResetPassword = (
   options?: UseMutationOptions<

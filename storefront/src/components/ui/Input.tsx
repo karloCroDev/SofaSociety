@@ -11,7 +11,6 @@ import {
   FieldError,
   FieldErrorProps,
 } from 'react-aria-components';
-import { Controller, ControllerProps } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 export const Input: React.FC<

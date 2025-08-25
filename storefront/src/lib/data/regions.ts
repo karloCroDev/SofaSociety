@@ -1,9 +1,15 @@
+'use server';
+
 // External packages
+import { revalidateTag } from 'next/cache';
 import { HttpTypes } from '@medusajs/types';
 
 // Lib
+import { UpdateRegionArgs } from '@/hooks/cart';
 import { sdk } from '@/lib/config/config';
 import { medusaError } from '@/lib/util/medusa-error';
+import { getCartId } from '@/lib/data/cookies';
+import { updateCart } from '@/lib/data/checkout';
 
 export async function allRegions() {
   try {
@@ -54,3 +60,29 @@ export const getRegion = async function (countryCode: string) {
     medusaError(error);
   }
 };
+
+export async function updateRegion({
+  countryCode,
+  currentPath,
+}: UpdateRegionArgs) {
+  if (typeof countryCode !== 'string' || typeof currentPath !== 'string') {
+    throw new Error('Invalid country code or current path');
+  }
+
+  const [cartId, region] = await Promise.all([
+    getCartId(),
+    getRegion(countryCode),
+  ]);
+
+  if (!region) {
+    throw new Error(`Region not found for country code: ${countryCode}`);
+  }
+
+  if (cartId) {
+    await updateCart({ region_id: region.id });
+    revalidateTag('cart');
+  }
+
+  revalidateTag('regions');
+  revalidateTag('products');
+}

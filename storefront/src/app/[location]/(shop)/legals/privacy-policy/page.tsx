@@ -129,7 +129,7 @@ export default function PrivacyPolicy() {
               </li>
             </ul>
 
-            <h4>7. Children's Privacy:</h4>
+            <h4>7. Children&apos;s Privacy:</h4>
             <p>
               Our services are not intended for individuals under the age of 16.
               If we become aware that we have collected personal information

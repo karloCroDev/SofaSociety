@@ -29,22 +29,25 @@ export const Accordion: React.FC<{
   const router = useRouter();
 
   const searchParams = useSearchParams();
+
   const [hasLoaded, setHadLoaded] = React.useState(false);
 
   // Karlo: Kada rijesis problem s regionom onda ovo stavi jer trenutno je u test modu
 
-  // React.useEffect(() => {
-  //   let currentStep: StepTypes; // Default to last step if there are no previous steps
+  React.useEffect(() => {
+    if (hasLoaded) return;
 
-  //   if (!cart.email) currentStep = 'email';
-  //   else if (!cart.shipping_address) currentStep = 'address';
-  //   else if (!cart.shipping_methods?.length) currentStep = 'shipping';
-  //   else currentStep = 'payment';
+    let currentStep: StepTypes; // Default to last step if there are no previous steps
 
-  //   router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
+    if (!cart.email) currentStep = 'email';
+    else if (!cart.shipping_address) currentStep = 'address';
+    else if (!cart.shipping_methods?.length) currentStep = 'shipping';
+    else currentStep = 'payment';
 
-  //   setHadLoaded(true);
-  // }, []);
+    router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
+
+    setHadLoaded(true);
+  }, []);
 
   const step = searchParams.get('step');
 

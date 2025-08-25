@@ -35,7 +35,6 @@ export default function CookiePolicy() {
 
             <h4>2. Types of Cookies We Use:</h4>
             <p>We use the following types of cookies on our website:</p>
-            {/* TODO: Molim te provjeri da li ove liste u dizajnu stvarno ovako izgledaju. Provjeri kako su uvučene i razmak s lijeve strane. FIXED*/}
             <ul>
               <li>
                 Essential Cookies: These cookies are necessary for the operation
@@ -48,8 +47,8 @@ export default function CookiePolicy() {
                 Analytics and Performance Cookies: These cookies help us
                 understand how visitors interact with our website by collecting
                 information such as the number of visitors, pages visited, and
-                sources of traffic. This data helps us improve our website's
-                performance and usability.
+                sources of traffic. This data helps us improve our
+                website&apos;s performance and usability.
               </li>
               <li>
                 Functionality Cookies: These cookies allow our website to

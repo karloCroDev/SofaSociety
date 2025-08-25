@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 
 export const CheckboxVisually: React.FC<
   React.ComponentPropsWithoutRef<'div'>
-> = ({ children, className, ...rest }) => {
+> = ({ ...rest }) => {
   return (
     <div
       {...rest}

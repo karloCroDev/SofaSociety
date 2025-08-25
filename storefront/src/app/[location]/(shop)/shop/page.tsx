@@ -11,7 +11,7 @@ import {
   ProductsMapping,
   ProductsSkeletonMapping,
 } from '@/components/ui/ProductsGrid';
-import { Sort, type SortOptions } from '@/components/ui/filters/Sort';
+import { type SortOptions } from '@/components/ui/filters/Sort';
 import { Filters } from '@/components/ui/filters/Filters';
 
 // Lib
@@ -19,6 +19,7 @@ import { getCollectionsList } from '@/lib/data/collections';
 import { getSpecificCategories } from '@/lib/data/categories';
 import { converterCheckerArray } from '@/lib/util/arrayChecker';
 import { getSpecificProductType } from '@/lib/data/product-types';
+import { collectionMetadataCustomFieldsSchema } from '@/lib/util/collections';
 
 interface PageProps {
   params: Promise<{ location: string }>;
@@ -51,21 +52,31 @@ export default async function Shop({ params, searchParams }: PageProps) {
         Collections
       </h2>
       <LayoutRow className="-mr-6 mt-8 hidden lg:flex">
-        {collections.collections.map((collection) => (
-          <LayoutColumn lg={3} className="pr-6" key={collection.id}>
-            <Link href={`/collection/${collection.handle}`}>
-              <div className="relative aspect-[3/4]">
-                <Image
-                  // @ts-ignore
-                  src={collection.metadata?.image?.url}
-                  fill
-                  alt="Scandinavian furniture"
-                />
-              </div>
-              <p className="mt-6">{collection.title}</p>
-            </Link>
-          </LayoutColumn>
-        ))}
+        {collections.collections.map((collection) => {
+          const collectionConverter =
+            collectionMetadataCustomFieldsSchema.safeParse(
+              collection.metadata ?? {}
+            );
+
+          return (
+            <LayoutColumn lg={3} className="pr-6" key={collection.id}>
+              <Link href={`/collection/${collection.handle}`}>
+                <div className="relative aspect-[3/4]">
+                  {collectionConverter.success &&
+                    collectionConverter.data.image?.url && (
+                      <Image
+                        // Karlo: Dodaj u zod schemu
+                        src={collectionConverter.data.image.url}
+                        fill
+                        alt="Scandinavian furniture"
+                      />
+                    )}
+                </div>
+                <p className="mt-6">{collection.title}</p>
+              </Link>
+            </LayoutColumn>
+          );
+        })}
       </LayoutRow>
       <div className="lg:hidden">
         <Collections collections={collections.collections} />

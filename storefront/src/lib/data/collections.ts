@@ -62,6 +62,7 @@ export async function getCollectionsWithProducts(
   countryCode: string
 ): Promise<HttpTypes.StoreCollection[] | null> {
   if (!countryCode) throw new Error('Country code is required');
+
   const { collections } = await getCollectionsList({
     limit: 3,
   });

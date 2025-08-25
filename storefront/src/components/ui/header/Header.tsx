@@ -12,7 +12,7 @@ import { SidebarDrawer } from '@/components/ui/header/HeaderWrapper';
 import { Logo } from '@/components/ui/Logo';
 
 // Lib
-import { listRegions } from '@/lib/data/regions';
+import { allRegions } from '@/lib/data/regions';
 import { SearchComboBox } from '@/components/ui/header/SearchComboBox';
 
 export type CodeCountryTypes = {
@@ -25,7 +25,7 @@ export type CodeCountryTypes = {
 export const Header: React.FC<{
   hasAnImage?: boolean;
 }> = async ({ hasAnImage = false }) => {
-  const regions = await listRegions();
+  const regions = await allRegions();
 
   const codeCountry = regions
     .flatMap((region) =>

@@ -15,6 +15,7 @@ import {
   getCart,
   updateCartItem,
 } from '@/lib/data/cart';
+import { updateRegion } from '@/lib/data/regions';
 
 export const useCart = () =>
   useQuery({
@@ -75,6 +76,26 @@ export const useUpdateCartItem = (
   return useMutation({
     mutationKey: ['update-cart-item'],
     mutationFn: (data: UpdateCartItemArgs) => updateCartItem(data),
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ['cart'] });
+      await options?.onSuccess?.(...args);
+    },
+    ...options,
+  });
+};
+
+export type UpdateRegionArgs = {
+  countryCode: string;
+  currentPath: string;
+};
+
+export const useUpdateRegion = (
+  options?: UseMutationOptions<void, Error, UpdateRegionArgs>
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['update-region'],
+    mutationFn: (data: UpdateRegionArgs) => updateRegion(data),
     onSuccess: async (...args) => {
       await queryClient.invalidateQueries({ queryKey: ['cart'] });
       await options?.onSuccess?.(...args);

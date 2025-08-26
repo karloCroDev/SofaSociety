@@ -35,7 +35,10 @@ export type LoginArgs = z.infer<typeof loginFormSchema>;
 
 export const useLogin = (
   options?: UseMutationOptions<
-    { state: 'success' | 'error'; redirectUrl?: string; message?: string },
+    {
+      state: 'error';
+      message: string;
+    },
     Error,
     LoginArgs
   >

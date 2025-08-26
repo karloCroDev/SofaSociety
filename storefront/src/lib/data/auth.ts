@@ -28,10 +28,10 @@ export async function getCustomer() {
       headers: await getAuthHeaders(),
       cache: 'no-store',
     });
+
     return customer;
   } catch (error) {
-    console.error(error);
-    return null;
+    if (error) return null;
   }
 }
 
@@ -52,9 +52,8 @@ export async function login(data: LoginArgs) {
     });
 
     // User already logged in handle that straightly
-    if (typeof token === 'object') {
-      return { state: 'success' as const, redirectUrl: token.location };
-    }
+    if (typeof token === 'object')
+      redirect(validatedData.data.redirect_url || '/');
 
     // If there is no token returned than handle the error
     if (typeof token !== 'string') {
@@ -70,13 +69,9 @@ export async function login(data: LoginArgs) {
     const cartId = await getCartId();
     if (cartId) {
       await sdk.store.cart.transferCart(cartId, {}, await getAuthHeaders());
-      revalidateTag('cart');
     }
 
-    return {
-      state: 'success' as const,
-      redirectUrl: validatedData.data.redirect_url || '/',
-    };
+    redirect(validatedData.data.redirect_url || '/');
   } catch (error) {
     return {
       state: 'error' as const,

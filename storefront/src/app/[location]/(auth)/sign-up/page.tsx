@@ -9,7 +9,7 @@ import { SignUpForm } from '@/components/auth/sign-up/SignUpForm';
 // Assets
 import ImageSignUpHero from '@/public/images/auth/sign-up-hero.png';
 
-export default function SignUp() {
+export default async function SignUp() {
   return (
     <Layout>
       <LayoutRow className="mt-22 h-[calc(100vh-88px)]">

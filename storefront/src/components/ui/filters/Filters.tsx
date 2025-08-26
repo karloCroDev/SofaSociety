@@ -34,6 +34,7 @@ export const Filters: React.FC<FilterProps> = ({
   sort,
   isCollectionHidden = false,
 }) => {
+  console.log('Uhh', appliedCollectionFilters);
   return (
     <div className="mt-6 flex justify-between lg:mt-8">
       <div className="hidden gap-4 lg:flex">

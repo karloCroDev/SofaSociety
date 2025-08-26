@@ -22,7 +22,6 @@ export const LoginForm = withReactQueryProvider(
       handleSubmit,
       formState: { errors, isSubmitting },
       setError,
-      reset,
       control,
     } = useForm<LoginArgs>({
       resolver: zodResolver(loginFormSchema),
@@ -35,12 +34,11 @@ export const LoginForm = withReactQueryProvider(
           redirect_url: redirectUrl || '/',
         },
         {
-          onSuccess(res) {
-            if (res.state === 'success') return reset();
-
-            setError('root', {
-              message: res.message,
-            });
+          onSuccess({ message, state }) {
+            if (state === 'error')
+              setError('root', {
+                message,
+              });
           },
         }
       );

@@ -65,7 +65,6 @@ export default async function Shop({ params, searchParams }: PageProps) {
                   {collectionConverter.success &&
                     collectionConverter.data.image?.url && (
                       <Image
-                        // Karlo: Dodaj u zod schemu
                         src={collectionConverter.data.image.url}
                         fill
                         alt="Scandinavian furniture"

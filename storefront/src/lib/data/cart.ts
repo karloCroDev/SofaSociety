@@ -30,7 +30,11 @@ export async function getCart() {
     const { cart } = await sdk.store.cart.retrieve(
       id,
       {},
-      await getAuthHeaders()
+      {
+        ...(await getAuthHeaders()),
+        next: { tags: ['cart'] },
+        // Ante: Next 15 sada sve forsira da je dynamic paaa ne moram
+      }
     );
 
     if (!cart || !cart.items || !cart.region_id) return;
@@ -46,13 +50,13 @@ export async function getCart() {
 async function initializeCart(location?: string) {
   try {
     if (!location) {
-      throw new Error('Enter the location bro');
+      throw new Error('Enter the location please');
     }
 
     const region = await getRegion(location);
 
     if (!region) {
-      throw new Error('Mann your living on north pole :(((((');
+      throw new Error('Mann your living on north pole :(');
     }
     let cart = await getCart();
 

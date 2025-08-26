@@ -1,17 +1,20 @@
 // Components
 import { DeleteButton } from '@/components/shop/cart/DeleteButton';
-import { HandleAddToCart } from '@/components/shop/cart/HandleAddToCart';
+import { CartItemPicker } from '@/components/shop/cart/HandleAddToCart';
+import { HttpTypes } from '@medusajs/types';
 
 export const Products: React.FC<{
+  cart: HttpTypes.StoreCart;
   image: React.ReactNode | undefined;
-  name: string;
-  color: string;
+  name: string | undefined;
+  color: string | undefined;
   price: string;
   itemId: string;
   originalPrice?: string;
   amount: number;
   maxAmount: number;
 }> = ({
+  cart,
   image,
   name,
   color,
@@ -25,8 +28,7 @@ export const Products: React.FC<{
     {image}
     <div className="flex flex-1 flex-col">
       <h4 className="text-md lg:text-lg">{name}</h4>
-      <p className="text-xs text-gray-500 lg:text-sm">{color}</p>
-
+      {color && <p className="text-xs text-gray-500 lg:text-sm">{color}</p>}
       <div className="flex items-center gap-2 py-4 lg:hidden">
         {originalPrice ? (
           <div className="flex flex-col">
@@ -41,7 +43,12 @@ export const Products: React.FC<{
         )}
       </div>
 
-      <HandleAddToCart itemId={itemId} maxAmount={maxAmount} amount={amount} />
+      <CartItemPicker
+        cart={cart}
+        itemId={itemId}
+        maxAmount={maxAmount}
+        amount={amount}
+      />
     </div>
     <div className="ml-auto flex flex-col">
       {originalPrice ? (

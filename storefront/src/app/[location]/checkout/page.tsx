@@ -11,6 +11,7 @@ import { Order } from '@/components/checkout/Order';
 
 // lib
 import { getCart } from '@/lib/data/cart';
+import { sdk } from '@/lib/config/config';
 
 export type StepTypes = 'email' | 'address' | 'shipping' | 'payment';
 
@@ -27,6 +28,14 @@ export default async function CheckoutPage({ searchParams }: PageProps) {
 
   const { stepURL } = await searchParams;
 
+  const taxRegion = await sdk.admin.taxRegion
+    .retrieve('123456')
+    .then(({ tax_region }) => {
+      console.log(tax_region);
+    })
+    .catch((err) => console.log(err));
+
+  console.log('Tax region', taxRegion);
   return (
     <>
       <div className="absolute left-0 top-0 w-full">

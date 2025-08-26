@@ -16,7 +16,6 @@ export default async function Login({
 }) {
   const { redirect_url } = await searchParams;
 
-  console.log('Redirect url', redirect_url);
   return (
     <Layout>
       <LayoutRow className="mt-22 h-[calc(100vh-88px)]">
@@ -45,7 +44,7 @@ export default async function Login({
               <Link
                 className="text-gray-900 underline underline-offset-4"
                 // Ante: Nezz je li praksa da se redirect_url passa i na sign up formu. Npr korinsk umjesto da se logira umjetst toga klikne link da se registrira i onda ga redirecta na stranicu di je htio ic prije logina?
-                href="/sign-up/"
+                href="/sign-up"
               >
                 register here.
               </Link>

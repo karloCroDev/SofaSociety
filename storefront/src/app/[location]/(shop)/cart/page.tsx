@@ -34,17 +34,22 @@ export default async function CartPage({
             Shopping cart
           </h1>
 
+          {!cart?.items?.length && (
+            <p className="text-md">Currently you have not ordered anything</p>
+          )}
           {cart?.items?.length ? (
             cart.items.map((item, i) => {
               const { original_price, calculated_price } = item.variant
                 ? (getPricesForVariant(item.variant) ?? {})
                 : {};
 
+              console.log('AAA', item.variant);
               return (
                 <Products
+                  cart={cart}
                   itemId={item.id}
-                  name={item.product_title || ''}
-                  color={item.variant?.title || ''}
+                  name={item.product_title}
+                  color={item.variant?.title ? item.variant.title : undefined}
                   image={
                     item.variant?.product?.thumbnail && (
                       <div className="relative h-full w-28">
@@ -64,7 +69,9 @@ export default async function CartPage({
                       : undefined
                   }
                   amount={item.quantity}
-                  maxAmount={item.variant?.inventory_quantity || 0}
+                  maxAmount={
+                    item.variant?.inventory_quantity || Number.MAX_SAFE_INTEGER
+                  }
                   key={i}
                 />
               );

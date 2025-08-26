@@ -33,6 +33,7 @@ export const Shipping: React.FC<{
   const { data: allShippingMethods } = useGetCartShippingOptions(cart.id);
   const { mutate } = useShippingOptionCheckout();
 
+  console.log('Shipping methods', allShippingMethods);
   return (
     <RadixAccordion.Item value="shipping" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">

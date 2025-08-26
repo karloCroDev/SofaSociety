@@ -62,8 +62,6 @@ const OrderCard: React.FC<{
     <div className="mb-4 rounded border border-gray-200 p-4">
       <div className="flex">
         <div>
-          {/* TODO: Pari mi da ti je ovaj `<div>` na liniji ispod višak. FIXED*/}
-
           <div className="lg:text-md">
             <h4 className="font-bold">Order:</h4>
             <p>{orderId}</p>

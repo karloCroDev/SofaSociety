@@ -88,7 +88,6 @@ export const LanguageSelect: React.FC<{
       selectedKey={countryCode}
       aria-label="Country Selector"
       onSelectionChange={(key) => {
-        console.log(key);
         mutate(
           { countryCode: key.toString(), currentPath },
           {
@@ -104,14 +103,15 @@ export const LanguageSelect: React.FC<{
           {/* Customize display: show the country code of the selected item */}
 
           <SelectValue className="uppercase">
-            {(item) =>
-              typeof item.selectedItem === 'object' &&
-              !!item.selectedItem &&
-              'country' in item.selectedItem &&
-              typeof item.selectedItem.country === 'string'
+            {(item) => {
+              console.log(item);
+              return typeof item.selectedItem === 'object' &&
+                !!item.selectedItem &&
+                'country' in item.selectedItem &&
+                typeof item.selectedItem.country === 'string'
                 ? item.selectedItem.country
-                : item.defaultChildren
-            }
+                : item.defaultChildren;
+            }}
           </SelectValue>
           <Icon name="chevron" />
         </div>

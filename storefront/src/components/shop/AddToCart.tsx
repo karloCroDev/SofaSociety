@@ -16,12 +16,14 @@ export const AddToCart: React.FC<
     React.ComponentPropsWithoutRef<'div'> & {
       size?: 'sm' | 'lg';
       setAmount?: React.Dispatch<React.SetStateAction<number>>;
+      isPending: boolean;
     }
 > = ({
   size = 'sm',
   setAmount,
   className,
   defaultValue,
+  isPending,
   onChange,
   ...rest
 }) => {
@@ -49,6 +51,7 @@ export const AddToCart: React.FC<
           slot="decrement"
           className={twJoin(
             'cursor-pointer text-gray-500',
+            isPending && 'cursor-not-allowed text-red-900',
             size === 'lg' && 'text-lg'
           )}
         >
@@ -60,6 +63,7 @@ export const AddToCart: React.FC<
           slot="increment"
           className={twJoin(
             'cursor-pointer text-gray-500',
+            isPending && 'cursor-not-allowed text-red-900',
             size === 'lg' && 'text-lg'
           )}
         >

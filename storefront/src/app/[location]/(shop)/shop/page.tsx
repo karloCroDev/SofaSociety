@@ -37,7 +37,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
 
   const { page, category, collection, sortBy, type } = await searchParams;
   const [collections, categories, types] = await Promise.all([
-    getCollectionsList({ fields: ['id', 'metadata', 'handle'] }),
+    getCollectionsList({ fields: ['id', 'metadata', 'handle', 'title'] }),
     getSpecificCategories({
       fields: ['id', 'name', 'handle'],
     }),
@@ -67,7 +67,7 @@ export default async function Shop({ params, searchParams }: PageProps) {
                       <Image
                         src={collectionConverter.data.image.url}
                         fill
-                        alt="Scandinavian furniture"
+                        alt={collectionConverter.data.description || ''}
                       />
                     )}
                 </div>

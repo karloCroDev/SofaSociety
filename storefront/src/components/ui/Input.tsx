@@ -35,7 +35,6 @@ export const Input: React.FC<
             'peer h-14 w-full rounded border border-gray-200 px-4 pt-3 text-gray-900 outline-none placeholder-shown:pt-0 hover:border-gray-500 focus:border-gray-500 data-[invalid]:border-red-400',
             inputProps?.className
           )}
-          // TODO: Ovo ispod bi rješio preko `placeholder-shown FIXED`.
           placeholder=""
         />
         <Label className="absolute left-4 top-1/2 origin-left -translate-y-[22px] scale-75 transition-transform peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100">

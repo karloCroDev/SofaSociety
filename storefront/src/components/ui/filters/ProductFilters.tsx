@@ -24,7 +24,6 @@ export const ProductFilters: React.FC<{
 }> = ({ productFilters, appliedProductFilters, type }) => {
   const setUrlParams = useSetUrlParams();
 
-  console.log(appliedProductFilters);
   return (
     <CheckboxGroup
       className="flex flex-col gap-8"

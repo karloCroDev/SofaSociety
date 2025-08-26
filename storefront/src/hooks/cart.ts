@@ -17,10 +17,11 @@ import {
   updateRegion,
 } from '@/lib/data/cart';
 
-export const useCart = () =>
+export const useCart = (initialData?: HttpTypes.StoreCart) =>
   useQuery({
     queryKey: ['cart'],
     queryFn: () => getCart(),
+    initialData,
   });
 
 export type AddItemToCartArgs = HttpTypes.StoreAddCartLineItem & {

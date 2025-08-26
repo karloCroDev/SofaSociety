@@ -41,7 +41,7 @@ const CollectionImage: React.FC<{ collection: HttpTypes.StoreCollection }> = ({
       <Image
         src={validatedMetadata.data.image.url}
         fill
-        alt={collection.title}
+        alt={collection.title || ''}
       />
     </div>
   );

@@ -22,7 +22,6 @@ export default function CookiePolicy() {
               conditions. If you do not agree with any part of these terms,
               please do not use our website.
             </p>
-            {/* TODO: Nemoj koristiti `<div>` elemente unutar `.article`, margine riješi tako da ćeš ih dodati na naslove (margin-top). FIXED*/}
 
             <h4>1. What Are Cookies:</h4>
             <p>

@@ -4,7 +4,7 @@
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { HttpTypes } from '@medusajs/types';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -25,29 +25,29 @@ export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
 }> = withReactQueryProvider(({ cart, stepURL }) => {
-  const pathname = usePathname();
-  const router = useRouter();
+  // const pathname = usePathname();
+  // const router = useRouter();
 
   const searchParams = useSearchParams();
 
-  const [hasLoaded, setHadLoaded] = React.useState(false);
+  // const [hasLoaded, setHadLoaded] = React.useState(false);
 
   // Karlo: Kada rijesis problem s regionom onda ovo stavi jer trenutno je u test modu
 
-  React.useEffect(() => {
-    if (hasLoaded) return;
+  // React.useEffect(() => {
+  //   if (hasLoaded) return;
 
-    let currentStep: StepTypes; // Default to last step if there are no previous steps
+  //   let currentStep: StepTypes; // Default to last step if there are no previous steps
 
-    if (!cart.email) currentStep = 'email';
-    else if (!cart.shipping_address) currentStep = 'address';
-    else if (!cart.shipping_methods?.length) currentStep = 'shipping';
-    else currentStep = 'payment';
+  //   if (!cart.email) currentStep = 'email';
+  //   else if (!cart.shipping_address) currentStep = 'address';
+  //   else if (!cart.shipping_methods?.length) currentStep = 'shipping';
+  //   else currentStep = 'payment';
 
-    router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
+  //   router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
 
-    setHadLoaded(true);
-  }, []);
+  //   setHadLoaded(true);
+  // }, []);
 
   const step = searchParams.get('step');
 

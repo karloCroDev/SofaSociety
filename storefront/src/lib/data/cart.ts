@@ -10,6 +10,7 @@ import {
   DeleteItemArgs,
   UpdateCartItemArgs,
   updateCartSchema,
+  UpdateRegionArgs,
 } from '@/hooks/cart';
 
 // Lib
@@ -19,6 +20,7 @@ import { enrichLineItems } from '@/lib/util/enrich-line-items';
 import { medusaError } from '@/lib/util/medusa-error';
 import { sdk } from '@/lib/config/config';
 import { setCartId } from '@/lib/data/cookies';
+import { updateCart } from '@/lib/data/checkout';
 
 export async function getCart() {
   const id = await getCartId();
@@ -151,4 +153,30 @@ export async function deleteCartItem(data: DeleteItemArgs) {
   } catch (error) {
     medusaError(error);
   }
+}
+
+export async function updateRegion({
+  countryCode,
+  currentPath,
+}: UpdateRegionArgs) {
+  if (typeof countryCode !== 'string' || typeof currentPath !== 'string') {
+    throw new Error('Invalid country code or current path');
+  }
+
+  const [cartId, region] = await Promise.all([
+    getCartId(),
+    getRegion(countryCode),
+  ]);
+
+  if (!region) {
+    throw new Error(`Region not found for country code: ${countryCode}`);
+  }
+
+  if (cartId) {
+    await updateCart({ region_id: region.id });
+    revalidateTag('cart');
+  }
+
+  revalidateTag('regions');
+  revalidateTag('products');
 }

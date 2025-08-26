@@ -5,9 +5,9 @@ import { twJoin } from 'tailwind-merge';
 export const ProductCard: React.FC<
   React.ComponentPropsWithoutRef<'a'> &
     LinkProps & {
-      image: React.ReactNode;
+      image: React.ReactNode | undefined;
       name: string;
-      category: string;
+      category: string | undefined;
       price: string | undefined;
       originalPrice?: string;
     }
@@ -17,7 +17,9 @@ export const ProductCard: React.FC<
     <div className="mt-6 flex flex-col md:flex-row md:justify-between">
       <div>
         <h4>{name}</h4>
-        <p className="hidden text-sm text-gray-500 lg:block">{category}</p>
+        {category && (
+          <p className="hidden text-sm text-gray-500 lg:block">{category}</p>
+        )}
       </div>
       <div>
         {price && (

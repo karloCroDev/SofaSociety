@@ -52,16 +52,18 @@ export default async function Inspiration({ params }: PageProps) {
         <ProductCard
           key={product.id}
           name={product.title}
-          category={product.collection!.title}
+          category={product.collection?.title}
           image={
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={product.thumbnail!}
-                className="object-cover"
-                alt={product.description!}
-                fill
-              />
-            </div>
+            product.thumbnail && (
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={product.thumbnail}
+                  className="object-cover"
+                  alt={product.description || ''}
+                  fill
+                />
+              </div>
+            )
           }
           price={cheapestPrice?.calculated_price}
           originalPrice={

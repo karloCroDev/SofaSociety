@@ -87,7 +87,6 @@ export default function About() {
               We believe that great design should be environmentally conscious,
               which is why we strive to minimise our environmental footprint
               through responsible sourcing and production practices.
-              {/* TODO: Ovaj `<span>` izbaci van ovog paragrafa i ispod dodaj novi paragraf koji ćeš stilizirati kao ovaj postojeći `<span>`. Imaš ispod na još jednom mjestu istu stvar.  FIXED*/}
             </p>
             <p className="mt-6 block text-lg lg:mt-36 lg:inline">
               Our commitment to sustainability ensures that our products are not

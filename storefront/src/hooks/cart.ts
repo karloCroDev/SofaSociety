@@ -14,8 +14,8 @@ import {
   deleteCartItem,
   getCart,
   updateCartItem,
+  updateRegion,
 } from '@/lib/data/cart';
-import { updateRegion } from '@/lib/data/regions';
 
 export const useCart = () =>
   useQuery({

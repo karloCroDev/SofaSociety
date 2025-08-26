@@ -77,7 +77,7 @@ export async function getCollectionsWithProducts(
 
   const { response } = await getProductsList({
     queryParams: { collection_id: collectionIds },
-    countryCode,
+    location: countryCode,
   });
 
   response.products.forEach((product) => {

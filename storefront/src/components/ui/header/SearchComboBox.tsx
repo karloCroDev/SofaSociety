@@ -108,18 +108,16 @@ const ListBoxMapping: React.FC<{
               onAction={() => router.push(`/product/${product.handle}`)}
               className="flex cursor-pointer gap-2 border-b border-gray-300 p-6 hover:bg-gray-200"
             >
-              <div className="relative h-24 w-20">
-                <Image
-                  src={
-                    product.images && product.images.length > 0
-                      ? product.images[0].url
-                      : ''
-                  }
-                  alt={product.title}
-                  className="object-cover"
-                  fill
-                />
-              </div>
+              {product.images && product.images.length > 0 && (
+                <div className="relative h-24 w-20">
+                  <Image
+                    src={product.images[0].url}
+                    alt={product.title}
+                    className="object-cover"
+                    fill
+                  />
+                </div>
+              )}
               <div>
                 <p>{product.title}</p>
                 {product.variants && (

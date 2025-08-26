@@ -89,22 +89,22 @@ export async function getProductFashionDataByHandle(handle: string) {
 export async function getProductsList({
   pageParam = 1,
   queryParams,
-  countryCode,
+  location,
 }: {
   pageParam?: number;
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductListParams;
-  countryCode: string;
+  location: string;
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number };
   nextPage: number | null;
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductListParams;
 }> {
-  if (!countryCode) throw new Error('Country code is required');
+  if (!location) throw new Error('Country code is required');
 
   const page = Math.max(1, pageParam || 1);
   const limit = queryParams?.limit || 12;
   const offset = (page - 1) * limit;
-  const region = await getRegion(countryCode);
+  const region = await getRegion(location);
 
   if (!region) {
     return {
@@ -166,7 +166,7 @@ export async function getProductsListWithSort({
       ...queryParams,
       limit: 100,
     },
-    countryCode,
+    location: countryCode,
   });
 
   const sortedProducts = sortProducts(products, sortBy);

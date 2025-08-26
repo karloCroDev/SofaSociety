@@ -30,10 +30,11 @@ export const Order: React.FC<{
         : {};
       return (
         <div className="mt-8 flex gap-3" key={item.id}>
-          <div className="relative h-40 w-32 bg-white lg:bg-transparent">
-            <Image src={item.thumbnail || ''} alt="Example" fill />
-          </div>
-
+          {item.thumbnail && (
+            <div className="relative h-40 w-32 bg-white lg:bg-transparent">
+              <Image src={item.thumbnail} alt="Example" fill />
+            </div>
+          )}
           <div className="flex flex-1 flex-col justify-between">
             <h4 className="font-bold">{item.title}</h4>
             <ul>

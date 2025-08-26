@@ -46,14 +46,16 @@ export default async function CartPage({
                   name={item.product_title || ''}
                   color={item.variant?.title || ''}
                   image={
-                    <div className="relative h-full w-28">
-                      <Image
-                        src={item.variant?.product?.thumbnail || ''}
-                        alt="XXX product"
-                        className="h-full w-full object-cover"
-                        fill
-                      />
-                    </div>
+                    item.variant?.product?.thumbnail && (
+                      <div className="relative h-full w-28">
+                        <Image
+                          src={item.variant?.product?.thumbnail || ''}
+                          alt="XXX product"
+                          className="h-full w-full object-cover"
+                          fill
+                        />
+                      </div>
+                    )
                   }
                   price={original_price!}
                   originalPrice={

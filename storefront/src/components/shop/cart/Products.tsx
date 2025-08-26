@@ -3,7 +3,7 @@ import { DeleteButton } from '@/components/shop/cart/DeleteButton';
 import { HandleAddToCart } from '@/components/shop/cart/HandleAddToCart';
 
 export const Products: React.FC<{
-  image: React.ReactNode;
+  image: React.ReactNode | undefined;
   name: string;
   color: string;
   price: string;

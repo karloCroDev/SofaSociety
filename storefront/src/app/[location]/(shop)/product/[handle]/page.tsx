@@ -73,14 +73,17 @@ export default async function ProductPage({ params }: PageProps) {
         <h2 className="mt-24 text-xl font-medium lg:mt-20 lg:text-3xl">
           {collectionData.data?.product_page_heading}
         </h2>
-        <div className="relative mt-8 max-w-[100vw] lg:h-[500px] 2xl:h-[800px]">
-          <Image
-            src={collectionData.data?.product_page_image?.url || ''}
-            alt="Inspired interior"
-            className="object-cover"
-            fill
-          />
-        </div>
+
+        {collectionData.data.product_page_image?.url && (
+          <div className="relative mt-8 max-w-[100vw] lg:h-[500px] 2xl:h-[800px]">
+            <Image
+              src={collectionData.data.product_page_image.url}
+              alt="Inspired interior"
+              className="object-cover"
+              fill
+            />
+          </div>
+        )}
       </Layout>
       <div className="relative mt-8 h-[400px] w-screen overflow-hidden lg:mt-20 lg:h-[800px] 2xl:h-[1200px]">
         <Image

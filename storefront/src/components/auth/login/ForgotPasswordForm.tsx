@@ -43,7 +43,7 @@ export const ForgotPasswordForm = () => {
 
     setError('email', {
       message:
-        "Uhoh that email address doesn't exists, please make sure you entered the correct email address",
+        "That email address doesn't exists, please make sure you entered the correct email address",
     });
   };
 

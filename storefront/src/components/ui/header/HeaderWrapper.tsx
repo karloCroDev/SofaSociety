@@ -88,14 +88,7 @@ export const LanguageSelect: React.FC<{
       selectedKey={countryCode}
       aria-label="Country Selector"
       onSelectionChange={(key) => {
-        mutate(
-          { countryCode: key.toString(), currentPath },
-          {
-            onSuccess: () => {
-              console.log('Hello world');
-            },
-          }
-        );
+        mutate({ countryCode: key.toString(), currentPath });
       }}
     >
       <AriaButton className="outline-none">
@@ -104,7 +97,6 @@ export const LanguageSelect: React.FC<{
 
           <SelectValue className="uppercase">
             {(item) => {
-              console.log(item);
               return typeof item.selectedItem === 'object' &&
                 !!item.selectedItem &&
                 'country' in item.selectedItem &&

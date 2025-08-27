@@ -59,7 +59,7 @@ export async function login(data: LoginArgs) {
     if (typeof token !== 'string') {
       return {
         state: 'error' as const,
-        message: 'Uhoh something went wrong please try again',
+        message: 'Something went wrong please try again',
       };
     }
 
@@ -119,7 +119,7 @@ export async function signUp(data: SignUpArgs) {
     if (typeof loginToken !== 'string') {
       return {
         state: 'error' as const,
-        message: 'Uhoh something went wrong please try again',
+        message: 'Something went wrong please try again',
       };
     }
     await setAuthToken(loginToken);

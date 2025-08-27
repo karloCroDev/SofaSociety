@@ -97,9 +97,12 @@ export async function addressCheckout(data: CustomerAddressArgs) {
 export async function getAllShippingOptions(cartId: string) {
   try {
     if (!cartId) throw new Error('Cart ID is required');
-    const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
-      cart_id: cartId,
-    });
+    const { shipping_options } = await sdk.store.fulfillment.listCartOptions(
+      {
+        cart_id: cartId,
+      },
+      await getAuthHeaders()
+    );
     return shipping_options;
   } catch (error) {
     medusaError(error);

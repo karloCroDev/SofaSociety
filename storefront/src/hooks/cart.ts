@@ -5,6 +5,7 @@ import {
   UseMutationOptions,
   useQuery,
   useQueryClient,
+  UseQueryOptions,
 } from '@tanstack/react-query';
 import { z } from 'zod';
 
@@ -17,11 +18,16 @@ import {
   updateRegion,
 } from '@/lib/data/cart';
 
-export const useCart = (initialData?: HttpTypes.StoreCart) =>
+export const useCart = (
+  options?: Omit<
+    UseQueryOptions<HttpTypes.StoreCart | undefined>,
+    'queryKey' | 'queryFn'
+  >
+) =>
   useQuery({
+    ...options,
     queryKey: ['cart'],
     queryFn: () => getCart(),
-    initialData,
   });
 
 export type AddItemToCartArgs = HttpTypes.StoreAddCartLineItem & {

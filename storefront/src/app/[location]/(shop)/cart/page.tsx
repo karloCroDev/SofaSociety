@@ -34,16 +34,12 @@ export default async function CartPage({
             Shopping cart
           </h1>
 
-          {!cart?.items?.length && (
-            <p className="text-md">Currently you have not ordered anything</p>
-          )}
           {cart?.items?.length ? (
             cart.items.map((item, i) => {
               const { original_price, calculated_price } = item.variant
                 ? (getPricesForVariant(item.variant) ?? {})
                 : {};
 
-              console.log('AAA', item.variant);
               return (
                 <Products
                   cart={cart}
@@ -54,7 +50,7 @@ export default async function CartPage({
                     item.variant?.product?.thumbnail && (
                       <div className="relative h-full w-28">
                         <Image
-                          src={item.variant?.product?.thumbnail || ''}
+                          src={item.variant.product.thumbnail}
                           alt="XXX product"
                           className="h-full w-full object-cover"
                           fill

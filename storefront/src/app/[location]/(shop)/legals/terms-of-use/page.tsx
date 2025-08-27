@@ -37,7 +37,7 @@ export default function TermsOfUse() {
               </p>
 
               <h4>2. Use of the Website:</h4>
-              {/* TODO: Ovu `<ol>` listu provjeri u dizajnu molim te, mislim da razmaci i uvlake nisu dobre. FIXED */}
+
               <ol>
                 <li>
                   Eligibility: You must be at least 16 years old to use our

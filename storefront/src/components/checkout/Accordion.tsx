@@ -55,7 +55,7 @@ export const Accordion: React.FC<{
     !!cart.email &&
     !!cart.shipping_address &&
     !!cart.billing_address &&
-    // TODO: @karloCroDev postavi tax region u medusa admin
+    // TODO: @karloCroDev  postavi tax region u medusa admin
 
     // Array.isArray(cart.shipping_methods) &&
     // cart.shipping_methods.length > 0 &&

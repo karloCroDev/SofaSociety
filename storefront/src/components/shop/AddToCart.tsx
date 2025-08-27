@@ -16,7 +16,7 @@ export const AddToCart: React.FC<
     React.ComponentPropsWithoutRef<'div'> & {
       size?: 'sm' | 'lg';
       setAmount?: React.Dispatch<React.SetStateAction<number>>;
-      isPending: boolean;
+      isPending?: boolean;
     }
 > = ({
   size = 'sm',
@@ -51,9 +51,10 @@ export const AddToCart: React.FC<
           slot="decrement"
           className={twJoin(
             'cursor-pointer text-gray-500',
-            isPending && 'cursor-not-allowed text-red-900',
+            isPending && 'disabled:cursor-not-allowed disabled:text-red-900',
             size === 'lg' && 'text-lg'
           )}
+          isDisabled={isPending} // Ante: Je li ovako oke, ili trebam jos dodatno debounceati?
         >
           -
         </Button>
@@ -63,9 +64,10 @@ export const AddToCart: React.FC<
           slot="increment"
           className={twJoin(
             'cursor-pointer text-gray-500',
-            isPending && 'cursor-not-allowed text-red-900',
+            isPending && 'disabled:cursor-not-allowed disabled:text-red-900',
             size === 'lg' && 'text-lg'
           )}
+          isDisabled={isPending}
         >
           +
         </Button>

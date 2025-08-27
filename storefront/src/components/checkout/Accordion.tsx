@@ -4,7 +4,7 @@
 import * as React from 'react';
 import * as RadixAccordion from '@radix-ui/react-accordion';
 import { HttpTypes } from '@medusajs/types';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -25,29 +25,27 @@ export const Accordion: React.FC<{
   cart: HttpTypes.StoreCart;
   stepURL?: StepTypes;
 }> = withReactQueryProvider(({ cart, stepURL }) => {
-  // const pathname = usePathname();
-  // const router = useRouter();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const searchParams = useSearchParams();
 
-  // const [hasLoaded, setHadLoaded] = React.useState(false);
+  const [hasLoaded, setHadLoaded] = React.useState(false);
 
-  // Karlo: Kada rijesis problem s regionom onda ovo stavi jer trenutno je u test modu
+  React.useEffect(() => {
+    if (hasLoaded) return;
 
-  // React.useEffect(() => {
-  //   if (hasLoaded) return;
+    let currentStep: StepTypes; // Default to last step if there are no previous steps
 
-  //   let currentStep: StepTypes; // Default to last step if there are no previous steps
+    if (!cart.email) currentStep = 'email';
+    else if (!cart.shipping_address) currentStep = 'address';
+    else if (!cart.shipping_methods?.length) currentStep = 'shipping';
+    else currentStep = 'payment';
 
-  //   if (!cart.email) currentStep = 'email';
-  //   else if (!cart.shipping_address) currentStep = 'address';
-  //   else if (!cart.shipping_methods?.length) currentStep = 'shipping';
-  //   else currentStep = 'payment';
+    router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
 
-  //   router.replace(`${pathname}?stepURL=${currentStep}`, { scroll: false });
-
-  //   setHadLoaded(true);
-  // }, []);
+    setHadLoaded(true);
+  }, []);
 
   const step = searchParams.get('step');
 
@@ -55,19 +53,17 @@ export const Accordion: React.FC<{
     !!cart.email &&
     !!cart.shipping_address &&
     !!cart.billing_address &&
-    // TODO: @karloCroDev  postavi tax region u medusa admin
-
-    // Array.isArray(cart.shipping_methods) &&
-    // cart.shipping_methods.length > 0 &&
+    Array.isArray(cart.shipping_methods) &&
+    cart.shipping_methods.length > 0 &&
     !!cart.payment_collection;
 
   return (
     <Elements
       stripe={stripe}
-      // options={{
-      //   clientSecret: cart?.payment_collection?.payment_sessions?.[0].data
-      //     .client_secret as string,
-      // }}
+      options={{
+        clientSecret: cart?.payment_collection?.payment_sessions?.[0].data
+          .client_secret as string,
+      }}
     >
       <RadixAccordion.Root
         type="single"

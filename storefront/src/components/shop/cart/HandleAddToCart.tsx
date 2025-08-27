@@ -81,8 +81,6 @@ export const CartItemPicker: React.FC<{
     },
   });
 
-  console.log(isPending);
-
   return (
     <AddToCart
       className="mt-auto !w-fit"

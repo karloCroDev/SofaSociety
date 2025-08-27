@@ -31,7 +31,7 @@ export const Shipping: React.FC<{
   const isOpen = searchParams.get('step') === 'shipping';
 
   const { data: allShippingMethods } = useGetCartShippingOptions(cart.id);
-  const { mutate } = useShippingOptionCheckout();
+  const { mutate, isPending } = useShippingOptionCheckout();
 
   const [selectShippingMethod, setSelectShippingMethod] =
     React.useState<ShippingOptionCheckoutArgs>({
@@ -64,11 +64,17 @@ export const Shipping: React.FC<{
         )}
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
-        {/* Karlo: Kada dobijes vrijednosti testiraj ovo! */}
         <RadioGroup
           defaultValue={cart.shipping_methods?.[0].shipping_option_id}
           className="flex flex-col gap-4"
           onChange={(val) => {
+            if (cart.shipping_methods?.[0].shipping_option_id)
+              // If user has already entered this section so to just bunce him off
+              return mutate({
+                cartId: cart.id,
+                optionId: val,
+              });
+
             setSelectShippingMethod({ cartId: cart.id, optionId: val });
           }}
         >
@@ -89,6 +95,8 @@ export const Shipping: React.FC<{
           size="lg"
           type="submit"
           className="my-8"
+          isDisabled={!selectShippingMethod.optionId || isPending}
+          isVisuallyDisabled={!selectShippingMethod.optionId || isPending}
           onPress={() =>
             mutate(selectShippingMethod, {
               onSuccess: () => {

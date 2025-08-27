@@ -9,6 +9,7 @@ import {
   emailFormSchema,
   ShippingOptionCheckoutArgs,
   shippingOptionCheckoutSchema,
+  // shippingOptionCheckoutSchema,
 } from '@/hooks/checkout';
 import {
   CustomerAddressArgs,
@@ -116,9 +117,15 @@ export async function shippingOptionCheckout(data: ShippingOptionCheckoutArgs) {
     if (!validatedData.success) {
       throw new Error('Invalid shipping option data');
     }
-    await sdk.store.cart.addShippingMethod(validatedData.data.cartId, {
-      option_id: validatedData.data.optionId,
-    });
+    await sdk.store.cart.addShippingMethod(
+      validatedData.data.cartId,
+      {
+        option_id: validatedData.data.optionId,
+        data: {},
+      },
+      {},
+      await getAuthHeaders()
+    );
   } catch (error) {
     medusaError(error);
   }

@@ -12,6 +12,7 @@ import { RadioButtonVisual } from '@/components/ui/Radio';
 
 // Hooks
 import {
+  ShippingOptionCheckoutArgs,
   useGetCartShippingOptions,
   useShippingOptionCheckout,
 } from '@/hooks/checkout';
@@ -29,11 +30,15 @@ export const Shipping: React.FC<{
 
   const isOpen = searchParams.get('step') === 'shipping';
 
-  // TODO: @karloCroDev definirati shipping methods & options u medusa admin
   const { data: allShippingMethods } = useGetCartShippingOptions(cart.id);
   const { mutate } = useShippingOptionCheckout();
 
-  console.log('Shipping methods', allShippingMethods);
+  const [selectShippingMethod, setSelectShippingMethod] =
+    React.useState<ShippingOptionCheckoutArgs>({
+      cartId: cart.id,
+      optionId: cart.shipping_methods?.[0].shipping_option_id || '',
+    });
+
   return (
     <RadixAccordion.Item value="shipping" className="border-t">
       <RadixAccordion.Header className="group w-full py-8">
@@ -61,9 +66,10 @@ export const Shipping: React.FC<{
       <RadixAccordion.Content className="overflow-hidden transition-colors data-[state=closed]:animate-slide-up-accordion data-[state=open]:animate-slide-down-accordion">
         {/* Karlo: Kada dobijes vrijednosti testiraj ovo! */}
         <RadioGroup
-          defaultValue="Standard delivery"
+          defaultValue={cart.shipping_methods?.[0].shipping_option_id}
+          className="flex flex-col gap-4"
           onChange={(val) => {
-            mutate({ cartId: cart.id, optionId: val.toString() });
+            setSelectShippingMethod({ cartId: cart.id, optionId: val });
           }}
         >
           {allShippingMethods?.map((method) => (
@@ -84,7 +90,11 @@ export const Shipping: React.FC<{
           type="submit"
           className="my-8"
           onPress={() =>
-            router.replace(`${pathname}?step=payment`, { scroll: false })
+            mutate(selectShippingMethod, {
+              onSuccess: () => {
+                router.replace(`${pathname}?step=payment`, { scroll: false });
+              },
+            })
           }
         >
           Next

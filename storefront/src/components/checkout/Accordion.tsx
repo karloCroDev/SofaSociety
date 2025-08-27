@@ -64,10 +64,10 @@ export const Accordion: React.FC<{
   return (
     <Elements
       stripe={stripe}
-      options={{
-        clientSecret: cart?.payment_collection?.payment_sessions?.[0].data
-          .client_secret as string,
-      }}
+      // options={{
+      //   clientSecret: cart?.payment_collection?.payment_sessions?.[0].data
+      //     .client_secret as string,
+      // }}
     >
       <RadixAccordion.Root
         type="single"

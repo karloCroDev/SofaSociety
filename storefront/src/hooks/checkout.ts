@@ -79,8 +79,8 @@ export const useGetCartShippingOptions = (cartId: string) => {
 };
 
 export const shippingOptionCheckoutSchema = z.object({
-  cartId: z.string().uuid(),
-  optionId: z.string().uuid(),
+  cartId: z.string(),
+  optionId: z.string(),
 });
 export type ShippingOptionCheckoutArgs = z.infer<
   typeof shippingOptionCheckoutSchema

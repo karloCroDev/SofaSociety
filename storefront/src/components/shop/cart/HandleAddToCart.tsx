@@ -16,6 +16,7 @@ import {
 // lib
 import { withReactQueryProvider } from '@/lib/config/react-query';
 import { HttpTypes } from '@medusajs/types';
+import { useDebounce } from '@/hooks/util/useDebounce';
 
 export const CartItemPicker: React.FC<{
   cart: HttpTypes.StoreCart; // Dodaj ovo za
@@ -75,21 +76,26 @@ export const CartItemPicker: React.FC<{
 
   // Ante: Approach 2: Ručno handleanje sa podatcima
   const [localAmount, setLocalAmount] = React.useState(amount);
+
+  const debounceAmountValue = useDebounce(localAmount, 1000);
   const { mutate, isPending } = useUpdateCartItem({
     onError: () => {
       setLocalAmount(amount);
     },
   });
 
+  React.useEffect(() => {
+    mutate({
+      lineItemId: itemId,
+      quantity: localAmount,
+    });
+  }, [debounceAmountValue]);
+
   return (
     <AddToCart
       className="mt-auto !w-fit"
       maxValue={maxAmount}
       onChange={(value) => {
-        mutate({
-          lineItemId: itemId,
-          quantity: value as number,
-        });
         setLocalAmount(value as number);
       }}
       isPending={isPending} // Je li ovo dovoljno ili moram još dodatno debouncati

@@ -8,6 +8,7 @@ import { AddToCart } from '@/components/shop/AddToCart';
 
 // Hooks
 import {
+  useCart,
   // useCart,
   useUpdateCartItem,
 } from '@/hooks/cart';
@@ -17,38 +18,44 @@ import {
 import { withReactQueryProvider } from '@/lib/config/react-query';
 import { HttpTypes } from '@medusajs/types';
 import { useDebounce } from '@/hooks/util/useDebounce';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const CartItemPicker: React.FC<{
   cart: HttpTypes.StoreCart; // Dodaj ovo za
   itemId: string;
   amount: number;
   maxAmount: number;
-}> = withReactQueryProvider(({ amount, itemId, maxAmount }) => {
-  // Ante: Reci mi samo koji je bolji nacin za handlanje optimistic updatea
+}> = withReactQueryProvider(({ amount, itemId, maxAmount, cart }) => {
+  const queryClient = useQueryClient();
+  const { data: clientCart } = useCart({
+    initialData: cart,
+  });
 
-  // Ante: Approach 1: Handleanje sa react queryiem, nista dodatno ne fectham samo passam cart sa server paa od cart i onda handleam (optimistic update)
+  // Karlo: Handle the inital load to be the client and then. Why because this won't be saved in memory
 
-  // const queryClient = useQueryClient();
-  // const { data: clientCart } = useCart({
-  //   initialData: cart,
-  // });
+  // const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
+  // const pendingUpdatesRef = React.useRef<Record<string, number>>({}); // lineItemId -> quantity
+
   // const { mutate, isPending } = useUpdateCartItem({
-  //   onMutate: async (newItem) => {
+  //   onMutate: async (newItems) => {
+  //     // cancel any running queries
   //     await queryClient.cancelQueries({ queryKey: ['cart'] });
 
   //     const prevCart = queryClient.getQueryData<HttpTypes.StoreCart>(['cart']);
 
-  //     // optimistic update
+  //     // optimistic update in cache
   //     queryClient.setQueryData(
   //       ['cart'],
   //       (old: HttpTypes.StoreCart | undefined) => {
   //         if (!old) return old;
   //         return {
   //           ...old,
-  //           items: old.items?.map((item) =>
-  //             item.id === newItem.lineItemId
-  //               ? { ...item, quantity: newItem.quantity }
-  //               : item
+  //           items: old.items?.map((item) => {
+
+  //             return newItems.lineItemId === item.id
+  //             ? { ...item, quantity: newItems.quantity }
+  //             : item
+  //           }
   //           ),
   //         };
   //       }
@@ -56,15 +63,13 @@ export const CartItemPicker: React.FC<{
 
   //     return { prevCart };
   //   },
-  //   onError: (
-  //     _err,
-  //     _newItem,
-  //     context: unknown // Ante: Je li znaš možda zašto ne inferam typesafety
-  //   ) => {
+  //   onError: (_err, _newItem, context) => {
+
   //     const ctx = context as
   //       | { prevCart: HttpTypes.StoreCart | undefined }
   //       | undefined;
   //     if (!ctx?.prevCart) return;
+  //     if (!ctx.prevCart) return;
   //     queryClient.setQueryData(['cart'], ctx.prevCart);
   //   },
   //   onSettled: () => {
@@ -72,24 +77,35 @@ export const CartItemPicker: React.FC<{
   //   },
   // });
 
+  // const queueUpdate = (lineItemId: string, quantity: number) => {
+  //   // save latest intended quantity
+  //   pendingUpdatesRef.current[lineItemId] = quantity;
+
+  //   // optimistic update immediately
+  //   queryClient.setQueryData(['cart'], (old: HttpTypes.StoreCart | undefined) => {
+  //     if (!old) return old;
+  //     return {
+  //       ...old,
+  //       items: old.items?.map((item) =>
+  //         item.id === lineItemId ? { ...item, quantity } : item
+  //       ),
+  //     };
+  //   });
+
+  //   // reset global debounce
+  //   if (debounceRef.current) clearTimeout(debounceRef.current);
+
+  //   debounceRef.current = setTimeout(() => {
+  //     // flush all pending updates in one request
+  //     const updates = { ...pendingUpdatesRef.current };
+  //     pendingUpdatesRef.current = {};
+  //     mutate(updates);
+  //   }, 20000); // 20s
+  // };
+
   // const lineItemData = clientCart?.items?.find((item) => item.id === itemId);
 
-  // Ante: Approach 2: Ručno handleanje sa podatcima
   const [localAmount, setLocalAmount] = React.useState(amount);
-
-  const debounceAmountValue = useDebounce(localAmount, 1000);
-  const { mutate, isPending } = useUpdateCartItem({
-    onError: () => {
-      setLocalAmount(amount);
-    },
-  });
-
-  React.useEffect(() => {
-    mutate({
-      lineItemId: itemId,
-      quantity: localAmount,
-    });
-  }, [debounceAmountValue]);
 
   return (
     <AddToCart
@@ -98,7 +114,7 @@ export const CartItemPicker: React.FC<{
       onChange={(value) => {
         setLocalAmount(value as number);
       }}
-      isPending={isPending} // Je li ovo dovoljno ili moram još dodatno debouncati
+      // isPending={isPending} // Je li ovo dovoljno ili moram još dodatno debouncati
       defaultValue={localAmount}
     />
   );

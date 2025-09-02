@@ -1,5 +1,4 @@
 // External packages
-import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 // Components
@@ -7,10 +6,9 @@ import { Layout, LayoutColumn, LayoutRow } from '@/components/ui/Layout';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { LinkAsButton } from '@/components/ui/LinkAsButton';
-import { Products } from '@/components/shop/cart/Products';
+import { ItemMapping } from '@/components/shop/cart/ItemMapping';
 
 // Lib
-import { getPricesForVariant } from '@/lib/util/money';
 import { getCart } from '@/lib/data/cart';
 import { getCustomer } from '@/lib/data/auth';
 
@@ -34,47 +32,7 @@ export default async function CartPage({
             Shopping cart
           </h1>
 
-          {cart?.items?.length ? (
-            cart.items.map((item, i) => {
-              const { original_price, calculated_price } = item.variant
-                ? (getPricesForVariant(item.variant) ?? {})
-                : {};
-
-              return (
-                <Products
-                  cart={cart}
-                  itemId={item.id}
-                  name={item.product_title}
-                  color={item.variant?.title ? item.variant.title : undefined}
-                  image={
-                    item.variant?.product?.thumbnail && (
-                      <div className="relative h-full w-28">
-                        <Image
-                          src={item.variant.product.thumbnail}
-                          alt="XXX product"
-                          className="h-full w-full object-cover"
-                          fill
-                        />
-                      </div>
-                    )
-                  }
-                  price={original_price!}
-                  originalPrice={
-                    original_price !== calculated_price
-                      ? calculated_price
-                      : undefined
-                  }
-                  amount={item.quantity}
-                  maxAmount={
-                    item.variant?.inventory_quantity || Number.MAX_SAFE_INTEGER
-                  }
-                  key={i}
-                />
-              );
-            })
-          ) : (
-            <p className="text-md">Currently you have not ordered anything</p>
-          )}
+          <ItemMapping cart={cart} />
         </LayoutColumn>
 
         <LayoutColumn xs={12} lg={3} className="lg:pl-6">

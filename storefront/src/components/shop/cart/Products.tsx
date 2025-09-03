@@ -1,10 +1,10 @@
 // Components
 import { DeleteButton } from '@/components/shop/cart/DeleteButton';
 import { CartItemPicker } from '@/components/shop/cart/HandleAddToCart';
-import { HttpTypes } from '@medusajs/types';
+import { TQueueUpdate } from '@/components/shop/cart/ItemMapping';
 
 export const Products: React.FC<{
-  cart: HttpTypes.StoreCart;
+  isPending: boolean;
   image: React.ReactNode | undefined;
   name: string | undefined;
   color: string | undefined;
@@ -13,8 +13,8 @@ export const Products: React.FC<{
   originalPrice?: string;
   amount: number;
   maxAmount: number;
+  queueUpdate: TQueueUpdate;
 }> = ({
-  cart,
   image,
   name,
   color,
@@ -23,6 +23,8 @@ export const Products: React.FC<{
   maxAmount,
   itemId,
   amount,
+  queueUpdate,
+  isPending,
 }) => (
   <div className="flex h-52 w-full gap-5 border-t border-gray-200 py-8">
     {image}
@@ -44,7 +46,8 @@ export const Products: React.FC<{
       </div>
 
       <CartItemPicker
-        cart={cart}
+        isPending={isPending}
+        queueUpdate={queueUpdate}
         itemId={itemId}
         maxAmount={maxAmount}
         amount={amount}

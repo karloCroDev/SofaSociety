@@ -69,10 +69,12 @@ export const useDeleteCartItem = (
   });
 };
 
-export const updateCartSchema = z.object({
-  lineItemId: z.string(),
-  quantity: z.number(),
-});
+export const updateCartSchema = z
+  .object({
+    lineItemId: z.string(),
+    quantity: z.number(),
+  })
+  .array();
 
 export type UpdateCartItemArgs = z.infer<typeof updateCartSchema>;
 

@@ -31,7 +31,7 @@ export const ItemMapping: React.FC<{
   });
 
   const { mutate, isPending } = useUpdateCartItem({
-    onMutate: async (newItem) => {
+    onMutate: async (newItemArr) => {
       await queryClient.cancelQueries({ queryKey: ['cart'] });
 
       const prevCart = queryClient.getQueryData<HttpTypes.StoreCart>(['cart']);
@@ -43,11 +43,13 @@ export const ItemMapping: React.FC<{
           if (!old) return old;
           return {
             ...old,
-            items: old.items?.map((item) =>
-              item.id === newItem.lineItemId
-                ? { ...item, quantity: newItem.quantity }
-                : item
-            ),
+            items: old.items?.map((item) => {
+              return newItemArr.map((newItem) =>
+                item.id === newItem.lineItemId
+                  ? { ...item, quantity: newItem.quantity }
+                  : item
+              );
+            }),
           };
         }
       );
@@ -85,36 +87,28 @@ export const ItemMapping: React.FC<{
     lineItemId: string;
     quantity: number;
   }) => {
-    const currentUpdates = { ...pendingUpdates, [lineItemId]: quantity };
+    const currentUpdates = {
+      ...pendingUpdates,
+      [lineItemId]: quantity,
+    };
+
     setPendingUpdates(currentUpdates);
 
-    // optimistic update immediately
-    queryClient.setQueryData(
-      ['cart'],
-      (old: HttpTypes.StoreCart | undefined) => {
-        if (!old) return old;
-        return {
-          ...old,
-          items: old.items?.map((item) =>
-            item.id === lineItemId ? { ...item, quantity } : item
-          ),
-        };
-      }
-    );
-
-    console.log(currentUpdates);
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
     debounceRef.current = setTimeout(() => {
-      Object.entries(currentUpdates).forEach(([lineItemId, quantity]) => {
-        mutate({ lineItemId, quantity });
-      });
+      // transform back to array if mutate expects array
+      const updatesArray = Object.entries(currentUpdates).map(([id, qty]) => ({
+        lineItemId: id,
+        quantity: qty,
+      }));
+
+      mutate(updatesArray);
       setPendingUpdates({});
     }, DEBOUNCE_TIMER);
   };
-
   ////////////////////
   return clientCart?.items?.length ? (
     clientCart.items.map((item, i) => {

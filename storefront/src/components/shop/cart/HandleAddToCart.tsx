@@ -23,6 +23,7 @@ export const CartItemPicker: React.FC<{
         className="mt-auto !w-fit"
         maxValue={maxAmount}
         onChange={(value) => {
+          console.log(value);
           queueUpdate({
             lineItemId: itemId,
             quantity: value as number,

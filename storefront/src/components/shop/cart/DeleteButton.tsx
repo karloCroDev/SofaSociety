@@ -3,6 +3,8 @@
 // External packages
 import * as React from 'react';
 import { Button as AriaButton } from 'react-aria-components';
+import { QueryClient } from '@tanstack/react-query';
+import { HttpTypes } from '@medusajs/types';
 
 // Components
 import { Icon } from '@/components/ui/Icon';
@@ -11,11 +13,7 @@ import { Icon } from '@/components/ui/Icon';
 import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
-// import { useDeleteCartItem } from '@/hooks/cart';
-
 import { useDeleteCartItem } from '@/hooks/cart';
-import { QueryClient } from '@tanstack/react-query';
-import { HttpTypes } from '@medusajs/types';
 
 export const DeleteButton: React.FC<{
   itemId: string;

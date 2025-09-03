@@ -33,7 +33,6 @@ export async function getCart() {
       {
         ...(await getAuthHeaders()),
         next: { tags: ['cart'] },
-        // Ante: Next 15 sada sve forsira da je dynamic paaa ne moram
       }
     );
 
@@ -123,15 +122,18 @@ export async function updateCartItem(data: UpdateCartItemArgs) {
   if (!id) throw new Error('Cart not found');
 
   try {
-    await sdk.store.cart.updateLineItem(
-      id,
-      validatedData.data.lineItemId,
-      {
-        quantity: validatedData.data.quantity,
-      },
-      {},
-      await getAuthHeaders()
-    );
+    for (const item of validatedData.data) {
+      await sdk.store.cart.updateLineItem(
+        id,
+        item.lineItemId,
+        { quantity: item.quantity },
+        {},
+        await getAuthHeaders()
+      );
+    }
+
+    revalidateTag('cart');
+
     revalidateTag('cart');
   } catch (error) {
     medusaError(error);

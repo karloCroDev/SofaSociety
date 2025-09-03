@@ -1,7 +1,7 @@
 // Components
 import { DeleteButton } from '@/components/shop/cart/DeleteButton';
 import { CartItemPicker } from '@/components/shop/cart/HandleAddToCart';
-import { TQueueDelete, TQueueUpdate } from '@/components/shop/cart/ItemMapping';
+import { TQueueUpdate } from '@/components/shop/cart/ItemMapping';
 
 export const Products: React.FC<{
   isPending: boolean;
@@ -14,7 +14,6 @@ export const Products: React.FC<{
   amount: number;
   maxAmount: number;
   queueUpdate: TQueueUpdate;
-  queueDelete: TQueueDelete;
 }> = ({
   image,
   name,
@@ -26,7 +25,6 @@ export const Products: React.FC<{
   amount,
   isPending,
   queueUpdate,
-  queueDelete,
 }) => (
   <div className="flex h-52 w-full gap-5 border-t border-gray-200 py-8">
     {image}
@@ -69,6 +67,6 @@ export const Products: React.FC<{
         <p className="hidden text-md lg:block">{price}</p>
       )}
     </div>
-    <DeleteButton queueDelete={queueDelete} itemId={itemId} />
+    <DeleteButton itemId={itemId} />
   </div>
 );

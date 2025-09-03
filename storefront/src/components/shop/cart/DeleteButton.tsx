@@ -11,20 +11,24 @@ import { Icon } from '@/components/ui/Icon';
 import { withReactQueryProvider } from '@/lib/config/react-query';
 
 // Hooks
-import { useDeleteCartItem } from '@/hooks/cart';
+// import { useDeleteCartItem } from '@/hooks/cart';
+import { TQueueDelete } from '@/components/shop/cart/ItemMapping';
 
 export const DeleteButton: React.FC<{
+  queueDelete: TQueueDelete;
   itemId: string;
-}> = withReactQueryProvider(({ itemId }) => {
-  const { mutate, isPending } = useDeleteCartItem();
+}> = withReactQueryProvider(({ itemId, queueDelete }) => {
+  // const { mutate, isPending } = useDeleteCartItem();
   return (
     <AriaButton
       onPress={() =>
-        mutate({
-          lineItemId: itemId,
-        })
+        // mutate({
+        //   lineItemId: itemId,
+        // })
+
+        queueDelete(itemId)
       }
-      isDisabled={isPending}
+      // isDisabled={isPending}
       className="mb-3 ml-auto mt-auto cursor-pointer outline-none"
     >
       <Icon name="bin" />

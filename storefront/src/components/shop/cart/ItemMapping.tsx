@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { HttpTypes } from '@medusajs/types';
 
 // Hooks
-import { useCart, useUpdateCartItem } from '@/hooks/cart';
+import { useCart, useDeleteCartItem, useUpdateCartItem } from '@/hooks/cart';
 import { getPricesForVariant } from '@/lib/util/money';
 import { Products } from '@/components/shop/cart/Products';
 import Image from 'next/image';
@@ -19,6 +19,10 @@ export type TQueueUpdate = ({
   lineItemId: string;
   quantity: number;
 }) => void;
+
+export type TQueueDelete = (lineItemId: string) => void;
+
+const DEBOUNCE_TIMER = 5_000;
 
 export const ItemMapping: React.FC<{
   cart: HttpTypes.StoreCart | undefined;
@@ -70,7 +74,50 @@ export const ItemMapping: React.FC<{
     },
   });
 
+  const { mutate: deleteItemMutate } = useDeleteCartItem({
+    onMutate: async (newItem) => {
+      await queryClient.cancelQueries({ queryKey: ['cart'] });
+
+      const prevCart = queryClient.getQueryData<HttpTypes.StoreCart>(['cart']);
+
+      // optimistic update
+      queryClient.setQueryData(
+        ['cart'],
+        (old: HttpTypes.StoreCart | undefined) => {
+          if (!old) return old;
+          return {
+            ...old,
+            items: old.items
+              ?.map((item) =>
+                item.id !== newItem.lineItemId ? item : undefined
+              )
+              .filter(Boolean),
+          };
+        }
+      );
+
+      return { prevCart };
+    },
+    onError: (
+      _err,
+      _newItem,
+      context
+      // Je li znas zasto na context ne dobivam vrijednost
+    ) => {
+      const ctx = context as
+        | { prevCart: HttpTypes.StoreCart | undefined }
+        | undefined;
+      if (ctx?.prevCart) {
+        queryClient.setQueryData(['cart'], ctx.prevCart);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+  });
+
   const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
+
   const [pendingUpdates, setPendingUpdates] = React.useState<
     Record<string, number>
   >({});
@@ -82,8 +129,8 @@ export const ItemMapping: React.FC<{
     lineItemId: string;
     quantity: number;
   }) => {
-    // save latest intended quantity
-    pendingUpdates[lineItemId] = quantity;
+    const currentUpdates = { ...pendingUpdates, [lineItemId]: quantity };
+    setPendingUpdates(currentUpdates);
 
     // optimistic update immediately
     queryClient.setQueryData(
@@ -99,18 +146,53 @@ export const ItemMapping: React.FC<{
       }
     );
 
+    console.log(currentUpdates);
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
     debounceRef.current = setTimeout(() => {
-      Object.entries(pendingUpdates).forEach(([lineItemId, quantity]) => {
+      Object.entries(currentUpdates).forEach(([lineItemId, quantity]) => {
         mutate({ lineItemId, quantity });
       });
       setPendingUpdates({});
-    }, 5000);
+    }, DEBOUNCE_TIMER);
   };
 
+  const [queueDeleteArr, setQueueDeleteArr] = React.useState<string[]>([]);
+
+  const queueDelete = (lineItemId: string) => {
+    setQueueDeleteArr((prev) => [...prev, lineItemId]);
+
+    queryClient.setQueryData(
+      ['cart'],
+      (old: HttpTypes.StoreCart | undefined) => {
+        if (!old) return old;
+        return {
+          ...old,
+          items: old.items?.map((item) =>
+            item.id !== lineItemId ? item : undefined
+          ),
+        };
+      }
+    );
+
+    console.log(queueDeleteArr);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      queueDeleteArr.forEach((lineItemId) => {
+        deleteItemMutate({ lineItemId });
+      });
+
+      setQueueDeleteArr([]);
+    }, DEBOUNCE_TIMER);
+  };
+
+  ////////////////////
   return clientCart?.items?.length ? (
     clientCart.items.map((item, i) => {
       const { original_price, calculated_price } = item.variant
@@ -121,6 +203,7 @@ export const ItemMapping: React.FC<{
         <Products
           isPending={isPending}
           queueUpdate={queueUpdate}
+          queueDelete={queueDelete}
           itemId={item.id}
           name={item.product_title}
           color={item.variant?.title ? item.variant.title : undefined}
@@ -129,7 +212,7 @@ export const ItemMapping: React.FC<{
               <div className="relative h-full w-28">
                 <Image
                   src={item.variant.product.thumbnail}
-                  alt="XXX product"
+                  alt={item.variant.product.title}
                   className="h-full w-full object-cover"
                   fill
                 />
